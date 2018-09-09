@@ -15,7 +15,8 @@
   ~    limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.edmunds.databricks</groupId>
@@ -23,7 +24,9 @@
     <version>2.0.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>A simple java rest client to interact with the Databricks Rest Service https://docs.databricks.com/api/latest/index.html</description>
+    <description>A simple java rest client to interact with the Databricks Rest Service
+        https://docs.databricks.com/api/latest/index.html
+    </description>
     <url>https://github.com/edmunds/databricks-rest-client</url>
 
     <licenses>
@@ -36,8 +39,8 @@
 
     <developers>
         <developer>
-            <name>Shaun Elliot</name>
-            <email>selliot@edmunds.com</email>
+            <name>Shaun Elliott</name>
+            <email>selliott@edmunds.com</email>
             <organization>Edmunds.com</organization>
         </developer>
         <developer>
@@ -66,13 +69,6 @@
     </properties>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>2.4</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -82,16 +78,6 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.4</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.7</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -110,9 +96,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <tagBase>https://velocity-maven-plugin.googlecode.com/svn/tags</tagBase>
-                </configuration>
             </plugin>
         </plugins>
     </build>
