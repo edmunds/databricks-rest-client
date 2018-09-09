@@ -42,17 +42,6 @@ public class DatabricksFixtures {
     public static String HOSTNAME;
 
     static {
-        /*
-        InputStream propertiesStream = DatabricksFixtures.class.getClassLoader().getResourceAsStream
-            ("test_connection" +
-            ".properties");
-        Properties properties = new Properties();
-        try {
-            properties.load(propertiesStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        */
         USERNAME = System.getenv("DB_USER");
         PASSWORD = System.getenv("DB_PASSWORD");
         HOSTNAME = System.getenv("DB_URL");
