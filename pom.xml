@@ -39,6 +39,11 @@
 
     <developers>
         <developer>
+            <name>David Reilly</name>
+            <email>dreilly@edmunds.com</email>
+            <organization>Edmunds.com</organization>
+        </developer>
+        <developer>
             <name>Shaun Elliott</name>
             <email>selliott@edmunds.com</email>
             <organization>Edmunds.com</organization>
