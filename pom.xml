@@ -85,15 +85,10 @@
                 </configuration>
             </plugin>
 
+            <!-- We skip unit-tests because we have none at this time-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <systemProperties>
-                        <property>
-                            <name>log4j.configuration</name>
-                            <value>log4j.properties</value>
-                        </property>
-                    </systemProperties>
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
@@ -103,30 +98,10 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.0</version>
                 <configuration>
-                    <suiteXmlFiles>src/test/resources/testng.xml</suiteXmlFiles>
-                    <systemProperties>
-                        <property>
-                            <name>log4j.configuration</name>
-                            <value>log4j.properties</value>
-                        </property>
-                    </systemProperties>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
