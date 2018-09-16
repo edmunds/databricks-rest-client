@@ -15,7 +15,7 @@
   -->
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="user-event-processor" annotations="JDK">
+<suite name="rest-client-it" annotations="JDK">
     <test name="default" verbose="1" annotations="JDK">
         <packages>
             <package name="com.edmunds.rest.databricks.*"/>
