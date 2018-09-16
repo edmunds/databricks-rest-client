@@ -6,5 +6,6 @@ export DB_PASSWORD=mypassword
 export DB_URL=my-databricks-account.databricks.com
 
 
+
 # To execute the integration tests please run:
 mvn clean install org.apache.maven.plugins:maven-failsafe-plugin:integration-test
