@@ -32,6 +32,9 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
  *
  */
 public final class DatabricksServiceFactory {
+    public static final int DEFAULT_HTTP_CLIENT_MAX_RETRY = 3;
+    public static final long DEFAULT_HTTP_CLIENT_RETRY_INTERVAL = 10000L;
+
     private DatabricksRestClient client2dot0;
     private ClusterService clusterService;
     private LibraryService libraryService;
@@ -40,8 +43,21 @@ public final class DatabricksServiceFactory {
     private DbfsService dbfsService;
 
     public DatabricksServiceFactory(String username, String password, String host) {
-        this(username, password, host, false);
+        this(username, password, host, DEFAULT_HTTP_CLIENT_MAX_RETRY, DEFAULT_HTTP_CLIENT_RETRY_INTERVAL);
     }
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @param host
+     * @param maxRetry http client maxRetry when failed due to I/O , timeout error
+     * @param retryInterval  http client retry interval when failed due to I/O , timeout error
+     */
+    public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval) {
+        this(username, password, host, maxRetry, retryInterval, false);
+    }
+
 
     /**
      * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
@@ -50,11 +66,11 @@ public final class DatabricksServiceFactory {
      * @param host
      * @param useLegacyAPI425 choose what version of API compatible HttpClient.
      */
-    public DatabricksServiceFactory(String username, String password, String host, boolean useLegacyAPI425) {
+    public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval, boolean useLegacyAPI425) {
         if(useLegacyAPI425) {
-            client2dot0 = new DatabricksRestClientImpl425(username, password, host, "2.0");
+            client2dot0 = new DatabricksRestClientImpl425(username, password, host, "2.0", maxRetry, retryInterval);
         } else {
-            client2dot0 = new DatabricksRestClientImpl(username, password, host, "2.0");
+            client2dot0 = new DatabricksRestClientImpl(username, password, host, "2.0", maxRetry, retryInterval);
         }
     }
 

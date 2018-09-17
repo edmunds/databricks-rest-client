@@ -47,10 +47,9 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
 
-    public DatabricksRestClientImpl425(String username, String password, String host, String apiVersion) {
-        super(username, password, host, apiVersion);
+    public DatabricksRestClientImpl425(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
+        super(username, password,host, apiVersion, maxRetry, retryInterval);
     }
-
 
     protected void init() {
         try {
@@ -74,8 +73,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
 
 
             defaultHttpClient.getCredentialsProvider().setCredentials(
-                    new AuthScope(host, HTTPS_PORT),
-                    new UsernamePasswordCredentials(username, password));
+                new AuthScope(host, HTTPS_PORT),
+                new UsernamePasswordCredentials(username, password));
 
             client = new AutoRetryHttpClient(defaultHttpClient, retryStrategy);
 
@@ -89,7 +88,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
 
 
     public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data) throws
-            DatabricksRestException {
+                                                                                                   DatabricksRestException {
 
         HttpRequestBase method = null;
         try {

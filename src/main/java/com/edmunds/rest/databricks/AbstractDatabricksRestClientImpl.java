@@ -42,6 +42,7 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
     private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
 
+
     protected static final int HTTPS_PORT = 443;
     protected static final int SOCKET_TIMEOUT = 10000;
     protected static final int CONNECTION_TIMEOUT = 10000;
@@ -59,9 +60,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     protected HttpRequestRetryHandler retryHandler;
     protected ServiceUnavailableRetryStrategy retryStrategy;
 
-    public AbstractDatabricksRestClientImpl(String username, String password, String host, String apiVersion) {
-        this(username, password, host, apiVersion, 3, 10000L);
-    }
 
     public AbstractDatabricksRestClientImpl(String username, String password, String host, String apiVersion,
                                             int maxRetry, long retryInterval) {

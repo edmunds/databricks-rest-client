@@ -43,8 +43,9 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
 
     private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
-    public DatabricksRestClientImpl(String username, String password, String host, String apiVersion) {
-        super(username, password,host, apiVersion);
+
+    public DatabricksRestClientImpl(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
+        super(username, password,host, apiVersion, maxRetry, retryInterval);
     }
 
     protected void init() {
@@ -86,7 +87,7 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
     }
 
     public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data) throws
-        DatabricksRestException {
+                                                                                                   DatabricksRestException {
 
         CloseableHttpResponse httpResponse = null;
         try {

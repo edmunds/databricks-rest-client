@@ -49,7 +49,7 @@ public class DatabricksFixtures {
 
     public static DatabricksRestClient getDatabricksRestClient() throws IOException {
         if (client == null) {
-            client =  new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME, API_VERSION);
+            client =  new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
         }
         return client;
     }
@@ -61,7 +61,8 @@ public class DatabricksFixtures {
      * @throws Exception
      */
     public static DatabricksRestClient createDatabricksRestClientWithRetryCode(int httpStatusCode) throws Exception {
-        DatabricksRestClient databricksClient = new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME, API_VERSION);
+        DatabricksRestClient databricksClient = new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME,
+            API_VERSION, 1, 10);
 
         addHttpStatus(databricksClient, httpStatusCode);
 
@@ -69,7 +70,8 @@ public class DatabricksFixtures {
     }
 
     public static DatabricksRestClient createDatabricksRestClient425WithRetryCode(int httpStatusCode) throws Exception {
-        DatabricksRestClientImpl425 databricksClient = new DatabricksRestClientImpl425(USERNAME, PASSWORD, HOSTNAME, API_VERSION);
+        DatabricksRestClientImpl425 databricksClient = new DatabricksRestClientImpl425(USERNAME, PASSWORD, HOSTNAME,
+            API_VERSION, 1, 10);
 
         addHttpStatus(databricksClient, httpStatusCode);
 
