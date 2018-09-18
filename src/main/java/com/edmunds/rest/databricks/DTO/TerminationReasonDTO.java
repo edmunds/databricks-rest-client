@@ -25,24 +25,24 @@ import java.util.Map;
  *
  */
 public class TerminationReasonDTO implements Serializable {
-    @JsonProperty("code")
-    private TerminationCodeDTO code;
-    @JsonProperty("parameters")
-    private Map<String, String> parameters;
+  @JsonProperty("code")
+  private TerminationCodeDTO code;
+  @JsonProperty("parameters")
+  private Map<String, String> parameters;
 
-    public TerminationCodeDTO getCode() {
-        return code;
-    }
+  public TerminationCodeDTO getCode() {
+    return code;
+  }
 
-    public void setCode(TerminationCodeDTO code) {
-        this.code = code;
-    }
+  public void setCode(TerminationCodeDTO code) {
+    this.code = code;
+  }
 
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
+  public Map<String, String> getParameters() {
+    return parameters;
+  }
 
-    public void setParameters(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
+  public void setParameters(Map<String, String> parameters) {
+    this.parameters = parameters;
+  }
 }

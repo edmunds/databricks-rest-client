@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,14 +24,14 @@ import java.io.Serializable;
  *
  */
 public class SparkNodeAwsAttributesDTO implements Serializable {
-    @JsonProperty("is_spot")
-    private boolean isSpot;
+  @JsonProperty("is_spot")
+  private boolean isSpot;
 
-    public boolean isSpot() {
-        return isSpot;
-    }
+  public boolean isSpot() {
+    return isSpot;
+  }
 
-    public void setIsSpot(boolean isSpot) {
-        this.isSpot = isSpot;
-    }
+  public void setIsSpot(boolean isSpot) {
+    this.isSpot = isSpot;
+  }
 }

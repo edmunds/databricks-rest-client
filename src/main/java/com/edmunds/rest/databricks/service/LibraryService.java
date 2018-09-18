@@ -26,8 +26,14 @@ import java.io.IOException;
  *
  */
 public interface LibraryService {
-    ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException;
-    ClusterLibraryStatusesDTO clusterStatus(String clusterId) throws IOException, DatabricksRestException;
-    void install(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException;
-    void uninstall(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException;
+  ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException;
+
+  ClusterLibraryStatusesDTO clusterStatus(String clusterId)
+      throws IOException, DatabricksRestException;
+
+  void install(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException;
+
+  void uninstall(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException;
 }

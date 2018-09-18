@@ -24,24 +24,24 @@ import java.io.Serializable;
  *
  */
 public class PythonPyPiLibraryDTO implements Serializable {
-    @JsonProperty("package")
-    private String pyPackage;
-    @JsonProperty("repo")
-    private String repo;
+  @JsonProperty("package")
+  private String pyPackage;
+  @JsonProperty("repo")
+  private String repo;
 
-    public String getPyPackage() {
-        return pyPackage;
-    }
+  public String getPyPackage() {
+    return pyPackage;
+  }
 
-    public void setPyPackage(String pyPackage) {
-        this.pyPackage = pyPackage;
-    }
+  public void setPyPackage(String pyPackage) {
+    this.pyPackage = pyPackage;
+  }
 
-    public String getRepo() {
-        return repo;
-    }
+  public String getRepo() {
+    return repo;
+  }
 
-    public void setRepo(String repo) {
-        this.repo = repo;
-    }
+  public void setRepo(String repo) {
+    this.repo = repo;
+  }
 }

@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,24 +24,24 @@ import java.io.Serializable;
  *
  */
 public class ClusterSizeDTO implements Serializable {
-    @JsonProperty("num_workers")
-    private int numWorkers;
-    @JsonProperty("autoscale")
-    private AutoScaleDTO autoscale;
+  @JsonProperty("num_workers")
+  private int numWorkers;
+  @JsonProperty("autoscale")
+  private AutoScaleDTO autoscale;
 
-    public int getNumWorkers() {
-        return numWorkers;
-    }
+  public int getNumWorkers() {
+    return numWorkers;
+  }
 
-    public void setNumWorkers(int numWorkers) {
-        this.numWorkers = numWorkers;
-    }
+  public void setNumWorkers(int numWorkers) {
+    this.numWorkers = numWorkers;
+  }
 
-    public AutoScaleDTO getAutoscale() {
-        return autoscale;
-    }
+  public AutoScaleDTO getAutoscale() {
+    return autoscale;
+  }
 
-    public void setAutoscale(AutoScaleDTO autoscale) {
-        this.autoscale = autoscale;
-    }
+  public void setAutoscale(AutoScaleDTO autoscale) {
+    this.autoscale = autoscale;
+  }
 }

@@ -33,55 +33,57 @@ import java.util.Map;
  */
 public class WorkspaceServiceImpl extends DatabricksService implements WorkspaceService {
 
-    public WorkspaceServiceImpl(final DatabricksRestClient client) {
-        super(client);
-    }
+  public WorkspaceServiceImpl(final DatabricksRestClient client) {
+    super(client);
+  }
 
-    public void delete(String path, boolean recursive) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
-        data.put("recursive", recursive);
+  public void delete(String path, boolean recursive) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
+    data.put("recursive", recursive);
 
-        client.performQuery(RequestMethod.POST, "/workspace/delete", data);
-    }
+    client.performQuery(RequestMethod.POST, "/workspace/delete", data);
+  }
 
-    public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
-        DatabricksRestException {
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
-        Map<String, String> result = mapper.readValue(responseBody, new TypeReference<Map<String, String>>() {});
+  public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
+                                                                                      DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
+    Map<String, String> result = mapper.readValue(responseBody, new TypeReference<Map<String, String>>() {
+    });
 
-        return result.get("content").getBytes();
-    }
+    return result.get("content").getBytes();
+  }
 
-    public ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  public ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/get-status", data);
-        return mapper.readValue(responseBody, ObjectInfoDTO.class);
-    }
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/get-status", data);
+    return mapper.readValue(responseBody, ObjectInfoDTO.class);
+  }
 
-    public void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException,
-        DatabricksRestException {
-        client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
-    }
+  public void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException,
+                                                                                    DatabricksRestException {
+    client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
+  }
 
-    public ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  public ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/list", data);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/list", data);
 
-        Map<String, ObjectInfoDTO[]> result = mapper.readValue(responseBody, new TypeReference<Map<String,
-            ObjectInfoDTO[]>>() {});
-        return result.get("objects");
-    }
+    Map<String, ObjectInfoDTO[]> result = mapper.readValue(responseBody, new TypeReference<Map<String,
+        ObjectInfoDTO[]>>() {
+    });
+    return result.get("objects");
+  }
 
-    public void mkdirs(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  public void mkdirs(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        client.performQuery(RequestMethod.POST, "/workspace/mkdirs", data);
-    }
+    client.performQuery(RequestMethod.POST, "/workspace/mkdirs", data);
+  }
 
 }

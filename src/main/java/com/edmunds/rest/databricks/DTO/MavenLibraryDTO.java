@@ -22,31 +22,31 @@ import java.io.Serializable;
  *
  */
 public class MavenLibraryDTO implements Serializable {
-    private String coordinates;
-    private String repo;
-    private String[] exclusions;
+  private String coordinates;
+  private String repo;
+  private String[] exclusions;
 
-    public String getCoordinates() {
-        return coordinates;
-    }
+  public String getCoordinates() {
+    return coordinates;
+  }
 
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
+  public void setCoordinates(String coordinates) {
+    this.coordinates = coordinates;
+  }
 
-    public String getRepo() {
-        return repo;
-    }
+  public String getRepo() {
+    return repo;
+  }
 
-    public void setRepo(String repo) {
-        this.repo = repo;
-    }
+  public void setRepo(String repo) {
+    this.repo = repo;
+  }
 
-    public String[] getExclusions() {
-        return exclusions;
-    }
+  public String[] getExclusions() {
+    return exclusions;
+  }
 
-    public void setExclusions(String[] exclusions) {
-        this.exclusions = exclusions;
-    }
+  public void setExclusions(String[] exclusions) {
+    this.exclusions = exclusions;
+  }
 }

@@ -24,23 +24,23 @@ import java.io.Serializable;
  *
  */
 public class SparkPythonTaskDTO implements Serializable {
-    @JsonProperty("python_file")
-    private String pythonFile;
-    private String[] parameters;
+  @JsonProperty("python_file")
+  private String pythonFile;
+  private String[] parameters;
 
-    public String getPythonFile() {
-        return pythonFile;
-    }
+  public String getPythonFile() {
+    return pythonFile;
+  }
 
-    public void setPythonFile(String pythonFile) {
-        this.pythonFile = pythonFile;
-    }
+  public void setPythonFile(String pythonFile) {
+    this.pythonFile = pythonFile;
+  }
 
-    public String[] getParameters() {
-        return parameters;
-    }
+  public String[] getParameters() {
+    return parameters;
+  }
 
-    public void setParameters(String[] parameters) {
-        this.parameters = parameters;
-    }
+  public void setParameters(String[] parameters) {
+    this.parameters = parameters;
+  }
 }

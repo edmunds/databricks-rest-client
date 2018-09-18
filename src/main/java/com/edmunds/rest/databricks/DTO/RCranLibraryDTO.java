@@ -24,23 +24,23 @@ import java.io.Serializable;
  *
  */
 public class RCranLibraryDTO implements Serializable {
-    @JsonProperty("package")
-    private String rPackage;
-    private String repo;
+  @JsonProperty("package")
+  private String rPackage;
+  private String repo;
 
-    public String getrPackage() {
-        return rPackage;
-    }
+  public String getrPackage() {
+    return rPackage;
+  }
 
-    public void setrPackage(String rPackage) {
-        this.rPackage = rPackage;
-    }
+  public void setrPackage(String rPackage) {
+    this.rPackage = rPackage;
+  }
 
-    public String getRepo() {
-        return repo;
-    }
+  public String getRepo() {
+    return repo;
+  }
 
-    public void setRepo(String repo) {
-        this.repo = repo;
-    }
+  public void setRepo(String repo) {
+    this.repo = repo;
+  }
 }

@@ -24,23 +24,23 @@ import java.io.Serializable;
  *
  */
 public class DbfsReadDTO implements Serializable {
-    @JsonProperty("bytes_read")
-    private long bytesRead;
-    private byte[] data;
+  @JsonProperty("bytes_read")
+  private long bytesRead;
+  private byte[] data;
 
-    public long getBytesRead() {
-        return bytesRead;
-    }
+  public long getBytesRead() {
+    return bytesRead;
+  }
 
-    public void setBytesRead(long bytesRead) {
-        this.bytesRead = bytesRead;
-    }
+  public void setBytesRead(long bytesRead) {
+    this.bytesRead = bytesRead;
+  }
 
-    public byte[] getData() {
-        return data;
-    }
+  public byte[] getData() {
+    return data;
+  }
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 }

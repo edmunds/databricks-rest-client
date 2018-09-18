@@ -20,10 +20,11 @@ package com.edmunds.rest.databricks;
  *
  */
 public class DatabricksRestException extends Exception {
-    public DatabricksRestException(String message){
-        super(message);
-    }
-    public DatabricksRestException(Throwable throwable){
-        super(throwable);
-    }
+  public DatabricksRestException(String message) {
+    super(message);
+  }
+
+  public DatabricksRestException(Throwable throwable) {
+    super(throwable);
+  }
 }

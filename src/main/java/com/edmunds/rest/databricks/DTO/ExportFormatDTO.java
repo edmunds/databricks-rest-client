@@ -22,18 +22,18 @@ import java.io.Serializable;
  *
  */
 public enum ExportFormatDTO implements Serializable {
-    SOURCE("SOURCE"),
-    HTML("HTML"),
-    JUPYTER("JUPYTER"),
-    DBC("DBC");
+  SOURCE("SOURCE"),
+  HTML("HTML"),
+  JUPYTER("JUPYTER"),
+  DBC("DBC");
 
-    private String value;
+  private String value;
 
-    ExportFormatDTO(String value) {
-        this.value = value;
-    }
+  ExportFormatDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return value;
-    }
+  public String toString() {
+    return value;
+  }
 }

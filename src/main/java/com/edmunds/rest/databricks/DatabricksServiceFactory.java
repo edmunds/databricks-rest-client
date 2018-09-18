@@ -32,86 +32,86 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
  *
  */
 public final class DatabricksServiceFactory {
-    public static final int DEFAULT_HTTP_CLIENT_MAX_RETRY = 3;
-    public static final long DEFAULT_HTTP_CLIENT_RETRY_INTERVAL = 10000L;
+  public static final int DEFAULT_HTTP_CLIENT_MAX_RETRY = 3;
+  public static final long DEFAULT_HTTP_CLIENT_RETRY_INTERVAL = 10000L;
 
-    private DatabricksRestClient client2dot0;
-    private ClusterService clusterService;
-    private LibraryService libraryService;
-    private WorkspaceService workspaceService;
-    private JobService jobService;
-    private DbfsService dbfsService;
+  private DatabricksRestClient client2dot0;
+  private ClusterService clusterService;
+  private LibraryService libraryService;
+  private WorkspaceService workspaceService;
+  private JobService jobService;
+  private DbfsService dbfsService;
 
-    public DatabricksServiceFactory(String username, String password, String host) {
-        this(username, password, host, DEFAULT_HTTP_CLIENT_MAX_RETRY, DEFAULT_HTTP_CLIENT_RETRY_INTERVAL);
+  public DatabricksServiceFactory(String username, String password, String host) {
+    this(username, password, host, DEFAULT_HTTP_CLIENT_MAX_RETRY, DEFAULT_HTTP_CLIENT_RETRY_INTERVAL);
+  }
+
+  /**
+   * @param username
+   * @param password
+   * @param host
+   * @param maxRetry      http client maxRetry when failed due to I/O , timeout error
+   * @param retryInterval http client retry interval when failed due to I/O , timeout error
+   */
+  public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval) {
+    this(username, password, host, maxRetry, retryInterval, false);
+  }
+
+
+  /**
+   * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
+   *
+   * @param username
+   * @param password
+   * @param host
+   * @param useLegacyAPI425 choose what version of API compatible HttpClient.
+   */
+  public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval, boolean useLegacyAPI425) {
+    if (useLegacyAPI425) {
+      client2dot0 = new DatabricksRestClientImpl425(username, password, host, "2.0", maxRetry, retryInterval);
+    } else {
+      client2dot0 = new DatabricksRestClientImpl(username, password, host, "2.0", maxRetry, retryInterval);
+    }
+  }
+
+  public ClusterService getClusterService() {
+    if (clusterService == null) {
+      clusterService = new ClusterServiceImpl(client2dot0);
     }
 
-    /**
-     *
-     * @param username
-     * @param password
-     * @param host
-     * @param maxRetry http client maxRetry when failed due to I/O , timeout error
-     * @param retryInterval  http client retry interval when failed due to I/O , timeout error
-     */
-    public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval) {
-        this(username, password, host, maxRetry, retryInterval, false);
+    return clusterService;
+
+  }
+
+  public LibraryService getLibraryService() {
+    if (libraryService == null) {
+      libraryService = new LibraryServiceImpl(client2dot0);
     }
 
+    return libraryService;
+  }
 
-    /**
-     * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
-     * @param username
-     * @param password
-     * @param host
-     * @param useLegacyAPI425 choose what version of API compatible HttpClient.
-     */
-    public DatabricksServiceFactory(String username, String password, String host, int maxRetry, long retryInterval, boolean useLegacyAPI425) {
-        if(useLegacyAPI425) {
-            client2dot0 = new DatabricksRestClientImpl425(username, password, host, "2.0", maxRetry, retryInterval);
-        } else {
-            client2dot0 = new DatabricksRestClientImpl(username, password, host, "2.0", maxRetry, retryInterval);
-        }
+  public JobService getJobService() {
+    if (jobService == null) {
+      jobService = new JobServiceImpl(client2dot0);
     }
 
-    public ClusterService getClusterService() {
-        if (clusterService == null) {
-            clusterService = new ClusterServiceImpl(client2dot0);
-        }
+    return jobService;
+  }
 
-        return clusterService;
-
+  public WorkspaceService getWorkspaceService() {
+    if (workspaceService == null) {
+      workspaceService = new WorkspaceServiceImpl(client2dot0);
     }
 
-    public LibraryService getLibraryService() {
-        if (libraryService == null) {
-            libraryService = new LibraryServiceImpl(client2dot0);
-        }
+    return workspaceService;
+  }
 
-        return libraryService;
+  public DbfsService getDbfsService() {
+    if (dbfsService == null) {
+      dbfsService = new DbfsServiceImpl(client2dot0);
     }
 
-    public JobService getJobService() {
-        if (jobService == null) {
-            jobService = new JobServiceImpl(client2dot0);
-        }
-
-        return jobService;
-    }
-
-    public WorkspaceService getWorkspaceService() {
-        if (workspaceService == null) {
-            workspaceService = new WorkspaceServiceImpl(client2dot0);
-        }
-
-        return workspaceService;
-    }
-
-    public DbfsService getDbfsService() {
-        if (dbfsService == null) {
-            dbfsService = new DbfsServiceImpl(client2dot0);
-        }
-
-        return dbfsService;
-    }
+    return dbfsService;
+  }
 }

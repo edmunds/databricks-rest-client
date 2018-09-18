@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,24 +24,24 @@ import java.io.Serializable;
  *
  */
 public class RunNowDTO implements Serializable {
-    @JsonProperty("run_id")
-    private long runId;
-    @JsonProperty("number_in_job")
-    private long numberInJob;
+  @JsonProperty("run_id")
+  private long runId;
+  @JsonProperty("number_in_job")
+  private long numberInJob;
 
-    public long getRunId() {
-        return runId;
-    }
+  public long getRunId() {
+    return runId;
+  }
 
-    public void setRunId(long runId) {
-        this.runId = runId;
-    }
+  public void setRunId(long runId) {
+    this.runId = runId;
+  }
 
-    public long getNumberInJob() {
-        return numberInJob;
-    }
+  public long getNumberInJob() {
+    return numberInJob;
+  }
 
-    public void setNumberInJob(long numberInJob) {
-        this.numberInJob = numberInJob;
-    }
+  public void setNumberInJob(long numberInJob) {
+    this.numberInJob = numberInJob;
+  }
 }

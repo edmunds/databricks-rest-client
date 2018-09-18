@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,74 +24,74 @@ import java.io.Serializable;
  *
  */
 public class S3StorageInfoDTO implements Serializable {
-    @JsonProperty("destination")
-    private String destination;
-    @JsonProperty("region")
-    private String region;
-    @JsonProperty("endpoint")
-    private String endpoint;
-    @JsonProperty("enable_encryption")
-    private boolean enableEncryption;
-    @JsonProperty("encryption_type")
-    private String encryptionType;
-    @JsonProperty("kms_key")
-    private String kmsKey;
-    @JsonProperty("canned_acl")
-    private String cannedAcl;
+  @JsonProperty("destination")
+  private String destination;
+  @JsonProperty("region")
+  private String region;
+  @JsonProperty("endpoint")
+  private String endpoint;
+  @JsonProperty("enable_encryption")
+  private boolean enableEncryption;
+  @JsonProperty("encryption_type")
+  private String encryptionType;
+  @JsonProperty("kms_key")
+  private String kmsKey;
+  @JsonProperty("canned_acl")
+  private String cannedAcl;
 
-    public String getDestination() {
-        return destination;
-    }
+  public String getDestination() {
+    return destination;
+  }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
 
-    public String getRegion() {
-        return region;
-    }
+  public String getRegion() {
+    return region;
+  }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
+  public void setRegion(String region) {
+    this.region = region;
+  }
 
-    public String getEndpoint() {
-        return endpoint;
-    }
+  public String getEndpoint() {
+    return endpoint;
+  }
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
+  }
 
-    public boolean isEnableEncryption() {
-        return enableEncryption;
-    }
+  public boolean isEnableEncryption() {
+    return enableEncryption;
+  }
 
-    public void setEnableEncryption(boolean enableEncryption) {
-        this.enableEncryption = enableEncryption;
-    }
+  public void setEnableEncryption(boolean enableEncryption) {
+    this.enableEncryption = enableEncryption;
+  }
 
-    public String getEncryptionType() {
-        return encryptionType;
-    }
+  public String getEncryptionType() {
+    return encryptionType;
+  }
 
-    public void setEncryptionType(String encryptionType) {
-        this.encryptionType = encryptionType;
-    }
+  public void setEncryptionType(String encryptionType) {
+    this.encryptionType = encryptionType;
+  }
 
-    public String getKmsKey() {
-        return kmsKey;
-    }
+  public String getKmsKey() {
+    return kmsKey;
+  }
 
-    public void setKmsKey(String kmsKey) {
-        this.kmsKey = kmsKey;
-    }
+  public void setKmsKey(String kmsKey) {
+    this.kmsKey = kmsKey;
+  }
 
-    public String getCannedAcl() {
-        return cannedAcl;
-    }
+  public String getCannedAcl() {
+    return cannedAcl;
+  }
 
-    public void setCannedAcl(String cannedAcl) {
-        this.cannedAcl = cannedAcl;
-    }
+  public void setCannedAcl(String cannedAcl) {
+    this.cannedAcl = cannedAcl;
+  }
 }

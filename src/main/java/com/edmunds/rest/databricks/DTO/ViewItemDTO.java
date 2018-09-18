@@ -22,31 +22,31 @@ import java.io.Serializable;
  *
  */
 public class ViewItemDTO implements Serializable {
-    private String content;
-    private String name;
-    private ViewTypeDTO type;
+  private String content;
+  private String name;
+  private ViewTypeDTO type;
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public ViewTypeDTO getType() {
-        return type;
-    }
+  public ViewTypeDTO getType() {
+    return type;
+  }
 
-    public void setType(ViewTypeDTO type) {
-        this.type = type;
-    }
+  public void setType(ViewTypeDTO type) {
+    this.type = type;
+  }
 }

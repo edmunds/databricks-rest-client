@@ -25,34 +25,34 @@ import java.util.Map;
  *
  */
 public class NotebookTaskDTO implements Serializable {
-    @JsonProperty("notebook_path")
-    private String notebookPath;
-    @JsonProperty("base_parameters")
-    private Map<String, String> baseParameters;
-    @JsonProperty("revision_timestamp")
-    private long revisionTimestamp;
+  @JsonProperty("notebook_path")
+  private String notebookPath;
+  @JsonProperty("base_parameters")
+  private Map<String, String> baseParameters;
+  @JsonProperty("revision_timestamp")
+  private long revisionTimestamp;
 
-    public long getRevisionTimestamp() {
-        return revisionTimestamp;
-    }
+  public long getRevisionTimestamp() {
+    return revisionTimestamp;
+  }
 
-    public void setRevisionTimestamp(long revisionTimestamp) {
-        this.revisionTimestamp = revisionTimestamp;
-    }
+  public void setRevisionTimestamp(long revisionTimestamp) {
+    this.revisionTimestamp = revisionTimestamp;
+  }
 
-    public Map<String, String> getBaseParameters() {
-        return baseParameters;
-    }
+  public Map<String, String> getBaseParameters() {
+    return baseParameters;
+  }
 
-    public void setBaseParameters(Map<String, String> baseParameters) {
-        this.baseParameters = baseParameters;
-    }
+  public void setBaseParameters(Map<String, String> baseParameters) {
+    this.baseParameters = baseParameters;
+  }
 
-    public String getNotebookPath() {
-        return notebookPath;
-    }
+  public String getNotebookPath() {
+    return notebookPath;
+  }
 
-    public void setNotebookPath(String notebookPath) {
-        this.notebookPath = notebookPath;
-    }
+  public void setNotebookPath(String notebookPath) {
+    this.notebookPath = notebookPath;
+  }
 }

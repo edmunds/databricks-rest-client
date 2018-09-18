@@ -23,34 +23,34 @@ import java.io.Serializable;
 /**
  *
  */
-public class FileInfoDTO  implements Serializable {
-    private String path;
-    @JsonProperty("is_dir")
-    private boolean isDir;
-    @JsonProperty("file_size")
-    private long fileSize;
+public class FileInfoDTO implements Serializable {
+  private String path;
+  @JsonProperty("is_dir")
+  private boolean isDir;
+  @JsonProperty("file_size")
+  private long fileSize;
 
-    public String getPath() {
-        return path;
-    }
+  public String getPath() {
+    return path;
+  }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-    public boolean isDir() {
-        return isDir;
-    }
+  public boolean isDir() {
+    return isDir;
+  }
 
-    public void setDir(boolean dir) {
-        isDir = dir;
-    }
+  public void setDir(boolean dir) {
+    isDir = dir;
+  }
 
-    public long getFileSize() {
-        return fileSize;
-    }
+  public long getFileSize() {
+    return fileSize;
+  }
 
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
+  public void setFileSize(long fileSize) {
+    this.fileSize = fileSize;
+  }
 }

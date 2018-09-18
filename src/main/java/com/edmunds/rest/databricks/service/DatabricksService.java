@@ -25,14 +25,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public abstract class DatabricksService {
-    protected DatabricksRestClient client;
-    protected ObjectMapper mapper;
+  protected DatabricksRestClient client;
+  protected ObjectMapper mapper;
 
-    public DatabricksService(final DatabricksRestClient client) {
-        this.client = client;
-        // Not failing on unknown properties because Databricks adds properties to DTOs regularly
-        this.mapper = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-    }
+  public DatabricksService(final DatabricksRestClient client) {
+    this.client = client;
+    // Not failing on unknown properties because Databricks adds properties to DTOs regularly
+    this.mapper = new ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+  }
 }

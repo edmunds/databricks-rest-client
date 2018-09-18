@@ -22,49 +22,49 @@ import java.io.Serializable;
  *
  */
 public class LibraryDTO implements Serializable {
-    private PythonPyPiLibraryDTO pypi;
-    private String egg;
-    private String jar;
-    private MavenLibraryDTO maven;
-    private RCranLibraryDTO cran;
+  private PythonPyPiLibraryDTO pypi;
+  private String egg;
+  private String jar;
+  private MavenLibraryDTO maven;
+  private RCranLibraryDTO cran;
 
-    public String getEgg() {
-        return egg;
-    }
+  public String getEgg() {
+    return egg;
+  }
 
-    public void setEgg(String egg) {
-        this.egg = egg;
-    }
+  public void setEgg(String egg) {
+    this.egg = egg;
+  }
 
-    public RCranLibraryDTO getCran() {
-        return cran;
-    }
+  public RCranLibraryDTO getCran() {
+    return cran;
+  }
 
-    public void setCran(RCranLibraryDTO cran) {
-        this.cran = cran;
-    }
+  public void setCran(RCranLibraryDTO cran) {
+    this.cran = cran;
+  }
 
-    public PythonPyPiLibraryDTO getPypi() {
-        return pypi;
-    }
+  public PythonPyPiLibraryDTO getPypi() {
+    return pypi;
+  }
 
-    public void setPypi(PythonPyPiLibraryDTO pypi) {
-        this.pypi = pypi;
-    }
+  public void setPypi(PythonPyPiLibraryDTO pypi) {
+    this.pypi = pypi;
+  }
 
-    public String getJar() {
-        return jar;
-    }
+  public String getJar() {
+    return jar;
+  }
 
-    public void setJar(String jar) {
-        this.jar = jar;
-    }
+  public void setJar(String jar) {
+    this.jar = jar;
+  }
 
-    public MavenLibraryDTO getMaven() {
-        return maven;
-    }
+  public MavenLibraryDTO getMaven() {
+    return maven;
+  }
 
-    public void setMaven(MavenLibraryDTO maven) {
-        this.maven = maven;
-    }
+  public void setMaven(MavenLibraryDTO maven) {
+    this.maven = maven;
+  }
 }

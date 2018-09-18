@@ -25,74 +25,74 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class ResultsDTO implements Serializable {
-    @JsonProperty("resultType")
-    private String resultType;
-    @JsonProperty("data")
-    private Object data;
-    @JsonProperty("schema")
-    private Object schema;
-    @JsonProperty("truncated")
-    private boolean truncated;
-    @JsonProperty("isJsonSchema")
-    private boolean isJsonSchema;
-    @JsonProperty("summary")
-    private String summary;
-    @JsonProperty("cause")
-    private String cause;
+  @JsonProperty("resultType")
+  private String resultType;
+  @JsonProperty("data")
+  private Object data;
+  @JsonProperty("schema")
+  private Object schema;
+  @JsonProperty("truncated")
+  private boolean truncated;
+  @JsonProperty("isJsonSchema")
+  private boolean isJsonSchema;
+  @JsonProperty("summary")
+  private String summary;
+  @JsonProperty("cause")
+  private String cause;
 
-    public String getResultType() {
-        return resultType;
-    }
+  public String getResultType() {
+    return resultType;
+  }
 
-    public void setResultType(String resultType) {
-        this.resultType = resultType;
-    }
+  public void setResultType(String resultType) {
+    this.resultType = resultType;
+  }
 
-    public Object getData() {
-        return data;
-    }
+  public Object getData() {
+    return data;
+  }
 
-    public void setData(Object data) {
-        this.data = data;
-    }
+  public void setData(Object data) {
+    this.data = data;
+  }
 
-    public Object getSchema() {
-        return schema;
-    }
+  public Object getSchema() {
+    return schema;
+  }
 
-    public void setSchema(Object schema) {
-        this.schema = schema;
-    }
+  public void setSchema(Object schema) {
+    this.schema = schema;
+  }
 
-    public boolean getTruncated() {
-        return truncated;
-    }
+  public boolean getTruncated() {
+    return truncated;
+  }
 
-    public void setTruncated(boolean truncated) {
-        this.truncated = truncated;
-    }
+  public void setTruncated(boolean truncated) {
+    this.truncated = truncated;
+  }
 
-    public boolean getIsJsonSchema() {
-        return isJsonSchema;
-    }
+  public boolean getIsJsonSchema() {
+    return isJsonSchema;
+  }
 
-    public void setIsJsonSchema(boolean isJsonSchema) {
-        this.isJsonSchema = isJsonSchema;
-    }
+  public void setIsJsonSchema(boolean isJsonSchema) {
+    this.isJsonSchema = isJsonSchema;
+  }
 
-    public String getSummary() {
-        return summary;
-    }
+  public String getSummary() {
+    return summary;
+  }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
 
-    public String getCause() {
-        return cause;
-    }
+  public String getCause() {
+    return cause;
+  }
 
-    public void setCause(String cause) {
-        this.cause = cause;
-    }
+  public void setCause(String cause) {
+    this.cause = cause;
+  }
 }

@@ -25,19 +25,19 @@ import static org.testng.Assert.assertNotNull;
  * Created by shong on 7/21/16.
  */
 public class DatabricksServiceFactoryTest {
-    private DatabricksServiceFactory factory;
+  private DatabricksServiceFactory factory;
 
-    @BeforeClass
-    public void setUpOnce() {
-        factory = new DatabricksServiceFactory("", "", "");
-    }
+  @BeforeClass
+  public void setUpOnce() {
+    factory = new DatabricksServiceFactory("", "", "");
+  }
 
-    @Test
-    public void getService_whenCalled_returnsANotNullObject() {
-        assertNotNull(factory.getClusterService());
-        assertNotNull(factory.getLibraryService());
-        assertNotNull(factory.getDbfsService());
-        assertNotNull(factory.getJobService());
-        assertNotNull(factory.getWorkspaceService());
-    }
+  @Test
+  public void getService_whenCalled_returnsANotNullObject() {
+    assertNotNull(factory.getClusterService());
+    assertNotNull(factory.getLibraryService());
+    assertNotNull(factory.getDbfsService());
+    assertNotNull(factory.getJobService());
+    assertNotNull(factory.getWorkspaceService());
+  }
 }

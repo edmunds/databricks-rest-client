@@ -25,144 +25,144 @@ import java.util.Map;
  *
  */
 public class NewClusterDTO implements Serializable {
-    @JsonProperty("spark_version")
-    private String sparkVersion;
-    @JsonProperty("aws_attributes")
-    private AwsAttributesDTO awsAttributes;
-    @JsonProperty("node_type_id")
-    private String nodeTypeId;
-    @JsonProperty("num_workers")
-    private int numWorkers;
-    @JsonProperty("autoscale")
-    private AutoScaleDTO autoScale;
-    @JsonProperty("cluster_name")
-    private String clusterName;
-    @JsonProperty("spark_conf")
-    private Map<String, String> sparkConf;
-    @JsonProperty("driver_node_type_id")
-    private String driverNodeTypeId;
-    @JsonProperty("ssh_public_keys")
-    private String[] sshPublicKeys;
-    @JsonProperty("custom_tags")
-    private Map<String, String> customTags;
-    @JsonProperty("cluster_log_conf")
-    private ClusterLogConfDTO clusterLogConf;
-    @JsonProperty("spark_env_vars")
-    private Map<String, String> sparkEnvVars;
-    @JsonProperty("autotermination_minutes")
-    private int autoTerminationMinutes;
-    @JsonProperty("enable_elastic_disk")
-    private boolean enableElasticDisk;
+  @JsonProperty("spark_version")
+  private String sparkVersion;
+  @JsonProperty("aws_attributes")
+  private AwsAttributesDTO awsAttributes;
+  @JsonProperty("node_type_id")
+  private String nodeTypeId;
+  @JsonProperty("num_workers")
+  private int numWorkers;
+  @JsonProperty("autoscale")
+  private AutoScaleDTO autoScale;
+  @JsonProperty("cluster_name")
+  private String clusterName;
+  @JsonProperty("spark_conf")
+  private Map<String, String> sparkConf;
+  @JsonProperty("driver_node_type_id")
+  private String driverNodeTypeId;
+  @JsonProperty("ssh_public_keys")
+  private String[] sshPublicKeys;
+  @JsonProperty("custom_tags")
+  private Map<String, String> customTags;
+  @JsonProperty("cluster_log_conf")
+  private ClusterLogConfDTO clusterLogConf;
+  @JsonProperty("spark_env_vars")
+  private Map<String, String> sparkEnvVars;
+  @JsonProperty("autotermination_minutes")
+  private int autoTerminationMinutes;
+  @JsonProperty("enable_elastic_disk")
+  private boolean enableElasticDisk;
 
-    public AutoScaleDTO getAutoScale() {
-        return autoScale;
-    }
+  public AutoScaleDTO getAutoScale() {
+    return autoScale;
+  }
 
-    public void setAutoScale(AutoScaleDTO autoScale) {
-        this.autoScale = autoScale;
-    }
+  public void setAutoScale(AutoScaleDTO autoScale) {
+    this.autoScale = autoScale;
+  }
 
-    public String getClusterName() {
-        return clusterName;
-    }
+  public String getClusterName() {
+    return clusterName;
+  }
 
-    public void setClusterName(String clusterName) {
-        this.clusterName = clusterName;
-    }
+  public void setClusterName(String clusterName) {
+    this.clusterName = clusterName;
+  }
 
-    public Map<String, String> getSparkConf() {
-        return sparkConf;
-    }
+  public Map<String, String> getSparkConf() {
+    return sparkConf;
+  }
 
-    public void setSparkConf(Map<String, String> sparkConf) {
-        this.sparkConf = sparkConf;
-    }
+  public void setSparkConf(Map<String, String> sparkConf) {
+    this.sparkConf = sparkConf;
+  }
 
-    public String getDriverNodeTypeId() {
-        return driverNodeTypeId;
-    }
+  public String getDriverNodeTypeId() {
+    return driverNodeTypeId;
+  }
 
-    public void setDriverNodeTypeId(String driverNodeTypeId) {
-        this.driverNodeTypeId = driverNodeTypeId;
-    }
+  public void setDriverNodeTypeId(String driverNodeTypeId) {
+    this.driverNodeTypeId = driverNodeTypeId;
+  }
 
-    public String[] getSshPublicKeys() {
-        return sshPublicKeys;
-    }
+  public String[] getSshPublicKeys() {
+    return sshPublicKeys;
+  }
 
-    public void setSshPublicKeys(String[] sshPublicKeys) {
-        this.sshPublicKeys = sshPublicKeys;
-    }
+  public void setSshPublicKeys(String[] sshPublicKeys) {
+    this.sshPublicKeys = sshPublicKeys;
+  }
 
-    public Map<String, String> getCustomTags() {
-        return customTags;
-    }
+  public Map<String, String> getCustomTags() {
+    return customTags;
+  }
 
-    public void setCustomTags(Map<String, String> customTags) {
-        this.customTags = customTags;
-    }
+  public void setCustomTags(Map<String, String> customTags) {
+    this.customTags = customTags;
+  }
 
-    public ClusterLogConfDTO getClusterLogConf() {
-        return clusterLogConf;
-    }
+  public ClusterLogConfDTO getClusterLogConf() {
+    return clusterLogConf;
+  }
 
-    public void setClusterLogConf(ClusterLogConfDTO clusterLogConf) {
-        this.clusterLogConf = clusterLogConf;
-    }
+  public void setClusterLogConf(ClusterLogConfDTO clusterLogConf) {
+    this.clusterLogConf = clusterLogConf;
+  }
 
-    public Map<String, String> getSparkEnvVars() {
-        return sparkEnvVars;
-    }
+  public Map<String, String> getSparkEnvVars() {
+    return sparkEnvVars;
+  }
 
-    public void setSparkEnvVars(Map<String, String> sparkEnvVars) {
-        this.sparkEnvVars = sparkEnvVars;
-    }
+  public void setSparkEnvVars(Map<String, String> sparkEnvVars) {
+    this.sparkEnvVars = sparkEnvVars;
+  }
 
-    public int getAutoTerminationMinutes() {
-        return autoTerminationMinutes;
-    }
+  public int getAutoTerminationMinutes() {
+    return autoTerminationMinutes;
+  }
 
-    public void setAutoTerminationMinutes(int autoTerminationMinutes) {
-        this.autoTerminationMinutes = autoTerminationMinutes;
-    }
+  public void setAutoTerminationMinutes(int autoTerminationMinutes) {
+    this.autoTerminationMinutes = autoTerminationMinutes;
+  }
 
-    public boolean isEnableElasticDisk() {
-        return enableElasticDisk;
-    }
+  public boolean isEnableElasticDisk() {
+    return enableElasticDisk;
+  }
 
-    public void setEnableElasticDisk(boolean enableElasticDisk) {
-        this.enableElasticDisk = enableElasticDisk;
-    }
+  public void setEnableElasticDisk(boolean enableElasticDisk) {
+    this.enableElasticDisk = enableElasticDisk;
+  }
 
-    public String getSparkVersion() {
-        return sparkVersion;
-    }
+  public String getSparkVersion() {
+    return sparkVersion;
+  }
 
-    public void setSparkVersion(String sparkVersion) {
-        this.sparkVersion = sparkVersion;
-    }
+  public void setSparkVersion(String sparkVersion) {
+    this.sparkVersion = sparkVersion;
+  }
 
-    public AwsAttributesDTO getAwsAttributes() {
-        return awsAttributes;
-    }
+  public AwsAttributesDTO getAwsAttributes() {
+    return awsAttributes;
+  }
 
-    public void setAwsAttributes(AwsAttributesDTO awsAttributes) {
-        this.awsAttributes = awsAttributes;
-    }
+  public void setAwsAttributes(AwsAttributesDTO awsAttributes) {
+    this.awsAttributes = awsAttributes;
+  }
 
-    public String getNodeTypeId() {
-        return nodeTypeId;
-    }
+  public String getNodeTypeId() {
+    return nodeTypeId;
+  }
 
-    public void setNodeTypeId(String nodeTypeId) {
-        this.nodeTypeId = nodeTypeId;
-    }
+  public void setNodeTypeId(String nodeTypeId) {
+    this.nodeTypeId = nodeTypeId;
+  }
 
-    public int getNumWorkers() {
-        return numWorkers;
-    }
+  public int getNumWorkers() {
+    return numWorkers;
+  }
 
-    public void setNumWorkers(int numWorkers) {
-        this.numWorkers = numWorkers;
-    }
+  public void setNumWorkers(int numWorkers) {
+    this.numWorkers = numWorkers;
+  }
 }

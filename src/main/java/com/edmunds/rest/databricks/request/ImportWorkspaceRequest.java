@@ -26,42 +26,42 @@ import java.util.Map;
  *
  */
 public class ImportWorkspaceRequest extends DatabricksRestRequest {
-    private ImportWorkspaceRequest(Map<String, Object> data) {
-        super(data);
+  private ImportWorkspaceRequest(Map<String, Object> data) {
+    super(data);
+  }
+
+  /**
+   * Builder.
+   */
+  public static class ImportWorkspaceRequestBuilder {
+    private Map<String, Object> data = new HashMap<>();
+
+    public ImportWorkspaceRequestBuilder(String path) {
+      data.put("path", path);
     }
 
-    /**
-     * Builder.
-     */
-    public static class ImportWorkspaceRequestBuilder {
-        private Map<String, Object> data = new HashMap<>();
-
-        public ImportWorkspaceRequestBuilder(String path) {
-            data.put("path", path);
-        }
-
-        public ImportWorkspaceRequestBuilder withFormat(ExportFormatDTO exportFormat) {
-            data.put("format", exportFormat);
-            return this;
-        }
-
-        public ImportWorkspaceRequestBuilder withLanguage(LanguageDTO language) {
-            data.put("language", language);
-            return this;
-        }
-
-        public ImportWorkspaceRequestBuilder withContent(byte[] content) {
-            data.put("content", content);
-            return this;
-        }
-
-        public ImportWorkspaceRequestBuilder withOverwrite(boolean overwrite) {
-            data.put("overwrite", overwrite);
-            return this;
-        }
-
-        public ImportWorkspaceRequest build() {
-            return new ImportWorkspaceRequest(data);
-        }
+    public ImportWorkspaceRequestBuilder withFormat(ExportFormatDTO exportFormat) {
+      data.put("format", exportFormat);
+      return this;
     }
+
+    public ImportWorkspaceRequestBuilder withLanguage(LanguageDTO language) {
+      data.put("language", language);
+      return this;
+    }
+
+    public ImportWorkspaceRequestBuilder withContent(byte[] content) {
+      data.put("content", content);
+      return this;
+    }
+
+    public ImportWorkspaceRequestBuilder withOverwrite(boolean overwrite) {
+      data.put("overwrite", overwrite);
+      return this;
+    }
+
+    public ImportWorkspaceRequest build() {
+      return new ImportWorkspaceRequest(data);
+    }
+  }
 }

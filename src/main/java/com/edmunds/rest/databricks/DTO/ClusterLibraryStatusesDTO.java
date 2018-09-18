@@ -24,24 +24,24 @@ import java.io.Serializable;
  *
  */
 public class ClusterLibraryStatusesDTO implements Serializable {
-    @JsonProperty("cluster_id")
-    private String clusterId;
-    @JsonProperty("library_statuses")
-    private LibraryFullStatusDTO[] libraryFullStatuses;
+  @JsonProperty("cluster_id")
+  private String clusterId;
+  @JsonProperty("library_statuses")
+  private LibraryFullStatusDTO[] libraryFullStatuses;
 
-    public String getClusterId() {
-        return clusterId;
-    }
+  public String getClusterId() {
+    return clusterId;
+  }
 
-    public void setClusterId(String clusterId) {
-        this.clusterId = clusterId;
-    }
+  public void setClusterId(String clusterId) {
+    this.clusterId = clusterId;
+  }
 
-    public LibraryFullStatusDTO[] getLibraryFullStatuses() {
-        return libraryFullStatuses;
-    }
+  public LibraryFullStatusDTO[] getLibraryFullStatuses() {
+    return libraryFullStatuses;
+  }
 
-    public void setLibraryFullStatuses(LibraryFullStatusDTO[] libraryFullStatuses) {
-        this.libraryFullStatuses = libraryFullStatuses;
-    }
+  public void setLibraryFullStatuses(LibraryFullStatusDTO[] libraryFullStatuses) {
+    this.libraryFullStatuses = libraryFullStatuses;
+  }
 }

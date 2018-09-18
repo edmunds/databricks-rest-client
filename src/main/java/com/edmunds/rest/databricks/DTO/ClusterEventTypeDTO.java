@@ -22,22 +22,22 @@ import java.io.Serializable;
  *
  */
 public enum ClusterEventTypeDTO implements Serializable {
-    CREATING("CREATING"),
-    STARTING("STARTING"),
-    RESTARTING("RESTARTING"),
-    TERMINATING("TERMINATING"),
-    EDITED("EDITED"),
-    RUNNING("RUNNING"),
-    RESIZING("RESIZING"),
-    NODES_LOST("NODES_LOST");
+  CREATING("CREATING"),
+  STARTING("STARTING"),
+  RESTARTING("RESTARTING"),
+  TERMINATING("TERMINATING"),
+  EDITED("EDITED"),
+  RUNNING("RUNNING"),
+  RESIZING("RESIZING"),
+  NODES_LOST("NODES_LOST");
 
-    private String value;
+  private String value;
 
-    ClusterEventTypeDTO(String value) {
-        this.value = value;
-    }
+  ClusterEventTypeDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return this.value;
-    }
+  public String toString() {
+    return this.value;
+  }
 }

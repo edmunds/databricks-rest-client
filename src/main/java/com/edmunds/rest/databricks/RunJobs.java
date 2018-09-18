@@ -38,94 +38,94 @@ import static java.lang.Thread.sleep;
 public class RunJobs {
 
 
-    private static Logger log = Logger.getLogger(RunJobs.class);
+  private static Logger log = Logger.getLogger(RunJobs.class);
 
-    private RunJob[] runJobs;
-    private long timeout;
-    private long checkInterval;
+  private RunJob[] runJobs;
+  private long timeout;
+  private long checkInterval;
 
-    public RunJobs(RunJob[] runJobs, long timeout, long checkInterval) {
-        this.runJobs = runJobs;
-        this.timeout = timeout;
-        this.checkInterval = checkInterval;
+  public RunJobs(RunJob[] runJobs, long timeout, long checkInterval) {
+    this.runJobs = runJobs;
+    this.timeout = timeout;
+    this.checkInterval = checkInterval;
+  }
+
+
+  public List<Map.Entry<RunJob, Exception>> process() throws InterruptedException {
+
+    List<RunJob> runningJobs = new ArrayList<>(runJobs.length);
+    List<Map.Entry<RunJob, Exception>> failedJobs = new ArrayList<>();
+
+    for (RunJob runJob : runJobs) {
+      try {
+        runJob.launchJob();
+        runningJobs.add(runJob);
+      } catch (IOException | DatabricksRestException e) {
+        failedJobs.add(new AbstractMap.SimpleEntry(runJob, e));
+      }
     }
 
+    long elapsed = 0L;
+    while (!runningJobs.isEmpty()) {
+      sleep(checkInterval);
+      elapsed += checkInterval;
+      Iterator<RunJob> runningJobsIterator = runningJobs.iterator();
+      while (runningJobsIterator.hasNext()) {
+        RunJob currentJob = runningJobsIterator.next();
+        try {
+          RunDTO runDTO = currentJob.getRunDTO();
 
-    public List<Map.Entry<RunJob, Exception>> process() throws InterruptedException {
+          if (checkJobIsFinished(runDTO)) {
+            log.info("Job[=" + currentJob.getJobId() + "] Finished");
+            runningJobsIterator.remove();
+          } else {
+            log.info("Job[=" + currentJob.getJobId() + "] Still Running");
+          }
+        } catch (IOException | DatabricksRestException e) {
+          log.error("Job[=" + currentJob.getJobId() + "] failed", e);
 
-        List<RunJob> runningJobs = new ArrayList<>(runJobs.length);
-        List<Map.Entry<RunJob, Exception>> failedJobs = new ArrayList<>();
-
-        for(RunJob runJob:runJobs) {
-            try{
-                runJob.launchJob();
-                runningJobs.add(runJob);
-            } catch(IOException | DatabricksRestException e) {
-                failedJobs.add(new AbstractMap.SimpleEntry(runJob, e));
-            }
+          failedJobs.add(new AbstractMap.SimpleEntry(currentJob, e));
+          runningJobsIterator.remove();
         }
+      }
+      if (elapsed > timeout) {
+        for (RunJob runningJob : runningJobs) {
+          try {
+            runningJob.cancelJob();
+          } catch (IOException | DatabricksRestException e) {
+            log.error("Failed to cancel Job[=" + runningJob.getJobId() + "]", e);
 
-        long elapsed = 0L;
-        while (!runningJobs.isEmpty()) {
-            sleep(checkInterval);
-            elapsed += checkInterval;
-            Iterator<RunJob> runningJobsIterator = runningJobs.iterator();
-            while (runningJobsIterator.hasNext()) {
-                RunJob currentJob = runningJobsIterator.next();
-                try {
-                    RunDTO runDTO = currentJob.getRunDTO();
-
-                    if (checkJobIsFinished(runDTO)) {
-                        log.info("Job[=" + currentJob.getJobId() + "] Finished");
-                        runningJobsIterator.remove();
-                    } else {
-                        log.info("Job[=" + currentJob.getJobId() + "] Still Running");
-                    }
-                } catch (IOException | DatabricksRestException e) {
-                    log.error("Job[=" + currentJob.getJobId() + "] failed", e);
-
-                    failedJobs.add(new AbstractMap.SimpleEntry(currentJob, e));
-                    runningJobsIterator.remove();
-                }
-            }
-            if (elapsed > timeout) {
-                for (RunJob runningJob : runningJobs) {
-                    try {
-                        runningJob.cancelJob();
-                    } catch (IOException | DatabricksRestException e) {
-                        log.error("Failed to cancel Job[=" + runningJob.getJobId() + "]", e);
-
-                    } finally {
-                        failedJobs.add(new AbstractMap.SimpleEntry(runningJob,
-                                new DatabricksRestException("Job canceled due to timeout " + timeout/1000 + "secs")));
-                    }
-                }
-                runningJobs.clear();
-            }
-
+          } finally {
+            failedJobs.add(new AbstractMap.SimpleEntry(runningJob,
+                new DatabricksRestException("Job canceled due to timeout " + timeout / 1000 + "secs")));
+          }
         }
+        runningJobs.clear();
+      }
 
-        return failedJobs;
     }
 
+    return failedJobs;
+  }
 
-    private boolean checkJobIsFinished(RunDTO run) throws DatabricksRestException {
-        RunLifeCycleStateDTO runLifeCycleState = run.getState().getLifeCycleState();
 
-        if (Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.TERMINATED) ||
-                Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.SKIPPED) ||
-                Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.INTERNAL_ERROR)) {
+  private boolean checkJobIsFinished(RunDTO run) throws DatabricksRestException {
+    RunLifeCycleStateDTO runLifeCycleState = run.getState().getLifeCycleState();
 
-            RunResultStateDTO runResultState = run.getState().getResultState();
-            if (runResultState != RunResultStateDTO.SUCCESS) {
-                throw new DatabricksRestException("Run was terminated with state: " + runResultState);
-            }
+    if (Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.TERMINATED) ||
+        Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.SKIPPED) ||
+        Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.INTERNAL_ERROR)) {
 
-            return true;
-        }
+      RunResultStateDTO runResultState = run.getState().getResultState();
+      if (runResultState != RunResultStateDTO.SUCCESS) {
+        throw new DatabricksRestException("Run was terminated with state: " + runResultState);
+      }
 
-        return false;
+      return true;
     }
+
+    return false;
+  }
 
 
 }

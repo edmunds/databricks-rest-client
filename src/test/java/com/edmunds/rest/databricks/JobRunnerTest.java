@@ -42,105 +42,109 @@ import static org.testng.Assert.assertEquals;
  * Created by shong on 8/2/16.
  */
 public class JobRunnerTest {
-    private static final String JOB_NAME = "JobRunnerTest_test_job";
-    private JobService service;
-    private Long jobId = null;
-    private String[] argsWithJobId;
-    private String[] argsWithJobName;
-    private String[] argsWithInvalidJobName;
+  private static final String JOB_NAME = "JobRunnerTest_test_job";
+  private JobService service;
+  private Long jobId = null;
+  private String[] argsWithJobId;
+  private String[] argsWithJobName;
+  private String[] argsWithInvalidJobName;
 
-    @BeforeClass
-    public void setUpOnce() throws IOException, DatabricksRestException {
-        DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
-        service = factory.getJobService();
+  @BeforeClass
+  public void setUpOnce() throws IOException, DatabricksRestException {
+    DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
+    service = factory.getJobService();
 
-        NotebookTaskDTO notebook_task = new NotebookTaskDTO();
-        notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
-        String defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
-        JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
-        jobSettingsDTO.setName(JOB_NAME);
-        jobSettingsDTO.setExistingClusterId(defaultClusterId);
-        jobSettingsDTO.setNotebookTask(notebook_task);
+    NotebookTaskDTO notebook_task = new NotebookTaskDTO();
+    notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
+    String defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
+    JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
+    jobSettingsDTO.setName(JOB_NAME);
+    jobSettingsDTO.setExistingClusterId(defaultClusterId);
+    jobSettingsDTO.setNotebookTask(notebook_task);
 
-        // there's possibility test TearDownFailure. it cause test job not-deleted.
-        List<JobDTO> jobList = service.getJobsByName(JOB_NAME);
-        for(JobDTO jobDTO:jobList) {
-            service.deleteJob(jobDTO.getJobId());
-        }
+    // there's possibility test TearDownFailure. it cause test job not-deleted.
+    List<JobDTO> jobList = service.getJobsByName(JOB_NAME);
+    for (JobDTO jobDTO : jobList) {
+      service.deleteJob(jobDTO.getJobId());
+    }
 
-        jobId = service.createJob(jobSettingsDTO);
+    jobId = service.createJob(jobSettingsDTO);
 
-        argsWithJobId = new String[]{
+    argsWithJobId = new String[] {
+        "-u " + USERNAME,
+        "-p " + PASSWORD,
+        "-h " + HOSTNAME,
+        "-j " + jobId
+    };
+
+    argsWithJobName = new String[] {
+        "-u " + USERNAME,
+        "-p " + PASSWORD,
+        "-h " + HOSTNAME,
+        "-n " + JOB_NAME
+    };
+
+    argsWithInvalidJobName =
+        new String[] {
             "-u " + USERNAME,
             "-p " + PASSWORD,
             "-h " + HOSTNAME,
-            "-j " + jobId
+            "-n " + "Fake Job Name"
         };
 
-        argsWithJobName = new String[] {
-            "-u " + USERNAME,
-            "-p " + PASSWORD,
-            "-h " + HOSTNAME,
-            "-n " + JOB_NAME
-        };
-
-        argsWithInvalidJobName =
-            new String[] {
-                "-u " + USERNAME,
-                "-p " + PASSWORD,
-                "-h " + HOSTNAME,
-                "-n " + "Fake Job Name"
-        };
-
-    }
+  }
 
 
-    @AfterClass(alwaysRun = true)
-    public void tearDownOnce() throws IOException, DatabricksRestException {
-        service.deleteJob(jobId);
-    }
+  @AfterClass(alwaysRun = true)
+  public void tearDownOnce() throws IOException, DatabricksRestException {
+    service.deleteJob(jobId);
+  }
 
-    @Test
-    public void main_whenCalledWithArguments_startsRunOfJob() throws InterruptedException, DatabricksRestException, IOException, ParseException {
-        int expected = getNumberOfRuns(jobId) + 1;
+  @Test
+  public void main_whenCalledWithArguments_startsRunOfJob()
+      throws InterruptedException, DatabricksRestException, IOException, ParseException {
+    int expected = getNumberOfRuns(jobId) + 1;
 
-        JobRunner.main(argsWithJobId);
+    JobRunner.main(argsWithJobId);
 
-        int numberOfRuns = getNumberOfRuns(jobId);
-        assertEquals(numberOfRuns, expected);
-    }
+    int numberOfRuns = getNumberOfRuns(jobId);
+    assertEquals(numberOfRuns, expected);
+  }
 
-    @Test
-    public void main_whenCalledWithJobName_startsRunOfJob() throws InterruptedException, DatabricksRestException, ParseException, IOException {
-        int expected = getNumberOfRuns(jobId) + 1;
+  @Test
+  public void main_whenCalledWithJobName_startsRunOfJob()
+      throws InterruptedException, DatabricksRestException, ParseException, IOException {
+    int expected = getNumberOfRuns(jobId) + 1;
 
-        JobRunner.main(argsWithJobName);
+    JobRunner.main(argsWithJobName);
 
-        int numberOfRuns = getNumberOfRuns(jobId);
-        assertEquals(numberOfRuns, expected);
-    }
+    int numberOfRuns = getNumberOfRuns(jobId);
+    assertEquals(numberOfRuns, expected);
+  }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void main_whenCalledWithInvalidJobName_throwsIllegalArgumentException() throws InterruptedException, DatabricksRestException, ParseException, IOException {
-        JobRunner.main(argsWithInvalidJobName);
-    }
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void main_whenCalledWithInvalidJobName_throwsIllegalArgumentException()
+      throws InterruptedException, DatabricksRestException, ParseException, IOException {
+    JobRunner.main(argsWithInvalidJobName);
+  }
 
-    @Test
-    public void main_whenCalled_runsToCompletionWithSuccess() throws InterruptedException, DatabricksRestException, ParseException, IOException {
-        JobRunner.main(argsWithJobId);
+  @Test
+  public void main_whenCalled_runsToCompletionWithSuccess()
+      throws InterruptedException, DatabricksRestException, ParseException, IOException {
+    JobRunner.main(argsWithJobId);
 
-        RunDTO runDTO = getMostRecentRun(jobId);
+    RunDTO runDTO = getMostRecentRun(jobId);
 
-        assertEquals(runDTO.getState().getLifeCycleState(), RunLifeCycleStateDTO.TERMINATED);
-        assertEquals(runDTO.getState().getResultState(), RunResultStateDTO.SUCCESS);
-    }
+    assertEquals(runDTO.getState().getLifeCycleState(), RunLifeCycleStateDTO.TERMINATED);
+    assertEquals(runDTO.getState().getResultState(), RunResultStateDTO.SUCCESS);
+  }
 
-    private RunDTO getMostRecentRun(Long jobId) throws IOException, DatabricksRestException {
-        return service.listRuns(jobId, null, null, null).getRuns()[0];
-    }
+  private RunDTO getMostRecentRun(Long jobId) throws IOException, DatabricksRestException {
+    return service.listRuns(jobId, null, null, null).getRuns()[0];
+  }
 
-    private int getNumberOfRuns(long jobId) throws IOException, DatabricksRestException {
-        RunsDTO runsDTO = service.listRuns(jobId, null, null, null);
-        return runsDTO.getRuns() != null ? runsDTO.getRuns().length : 0;
-    }
+  private int getNumberOfRuns(long jobId) throws IOException, DatabricksRestException {
+    RunsDTO runsDTO = service.listRuns(jobId, null, null, null);
+    return runsDTO.getRuns() != null ? runsDTO.getRuns().length : 0;
+  }
 }

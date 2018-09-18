@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -22,35 +23,35 @@ import java.io.Serializable;
 /**
  *
  */
-public class CommandStatusDTO  implements Serializable {
-    @JsonProperty("id")
-    private String id;
-    @JsonProperty("status")
-    private String status;
-    @JsonProperty("results")
-    private ResultsDTO results;
+public class CommandStatusDTO implements Serializable {
+  @JsonProperty("id")
+  private String id;
+  @JsonProperty("status")
+  private String status;
+  @JsonProperty("results")
+  private ResultsDTO results;
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public ResultsDTO getResults() {
-        return results;
-    }
+  public ResultsDTO getResults() {
+    return results;
+  }
 
-    public void setResults(ResultsDTO results) {
-        this.results = results;
-    }
+  public void setResults(ResultsDTO results) {
+    this.results = results;
+  }
 }

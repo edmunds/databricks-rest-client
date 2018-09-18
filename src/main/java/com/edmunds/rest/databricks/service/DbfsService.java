@@ -28,13 +28,22 @@ import java.io.InputStream;
  */
 public interface DbfsService {
 
-    void rm(String path, boolean recursive) throws IOException, DatabricksRestException;
-    FileInfoDTO getInfo(String path) throws IOException, DatabricksRestException;
-    FileInfoDTO[] ls(String path) throws IOException, DatabricksRestException;
-    void mkdirs(String path) throws IOException, DatabricksRestException;
-    void mv(String sourcePath, String destinationPath) throws IOException, DatabricksRestException;
-    void write(String path, InputStream inputStream, boolean overwrite) throws IOException, DatabricksRestException;
-    DbfsReadDTO read(String path, long offset, long length) throws IOException, DatabricksRestException;
-    DbfsReadDTO read(String path) throws IOException, DatabricksRestException;
+  void rm(String path, boolean recursive) throws IOException, DatabricksRestException;
+
+  FileInfoDTO getInfo(String path) throws IOException, DatabricksRestException;
+
+  FileInfoDTO[] ls(String path) throws IOException, DatabricksRestException;
+
+  void mkdirs(String path) throws IOException, DatabricksRestException;
+
+  void mv(String sourcePath, String destinationPath) throws IOException, DatabricksRestException;
+
+  void write(String path, InputStream inputStream, boolean overwrite)
+      throws IOException, DatabricksRestException;
+
+  DbfsReadDTO read(String path, long offset, long length)
+      throws IOException, DatabricksRestException;
+
+  DbfsReadDTO read(String path) throws IOException, DatabricksRestException;
 
 }

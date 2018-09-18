@@ -33,137 +33,136 @@ import java.util.concurrent.TimeUnit;
  */
 public class RunJob {
 
-    private static Logger log = Logger.getLogger(RunJob.class);
-
-    // Use databricks job timeout setting. So, set 1 day for safety.
-    public static final long DEFAULT_JOB_TIMEOUT  = TimeUnit.DAYS.toMillis(1);
-    public static final long DEFAULT_JOB_CHECK_INTERVAL  = TimeUnit.MINUTES.toMillis(2);
-
-    private JobService service;
-    private long jobId;
-    private RunParametersDTO runParametersDTO;
-    private long timeout;
-    private long checkInterval;
+  // Use databricks job timeout setting. So, set 1 day for safety.
+  public static final long DEFAULT_JOB_TIMEOUT = TimeUnit.DAYS.toMillis(1);
+  public static final long DEFAULT_JOB_CHECK_INTERVAL = TimeUnit.MINUTES.toMillis(2);
+  private static Logger log = Logger.getLogger(RunJob.class);
+  private JobService service;
+  private long jobId;
+  private RunParametersDTO runParametersDTO;
+  private long timeout;
+  private long checkInterval;
 
 
-    /**
-     * providing numberInJob for info.
-     */
-    private long runId;
-    private long numberInJob;
+  /**
+   * providing numberInJob for info.
+   */
+  private long runId;
+  private long numberInJob;
 
-    public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO) {
-        this(service, jobId, runParametersDTO, DEFAULT_JOB_TIMEOUT, DEFAULT_JOB_CHECK_INTERVAL);
+  public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO) {
+    this(service, jobId, runParametersDTO, DEFAULT_JOB_TIMEOUT, DEFAULT_JOB_CHECK_INTERVAL);
+  }
+
+  public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO, long timeout, long checkInterval) {
+    this.service = service;
+    this.jobId = jobId;
+    this.runParametersDTO = runParametersDTO;
+    this.timeout = timeout;
+    this.checkInterval = checkInterval;
+  }
+
+  /**
+   * @return throws DatabricksRestException if job do not succeed.
+   * @throws IOException
+   * @throws DatabricksRestException
+   * @throws InterruptedException
+   */
+  public RunResultStateDTO process()
+      throws IOException, DatabricksRestException, InterruptedException {
+
+    // run job
+    launchJob();
+
+    // check job result
+    RunStateDTO runStateDTO = waitForJobFinished();
+    RunResultStateDTO resultState = runStateDTO.getResultState();
+    switch (resultState) {
+      case SUCCESS:
+        log.info("Job[=" + jobId + "] finished successfully. '" + resultState.name() + "' " + runStateDTO.getStateMessage());
+        break;
+      case FAILED:
+      case TIMEDOUT:
+      case CANCELED:
+        throw new DatabricksRestException("Job[=" + jobId + "] error '" + resultState.name() + "'");
+      default:
+        throw new DatabricksRestException("Job[=" + jobId + "] error by unknown '" + resultState.name() + "'");
+
     }
 
-    public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO, long timeout, long checkInterval) {
-        this.service = service;
-        this.jobId = jobId;
-        this.runParametersDTO = runParametersDTO;
-        this.timeout = timeout;
-        this.checkInterval = checkInterval;
-    }
-
-    /**
-     *
-     * @return throws DatabricksRestException if job do not succeed.
-     * @throws IOException
-     * @throws DatabricksRestException
-     * @throws InterruptedException
-     */
-    public RunResultStateDTO process() throws IOException, DatabricksRestException, InterruptedException {
-
-        // run job
-        launchJob();
-
-        // check job result
-        RunStateDTO runStateDTO = waitForJobFinished();
-        RunResultStateDTO resultState = runStateDTO.getResultState();
-        switch (resultState){
-            case SUCCESS:
-                log.info("Job[=" + jobId + "] finished successfully. '" + resultState.name() + "' " + runStateDTO.getStateMessage());
-                break;
-            case FAILED:
-            case TIMEDOUT:
-            case CANCELED:
-                throw new DatabricksRestException("Job[=" + jobId + "] error '" + resultState.name() + "'");
-            default:
-                throw new DatabricksRestException("Job[=" + jobId + "] error by unknown '" + resultState.name() + "'");
-
-        }
-
-        return resultState;
-    }
+    return resultState;
+  }
 
 
-    public RunNowDTO launchJob() throws IOException, DatabricksRestException {
-        RunNowDTO runNowDTO = service.runJobNow(jobId, runParametersDTO);
-        runId = runNowDTO.getRunId();
-        numberInJob = runNowDTO.getNumberInJob();
-        log.info("RunJob run-id=" + runId + ", [" + service.buildRunJobRestUrl(jobId, numberInJob) + "]");
+  public RunNowDTO launchJob() throws IOException, DatabricksRestException {
+    RunNowDTO runNowDTO = service.runJobNow(jobId, runParametersDTO);
+    runId = runNowDTO.getRunId();
+    numberInJob = runNowDTO.getNumberInJob();
+    log.info("RunJob run-id=" + runId + ", [" + service.buildRunJobRestUrl(jobId, numberInJob) + "]");
 
-        return runNowDTO;
-    }
-
-
-    private RunStateDTO waitForJobFinished() throws IOException, InterruptedException, DatabricksRestException {
-        long elapsed = 0;
-
-        while (elapsed < timeout) {
-            RunDTO runDTO = getRunDTO();
-            RunStateDTO runStateDTO = runDTO.getState();
-            RunLifeCycleStateDTO lifeCycleState = runStateDTO.getLifeCycleState();
-
-            switch (lifeCycleState) {
-                case PENDING:
-                case RUNNING:
-                case TERMINATING:
-                    log.info("Sleep for " + (checkInterval/1000) + " secs. Job lifeCycleState '" + lifeCycleState + "'");
-                    Thread.sleep(checkInterval);
-                    elapsed += checkInterval;
-                    continue;
-
-                case SKIPPED:
-                    throw new DatabricksRestException("Job lifeCycleState '" + lifeCycleState + "'. " + runStateDTO.getStateMessage());
-
-                default:
-                    return runStateDTO;
-            }
-        } // eof while
-
-        // cancel running job
-        log.info("Job did not finished expected " + timeout/1000 + "secs. Cancel run_id=" + runId);
-        cancelJob();
-
-        throw new DatabricksRestException("Job canceled due to timeout " + timeout/1000 + "secs");
-    }
+    return runNowDTO;
+  }
 
 
-    public RunDTO getRunDTO() throws IOException, DatabricksRestException {
-        return service.getRun(runId);
-    }
+  private RunStateDTO waitForJobFinished()
+      throws IOException, InterruptedException, DatabricksRestException {
+    long elapsed = 0;
 
-    public void cancelJob() throws IOException, DatabricksRestException {
-        service.cancelRun(runId);
-    }
+    while (elapsed < timeout) {
+      RunDTO runDTO = getRunDTO();
+      RunStateDTO runStateDTO = runDTO.getState();
+      RunLifeCycleStateDTO lifeCycleState = runStateDTO.getLifeCycleState();
 
-    public long getJobId() {
-        return jobId;
-    }
+      switch (lifeCycleState) {
+        case PENDING:
+        case RUNNING:
+        case TERMINATING:
+          log.info("Sleep for " + (checkInterval / 1000) + " secs. Job lifeCycleState '" + lifeCycleState + "'");
+          Thread.sleep(checkInterval);
+          elapsed += checkInterval;
+          continue;
 
-    public long getRunId() {
-        return runId;
-    }
+        case SKIPPED:
+          throw new DatabricksRestException("Job lifeCycleState '" + lifeCycleState + "'. " + runStateDTO.getStateMessage());
 
-    public long getNumberInJob() {
-        return numberInJob;
-    }
+        default:
+          return runStateDTO;
+      }
+    } // eof while
 
-    public long getTimeout() {
-        return timeout;
-    }
+    // cancel running job
+    log.info("Job did not finished expected " + timeout / 1000 + "secs. Cancel run_id=" + runId);
+    cancelJob();
 
-    public long getCheckInterval() {
-        return checkInterval;
-    }
+    throw new DatabricksRestException("Job canceled due to timeout " + timeout / 1000 + "secs");
+  }
+
+
+  public RunDTO getRunDTO() throws IOException, DatabricksRestException {
+    return service.getRun(runId);
+  }
+
+  public void cancelJob() throws IOException, DatabricksRestException {
+    service.cancelRun(runId);
+  }
+
+  public long getJobId() {
+    return jobId;
+  }
+
+  public long getRunId() {
+    return runId;
+  }
+
+  public long getNumberInJob() {
+    return numberInJob;
+  }
+
+  public long getTimeout() {
+    return timeout;
+  }
+
+  public long getCheckInterval() {
+    return checkInterval;
+  }
 }

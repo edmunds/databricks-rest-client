@@ -23,33 +23,33 @@ import java.io.Serializable;
 /**
  *
  */
-public class ObjectInfoDTO  implements Serializable {
-    @JsonProperty("object_type")
-    private ObjectTypeDTO objectType;
-    private String path;
-    private LanguageDTO language;
+public class ObjectInfoDTO implements Serializable {
+  @JsonProperty("object_type")
+  private ObjectTypeDTO objectType;
+  private String path;
+  private LanguageDTO language;
 
-    public ObjectTypeDTO getObjectType() {
-        return objectType;
-    }
+  public ObjectTypeDTO getObjectType() {
+    return objectType;
+  }
 
-    public void setObjectType(ObjectTypeDTO objectType) {
-        this.objectType = objectType;
-    }
+  public void setObjectType(ObjectTypeDTO objectType) {
+    this.objectType = objectType;
+  }
 
-    public String getPath() {
-        return path;
-    }
+  public String getPath() {
+    return path;
+  }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-    public LanguageDTO getLanguage() {
-        return language;
-    }
+  public LanguageDTO getLanguage() {
+    return language;
+  }
 
-    public void setLanguage(LanguageDTO language) {
-        this.language = language;
-    }
+  public void setLanguage(LanguageDTO language) {
+    this.language = language;
+  }
 }

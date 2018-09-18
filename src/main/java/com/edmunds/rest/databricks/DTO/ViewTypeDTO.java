@@ -22,16 +22,16 @@ import java.io.Serializable;
  *
  */
 public enum ViewTypeDTO implements Serializable {
-    NOTEBOOK("NOTEBOOK"),
-    DASHBOARD("DASHBOARD");
+  NOTEBOOK("NOTEBOOK"),
+  DASHBOARD("DASHBOARD");
 
-    private String value;
+  private String value;
 
-    ViewTypeDTO(String value) {
-        this.value = value;
-    }
+  ViewTypeDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return value;
-    }
+  public String toString() {
+    return value;
+  }
 }

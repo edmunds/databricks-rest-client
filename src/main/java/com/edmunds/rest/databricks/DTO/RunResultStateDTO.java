@@ -22,19 +22,19 @@ import java.io.Serializable;
  *
  */
 public enum RunResultStateDTO implements Serializable {
-    SUCCESS("SUCCESS"),
-    FAILED("FAILED"),
-    TIMEDOUT("TIMEDOUT"),
-    CANCELED("CANCELED");
+  SUCCESS("SUCCESS"),
+  FAILED("FAILED"),
+  TIMEDOUT("TIMEDOUT"),
+  CANCELED("CANCELED");
 
-    private String value;
+  private String value;
 
-    private RunResultStateDTO(String value) {
-        this.value = value;
-    }
+  private RunResultStateDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

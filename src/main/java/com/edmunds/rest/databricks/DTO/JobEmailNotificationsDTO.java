@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,45 +26,45 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JobEmailNotificationsDTO  implements Serializable {
-    @JsonProperty("on_failure")
-    private String[] onFailure;
-    @JsonProperty("on_start")
-    private String[] onStart;
-    @JsonProperty("on_success")
-    private String[] onSuccess;
-    @JsonProperty("no_alert_for_skipped_runs")
-    private boolean noAlertForSkippedRuns;
+public class JobEmailNotificationsDTO implements Serializable {
+  @JsonProperty("on_failure")
+  private String[] onFailure;
+  @JsonProperty("on_start")
+  private String[] onStart;
+  @JsonProperty("on_success")
+  private String[] onSuccess;
+  @JsonProperty("no_alert_for_skipped_runs")
+  private boolean noAlertForSkippedRuns;
 
-    public String[] getOnFailure() {
-        return onFailure;
-    }
+  public String[] getOnFailure() {
+    return onFailure;
+  }
 
-    public void setOnFailure(String[] onFailure) {
-        this.onFailure = onFailure;
-    }
+  public void setOnFailure(String[] onFailure) {
+    this.onFailure = onFailure;
+  }
 
-    public String[] getOnStart() {
-        return onStart;
-    }
+  public String[] getOnStart() {
+    return onStart;
+  }
 
-    public void setOnStart(String[] onStart) {
-        this.onStart = onStart;
-    }
+  public void setOnStart(String[] onStart) {
+    this.onStart = onStart;
+  }
 
-    public String[] getOnSuccess() {
-        return onSuccess;
-    }
+  public String[] getOnSuccess() {
+    return onSuccess;
+  }
 
-    public void setOnSuccess(String[] onSuccess) {
-        this.onSuccess = onSuccess;
-    }
+  public void setOnSuccess(String[] onSuccess) {
+    this.onSuccess = onSuccess;
+  }
 
-    public boolean isNoAlertForSkippedRuns() {
-        return noAlertForSkippedRuns;
-    }
+  public boolean isNoAlertForSkippedRuns() {
+    return noAlertForSkippedRuns;
+  }
 
-    public void setNoAlertForSkippedRuns(boolean noAlertForSkippedRuns) {
-        this.noAlertForSkippedRuns = noAlertForSkippedRuns;
-    }
+  public void setNoAlertForSkippedRuns(boolean noAlertForSkippedRuns) {
+    this.noAlertForSkippedRuns = noAlertForSkippedRuns;
+  }
 }

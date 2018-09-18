@@ -31,32 +31,34 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 public class LibraryServiceTest {
-    private String clusterId;
-    private LibraryService service;
+  private String clusterId;
+  private LibraryService service;
 
-    @BeforeClass
-    public void setUpOnce() throws IOException, DatabricksRestException {
-        DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
+  @BeforeClass
+  public void setUpOnce() throws IOException, DatabricksRestException {
+    DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
 
-        service = factory.getLibraryService();
-        clusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
-    }
+    service = factory.getLibraryService();
+    clusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
+  }
 
-    @Test
-    public void testSetUpOnce() {
-        assertNotNull(clusterId);
-    }
+  @Test
+  public void testSetUpOnce() {
+    assertNotNull(clusterId);
+  }
 
-    @Test(dependsOnMethods = {"testSetUpOnce"})
-    public void listAllLibraries_whenCalled_returnsNonZeroList() throws IOException, DatabricksRestException {
-        ClusterLibraryStatusesDTO[] allLibraries = service.allClusterStatuses();
-        assertTrue(allLibraries.length > 0);
-    }
+  @Test(dependsOnMethods = {"testSetUpOnce"})
+  public void listAllLibraries_whenCalled_returnsNonZeroList()
+      throws IOException, DatabricksRestException {
+    ClusterLibraryStatusesDTO[] allLibraries = service.allClusterStatuses();
+    assertTrue(allLibraries.length > 0);
+  }
 
-    @Test(dependsOnMethods = {"testSetUpOnce"})
-    public void showLibraryStatuses_whenCalledWithValidClusterId_returnsCorrectClusterId() throws IOException,
-        DatabricksRestException {
-        ClusterLibraryStatusesDTO result = service.clusterStatus(clusterId);
-        assertEquals(result.getClusterId(), clusterId);
-    }
+  @Test(dependsOnMethods = {"testSetUpOnce"})
+  public void showLibraryStatuses_whenCalledWithValidClusterId_returnsCorrectClusterId()
+      throws IOException,
+             DatabricksRestException {
+    ClusterLibraryStatusesDTO result = service.clusterStatus(clusterId);
+    assertEquals(result.getClusterId(), clusterId);
+  }
 }

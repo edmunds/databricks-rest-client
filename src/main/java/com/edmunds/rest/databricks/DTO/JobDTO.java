@@ -24,45 +24,45 @@ import java.util.Date;
 /**
  *
  */
-public class JobDTO  implements Serializable {
-    @JsonProperty("job_id")
-    private long jobId;
-    @JsonProperty("settings")
-    private JobSettingsDTO settings;
-    @JsonProperty("created_time")
-    private Date createdTime;
-    @JsonProperty("creator_user_name")
-    private String creatorUserName;
+public class JobDTO implements Serializable {
+  @JsonProperty("job_id")
+  private long jobId;
+  @JsonProperty("settings")
+  private JobSettingsDTO settings;
+  @JsonProperty("created_time")
+  private Date createdTime;
+  @JsonProperty("creator_user_name")
+  private String creatorUserName;
 
-    public String getCreatorUserName() {
-        return creatorUserName;
-    }
+  public String getCreatorUserName() {
+    return creatorUserName;
+  }
 
-    public void setCreatorUserName(String creatorUserName) {
-        this.creatorUserName = creatorUserName;
-    }
+  public void setCreatorUserName(String creatorUserName) {
+    this.creatorUserName = creatorUserName;
+  }
 
-    public long getJobId() {
-        return jobId;
-    }
+  public long getJobId() {
+    return jobId;
+  }
 
-    public void setJobId(long jobId) {
-        this.jobId = jobId;
-    }
+  public void setJobId(long jobId) {
+    this.jobId = jobId;
+  }
 
-    public JobSettingsDTO getSettings() {
-        return settings;
-    }
+  public JobSettingsDTO getSettings() {
+    return settings;
+  }
 
-    public void setSettings(JobSettingsDTO settings) {
-        this.settings = settings;
-    }
+  public void setSettings(JobSettingsDTO settings) {
+    this.settings = settings;
+  }
 
-    public Date getCreatedTime() {
-        return createdTime;
-    }
+  public Date getCreatedTime() {
+    return createdTime;
+  }
 
-    public void setCreatedTime(long createdTime) {
-        this.createdTime = new Date(createdTime);
-    }
+  public void setCreatedTime(long createdTime) {
+    this.createdTime = new Date(createdTime);
+  }
 }

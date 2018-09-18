@@ -26,33 +26,33 @@ import java.util.Map;
  */
 public class ExportWorkspaceRequest extends DatabricksRestRequest {
 
-    private ExportWorkspaceRequest(Map<String, Object> data) {
-        super(data);
+  private ExportWorkspaceRequest(Map<String, Object> data) {
+    super(data);
+  }
+
+  /**
+   * Builder.
+   */
+  public static class ExportWorkspaceRequestBuilder {
+
+    private Map<String, Object> data = new HashMap<>();
+
+    public ExportWorkspaceRequestBuilder(String path) {
+      data.put("path", path);
     }
 
-    /**
-     * Builder.
-     */
-    public static class ExportWorkspaceRequestBuilder {
-
-        private Map<String, Object> data = new HashMap<>();
-
-        public ExportWorkspaceRequestBuilder(String path) {
-            data.put("path", path);
-        }
-
-        public ExportWorkspaceRequestBuilder withFormat(ExportFormatDTO exportFormat) {
-            data.put("format", exportFormat);
-            return this;
-        }
-
-        public ExportWorkspaceRequestBuilder withDirectDownload(boolean directDownload) {
-            data.put("direct_download", directDownload);
-            return this;
-        }
-
-        public ExportWorkspaceRequest build() {
-            return new ExportWorkspaceRequest(data);
-        }
+    public ExportWorkspaceRequestBuilder withFormat(ExportFormatDTO exportFormat) {
+      data.put("format", exportFormat);
+      return this;
     }
+
+    public ExportWorkspaceRequestBuilder withDirectDownload(boolean directDownload) {
+      data.put("direct_download", directDownload);
+      return this;
+    }
+
+    public ExportWorkspaceRequest build() {
+      return new ExportWorkspaceRequest(data);
+    }
+  }
 }

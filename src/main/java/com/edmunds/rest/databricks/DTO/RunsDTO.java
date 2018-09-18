@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -24,24 +25,24 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class RunsDTO implements Serializable {
-    @JsonProperty("runs")
-    private RunDTO[] runs;
-    @JsonProperty("has_more")
-    private boolean hasMore;
+  @JsonProperty("runs")
+  private RunDTO[] runs;
+  @JsonProperty("has_more")
+  private boolean hasMore;
 
-    public RunDTO[] getRuns() {
-        return runs;
-    }
+  public RunDTO[] getRuns() {
+    return runs;
+  }
 
-    public void setRuns(RunDTO[] runs) {
-        this.runs = runs;
-    }
+  public void setRuns(RunDTO[] runs) {
+    this.runs = runs;
+  }
 
-    public boolean getHasMore() {
-        return hasMore;
-    }
+  public boolean getHasMore() {
+    return hasMore;
+  }
 
-    public void setHasMore(boolean hasMore) {
-        this.hasMore = hasMore;
-    }
+  public void setHasMore(boolean hasMore) {
+    this.hasMore = hasMore;
+  }
 }

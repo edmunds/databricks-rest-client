@@ -22,25 +22,25 @@ import java.io.Serializable;
  *
  */
 public enum TerminationParameterDTO implements Serializable {
-    username("username"),
-    aws_api_error_code("aws_api_error_code"),
-    aws_instance_state_reason("aws_instance_state_reason"),
-    aws_spot_request_status("aws_spot_request_status"),
-    aws_spot_request_fault_code("aws_spot_request_fault_code"),
-    aws_impaired_status_details("aws_impaired_status_details"),
-    aws_instance_status_event("aws_instance_status_event"),
-    aws_error_message("aws_error_message"),
-    databricks_error_message("databricks_error_message"),
-    inactivity_duration_min("inactivity_duration_min"),
-    instance_id("instance_id");
+  username("username"),
+  aws_api_error_code("aws_api_error_code"),
+  aws_instance_state_reason("aws_instance_state_reason"),
+  aws_spot_request_status("aws_spot_request_status"),
+  aws_spot_request_fault_code("aws_spot_request_fault_code"),
+  aws_impaired_status_details("aws_impaired_status_details"),
+  aws_instance_status_event("aws_instance_status_event"),
+  aws_error_message("aws_error_message"),
+  databricks_error_message("databricks_error_message"),
+  inactivity_duration_min("inactivity_duration_min"),
+  instance_id("instance_id");
 
-    private String value;
+  private String value;
 
-    TerminationParameterDTO(String value) {
-        this.value = value;
-    }
+  TerminationParameterDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return this.value;
-    }
+  public String toString() {
+    return this.value;
+  }
 }

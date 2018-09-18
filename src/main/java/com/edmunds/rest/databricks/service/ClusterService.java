@@ -29,14 +29,23 @@ import java.io.IOException;
  */
 public interface ClusterService {
 
-    String create(CreateClusterRequest createClusterRequest) throws IOException, DatabricksRestException;
-    void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
-    void start(String clusterId) throws IOException, DatabricksRestException;
-    void restart(String clusterId) throws IOException, DatabricksRestException;
-    void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException;
-    void resize(AutoScaleDTO autoscale, String clusterId) throws IOException, DatabricksRestException;
-    void delete(String clusterId) throws IOException, DatabricksRestException;
-    ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
-    ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
+  String create(CreateClusterRequest createClusterRequest)
+      throws IOException, DatabricksRestException;
+
+  void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
+
+  void start(String clusterId) throws IOException, DatabricksRestException;
+
+  void restart(String clusterId) throws IOException, DatabricksRestException;
+
+  void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException;
+
+  void resize(AutoScaleDTO autoscale, String clusterId) throws IOException, DatabricksRestException;
+
+  void delete(String clusterId) throws IOException, DatabricksRestException;
+
+  ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
+
+  ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
 
 }

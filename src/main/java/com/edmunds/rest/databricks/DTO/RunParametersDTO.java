@@ -25,45 +25,45 @@ import java.util.Map;
  *
  */
 @SuppressWarnings("PMD")
-public class RunParametersDTO  implements Serializable {
-    @JsonProperty("jar_params")
-    private String[] jarParams;
-    @JsonProperty("notebook_params")
-    private Map notebookParams;
-    @JsonProperty("python_params")
-    private String[] pythonParams;
-    @JsonProperty("spark_submit_params")
-    private String[] sparkSubmitParams;
+public class RunParametersDTO implements Serializable {
+  @JsonProperty("jar_params")
+  private String[] jarParams;
+  @JsonProperty("notebook_params")
+  private Map notebookParams;
+  @JsonProperty("python_params")
+  private String[] pythonParams;
+  @JsonProperty("spark_submit_params")
+  private String[] sparkSubmitParams;
 
-    public String[] getPythonParams() {
-        return pythonParams;
-    }
+  public String[] getPythonParams() {
+    return pythonParams;
+  }
 
-    public void setPythonParams(String[] pythonParams) {
-        this.pythonParams = pythonParams;
-    }
+  public void setPythonParams(String[] pythonParams) {
+    this.pythonParams = pythonParams;
+  }
 
-    public String[] getSparkSubmitParams() {
-        return sparkSubmitParams;
-    }
+  public String[] getSparkSubmitParams() {
+    return sparkSubmitParams;
+  }
 
-    public void setSparkSubmitParams(String[] sparkSubmitParams) {
-        this.sparkSubmitParams = sparkSubmitParams;
-    }
+  public void setSparkSubmitParams(String[] sparkSubmitParams) {
+    this.sparkSubmitParams = sparkSubmitParams;
+  }
 
-    public String[] getJarParams() {
-        return jarParams;
-    }
+  public String[] getJarParams() {
+    return jarParams;
+  }
 
-    public void setJarParams(String[] jarParams) {
-        this.jarParams = jarParams;
-    }
+  public void setJarParams(String[] jarParams) {
+    this.jarParams = jarParams;
+  }
 
-    public Map getNotebookParams() {
-        return notebookParams;
-    }
+  public Map getNotebookParams() {
+    return notebookParams;
+  }
 
-    public void setNotebookParams(Map notebookParams) {
-        this.notebookParams = notebookParams;
-    }
+  public void setNotebookParams(Map notebookParams) {
+    this.notebookParams = notebookParams;
+  }
 }

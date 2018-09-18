@@ -20,5 +20,5 @@ package com.edmunds.rest.databricks;
  *
  */
 public enum RequestMethod {
-    GET, POST
+  GET, POST
 }

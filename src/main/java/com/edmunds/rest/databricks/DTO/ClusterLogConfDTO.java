@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,24 +24,24 @@ import java.io.Serializable;
  *
  */
 public class ClusterLogConfDTO implements Serializable {
-    @JsonProperty("dbfs")
-    private DbfsStorageInfoDTO dbfs;
-    @JsonProperty("s3")
-    private S3StorageInfoDTO s3;
+  @JsonProperty("dbfs")
+  private DbfsStorageInfoDTO dbfs;
+  @JsonProperty("s3")
+  private S3StorageInfoDTO s3;
 
-    public DbfsStorageInfoDTO getDbfs() {
-        return dbfs;
-    }
+  public DbfsStorageInfoDTO getDbfs() {
+    return dbfs;
+  }
 
-    public void setDbfs(DbfsStorageInfoDTO dbfs) {
-        this.dbfs = dbfs;
-    }
+  public void setDbfs(DbfsStorageInfoDTO dbfs) {
+    this.dbfs = dbfs;
+  }
 
-    public S3StorageInfoDTO getS3() {
-        return s3;
-    }
+  public S3StorageInfoDTO getS3() {
+    return s3;
+  }
 
-    public void setS3(S3StorageInfoDTO s3) {
-        this.s3 = s3;
-    }
+  public void setS3(S3StorageInfoDTO s3) {
+    this.s3 = s3;
+  }
 }

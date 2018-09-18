@@ -28,11 +28,18 @@ import java.io.IOException;
  */
 public interface WorkspaceService {
 
-    void delete(String path, boolean recursive) throws IOException, DatabricksRestException;
-    byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException, DatabricksRestException;
-    ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException;
-    void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException, DatabricksRestException;
-    ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException;
-    void mkdirs(String path) throws IOException, DatabricksRestException;
+  void delete(String path, boolean recursive) throws IOException, DatabricksRestException;
+
+  byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest)
+      throws IOException, DatabricksRestException;
+
+  ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException;
+
+  void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest)
+      throws IOException, DatabricksRestException;
+
+  ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException;
+
+  void mkdirs(String path) throws IOException, DatabricksRestException;
 
 }

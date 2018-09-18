@@ -40,124 +40,123 @@ import java.util.Map;
  */
 public abstract class AbstractDatabricksRestClientImpl implements DatabricksRestClient {
 
-    private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
+  protected static final int HTTPS_PORT = 443;
+  protected static final int SOCKET_TIMEOUT = 10000;
+  protected static final int CONNECTION_TIMEOUT = 10000;
+  protected static final int CONNECTION_REQUEST_TIMEOUT = 10000;
+  private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
+  protected final String apiVersion;
+  protected final String host;
+  protected final String username;
+  protected final String password;
+
+  protected String url;
+  protected ObjectMapper mapper;
+  protected HttpClient client;
+
+  protected HttpRequestRetryHandler retryHandler;
+  protected ServiceUnavailableRetryStrategy retryStrategy;
 
 
-    protected static final int HTTPS_PORT = 443;
-    protected static final int SOCKET_TIMEOUT = 10000;
-    protected static final int CONNECTION_TIMEOUT = 10000;
-    protected static final int CONNECTION_REQUEST_TIMEOUT = 10000;
+  public AbstractDatabricksRestClientImpl(String username, String password, String host, String apiVersion,
+                                          int maxRetry, long retryInterval) {
+    this.username = username;
+    this.password = password;
+    this.host = host;
+    this.apiVersion = apiVersion;
+    this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, false);
+    this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
 
-    protected final String apiVersion;
-    protected final String host;
-    protected final String username;
-    protected final String password;
+    init();
+  }
 
-    protected String url;
-    protected ObjectMapper mapper;
-    protected HttpClient client;
-
-    protected HttpRequestRetryHandler retryHandler;
-    protected ServiceUnavailableRetryStrategy retryStrategy;
+  /**
+   * init url/mapper/client variable.
+   *
+   * @return
+   */
+  protected abstract void init();
 
 
-    public AbstractDatabricksRestClientImpl(String username, String password, String host, String apiVersion,
-                                            int maxRetry, long retryInterval) {
-        this.username = username;
-        this.password = password;
-        this.host = host;
-        this.apiVersion = apiVersion;
-        this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, false);
-        this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
+  protected byte[] extractContent(HttpResponse httpResponse)
+      throws IOException, DatabricksRestException {
 
-        init();
+    int status = httpResponse.getStatusLine().getStatusCode();
+    if (status != HttpStatus.SC_OK) {
+      logger.error("HTTP Response error : " + httpResponse.getStatusLine());
+      String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
+      throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
     }
 
-    /**
-     * init url/mapper/client variable.
-     * @return
-     */
-    protected abstract void init();
+    return IOUtils.toByteArray(httpResponse.getEntity().getContent());
+  }
 
 
-    protected byte[] extractContent(HttpResponse httpResponse) throws IOException, DatabricksRestException {
+  public String getHost() {
+    return host;
+  }
 
-        int status = httpResponse.getStatusLine().getStatusCode();
-        if (status != HttpStatus.SC_OK) {
-            logger.error("HTTP Response error : " + httpResponse.getStatusLine());
-            String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
-            throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
-        }
 
-        return IOUtils.toByteArray(httpResponse.getEntity().getContent());
+  protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path, Map<String, Object> data)
+      throws UnsupportedEncodingException, JsonProcessingException {
+    if (requestMethod == RequestMethod.GET) {
+      return makeGetMethod(path, data);
     }
 
-
-    public String getHost() {
-        return host;
+    if (requestMethod == RequestMethod.POST) {
+      return makePostMethod(path, data);
     }
 
+    throw new IllegalArgumentException(requestMethod + " is not a valid request method");
+  }
 
-    protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path, Map<String, Object> data)
-        throws UnsupportedEncodingException, JsonProcessingException {
-        if (requestMethod == RequestMethod.GET) {
-            return makeGetMethod(path, data);
-        }
+  protected HttpGet makeGetMethod(String path, Map<String, Object> data) {
+    String commands = makeCommands(data);
+    HttpGet method = new HttpGet(url + path + commands);
+    logger.info(method.toString());
 
-        if (requestMethod == RequestMethod.POST) {
-            return makePostMethod(path, data);
-        }
+    return method;
+  }
 
-        throw new IllegalArgumentException(requestMethod + " is not a valid request method");
+  protected String makeCommands(Map<String, Object> data) {
+    if (data == null || data.isEmpty()) {
+      return "";
     }
 
-    protected HttpGet makeGetMethod(String path, Map<String, Object> data) {
-        String commands = makeCommands(data);
-        HttpGet method = new HttpGet(url + path + commands);
-        logger.info(method.toString());
+    StringBuilder commands = new StringBuilder();
+    commands.append("?");
 
-        return method;
+    String commandSeparator = "";
+
+    for (Map.Entry<String, Object> entry : data.entrySet()) {
+      commands.append(commandSeparator);
+      commandSeparator = "&";
+      commands.append(entry.getKey());
+      commands.append("=");
+      commands.append(entry.getValue());
     }
 
-    protected String makeCommands(Map<String, Object> data) {
-        if (data == null || data.isEmpty()) {
-            return "";
-        }
+    return commands.toString();
+  }
 
-        StringBuilder commands = new StringBuilder();
-        commands.append("?");
+  protected HttpPost makePostMethod(String path, Map<String, Object> data)
+      throws UnsupportedEncodingException, JsonProcessingException {
+    HttpPost method = new HttpPost(url + path);
+    logger.info(method.toString());
 
-        String commandSeparator = "";
+    StringEntity requestEntity = makeStringRequestEntity(data);
+    method.setEntity(requestEntity);
+    method.setHeader("Accept", "application/json");
+    method.setHeader("Content-type", "application/json");
+    return method;
+  }
 
-        for (Map.Entry<String,Object> entry : data.entrySet()) {
-            commands.append(commandSeparator);
-            commandSeparator = "&";
-            commands.append(entry.getKey());
-            commands.append("=");
-            commands.append(entry.getValue());
-        }
+  protected StringEntity makeStringRequestEntity(Map<String, Object> data)
+      throws UnsupportedEncodingException, JsonProcessingException {
+    String body = mapper.writeValueAsString(data);
+    logger.info(body);
 
-        return commands.toString();
-    }
-
-    protected HttpPost makePostMethod(String path, Map<String, Object> data)
-        throws UnsupportedEncodingException, JsonProcessingException {
-        HttpPost method = new HttpPost(url + path);
-        logger.info(method.toString());
-
-        StringEntity requestEntity = makeStringRequestEntity(data);
-        method.setEntity(requestEntity);
-        method.setHeader("Accept", "application/json");
-        method.setHeader("Content-type", "application/json");
-        return method;
-    }
-
-    protected StringEntity makeStringRequestEntity(Map<String, Object> data)
-        throws UnsupportedEncodingException, JsonProcessingException {
-        String body = mapper.writeValueAsString(data);
-        logger.info(body);
-
-        return new StringEntity(body);
-    }
+    return new StringEntity(body);
+  }
 
 }

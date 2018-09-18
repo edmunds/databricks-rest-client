@@ -22,12 +22,13 @@ import java.util.Map;
  *
  */
 public abstract class DatabricksRestRequest {
-    private Map<String, Object> data;
-    public Map<String, Object> getData() {
-        return this.data;
-    }
+  private Map<String, Object> data;
 
-    public DatabricksRestRequest(Map<String, Object> data) {
-        this.data = data;
-    }
+  public DatabricksRestRequest(Map<String, Object> data) {
+    this.data = data;
+  }
+
+  public Map<String, Object> getData() {
+    return this.data;
+  }
 }

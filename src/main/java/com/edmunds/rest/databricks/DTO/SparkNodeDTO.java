@@ -15,6 +15,7 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -23,74 +24,74 @@ import java.io.Serializable;
  *
  */
 public class SparkNodeDTO implements Serializable {
-    @JsonProperty("private_ip")
-    private String privateIp;
-    @JsonProperty("public_dns")
-    private String publicDns;
-    @JsonProperty("node_id")
-    private String nodeId;
-    @JsonProperty("instance_id")
-    private String instanceId;
-    @JsonProperty("start_timestamp")
-    private long startTimestamp;
-    @JsonProperty("node_aws_attributes")
-    private SparkNodeAwsAttributesDTO nodeAwsAttributes;
-    @JsonProperty("host_private_ip")
-    private String hostPrivateIp;
+  @JsonProperty("private_ip")
+  private String privateIp;
+  @JsonProperty("public_dns")
+  private String publicDns;
+  @JsonProperty("node_id")
+  private String nodeId;
+  @JsonProperty("instance_id")
+  private String instanceId;
+  @JsonProperty("start_timestamp")
+  private long startTimestamp;
+  @JsonProperty("node_aws_attributes")
+  private SparkNodeAwsAttributesDTO nodeAwsAttributes;
+  @JsonProperty("host_private_ip")
+  private String hostPrivateIp;
 
-    public String getPrivateIp() {
-        return privateIp;
-    }
+  public String getPrivateIp() {
+    return privateIp;
+  }
 
-    public void setPrivateIp(String privateIp) {
-        this.privateIp = privateIp;
-    }
+  public void setPrivateIp(String privateIp) {
+    this.privateIp = privateIp;
+  }
 
-    public String getPublicDns() {
-        return publicDns;
-    }
+  public String getPublicDns() {
+    return publicDns;
+  }
 
-    public void setPublicDns(String publicDns) {
-        this.publicDns = publicDns;
-    }
+  public void setPublicDns(String publicDns) {
+    this.publicDns = publicDns;
+  }
 
-    public String getNodeId() {
-        return nodeId;
-    }
+  public String getNodeId() {
+    return nodeId;
+  }
 
-    public void setNodeId(String nodeId) {
-        this.nodeId = nodeId;
-    }
+  public void setNodeId(String nodeId) {
+    this.nodeId = nodeId;
+  }
 
-    public String getInstanceId() {
-        return instanceId;
-    }
+  public String getInstanceId() {
+    return instanceId;
+  }
 
-    public void setInstanceId(String instanceId) {
-        this.instanceId = instanceId;
-    }
+  public void setInstanceId(String instanceId) {
+    this.instanceId = instanceId;
+  }
 
-    public long getStartTimestamp() {
-        return startTimestamp;
-    }
+  public long getStartTimestamp() {
+    return startTimestamp;
+  }
 
-    public void setStartTimestamp(long startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
+  public void setStartTimestamp(long startTimestamp) {
+    this.startTimestamp = startTimestamp;
+  }
 
-    public SparkNodeAwsAttributesDTO getNodeAwsAttributes() {
-        return nodeAwsAttributes;
-    }
+  public SparkNodeAwsAttributesDTO getNodeAwsAttributes() {
+    return nodeAwsAttributes;
+  }
 
-    public void setNodeAwsAttributes(SparkNodeAwsAttributesDTO nodeAwsAttributes) {
-        this.nodeAwsAttributes = nodeAwsAttributes;
-    }
+  public void setNodeAwsAttributes(SparkNodeAwsAttributesDTO nodeAwsAttributes) {
+    this.nodeAwsAttributes = nodeAwsAttributes;
+  }
 
-    public String getHostPrivateIp() {
-        return hostPrivateIp;
-    }
+  public String getHostPrivateIp() {
+    return hostPrivateIp;
+  }
 
-    public void setHostPrivateIp(String hostPrivateIp) {
-        this.hostPrivateIp = hostPrivateIp;
-    }
+  public void setHostPrivateIp(String hostPrivateIp) {
+    this.hostPrivateIp = hostPrivateIp;
+  }
 }

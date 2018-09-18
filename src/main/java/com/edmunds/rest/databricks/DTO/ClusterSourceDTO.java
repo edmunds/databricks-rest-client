@@ -22,16 +22,16 @@ import java.io.Serializable;
  *
  */
 public enum ClusterSourceDTO implements Serializable {
-    UI("UI"), JOB("JOB"), API("API");
+  UI("UI"), JOB("JOB"), API("API");
 
-    private String value;
+  private String value;
 
-    ClusterSourceDTO(String value) {
-        this.value = value;
-    }
+  ClusterSourceDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

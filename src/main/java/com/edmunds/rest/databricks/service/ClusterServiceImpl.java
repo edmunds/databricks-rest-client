@@ -34,71 +34,75 @@ import java.util.Map;
  */
 public final class ClusterServiceImpl extends DatabricksService implements ClusterService {
 
-    public ClusterServiceImpl(final DatabricksRestClient client) {
-        super(client);
-    }
+  public ClusterServiceImpl(final DatabricksRestClient client) {
+    super(client);
+  }
 
-    @Override
-    public String create(CreateClusterRequest createClusterRequest) throws IOException, DatabricksRestException {
-        byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/create", createClusterRequest.getData());
-        Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
-        return (String) response.get("cluster_id");
-    }
+  @Override
+  public String create(CreateClusterRequest createClusterRequest)
+      throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/create", createClusterRequest.getData());
+    Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
+    return (String) response.get("cluster_id");
+  }
 
-    @Override
-    public void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException {
-        client.performQuery(RequestMethod.POST, "/clusters/edit", editClusterRequest.getData());
-    }
+  @Override
+  public void edit(EditClusterRequest editClusterRequest)
+      throws IOException, DatabricksRestException {
+    client.performQuery(RequestMethod.POST, "/clusters/edit", editClusterRequest.getData());
+  }
 
-    @Override
-    public void start(String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        client.performQuery(RequestMethod.POST, "/clusters/start", data);
-    }
+  @Override
+  public void start(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/start", data);
+  }
 
-    @Override
-    public void restart(String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        client.performQuery(RequestMethod.POST, "/clusters/restart", data);
-    }
+  @Override
+  public void restart(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/restart", data);
+  }
 
-    @Override
-    public void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("num_workers", numWorkers);
-        data.put("cluster_id", clusterId);
-        client.performQuery(RequestMethod.POST, "/clusters/resize", data);
-    }
+  @Override
+  public void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("num_workers", numWorkers);
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/resize", data);
+  }
 
-    @Override
-    public void resize(AutoScaleDTO autoscale, String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("autoscale", autoscale);
-        data.put("cluster_id", clusterId);
-        client.performQuery(RequestMethod.POST, "/clusters/resize", data);
-    }
+  @Override
+  public void resize(AutoScaleDTO autoscale, String clusterId)
+      throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("autoscale", autoscale);
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/resize", data);
+  }
 
-    @Override
-    public void delete(String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        client.performQuery(RequestMethod.POST, "/clusters/delete", data);
-    }
+  @Override
+  public void delete(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/delete", data);
+  }
 
-    @Override
-    public ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/get", data);
-        return this.mapper.readValue(responseBody, ClusterInfoDTO.class);
-    }
+  @Override
+  public ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/get", data);
+    return this.mapper.readValue(responseBody, ClusterInfoDTO.class);
+  }
 
-    @Override
-    public ClusterInfoDTO[] list() throws IOException, DatabricksRestException {
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list", null);
-        Map<String, ClusterInfoDTO[]> jsonObject = this.mapper.readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {});
-        return jsonObject.get("clusters");
-    }
+  @Override
+  public ClusterInfoDTO[] list() throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list", null);
+    Map<String, ClusterInfoDTO[]> jsonObject = this.mapper.readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {
+    });
+    return jsonObject.get("clusters");
+  }
 }
