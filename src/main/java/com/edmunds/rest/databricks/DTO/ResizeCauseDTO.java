@@ -21,18 +21,18 @@ import java.io.Serializable;
 /**
  *
  */
-public enum  ResizeCauseDTO implements Serializable {
-    AUTOSCALE("AUTOSCALE"),
-    USER_REQUEST("USER_REQUEST"),
-    AUTORECOVERY("AUTORECOVERY");
+public enum ResizeCauseDTO implements Serializable {
+  AUTOSCALE("AUTOSCALE"),
+  USER_REQUEST("USER_REQUEST"),
+  AUTORECOVERY("AUTORECOVERY");
 
-    private String value;
+  private String value;
 
-    ResizeCauseDTO(String value) {
-        this.value = value;
-    }
+  ResizeCauseDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return this.value;
-    }
+  public String toString() {
+    return this.value;
+  }
 }

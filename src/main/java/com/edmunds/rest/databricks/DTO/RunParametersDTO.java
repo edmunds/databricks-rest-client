@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -25,45 +24,46 @@ import java.util.Map;
  *
  */
 @SuppressWarnings("PMD")
-public class RunParametersDTO  implements Serializable {
-    @JsonProperty("jar_params")
-    private String[] jarParams;
-    @JsonProperty("notebook_params")
-    private Map notebookParams;
-    @JsonProperty("python_params")
-    private String[] pythonParams;
-    @JsonProperty("spark_submit_params")
-    private String[] sparkSubmitParams;
+public class RunParametersDTO implements Serializable {
 
-    public String[] getPythonParams() {
-        return pythonParams;
-    }
+  @JsonProperty("jar_params")
+  private String[] jarParams;
+  @JsonProperty("notebook_params")
+  private Map notebookParams;
+  @JsonProperty("python_params")
+  private String[] pythonParams;
+  @JsonProperty("spark_submit_params")
+  private String[] sparkSubmitParams;
 
-    public void setPythonParams(String[] pythonParams) {
-        this.pythonParams = pythonParams;
-    }
+  public String[] getPythonParams() {
+    return pythonParams;
+  }
 
-    public String[] getSparkSubmitParams() {
-        return sparkSubmitParams;
-    }
+  public void setPythonParams(String[] pythonParams) {
+    this.pythonParams = pythonParams;
+  }
 
-    public void setSparkSubmitParams(String[] sparkSubmitParams) {
-        this.sparkSubmitParams = sparkSubmitParams;
-    }
+  public String[] getSparkSubmitParams() {
+    return sparkSubmitParams;
+  }
 
-    public String[] getJarParams() {
-        return jarParams;
-    }
+  public void setSparkSubmitParams(String[] sparkSubmitParams) {
+    this.sparkSubmitParams = sparkSubmitParams;
+  }
 
-    public void setJarParams(String[] jarParams) {
-        this.jarParams = jarParams;
-    }
+  public String[] getJarParams() {
+    return jarParams;
+  }
 
-    public Map getNotebookParams() {
-        return notebookParams;
-    }
+  public void setJarParams(String[] jarParams) {
+    this.jarParams = jarParams;
+  }
 
-    public void setNotebookParams(Map notebookParams) {
-        this.notebookParams = notebookParams;
-    }
+  public Map getNotebookParams() {
+    return notebookParams;
+  }
+
+  public void setNotebookParams(Map notebookParams) {
+    this.notebookParams = notebookParams;
+  }
 }

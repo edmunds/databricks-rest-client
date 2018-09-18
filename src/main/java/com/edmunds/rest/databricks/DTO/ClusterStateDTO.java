@@ -22,23 +22,23 @@ import java.io.Serializable;
  *
  */
 public enum ClusterStateDTO implements Serializable {
-    PENDING("PENDING"),
-    RUNNING("RUNNING"),
-    RESTARTING("RESTARTING"),
-    RESIZING("RESIZING"),
-    TERMINATING("TERMINATING"),
-    TERMINATED("TERMINATED"),
-    ERROR("ERROR"),
-    UNKNOWN("UNKNOWN");
+  PENDING("PENDING"),
+  RUNNING("RUNNING"),
+  RESTARTING("RESTARTING"),
+  RESIZING("RESIZING"),
+  TERMINATING("TERMINATING"),
+  TERMINATED("TERMINATED"),
+  ERROR("ERROR"),
+  UNKNOWN("UNKNOWN");
 
-    private String value;
+  private String value;
 
-    ClusterStateDTO(String value) {
-        this.value = value;
-    }
+  ClusterStateDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

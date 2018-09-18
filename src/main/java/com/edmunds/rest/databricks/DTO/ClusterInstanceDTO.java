@@ -15,32 +15,33 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterInstanceDTO implements Serializable {
-    @JsonProperty("cluster_id")
-    private String clusterId;
-    @JsonProperty("spark_context_id")
-    private String sparkContextId;
 
-    public String getClusterId() {
-        return clusterId;
-    }
+  @JsonProperty("cluster_id")
+  private String clusterId;
+  @JsonProperty("spark_context_id")
+  private String sparkContextId;
 
-    public void setClusterId(String clusterId) {
-        this.clusterId = clusterId;
-    }
+  public String getClusterId() {
+    return clusterId;
+  }
 
-    public String getSparkContextId() {
-        return sparkContextId;
-    }
+  public void setClusterId(String clusterId) {
+    this.clusterId = clusterId;
+  }
 
-    public void setSparkContextId(String sparkContextId) {
-        this.sparkContextId = sparkContextId;
-    }
+  public String getSparkContextId() {
+    return sparkContextId;
+  }
+
+  public void setSparkContextId(String sparkContextId) {
+    this.sparkContextId = sparkContextId;
+  }
 }

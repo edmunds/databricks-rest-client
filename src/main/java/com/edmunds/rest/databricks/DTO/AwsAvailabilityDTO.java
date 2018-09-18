@@ -21,17 +21,17 @@ import java.io.Serializable;
 /**
  *
  */
-public enum AwsAvailabilityDTO  implements Serializable {
-    SPOT("SPOT"), ON_DEMAND("ON_DEMAND"), SPOT_WITH_FALLBACK("SPOT_WITH_FALLBACK");
+public enum AwsAvailabilityDTO implements Serializable {
+  SPOT("SPOT"), ON_DEMAND("ON_DEMAND"), SPOT_WITH_FALLBACK("SPOT_WITH_FALLBACK");
 
-    private String value;
+  private String value;
 
-    AwsAvailabilityDTO(String value) {
-        this.value = value;
-    }
+  AwsAvailabilityDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

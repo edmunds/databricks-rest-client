@@ -15,22 +15,23 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class DbfsStorageInfoDTO implements Serializable {
-    @JsonProperty("destination")
-    private String destination;
 
-    public String getDestination() {
-        return destination;
-    }
+  @JsonProperty("destination")
+  private String destination;
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+  public String getDestination() {
+    return destination;
+  }
+
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
 }

@@ -22,20 +22,20 @@ import java.io.Serializable;
  *
  */
 public enum LibraryInstallStatusDTO implements Serializable {
-    PENDING("PENDING"),
-    RESOLVING("RESOLVING"),
-    INSTALLING("INSTALLING"),
-    INSTALLED("INSTALLED"),
-    FAILED("FAILED"),
-    UNINSTALL_ON_RESTART("UNINSTALL_ON_RESTART");
+  PENDING("PENDING"),
+  RESOLVING("RESOLVING"),
+  INSTALLING("INSTALLING"),
+  INSTALLED("INSTALLED"),
+  FAILED("FAILED"),
+  UNINSTALL_ON_RESTART("UNINSTALL_ON_RESTART");
 
-    private String value;
+  private String value;
 
-    LibraryInstallStatusDTO(String value) {
-        this.value = value;
-    }
+  LibraryInstallStatusDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return value;
-    }
+  public String toString() {
+    return value;
+  }
 }

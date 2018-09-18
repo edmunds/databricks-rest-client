@@ -17,13 +17,15 @@
 package com.edmunds.rest.databricks;
 
 /**
- *
+ * Any Databricks Rest Service exceptions.
  */
 public class DatabricksRestException extends Exception {
-    public DatabricksRestException(String message){
-        super(message);
-    }
-    public DatabricksRestException(Throwable throwable){
-        super(throwable);
-    }
+
+  public DatabricksRestException(String message) {
+    super(message);
+  }
+
+  public DatabricksRestException(Throwable throwable) {
+    super(throwable);
+  }
 }

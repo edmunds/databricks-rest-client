@@ -15,8 +15,8 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
@@ -24,34 +24,35 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class ClusterSpecDTO implements Serializable {
-    @JsonProperty("existing_cluster_id")
-    private String existingClusterId;
-    @JsonProperty("new_cluster")
-    private NewClusterDTO newCluster;
-    @JsonProperty("libraries")
-    private LibraryDTO[] libraries;
 
-    public String getExistingClusterId() {
-        return existingClusterId;
-    }
+  @JsonProperty("existing_cluster_id")
+  private String existingClusterId;
+  @JsonProperty("new_cluster")
+  private NewClusterDTO newCluster;
+  @JsonProperty("libraries")
+  private LibraryDTO[] libraries;
 
-    public void setExistingClusterId(String existingClusterId) {
-        this.existingClusterId = existingClusterId;
-    }
+  public String getExistingClusterId() {
+    return existingClusterId;
+  }
 
-    public NewClusterDTO getNewCluster() {
-        return newCluster;
-    }
+  public void setExistingClusterId(String existingClusterId) {
+    this.existingClusterId = existingClusterId;
+  }
 
-    public void setNewCluster(NewClusterDTO newCluster) {
-        this.newCluster = newCluster;
-    }
+  public NewClusterDTO getNewCluster() {
+    return newCluster;
+  }
 
-    public LibraryDTO[] getLibraries() {
-        return libraries;
-    }
+  public void setNewCluster(NewClusterDTO newCluster) {
+    this.newCluster = newCluster;
+  }
 
-    public void setLibraries(LibraryDTO[] libraries) {
-        this.libraries = libraries;
-    }
+  public LibraryDTO[] getLibraries() {
+    return libraries;
+  }
+
+  public void setLibraries(LibraryDTO[] libraries) {
+    this.libraries = libraries;
+  }
 }

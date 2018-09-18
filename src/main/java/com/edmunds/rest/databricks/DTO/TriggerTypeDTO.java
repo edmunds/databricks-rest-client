@@ -22,18 +22,18 @@ import java.io.Serializable;
  *
  */
 public enum TriggerTypeDTO implements Serializable {
-    PERIODIC("PERIODIC"),
-    ONE_TIME("ONE_TIME"),
-    RETRY("RETRY");
+  PERIODIC("PERIODIC"),
+  ONE_TIME("ONE_TIME"),
+  RETRY("RETRY");
 
-    private String value;
+  private String value;
 
-    private TriggerTypeDTO(String value) {
-        this.value = value;
-    }
+  private TriggerTypeDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return value;
-    }
+  @Override
+  public String toString() {
+    return value;
+  }
 }

@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Map;
+import javax.net.ssl.SSLContext;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -32,87 +35,85 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import javax.net.ssl.SSLContext;
-import java.io.IOException;
-import java.util.Map;
-
 /**
- *
+ * The main implementation of databricks rest client, which uses up to date httpclient.
  */
 public final class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
-    private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
+  private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
 
-    public DatabricksRestClientImpl(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
-        super(username, password,host, apiVersion, maxRetry, retryInterval);
+  public DatabricksRestClientImpl(String username, String password, String host, String apiVersion,
+      int maxRetry, long retryInterval) {
+    super(username, password, host, apiVersion, maxRetry, retryInterval);
+  }
+
+  @Override
+  protected void init() {
+    CredentialsProvider credsProvider = new BasicCredentialsProvider();
+    credsProvider.setCredentials(
+        new AuthScope(host, HTTPS_PORT),
+        new UsernamePasswordCredentials(username, password));
+
+    RequestConfig defaultRequestConfig = RequestConfig.custom()
+        .setExpectContinueEnabled(true)
+        .setSocketTimeout(SOCKET_TIMEOUT)
+        .setConnectTimeout(CONNECTION_TIMEOUT)
+        .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
+        .build();
+
+    HttpClientBuilder clientBuilder = HttpClients.custom()
+        .setDefaultCredentialsProvider(credsProvider)
+        .setRetryHandler(retryHandler)
+        .setServiceUnavailableRetryStrategy(retryStrategy)
+        .setDefaultRequestConfig(defaultRequestConfig);
+
+    try {
+      SSLContext ctx = SSLContext.getDefault();
+      // Allow TLSv1.2 protocol only
+      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+          ctx,
+          new String[]{"TLSv1.2"},
+          null,
+          SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+      clientBuilder = clientBuilder.setSSLSocketFactory(sslsf);
+    } catch (Exception e) {
+      logger.error("", e);
     }
 
-    protected void init() {
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-            new AuthScope(host, HTTPS_PORT),
-            new UsernamePasswordCredentials(username, password));
+    client = clientBuilder.build(); //CloseableHttpClient
 
-        RequestConfig defaultRequestConfig = RequestConfig.custom()
-            .setExpectContinueEnabled(true)
-            .setSocketTimeout(SOCKET_TIMEOUT)
-            .setConnectTimeout(CONNECTION_TIMEOUT)
-            .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
-            .build();
+    url = String.format("https://%s/api/%s", host, apiVersion);
+    mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+  }
 
-        HttpClientBuilder clientBuilder = HttpClients.custom()
-            .setDefaultCredentialsProvider(credsProvider)
-            .setRetryHandler(retryHandler)
-            .setServiceUnavailableRetryStrategy(retryStrategy)
-            .setDefaultRequestConfig(defaultRequestConfig);
+  @Override
+  public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
+      throws
+      DatabricksRestException {
 
-        try {
-            SSLContext ctx = SSLContext.getDefault();
-            // Allow TLSv1.2 protocol only
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-                ctx,
-                new String[] {"TLSv1.2"},
-                null,
-                SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-            clientBuilder = clientBuilder.setSSLSocketFactory(sslsf);
-        } catch (Exception e) {
-            logger.error("", e);
+    CloseableHttpResponse httpResponse = null;
+    try {
+      HttpRequestBase method = makeHttpMethod(requestMethod, path, data);
+      httpResponse = ((CloseableHttpClient) client).execute(method);
+
+      byte[] response = extractContent(httpResponse);
+
+      EntityUtils.consumeQuietly(httpResponse.getEntity());
+
+      return response;
+    } catch (DatabricksRestException dre) {
+      throw dre;
+    } catch (Exception e) {
+      throw new DatabricksRestException(e);
+    } finally {
+      try {
+        if (httpResponse != null) {
+          httpResponse.close();
         }
-
-        client = clientBuilder.build(); //CloseableHttpClient
-
-        url = String.format("https://%s/api/%s", host, apiVersion);
-        mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+      } catch (IOException ioe) {
+        logger.debug("ignore close error", ioe);
+      }
     }
-
-    public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data) throws
-                                                                                                   DatabricksRestException {
-
-        CloseableHttpResponse httpResponse = null;
-        try {
-            HttpRequestBase method = makeHttpMethod(requestMethod, path, data);
-            httpResponse = ((CloseableHttpClient)client).execute(method);
-
-            byte[] response = extractContent(httpResponse);
-
-            EntityUtils.consumeQuietly(httpResponse.getEntity());
-
-            return response;
-        } catch (DatabricksRestException dre) {
-            throw dre;
-        } catch (Exception e) {
-            throw new DatabricksRestException(e);
-        } finally {
-            try {
-                if (httpResponse != null) {
-                    httpResponse.close();
-                }
-            } catch(IOException ioe){
-                logger.debug("ignore close error", ioe);
-
-            }
-        }
-    }
-
+  }
 }

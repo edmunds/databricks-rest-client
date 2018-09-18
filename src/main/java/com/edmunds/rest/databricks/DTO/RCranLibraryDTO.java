@@ -17,30 +17,30 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class RCranLibraryDTO implements Serializable {
-    @JsonProperty("package")
-    private String rPackage;
-    private String repo;
 
-    public String getrPackage() {
-        return rPackage;
-    }
+  @JsonProperty("package")
+  private String rPackage;
+  private String repo;
 
-    public void setrPackage(String rPackage) {
-        this.rPackage = rPackage;
-    }
+  public String getrPackage() {
+    return rPackage;
+  }
 
-    public String getRepo() {
-        return repo;
-    }
+  public void setrPackage(String rPackage) {
+    this.rPackage = rPackage;
+  }
 
-    public void setRepo(String repo) {
-        this.repo = repo;
-    }
+  public String getRepo() {
+    return repo;
+  }
+
+  public void setRepo(String repo) {
+    this.repo = repo;
+  }
 }

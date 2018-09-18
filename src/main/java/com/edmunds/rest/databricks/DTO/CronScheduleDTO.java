@@ -15,32 +15,33 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class CronScheduleDTO implements Serializable {
-    @JsonProperty("quartz_cron_expression")
-    private String quartzCronExpression;
-    @JsonProperty("timezone_id")
-    private String timezoneId;
 
-    public String getQuartzCronExpression() {
-        return quartzCronExpression;
-    }
+  @JsonProperty("quartz_cron_expression")
+  private String quartzCronExpression;
+  @JsonProperty("timezone_id")
+  private String timezoneId;
 
-    public void setQuartzCronExpression(String quartzCronExpression) {
-        this.quartzCronExpression = quartzCronExpression;
-    }
+  public String getQuartzCronExpression() {
+    return quartzCronExpression;
+  }
 
-    public String getTimezoneId() {
-        return timezoneId;
-    }
+  public void setQuartzCronExpression(String quartzCronExpression) {
+    this.quartzCronExpression = quartzCronExpression;
+  }
 
-    public void setTimezoneId(String timezoneId) {
-        this.timezoneId = timezoneId;
-    }
+  public String getTimezoneId() {
+    return timezoneId;
+  }
+
+  public void setTimezoneId(String timezoneId) {
+    this.timezoneId = timezoneId;
+  }
 }

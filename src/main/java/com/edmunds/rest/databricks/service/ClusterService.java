@@ -21,22 +21,31 @@ import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
-
 import java.io.IOException;
 
 /**
- *
+ * A Wrapper around the cluster part of the databricks rest api
+ * https://docs.databricks.com/api/latest/clusters.html.
  */
 public interface ClusterService {
 
-    String create(CreateClusterRequest createClusterRequest) throws IOException, DatabricksRestException;
-    void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
-    void start(String clusterId) throws IOException, DatabricksRestException;
-    void restart(String clusterId) throws IOException, DatabricksRestException;
-    void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException;
-    void resize(AutoScaleDTO autoscale, String clusterId) throws IOException, DatabricksRestException;
-    void delete(String clusterId) throws IOException, DatabricksRestException;
-    ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
-    ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
+  String create(CreateClusterRequest createClusterRequest)
+      throws IOException, DatabricksRestException;
+
+  void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
+
+  void start(String clusterId) throws IOException, DatabricksRestException;
+
+  void restart(String clusterId) throws IOException, DatabricksRestException;
+
+  void resize(int numWorkers, String clusterId) throws IOException, DatabricksRestException;
+
+  void resize(AutoScaleDTO autoscale, String clusterId) throws IOException, DatabricksRestException;
+
+  void delete(String clusterId) throws IOException, DatabricksRestException;
+
+  ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
+
+  ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
 
 }

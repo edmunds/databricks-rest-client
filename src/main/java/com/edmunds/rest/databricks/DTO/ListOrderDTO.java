@@ -21,17 +21,17 @@ import java.io.Serializable;
 /**
  *
  */
-public enum  ListOrderDTO implements Serializable {
-    DESC("DESC"),
-    ASC("ASC");
+public enum ListOrderDTO implements Serializable {
+  DESC("DESC"),
+  ASC("ASC");
 
-    private String value;
+  private String value;
 
-    ListOrderDTO(String value) {
-        this.value = value;
-    }
+  ListOrderDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return this.value;
-    }
+  public String toString() {
+    return this.value;
+  }
 }

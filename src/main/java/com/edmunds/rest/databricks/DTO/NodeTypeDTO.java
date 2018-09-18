@@ -15,72 +15,73 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class NodeTypeDTO implements Serializable {
-    @JsonProperty("node_type_id")
-    private String nodeTypeId;
-    @JsonProperty("memory_mb")
-    private int memoryMb;
-    @JsonProperty("num_cores")
-    private float numCores;
-    @JsonProperty("description")
-    private String description;
-    @JsonProperty("instance_type_id")
-    private String instanceTypeId;
-    @JsonProperty("is_deprecated")
-    private boolean isDeprecated;
 
-    public String getNodeTypeId() {
-        return nodeTypeId;
-    }
+  @JsonProperty("node_type_id")
+  private String nodeTypeId;
+  @JsonProperty("memory_mb")
+  private int memoryMb;
+  @JsonProperty("num_cores")
+  private float numCores;
+  @JsonProperty("description")
+  private String description;
+  @JsonProperty("instance_type_id")
+  private String instanceTypeId;
+  @JsonProperty("is_deprecated")
+  private boolean isDeprecated;
 
-    public void setNodeTypeId(String nodeTypeId) {
-        this.nodeTypeId = nodeTypeId;
-    }
+  public String getNodeTypeId() {
+    return nodeTypeId;
+  }
 
-    public int getMemoryMb() {
-        return memoryMb;
-    }
+  public void setNodeTypeId(String nodeTypeId) {
+    this.nodeTypeId = nodeTypeId;
+  }
 
-    public void setMemoryMb(int memoryMb) {
-        this.memoryMb = memoryMb;
-    }
+  public int getMemoryMb() {
+    return memoryMb;
+  }
 
-    public float getNumCores() {
-        return numCores;
-    }
+  public void setMemoryMb(int memoryMb) {
+    this.memoryMb = memoryMb;
+  }
 
-    public void setNumCores(float numCores) {
-        this.numCores = numCores;
-    }
+  public float getNumCores() {
+    return numCores;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setNumCores(float numCores) {
+    this.numCores = numCores;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getInstanceTypeId() {
-        return instanceTypeId;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setInstanceTypeId(String instanceTypeId) {
-        this.instanceTypeId = instanceTypeId;
-    }
+  public String getInstanceTypeId() {
+    return instanceTypeId;
+  }
 
-    public boolean isDeprecated() {
-        return isDeprecated;
-    }
+  public void setInstanceTypeId(String instanceTypeId) {
+    this.instanceTypeId = instanceTypeId;
+  }
 
-    public void setIsDeprecated(boolean isDeprecated) {
-        this.isDeprecated = isDeprecated;
-    }
+  public boolean isDeprecated() {
+    return isDeprecated;
+  }
+
+  public void setIsDeprecated(boolean isDeprecated) {
+    this.isDeprecated = isDeprecated;
+  }
 }

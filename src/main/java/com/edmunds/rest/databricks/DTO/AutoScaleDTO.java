@@ -15,32 +15,33 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class AutoScaleDTO implements Serializable {
-    @JsonProperty("min_workers")
-    private int minWorkers;
-    @JsonProperty("max_workers")
-    private int maxWorkers;
 
-    public int getMinWorkers() {
-        return minWorkers;
-    }
+  @JsonProperty("min_workers")
+  private int minWorkers;
+  @JsonProperty("max_workers")
+  private int maxWorkers;
 
-    public void setMinWorkers(int minWorkers) {
-        this.minWorkers = minWorkers;
-    }
+  public int getMinWorkers() {
+    return minWorkers;
+  }
 
-    public int getMaxWorkers() {
-        return maxWorkers;
-    }
+  public void setMinWorkers(int minWorkers) {
+    this.minWorkers = minWorkers;
+  }
 
-    public void setMaxWorkers(int maxWorkers) {
-        this.maxWorkers = maxWorkers;
-    }
+  public int getMaxWorkers() {
+    return maxWorkers;
+  }
+
+  public void setMaxWorkers(int maxWorkers) {
+    this.maxWorkers = maxWorkers;
+  }
 }

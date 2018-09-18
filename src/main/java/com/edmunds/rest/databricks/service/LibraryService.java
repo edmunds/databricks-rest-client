@@ -19,15 +19,22 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
 import com.edmunds.rest.databricks.DTO.LibraryDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
-
 import java.io.IOException;
 
 /**
- *
+ * The wrapper around the databricks Library API.
+ * https://docs.databricks.com/api/latest/libraries.html
  */
 public interface LibraryService {
-    ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException;
-    ClusterLibraryStatusesDTO clusterStatus(String clusterId) throws IOException, DatabricksRestException;
-    void install(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException;
-    void uninstall(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException;
+
+  ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException;
+
+  ClusterLibraryStatusesDTO clusterStatus(String clusterId)
+      throws IOException, DatabricksRestException;
+
+  void install(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException;
+
+  void uninstall(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException;
 }

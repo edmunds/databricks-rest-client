@@ -17,52 +17,52 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  */
-public class JobDTO  implements Serializable {
-    @JsonProperty("job_id")
-    private long jobId;
-    @JsonProperty("settings")
-    private JobSettingsDTO settings;
-    @JsonProperty("created_time")
-    private Date createdTime;
-    @JsonProperty("creator_user_name")
-    private String creatorUserName;
+public class JobDTO implements Serializable {
 
-    public String getCreatorUserName() {
-        return creatorUserName;
-    }
+  @JsonProperty("job_id")
+  private long jobId;
+  @JsonProperty("settings")
+  private JobSettingsDTO settings;
+  @JsonProperty("created_time")
+  private Date createdTime;
+  @JsonProperty("creator_user_name")
+  private String creatorUserName;
 
-    public void setCreatorUserName(String creatorUserName) {
-        this.creatorUserName = creatorUserName;
-    }
+  public String getCreatorUserName() {
+    return creatorUserName;
+  }
 
-    public long getJobId() {
-        return jobId;
-    }
+  public void setCreatorUserName(String creatorUserName) {
+    this.creatorUserName = creatorUserName;
+  }
 
-    public void setJobId(long jobId) {
-        this.jobId = jobId;
-    }
+  public long getJobId() {
+    return jobId;
+  }
 
-    public JobSettingsDTO getSettings() {
-        return settings;
-    }
+  public void setJobId(long jobId) {
+    this.jobId = jobId;
+  }
 
-    public void setSettings(JobSettingsDTO settings) {
-        this.settings = settings;
-    }
+  public JobSettingsDTO getSettings() {
+    return settings;
+  }
 
-    public Date getCreatedTime() {
-        return createdTime;
-    }
+  public void setSettings(JobSettingsDTO settings) {
+    this.settings = settings;
+  }
 
-    public void setCreatedTime(long createdTime) {
-        this.createdTime = new Date(createdTime);
-    }
+  public Date getCreatedTime() {
+    return createdTime;
+  }
+
+  public void setCreatedTime(long createdTime) {
+    this.createdTime = new Date(createdTime);
+  }
 }

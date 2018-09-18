@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -25,34 +24,35 @@ import java.util.Map;
  *
  */
 public class NotebookTaskDTO implements Serializable {
-    @JsonProperty("notebook_path")
-    private String notebookPath;
-    @JsonProperty("base_parameters")
-    private Map<String, String> baseParameters;
-    @JsonProperty("revision_timestamp")
-    private long revisionTimestamp;
 
-    public long getRevisionTimestamp() {
-        return revisionTimestamp;
-    }
+  @JsonProperty("notebook_path")
+  private String notebookPath;
+  @JsonProperty("base_parameters")
+  private Map<String, String> baseParameters;
+  @JsonProperty("revision_timestamp")
+  private long revisionTimestamp;
 
-    public void setRevisionTimestamp(long revisionTimestamp) {
-        this.revisionTimestamp = revisionTimestamp;
-    }
+  public long getRevisionTimestamp() {
+    return revisionTimestamp;
+  }
 
-    public Map<String, String> getBaseParameters() {
-        return baseParameters;
-    }
+  public void setRevisionTimestamp(long revisionTimestamp) {
+    this.revisionTimestamp = revisionTimestamp;
+  }
 
-    public void setBaseParameters(Map<String, String> baseParameters) {
-        this.baseParameters = baseParameters;
-    }
+  public Map<String, String> getBaseParameters() {
+    return baseParameters;
+  }
 
-    public String getNotebookPath() {
-        return notebookPath;
-    }
+  public void setBaseParameters(Map<String, String> baseParameters) {
+    this.baseParameters = baseParameters;
+  }
 
-    public void setNotebookPath(String notebookPath) {
-        this.notebookPath = notebookPath;
-    }
+  public String getNotebookPath() {
+    return notebookPath;
+  }
+
+  public void setNotebookPath(String notebookPath) {
+    this.notebookPath = notebookPath;
+  }
 }

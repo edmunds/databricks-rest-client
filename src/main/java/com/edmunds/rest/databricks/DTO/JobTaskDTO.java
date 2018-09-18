@@ -15,52 +15,53 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class JobTaskDTO implements Serializable {
-    @JsonProperty("notebook_task")
-    private NotebookTaskDTO notebookTask;
-    @JsonProperty("spark_jar_task")
-    private SparkJarTaskDTO sparkJarTask;
-    @JsonProperty("spark_python_task")
-    private SparkPythonTaskDTO sparkPythonTask;
-    @JsonProperty("spark_submit_task")
-    private SparkSubmitTaskDTO sparkSubmitTask;
 
-    public SparkPythonTaskDTO getSparkPythonTask() {
-        return sparkPythonTask;
-    }
+  @JsonProperty("notebook_task")
+  private NotebookTaskDTO notebookTask;
+  @JsonProperty("spark_jar_task")
+  private SparkJarTaskDTO sparkJarTask;
+  @JsonProperty("spark_python_task")
+  private SparkPythonTaskDTO sparkPythonTask;
+  @JsonProperty("spark_submit_task")
+  private SparkSubmitTaskDTO sparkSubmitTask;
 
-    public void setSparkPythonTask(SparkPythonTaskDTO sparkPythonTask) {
-        this.sparkPythonTask = sparkPythonTask;
-    }
+  public SparkPythonTaskDTO getSparkPythonTask() {
+    return sparkPythonTask;
+  }
 
-    public SparkSubmitTaskDTO getSparkSubmitTask() {
-        return sparkSubmitTask;
-    }
+  public void setSparkPythonTask(SparkPythonTaskDTO sparkPythonTask) {
+    this.sparkPythonTask = sparkPythonTask;
+  }
 
-    public void setSparkSubmitTask(SparkSubmitTaskDTO sparkSubmitTask) {
-        this.sparkSubmitTask = sparkSubmitTask;
-    }
+  public SparkSubmitTaskDTO getSparkSubmitTask() {
+    return sparkSubmitTask;
+  }
 
-    public NotebookTaskDTO getNotebookTask() {
-        return notebookTask;
-    }
+  public void setSparkSubmitTask(SparkSubmitTaskDTO sparkSubmitTask) {
+    this.sparkSubmitTask = sparkSubmitTask;
+  }
 
-    public void setNotebookTask(NotebookTaskDTO notebookTask) {
-        this.notebookTask = notebookTask;
-    }
+  public NotebookTaskDTO getNotebookTask() {
+    return notebookTask;
+  }
 
-    public SparkJarTaskDTO getSparkJarTask() {
-        return sparkJarTask;
-    }
+  public void setNotebookTask(NotebookTaskDTO notebookTask) {
+    this.notebookTask = notebookTask;
+  }
 
-    public void setSparkJarTask(SparkJarTaskDTO sparkJarTask) {
-        this.sparkJarTask = sparkJarTask;
-    }
+  public SparkJarTaskDTO getSparkJarTask() {
+    return sparkJarTask;
+  }
+
+  public void setSparkJarTask(SparkJarTaskDTO sparkJarTask) {
+    this.sparkJarTask = sparkJarTask;
+  }
 }

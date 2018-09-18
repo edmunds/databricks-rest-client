@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.security.SecureRandom;
+import java.util.Map;
+import javax.net.ssl.SSLContext;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -35,81 +38,77 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import javax.net.ssl.SSLContext;
-import java.security.SecureRandom;
-import java.util.Map;
-
 /**
  * To run on CDH5.7.1, use httpclient4.2.5 version API
  */
 public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestClientImpl {
 
-    private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
+  private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
 
-    public DatabricksRestClientImpl425(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
-        super(username, password,host, apiVersion, maxRetry, retryInterval);
+  public DatabricksRestClientImpl425(String username, String password, String host,
+      String apiVersion, int maxRetry, long retryInterval) {
+    super(username, password, host, apiVersion, maxRetry, retryInterval);
+  }
+
+  @Override
+  protected void init() {
+    try {
+
+      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+      sslContext.init(null, null, new SecureRandom());
+
+      SSLSocketFactory sf = new SSLSocketFactory(sslContext);
+      Scheme httpsScheme = new Scheme("https", HTTPS_PORT, sf);
+      SchemeRegistry schemeRegistry = new SchemeRegistry();
+      schemeRegistry.register(httpsScheme);
+      ClientConnectionManager cm = new BasicClientConnectionManager(schemeRegistry);
+
+      HttpParams params = new BasicHttpParams();
+      HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
+      HttpConnectionParams.setSoTimeout(params, SOCKET_TIMEOUT);
+
+      DefaultHttpClient defaultHttpClient = new DefaultHttpClient(cm, params);
+      defaultHttpClient.setHttpRequestRetryHandler(retryHandler);
+
+      defaultHttpClient.getCredentialsProvider().setCredentials(
+          new AuthScope(host, HTTPS_PORT),
+          new UsernamePasswordCredentials(username, password));
+
+      client = new AutoRetryHttpClient(defaultHttpClient, retryStrategy);
+
+    } catch (Exception e) {
+      logger.error("", e);
     }
 
-    protected void init() {
-        try {
+    url = String.format("https://%s/api/%s", host, apiVersion);
+    mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+  }
 
-            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-            sslContext.init(null, null, new SecureRandom());
+  @Override
+  public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
+      throws
+      DatabricksRestException {
 
-            SSLSocketFactory sf = new SSLSocketFactory(sslContext);
-            Scheme httpsScheme = new Scheme("https", HTTPS_PORT, sf);
-            SchemeRegistry schemeRegistry = new SchemeRegistry();
-            schemeRegistry.register(httpsScheme);
-            ClientConnectionManager cm = new BasicClientConnectionManager(schemeRegistry);
+    HttpRequestBase method = null;
+    try {
+      method = makeHttpMethod(requestMethod, path, data);
+      HttpResponse httpResponse = client.execute(method);
 
-            HttpParams params = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
-            HttpConnectionParams.setSoTimeout(params, SOCKET_TIMEOUT);
+      byte[] response = extractContent(httpResponse);
 
+      EntityUtils.consumeQuietly(httpResponse.getEntity());
 
-            DefaultHttpClient defaultHttpClient = new DefaultHttpClient(cm, params);
-            defaultHttpClient.setHttpRequestRetryHandler(retryHandler);
+      return response;
 
-
-            defaultHttpClient.getCredentialsProvider().setCredentials(
-                new AuthScope(host, HTTPS_PORT),
-                new UsernamePasswordCredentials(username, password));
-
-            client = new AutoRetryHttpClient(defaultHttpClient, retryStrategy);
-
-        } catch (Exception e) {
-            logger.error("", e);
-        }
-
-        url = String.format("https://%s/api/%s", host, apiVersion);
-        mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+    } catch (DatabricksRestException dre) {
+      throw dre;
+    } catch (Exception e) {
+      throw new DatabricksRestException(e);
+    } finally {
+      if (method != null) {
+        method.releaseConnection();
+      }
     }
-
-
-    public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data) throws
-                                                                                                   DatabricksRestException {
-
-        HttpRequestBase method = null;
-        try {
-            method = makeHttpMethod(requestMethod, path, data);
-            HttpResponse httpResponse = client.execute(method);
-
-            byte[] response = extractContent(httpResponse);
-
-            EntityUtils.consumeQuietly(httpResponse.getEntity());
-
-            return response;
-
-        } catch (DatabricksRestException dre) {
-            throw dre;
-        } catch (Exception e) {
-            throw new DatabricksRestException(e);
-        } finally {
-            if(method != null) {
-                method.releaseConnection();
-            }
-        }
-    }
-
+  }
 }

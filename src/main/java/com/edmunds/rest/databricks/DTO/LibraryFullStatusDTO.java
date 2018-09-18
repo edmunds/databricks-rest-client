@@ -17,51 +17,51 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class LibraryFullStatusDTO implements Serializable {
-    @JsonProperty("library")
-    private LibraryDTO library;
-    @JsonProperty("status")
-    private LibraryInstallStatusDTO status;
-    @JsonProperty("messages")
-    private String[] messages;
-    @JsonProperty("is_library_for_all_clusters")
-    private boolean isLibraryForAllClusters;
 
-    public LibraryDTO getLibrary() {
-        return library;
-    }
+  @JsonProperty("library")
+  private LibraryDTO library;
+  @JsonProperty("status")
+  private LibraryInstallStatusDTO status;
+  @JsonProperty("messages")
+  private String[] messages;
+  @JsonProperty("is_library_for_all_clusters")
+  private boolean isLibraryForAllClusters;
 
-    public void setLibrary(LibraryDTO library) {
-        this.library = library;
-    }
+  public LibraryDTO getLibrary() {
+    return library;
+  }
 
-    public LibraryInstallStatusDTO getStatus() {
-        return status;
-    }
+  public void setLibrary(LibraryDTO library) {
+    this.library = library;
+  }
 
-    public void setStatus(LibraryInstallStatusDTO status) {
-        this.status = status;
-    }
+  public LibraryInstallStatusDTO getStatus() {
+    return status;
+  }
 
-    public String[] getMessages() {
-        return messages;
-    }
+  public void setStatus(LibraryInstallStatusDTO status) {
+    this.status = status;
+  }
 
-    public void setMessages(String[] messages) {
-        this.messages = messages;
-    }
+  public String[] getMessages() {
+    return messages;
+  }
 
-    public boolean isLibraryForAllClusters() {
-        return isLibraryForAllClusters;
-    }
+  public void setMessages(String[] messages) {
+    this.messages = messages;
+  }
 
-    public void setLibraryForAllClusters(boolean libraryForAllClusters) {
-        isLibraryForAllClusters = libraryForAllClusters;
-    }
+  public boolean isLibraryForAllClusters() {
+    return isLibraryForAllClusters;
+  }
+
+  public void setLibraryForAllClusters(boolean libraryForAllClusters) {
+    isLibraryForAllClusters = libraryForAllClusters;
+  }
 }

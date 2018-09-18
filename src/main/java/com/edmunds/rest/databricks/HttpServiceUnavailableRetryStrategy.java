@@ -16,65 +16,68 @@
 
 package com.edmunds.rest.databricks;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
 import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Retry Strategy when get HTTP response status code.
- * ref> https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+ * Retry Strategy when get HTTP response status code. ref> https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 public class HttpServiceUnavailableRetryStrategy implements ServiceUnavailableRetryStrategy {
 
-    private static Logger logger = Logger.getLogger(HttpServiceUnavailableRetryStrategy.class.getName());
+  private static final Set<Integer> retryStatusSet = new HashSet<>();
+  private static Logger logger = Logger
+      .getLogger(HttpServiceUnavailableRetryStrategy.class.getName());
 
-    private static final Set<Integer> retryStatusSet = new HashSet<>();
-    static {
-        retryStatusSet.add(408); // Request Timeout
-        retryStatusSet.add(429); // Too Many Requests
+  static {
+    retryStatusSet.add(408); // Request Timeout
+    retryStatusSet.add(429); // Too Many Requests
 
-        retryStatusSet.add(500); // Internal Server Error
-        retryStatusSet.add(503); // Service Unavailable
-        retryStatusSet.add(504); // Gateway Timeout
+    retryStatusSet.add(500); // Internal Server Error
+    retryStatusSet.add(503); // Service Unavailable
+    retryStatusSet.add(504); // Gateway Timeout
+  }
+
+  // milliseconds
+  private long retryInterval;
+  private int maxRetries;
+
+  private int executeCount = 0;
+
+  public HttpServiceUnavailableRetryStrategy() {
+    this(3, 10000L);
+  }
+
+  public HttpServiceUnavailableRetryStrategy(int maxRetries, long retryInterval) {
+    this.maxRetries = maxRetries;
+    this.retryInterval = retryInterval;
+  }
+
+  @Override
+  public boolean retryRequest(final HttpResponse response, final int executionCount,
+      final HttpContext context) {
+    this.executeCount = executionCount;
+
+    boolean isRetry = executionCount <= this.maxRetries && retryStatusSet
+        .contains(response.getStatusLine().getStatusCode());
+    if (isRetry) {
+      logger.warn(
+          "Retry HttpRequest " + executionCount + "th. statusCode=" + response.getStatusLine()
+              .getStatusCode());
     }
 
-    // milliseconds
-    private long retryInterval;
-    private int maxRetries;
+    return isRetry;
+  }
 
-    private int executeCount = 0;
+  @Override
+  public long getRetryInterval() {
+    return retryInterval;
+  }
 
-    public HttpServiceUnavailableRetryStrategy() {
-        this(3, 10000L);
-    }
-
-    public HttpServiceUnavailableRetryStrategy(int maxRetries, long retryInterval){
-        this.maxRetries = maxRetries;
-        this.retryInterval = retryInterval;
-    }
-
-    @Override
-    public boolean retryRequest(final HttpResponse response, final int executionCount, final HttpContext context) {
-        this.executeCount = executionCount;
-
-        boolean isRetry = executionCount <= this.maxRetries && retryStatusSet.contains(response.getStatusLine().getStatusCode());
-        if(isRetry) {
-            logger.warn("Retry HttpRequest " + executionCount + "th. statusCode=" + response.getStatusLine().getStatusCode());
-        }
-
-        return isRetry;
-    }
-
-    @Override
-    public long getRetryInterval() {
-        return retryInterval;
-    }
-
-    public int getExecuteCount(){
-        return executeCount;
-    }
+  public int getExecuteCount() {
+    return executeCount;
+  }
 }

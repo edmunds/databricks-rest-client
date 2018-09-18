@@ -20,89 +20,99 @@ import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
 import com.edmunds.rest.databricks.DTO.ClusterLogConfDTO;
 import com.edmunds.rest.databricks.DTO.ClusterTagDTO;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Edit Cluster Request object.
+ * Should be deprecated in favor of using DTOs.
  */
+@Deprecated
 public class EditClusterRequest extends DatabricksRestRequest {
-    private EditClusterRequest(Map<String, Object> data) {
-        super(data);
+
+  private EditClusterRequest(Map<String, Object> data) {
+    super(data);
+  }
+
+  /**
+   * Builder.
+   */
+  public static class EditClusterRequestBuilder {
+
+    private Map<String, Object> data = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public EditClusterRequestBuilder(int numWorkers, String clusterId, String clusterName, String
+        sparkVersion, String nodeTypeId) {
+      data.put("num_workers", numWorkers);
+      data.put("cluster_id", clusterId);
+      data.put("cluster_name", clusterName);
+      data.put("spark_version", sparkVersion);
+      data.put("node_type_id", nodeTypeId);
     }
 
     /**
-     * Builder.
+     * Constructor.
      */
-    public static class EditClusterRequestBuilder {
-        private Map<String, Object> data = new HashMap<>();
-
-        public EditClusterRequestBuilder(int numWorkers, String clusterId, String clusterName, String
+    public EditClusterRequestBuilder(AutoScaleDTO autoscale, String clusterId, String clusterName,
+        String
             sparkVersion, String nodeTypeId) {
-            data.put("num_workers", numWorkers);
-            data.put("cluster_id", clusterId);
-            data.put("cluster_name", clusterName);
-            data.put("spark_version", sparkVersion);
-            data.put("node_type_id", nodeTypeId);
-        }
-
-        public EditClusterRequestBuilder(AutoScaleDTO autoscale, String clusterId, String clusterName, String
-            sparkVersion, String nodeTypeId) {
-            data.put("autoscale", autoscale);
-            data.put("cluster_id", clusterId);
-            data.put("cluster_name", clusterName);
-            data.put("spark_version", sparkVersion);
-            data.put("node_type_id", nodeTypeId);
-        }
-
-        public EditClusterRequestBuilder withSparkConf(Map<String, String> sparkConf) {
-            data.put("spark_conf", sparkConf);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withAwsAttributes(AwsAttributesDTO awsAttributes) {
-            data.put("aws_attributes", awsAttributes);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withDriverNodeTypeId(String driverNodeTypeId) {
-            data.put("driver_node_type_id", driverNodeTypeId);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withSshPublicKeys(String[] sshPublicKeys) {
-            data.put("ssh_public_keys", sshPublicKeys);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withCustomTags(ClusterTagDTO[] customTags) {
-            data.put("custom_tags", customTags);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withClusterLogConf(ClusterLogConfDTO clusterLogConf) {
-            data.put("cluster_log_conf", clusterLogConf);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withSparkEnvVars(Map<String, String> sparkEnvVars) {
-            data.put("spark_env_vars", sparkEnvVars);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withAutoterminationMinutes(int autoterminationMinutes) {
-            data.put("autotermination_minutes", autoterminationMinutes);
-            return this;
-        }
-
-        public EditClusterRequestBuilder withEnableElasticDisk(boolean enableElasticDisk) {
-            data.put("enable_elastic_disk", enableElasticDisk);
-            return this;
-        }
-
-        public EditClusterRequest build() {
-            return new EditClusterRequest(this.data);
-        }
+      data.put("autoscale", autoscale);
+      data.put("cluster_id", clusterId);
+      data.put("cluster_name", clusterName);
+      data.put("spark_version", sparkVersion);
+      data.put("node_type_id", nodeTypeId);
     }
+
+    public EditClusterRequestBuilder withSparkConf(Map<String, String> sparkConf) {
+      data.put("spark_conf", sparkConf);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withAwsAttributes(AwsAttributesDTO awsAttributes) {
+      data.put("aws_attributes", awsAttributes);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withDriverNodeTypeId(String driverNodeTypeId) {
+      data.put("driver_node_type_id", driverNodeTypeId);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withSshPublicKeys(String[] sshPublicKeys) {
+      data.put("ssh_public_keys", sshPublicKeys);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withCustomTags(ClusterTagDTO[] customTags) {
+      data.put("custom_tags", customTags);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withClusterLogConf(ClusterLogConfDTO clusterLogConf) {
+      data.put("cluster_log_conf", clusterLogConf);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withSparkEnvVars(Map<String, String> sparkEnvVars) {
+      data.put("spark_env_vars", sparkEnvVars);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withAutoterminationMinutes(int autoterminationMinutes) {
+      data.put("autotermination_minutes", autoterminationMinutes);
+      return this;
+    }
+
+    public EditClusterRequestBuilder withEnableElasticDisk(boolean enableElasticDisk) {
+      data.put("enable_elastic_disk", enableElasticDisk);
+      return this;
+    }
+
+    public EditClusterRequest build() {
+      return new EditClusterRequest(this.data);
+    }
+  }
 }

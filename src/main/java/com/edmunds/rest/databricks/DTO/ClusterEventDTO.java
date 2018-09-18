@@ -15,53 +15,54 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
-public class ClusterEventDTO  implements Serializable {
-    @JsonProperty("cluster_id")
-    private String clusterId;
-    @JsonProperty("timestamp")
-    private long timestamp;
-    @JsonProperty("type")
-    private ClusterEventTypeDTO type;
-    @JsonProperty("details")
-    private EventDetailsDTO details;
+public class ClusterEventDTO implements Serializable {
 
-    public String getClusterId() {
-        return clusterId;
-    }
+  @JsonProperty("cluster_id")
+  private String clusterId;
+  @JsonProperty("timestamp")
+  private long timestamp;
+  @JsonProperty("type")
+  private ClusterEventTypeDTO type;
+  @JsonProperty("details")
+  private EventDetailsDTO details;
 
-    public void setClusterId(String clusterId) {
-        this.clusterId = clusterId;
-    }
+  public String getClusterId() {
+    return clusterId;
+  }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+  public void setClusterId(String clusterId) {
+    this.clusterId = clusterId;
+  }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+  public long getTimestamp() {
+    return timestamp;
+  }
 
-    public ClusterEventTypeDTO getType() {
-        return type;
-    }
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    public void setType(ClusterEventTypeDTO type) {
-        this.type = type;
-    }
+  public ClusterEventTypeDTO getType() {
+    return type;
+  }
 
-    public EventDetailsDTO getDetails() {
-        return details;
-    }
+  public void setType(ClusterEventTypeDTO type) {
+    this.type = type;
+  }
 
-    public void setDetails(EventDetailsDTO details) {
-        this.details = details;
-    }
+  public EventDetailsDTO getDetails() {
+    return details;
+  }
+
+  public void setDetails(EventDetailsDTO details) {
+    this.details = details;
+  }
 
 }

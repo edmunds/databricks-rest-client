@@ -23,65 +23,74 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.request.ExportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Implementation of the Workspace Service.
  */
 public class WorkspaceServiceImpl extends DatabricksService implements WorkspaceService {
 
-    public WorkspaceServiceImpl(final DatabricksRestClient client) {
-        super(client);
-    }
+  public WorkspaceServiceImpl(final DatabricksRestClient client) {
+    super(client);
+  }
 
-    public void delete(String path, boolean recursive) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
-        data.put("recursive", recursive);
+  @Override
+  public void delete(String path, boolean recursive) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
+    data.put("recursive", recursive);
 
-        client.performQuery(RequestMethod.POST, "/workspace/delete", data);
-    }
+    client.performQuery(RequestMethod.POST, "/workspace/delete", data);
+  }
 
-    public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
-        DatabricksRestException {
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
-        Map<String, String> result = mapper.readValue(responseBody, new TypeReference<Map<String, String>>() {});
+  @Override
+  public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
+      DatabricksRestException {
+    byte[] responseBody = client
+        .performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
+    Map<String, String> result = mapper
+        .readValue(responseBody, new TypeReference<Map<String, String>>() {
+        });
 
-        return result.get("content").getBytes();
-    }
+    return result.get("content").getBytes();
+  }
 
-    public ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  @Override
+  public ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/get-status", data);
-        return mapper.readValue(responseBody, ObjectInfoDTO.class);
-    }
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/get-status", data);
+    return mapper.readValue(responseBody, ObjectInfoDTO.class);
+  }
 
-    public void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException,
-        DatabricksRestException {
-        client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
-    }
+  public void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException,
+      DatabricksRestException {
+    client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
+  }
 
-    public ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  @Override
+  public ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/list", data);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/list", data);
 
-        Map<String, ObjectInfoDTO[]> result = mapper.readValue(responseBody, new TypeReference<Map<String,
-            ObjectInfoDTO[]>>() {});
-        return result.get("objects");
-    }
+    Map<String, ObjectInfoDTO[]> result = mapper
+        .readValue(responseBody, new TypeReference<Map<String,
+            ObjectInfoDTO[]>>() {
+        });
+    return result.get("objects");
+  }
 
-    public void mkdirs(String path) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("path", path);
+  @Override
+  public void mkdirs(String path) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("path", path);
 
-        client.performQuery(RequestMethod.POST, "/workspace/mkdirs", data);
-    }
+    client.performQuery(RequestMethod.POST, "/workspace/mkdirs", data);
+  }
 
 }

@@ -22,17 +22,17 @@ import java.io.Serializable;
  *
  */
 public enum ObjectTypeDTO implements Serializable {
-    NOTEBOOK("NOTEBOOK"),
-    DIRECTORY("DIRECTORY"),
-    LIBRARY("LIBRARY");
+  NOTEBOOK("NOTEBOOK"),
+  DIRECTORY("DIRECTORY"),
+  LIBRARY("LIBRARY");
 
-    private String value;
+  private String value;
 
-    ObjectTypeDTO(String value) {
-        this.value = value;
-    }
+  ObjectTypeDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return value;
-    }
+  public String toString() {
+    return value;
+  }
 }

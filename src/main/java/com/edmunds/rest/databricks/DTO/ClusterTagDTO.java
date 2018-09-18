@@ -15,32 +15,33 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterTagDTO implements Serializable {
-    @JsonProperty("key")
-    private String key;
-    @JsonProperty("value")
-    private String value;
 
-    public String getKey() {
-        return key;
-    }
+  @JsonProperty("key")
+  private String key;
+  @JsonProperty("value")
+  private String value;
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+  public String getKey() {
+    return key;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public void setKey(String key) {
+    this.key = key;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 }

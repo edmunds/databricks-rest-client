@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -25,24 +24,25 @@ import java.util.Map;
  *
  */
 public class TerminationReasonDTO implements Serializable {
-    @JsonProperty("code")
-    private TerminationCodeDTO code;
-    @JsonProperty("parameters")
-    private Map<String, String> parameters;
 
-    public TerminationCodeDTO getCode() {
-        return code;
-    }
+  @JsonProperty("code")
+  private TerminationCodeDTO code;
+  @JsonProperty("parameters")
+  private Map<String, String> parameters;
 
-    public void setCode(TerminationCodeDTO code) {
-        this.code = code;
-    }
+  public TerminationCodeDTO getCode() {
+    return code;
+  }
 
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
+  public void setCode(TerminationCodeDTO code) {
+    this.code = code;
+  }
 
-    public void setParameters(Map<String, String> parameters) {
-        this.parameters = parameters;
-    }
+  public Map<String, String> getParameters() {
+    return parameters;
+  }
+
+  public void setParameters(Map<String, String> parameters) {
+    this.parameters = parameters;
+  }
 }

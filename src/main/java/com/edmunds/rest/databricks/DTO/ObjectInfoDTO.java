@@ -17,39 +17,39 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
-public class ObjectInfoDTO  implements Serializable {
-    @JsonProperty("object_type")
-    private ObjectTypeDTO objectType;
-    private String path;
-    private LanguageDTO language;
+public class ObjectInfoDTO implements Serializable {
 
-    public ObjectTypeDTO getObjectType() {
-        return objectType;
-    }
+  @JsonProperty("object_type")
+  private ObjectTypeDTO objectType;
+  private String path;
+  private LanguageDTO language;
 
-    public void setObjectType(ObjectTypeDTO objectType) {
-        this.objectType = objectType;
-    }
+  public ObjectTypeDTO getObjectType() {
+    return objectType;
+  }
 
-    public String getPath() {
-        return path;
-    }
+  public void setObjectType(ObjectTypeDTO objectType) {
+    this.objectType = objectType;
+  }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+  public String getPath() {
+    return path;
+  }
 
-    public LanguageDTO getLanguage() {
-        return language;
-    }
+  public void setPath(String path) {
+    this.path = path;
+  }
 
-    public void setLanguage(LanguageDTO language) {
-        this.language = language;
-    }
+  public LanguageDTO getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(LanguageDTO language) {
+    this.language = language;
+  }
 }

@@ -54,104 +54,104 @@ import static org.testng.Assert.assertEquals;
  */
 public class DatabricksRestClientIT {
 
-    private ClusterService clusterService;
-    private DbfsService dbfsService;
-    private JobService jobService;
-    private LibraryService libraryService;
-    private WorkspaceService workspaceService;
+  private ClusterService clusterService;
+  private DbfsService dbfsService;
+  private JobService jobService;
+  private LibraryService libraryService;
+  private WorkspaceService workspaceService;
 
-    private long jobId;
-    private String dbfsTmpDir = "dbfs:/restApiTestDir/";
-    private String clusterId;
+  private long jobId;
+  private String dbfsTmpDir = "dbfs:/restApiTestDir/";
+  private String clusterId;
 
-    private String dbfsLocation = dbfsTmpDir + "test-1.0.0.jar";
-    private String resourcesLocation = "./src/test/resources/testlib/test-1.0.0.jar";
-    private String sparkVersion = "4.0.x-scala2.11";
-    private String nodeId = "r3.xlarge";
-    private int numWorkers = 1;
+  private String dbfsLocation = dbfsTmpDir + "test-1.0.0.jar";
+  private String resourcesLocation = "./src/test/resources/testlib/test-1.0.0.jar";
+  private String sparkVersion = "4.0.x-scala2.11";
+  private String nodeId = "r3.xlarge";
+  private int numWorkers = 1;
 
-    @BeforeClass
-    public void setUpOnce() {
-        DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
-        clusterService = factory.getClusterService();
-        dbfsService = factory.getDbfsService();
-        jobService = factory.getJobService();
-        libraryService = factory.getLibraryService();
-        workspaceService = factory.getWorkspaceService();
+  @BeforeClass
+  public void setUpOnce() {
+    DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
+    clusterService = factory.getClusterService();
+    dbfsService = factory.getDbfsService();
+    jobService = factory.getJobService();
+    libraryService = factory.getLibraryService();
+    workspaceService = factory.getWorkspaceService();
+  }
+
+  @AfterClass(alwaysRun = true)
+  public void tearDownOnce() throws IOException, DatabricksRestException {
+    dbfsService.rm(dbfsTmpDir, true);
+    if (jobId != 0L) {
+      jobService.deleteJob(jobId);
     }
-
-    @AfterClass(alwaysRun = true)
-    public void tearDownOnce() throws IOException, DatabricksRestException {
-        dbfsService.rm(dbfsTmpDir, true);
-        if (jobId != 0L) {
-            jobService.deleteJob(jobId);
-        }
-        if (clusterId != null) {
-            clusterService.delete(clusterId);
-        }
+    if (clusterId != null) {
+      clusterService.delete(clusterId);
     }
+  }
 
 
-    //TODO currently timing out
-    @Ignore
-    public void createAndRunJobOnNewCluster() throws DatabricksRestException, IOException {
+  //TODO currently timing out
+  @Ignore
+  public void createAndRunJobOnNewCluster() throws DatabricksRestException, IOException {
 
-        // Upload Jar
-        String[] sparkSubmitParams = new String[] {"--class", "Test", dbfsLocation};
-        InputStream is = new FileInputStream(resourcesLocation);
-        dbfsService.write(dbfsLocation, is, true);
+    // Upload Jar
+    String[] sparkSubmitParams = new String[] {"--class", "Test", dbfsLocation};
+    InputStream is = new FileInputStream(resourcesLocation);
+    dbfsService.write(dbfsLocation, is, true);
 
-        // Create job specs
-        SparkSubmitTaskDTO sparkSubmitTask = new SparkSubmitTaskDTO();
-        sparkSubmitTask.setParameters(sparkSubmitParams);
-        NewClusterDTO newClusterDTO = new NewClusterDTO();
-        newClusterDTO.setNumWorkers(numWorkers);
-        newClusterDTO.setSparkVersion(sparkVersion);
-        newClusterDTO.setNodeTypeId(nodeId);
+    // Create job specs
+    SparkSubmitTaskDTO sparkSubmitTask = new SparkSubmitTaskDTO();
+    sparkSubmitTask.setParameters(sparkSubmitParams);
+    NewClusterDTO newClusterDTO = new NewClusterDTO();
+    newClusterDTO.setNumWorkers(numWorkers);
+    newClusterDTO.setSparkVersion(sparkVersion);
+    newClusterDTO.setNodeTypeId(nodeId);
 
-        JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
-        jobSettingsDTO.setName("JobServiceTest_integrationTest_job");
-        jobSettingsDTO.setNewCluster(newClusterDTO);
-        jobSettingsDTO.setSparkSubmitTask(sparkSubmitTask);
+    JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
+    jobSettingsDTO.setName("JobServiceTest_integrationTest_job");
+    jobSettingsDTO.setNewCluster(newClusterDTO);
+    jobSettingsDTO.setSparkSubmitTask(sparkSubmitTask);
 
-        jobId = jobService.createJob(jobSettingsDTO);
-        RunNowDTO run = jobService.runJobNow(jobId);
+    jobId = jobService.createJob(jobSettingsDTO);
+    RunNowDTO run = jobService.runJobNow(jobId);
 
-        await().atMost(10, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
-            run.getRunId(), jobService));
+    await().atMost(10, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
+        run.getRunId(), jobService));
 
-        RunDTO runInfo = jobService.getRun(run.getRunId());
+    RunDTO runInfo = jobService.getRun(run.getRunId());
 
-        assertEquals(runInfo.getState().getResultState(), RunResultStateDTO.SUCCESS);
-        assertEquals(runInfo.getClusterSpec().getNewCluster().getSparkVersion(), sparkVersion);
-        assertEquals(runInfo.getTask().getSparkSubmitTask().getParameters(), sparkSubmitParams);
-    }
+    assertEquals(runInfo.getState().getResultState(), RunResultStateDTO.SUCCESS);
+    assertEquals(runInfo.getClusterSpec().getNewCluster().getSparkVersion(), sparkVersion);
+    assertEquals(runInfo.getTask().getSparkSubmitTask().getParameters(), sparkSubmitParams);
+  }
 
-    @Test
-    public void uploadAndInstallJarOnNewCluster() throws IOException, DatabricksRestException {
-        // Create cluster
-        String uniqueId = UUID.randomUUID().toString();
-        CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(numWorkers,
-            "clusterServiceIntegrationTest_" + uniqueId, sparkVersion, nodeId).build();
-        clusterId = clusterService.create(request);
+  @Test
+  public void uploadAndInstallJarOnNewCluster() throws IOException, DatabricksRestException {
+    // Create cluster
+    String uniqueId = UUID.randomUUID().toString();
+    CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(numWorkers,
+        "clusterServiceIntegrationTest_" + uniqueId, sparkVersion, nodeId).build();
+    clusterId = clusterService.create(request);
 
-        await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, clusterService));
+    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, clusterService));
 
-        // Upload library
-        InputStream is = new FileInputStream(resourcesLocation);
-        dbfsService.write(dbfsLocation, is, true);
+    // Upload library
+    InputStream is = new FileInputStream(resourcesLocation);
+    dbfsService.write(dbfsLocation, is, true);
 
-        LibraryDTO library = new LibraryDTO();
-        library.setJar(dbfsLocation);
-        LibraryDTO[] libraries = new LibraryDTO[] {library};
+    LibraryDTO library = new LibraryDTO();
+    library.setJar(dbfsLocation);
+    LibraryDTO[] libraries = new LibraryDTO[] {library};
 
-        // Install
-        libraryService.install(clusterId, libraries);
+    // Install
+    libraryService.install(clusterId, libraries);
 
-        // Make sure it is installed successfully
-        await().atMost(5, MINUTES).until(jarLibraryStatusHasChangedTo(LibraryInstallStatusDTO.INSTALLED, clusterId,
-            library, libraryService));
+    // Make sure it is installed successfully
+    await().atMost(5, MINUTES).until(jarLibraryStatusHasChangedTo(LibraryInstallStatusDTO.INSTALLED, clusterId,
+        library, libraryService));
 
-    }
+  }
 
 }

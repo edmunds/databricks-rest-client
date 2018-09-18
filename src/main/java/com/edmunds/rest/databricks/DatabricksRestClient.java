@@ -19,24 +19,28 @@ package com.edmunds.rest.databricks;
 import java.util.Map;
 
 /**
- *
+ * A Simple Databricks Rest Client Interface.
+ * Will perform a given rest request.
  */
 public interface DatabricksRestClient {
-    /**
-     * Performs the given query.
-     * @param requestMethod Type of request method. Only supports GET and POST methods.
-     * @param path Path of the request URL
-     * @param data Any data needed for the request
-     * @return Returns a byte array of the response from the server
-     * @throws DatabricksRestException
-     */
-    byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data) throws DatabricksRestException;
 
-    /**
-     * Returns the host string.
-     * @return Host string.
-     */
-    String getHost();
+  /**
+   * Performs the given query.
+   *
+   * @param requestMethod Type of request method. Only supports GET and POST methods.
+   * @param path Path of the request URL
+   * @param data Any data needed for the request
+   * @return Returns a byte array of the response from the server
+   */
+  byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
+      throws DatabricksRestException;
+
+  /**
+   * Returns the host string.
+   *
+   * @return Host string.
+   */
+  String getHost();
 }
 
 

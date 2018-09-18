@@ -32,74 +32,79 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public final class TestUtil {
-    private TestUtil() {}
+  private TestUtil() {
+  }
 
-    public static String getDefaultClusterId(ClusterService clusterService) throws IOException, DatabricksRestException {
-        ClusterInfoDTO[] results = clusterService.list();
-        for (ClusterInfoDTO result : results) {
-            String name = result.getClusterName();
-            if (name.toLowerCase().contains("default")) {
-                return result.getClusterId();
-            }
-        }
-
-        return null;
+  public static String getDefaultClusterId(ClusterService clusterService)
+      throws IOException, DatabricksRestException {
+    ClusterInfoDTO[] results = clusterService.list();
+    for (ClusterInfoDTO result : results) {
+      String name = result.getClusterName();
+      if (name.toLowerCase().contains("default")) {
+        return result.getClusterId();
+      }
     }
 
-    public static Callable<Boolean> clusterStatusHasChangedTo(final ClusterStateDTO status, final String clusterId,
-                                                       final ClusterService service) {
-        return new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return Objects.equals(getClusterStatus(clusterId, service), status);
-            }
-        };
-    }
+    return null;
+  }
 
-    public static ClusterStateDTO getClusterStatus(String clusterId, ClusterService service) throws IOException,
-        DatabricksRestException {
-        ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
+  public static Callable<Boolean> clusterStatusHasChangedTo(final ClusterStateDTO status, final String clusterId,
+                                                            final ClusterService service) {
+    return new Callable<Boolean>() {
+      @Override
+      public Boolean call() throws Exception {
+        return Objects.equals(getClusterStatus(clusterId, service), status);
+      }
+    };
+  }
 
-        return clusterInfo.getState();
-    }
+  public static ClusterStateDTO getClusterStatus(String clusterId, ClusterService service)
+      throws IOException,
+             DatabricksRestException {
+    ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
 
-    public static Callable<Boolean> runLifeCycleStateHasChangedTo(final RunLifeCycleStateDTO state, final long run_id,
-                                                            final JobService service) {
-        return new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return Objects.equals(getRunState(run_id, service), state);
-            }
-        };
-    }
+    return clusterInfo.getState();
+  }
 
-    private static RunLifeCycleStateDTO getRunState(long run_id, final JobService service) throws IOException,
-        DatabricksRestException {
-        RunDTO run = service.getRun(run_id);
-        return run.getState().getLifeCycleState();
-    }
+  public static Callable<Boolean> runLifeCycleStateHasChangedTo(final RunLifeCycleStateDTO state, final long run_id,
+                                                                final JobService service) {
+    return new Callable<Boolean>() {
+      @Override
+      public Boolean call() throws Exception {
+        return Objects.equals(getRunState(run_id, service), state);
+      }
+    };
+  }
 
-    public static Callable<Boolean> jarLibraryStatusHasChangedTo(final LibraryInstallStatusDTO status,
-                                                                 final String clusterId,
-                                                                 final LibraryDTO library,
-                                                                 final LibraryService service) {
-        return new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                return Objects.equals(getLibraryStatus(clusterId, library, service), status);
-            }
-        };
-    }
+  private static RunLifeCycleStateDTO getRunState(long run_id, final JobService service)
+      throws IOException,
+             DatabricksRestException {
+    RunDTO run = service.getRun(run_id);
+    return run.getState().getLifeCycleState();
+  }
 
-    private static LibraryInstallStatusDTO getLibraryStatus(final String clusterId,
-                                                            final LibraryDTO library,
-                                                            final LibraryService service) throws IOException,
-        DatabricksRestException {
-        LibraryFullStatusDTO[] libraryFullStatuses = service.clusterStatus(String.valueOf(clusterId)).getLibraryFullStatuses();
-        for (LibraryFullStatusDTO libraryFullStatusDTO : libraryFullStatuses) {
-            if (Objects.equals(libraryFullStatusDTO.getLibrary().getJar(), library.getJar())) {
-                return libraryFullStatusDTO.getStatus();
-            }
-        }
-        return LibraryInstallStatusDTO.PENDING;
+  public static Callable<Boolean> jarLibraryStatusHasChangedTo(final LibraryInstallStatusDTO status,
+                                                               final String clusterId,
+                                                               final LibraryDTO library,
+                                                               final LibraryService service) {
+    return new Callable<Boolean>() {
+      public Boolean call() throws Exception {
+        return Objects.equals(getLibraryStatus(clusterId, library, service), status);
+      }
+    };
+  }
+
+  private static LibraryInstallStatusDTO getLibraryStatus(final String clusterId,
+                                                          final LibraryDTO library,
+                                                          final LibraryService service)
+      throws IOException,
+             DatabricksRestException {
+    LibraryFullStatusDTO[] libraryFullStatuses = service.clusterStatus(String.valueOf(clusterId)).getLibraryFullStatuses();
+    for (LibraryFullStatusDTO libraryFullStatusDTO : libraryFullStatuses) {
+      if (Objects.equals(libraryFullStatusDTO.getLibrary().getJar(), library.getJar())) {
+        return libraryFullStatusDTO.getStatus();
+      }
     }
+    return LibraryInstallStatusDTO.PENDING;
+  }
 }

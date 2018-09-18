@@ -15,42 +15,43 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
-public class RunStateDTO  implements Serializable {
-    @JsonProperty("life_cycle_state")
-    private RunLifeCycleStateDTO lifeCycleState;
-    @JsonProperty("result_state")
-    private RunResultStateDTO resultState;
-    @JsonProperty("state_message")
-    private String stateMessage;
+public class RunStateDTO implements Serializable {
 
-    public RunLifeCycleStateDTO getLifeCycleState() {
-        return lifeCycleState;
-    }
+  @JsonProperty("life_cycle_state")
+  private RunLifeCycleStateDTO lifeCycleState;
+  @JsonProperty("result_state")
+  private RunResultStateDTO resultState;
+  @JsonProperty("state_message")
+  private String stateMessage;
 
-    public void setLifeCycleState(RunLifeCycleStateDTO lifeCycleState) {
-        this.lifeCycleState = lifeCycleState;
-    }
+  public RunLifeCycleStateDTO getLifeCycleState() {
+    return lifeCycleState;
+  }
 
-    public RunResultStateDTO getResultState() {
-        return resultState;
-    }
+  public void setLifeCycleState(RunLifeCycleStateDTO lifeCycleState) {
+    this.lifeCycleState = lifeCycleState;
+  }
 
-    public void setResultState(RunResultStateDTO resultState) {
-        this.resultState = resultState;
-    }
+  public RunResultStateDTO getResultState() {
+    return resultState;
+  }
 
-    public String getStateMessage() {
-        return stateMessage;
-    }
+  public void setResultState(RunResultStateDTO resultState) {
+    this.resultState = resultState;
+  }
 
-    public void setStateMessage(String stateMessage) {
-        this.stateMessage = stateMessage;
-    }
+  public String getStateMessage() {
+    return stateMessage;
+  }
+
+  public void setStateMessage(String stateMessage) {
+    this.stateMessage = stateMessage;
+  }
 }

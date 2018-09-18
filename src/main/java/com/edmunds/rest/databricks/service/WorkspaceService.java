@@ -20,19 +20,26 @@ import com.edmunds.rest.databricks.DTO.ObjectInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.ExportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
-
 import java.io.IOException;
 
 /**
- *
+ * Wrapper around the Worspace API.
+ * https://docs.databricks.com/api/latest/workspace.html
  */
 public interface WorkspaceService {
 
-    void delete(String path, boolean recursive) throws IOException, DatabricksRestException;
-    byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException, DatabricksRestException;
-    ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException;
-    void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException, DatabricksRestException;
-    ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException;
-    void mkdirs(String path) throws IOException, DatabricksRestException;
+  void delete(String path, boolean recursive) throws IOException, DatabricksRestException;
+
+  byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest)
+      throws IOException, DatabricksRestException;
+
+  ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException;
+
+  void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest)
+      throws IOException, DatabricksRestException;
+
+  ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException;
+
+  void mkdirs(String path) throws IOException, DatabricksRestException;
 
 }

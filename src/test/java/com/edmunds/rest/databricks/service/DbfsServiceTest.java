@@ -38,71 +38,72 @@ import static org.testng.Assert.assertTrue;
  */
 public class DbfsServiceTest {
 
-    private DbfsService service;
+  private DbfsService service;
 
-    @BeforeClass
-    public void setUpOnce() throws IOException, DatabricksRestException {
-        DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
-        service = factory.getDbfsService();
-    }
+  @BeforeClass
+  public void setUpOnce() throws IOException, DatabricksRestException {
+    DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
+    service = factory.getDbfsService();
+  }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDownOnce() throws IOException, DatabricksRestException {
-        service.rm("/restApiTestDir", true);
-    }
+  @AfterClass(alwaysRun = true)
+  public void tearDownOnce() throws IOException, DatabricksRestException {
+    service.rm("/restApiTestDir", true);
+  }
 
-    @Test
-    public void ls_whenCalled_returnsNonZeroLength() throws IOException, DatabricksRestException {
-        FileInfoDTO[] fileInfoDTOs = service.ls("/");
-        assertTrue(fileInfoDTOs.length > 0);
-    }
+  @Test
+  public void ls_whenCalled_returnsNonZeroLength() throws IOException, DatabricksRestException {
+    FileInfoDTO[] fileInfoDTOs = service.ls("/");
+    assertTrue(fileInfoDTOs.length > 0);
+  }
 
-    @Test
-    public void getInfo_whenCalledOnDirectory_returnsDirectory() throws IOException, DatabricksRestException {
-        FileInfoDTO fileInfoDTO = service.getInfo("/");
-        assertTrue(fileInfoDTO.isDir());
-    }
+  @Test
+  public void getInfo_whenCalledOnDirectory_returnsDirectory()
+      throws IOException, DatabricksRestException {
+    FileInfoDTO fileInfoDTO = service.getInfo("/");
+    assertTrue(fileInfoDTO.isDir());
+  }
 
-    @Test(dependsOnMethods = {"getInfo_whenCalledOnDirectory_returnsDirectory"},
-        expectedExceptions = {DatabricksRestException.class})
-    public void createAndDeleteDirs() throws IOException, DatabricksRestException {
-        service.mkdirs("/restApiTestDir/testParentDir/childDir");
-        FileInfoDTO parentDir = service.getInfo("/restApiTestDir/testParentDir");
-        FileInfoDTO childDir = service.getInfo("/restApiTestDir/testParentDir/childDir");
+  @Test(dependsOnMethods = {"getInfo_whenCalledOnDirectory_returnsDirectory"},
+      expectedExceptions = {DatabricksRestException.class})
+  public void createAndDeleteDirs() throws IOException, DatabricksRestException {
+    service.mkdirs("/restApiTestDir/testParentDir/childDir");
+    FileInfoDTO parentDir = service.getInfo("/restApiTestDir/testParentDir");
+    FileInfoDTO childDir = service.getInfo("/restApiTestDir/testParentDir/childDir");
 
-        assertTrue(parentDir.isDir());
-        assertTrue(childDir.isDir());
+    assertTrue(parentDir.isDir());
+    assertTrue(childDir.isDir());
 
-        service.rm("/restApiTestDir", true);
-        service.getInfo("/restApiTestDir/testParentDir"); // Should throw
-    }
+    service.rm("/restApiTestDir", true);
+    service.getInfo("/restApiTestDir/testParentDir"); // Should throw
+  }
 
-    @Test(dependsOnMethods = {"getInfo_whenCalledOnDirectory_returnsDirectory"})
-    public void readAndWriteStream() throws IOException, DatabricksRestException {
-        String contents = "abcd";
-        String location = "/restApiTestDir/testWrite";
-        InputStream is = new ByteArrayInputStream( contents.getBytes() );
+  @Test(dependsOnMethods = {"getInfo_whenCalledOnDirectory_returnsDirectory"})
+  public void readAndWriteStream() throws IOException, DatabricksRestException {
+    String contents = "abcd";
+    String location = "/restApiTestDir/testWrite";
+    InputStream is = new ByteArrayInputStream(contents.getBytes());
 
-        service.write(location, is, true);
+    service.write(location, is, true);
 
-        FileInfoDTO info = service.getInfo(location);
-        assertFalse(info.isDir());
+    FileInfoDTO info = service.getInfo(location);
+    assertFalse(info.isDir());
 
-        DbfsReadDTO result = service.read(location);
-        assertEquals(contents, new String(result.getData()));
-    }
+    DbfsReadDTO result = service.read(location);
+    assertEquals(contents, new String(result.getData()));
+  }
 
-    @Test(dependsOnMethods = {"readAndWriteStream"})
-    public void mv_whenCalled_movesFile() throws IOException, DatabricksRestException {
-        String contents = "abcd";
-        String location = "/restApiTestDir/testWrite";
-        String newLocation = "/restApiTestDir/testWriteMv";
-        InputStream is = new ByteArrayInputStream( contents.getBytes() );
+  @Test(dependsOnMethods = {"readAndWriteStream"})
+  public void mv_whenCalled_movesFile() throws IOException, DatabricksRestException {
+    String contents = "abcd";
+    String location = "/restApiTestDir/testWrite";
+    String newLocation = "/restApiTestDir/testWriteMv";
+    InputStream is = new ByteArrayInputStream(contents.getBytes());
 
-        service.write(location, is, true);
+    service.write(location, is, true);
 
-        service.mv(location, newLocation);
+    service.mv(location, newLocation);
 
-        assertFalse(service.getInfo(newLocation).isDir());
-    }
+    assertFalse(service.getInfo(newLocation).isDir());
+  }
 }

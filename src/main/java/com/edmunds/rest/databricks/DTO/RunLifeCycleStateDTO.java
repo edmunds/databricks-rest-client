@@ -22,21 +22,21 @@ import java.io.Serializable;
  *
  */
 public enum RunLifeCycleStateDTO implements Serializable {
-    PENDING("PENDING"),
-    RUNNING("RUNNING"),
-    TERMINATING("TERMINATING"),
-    TERMINATED("TERMINATED"),
-    SKIPPED("SKIPPED"),
-    INTERNAL_ERROR("INTERNAL_ERROR");
+  PENDING("PENDING"),
+  RUNNING("RUNNING"),
+  TERMINATING("TERMINATING"),
+  TERMINATED("TERMINATED"),
+  SKIPPED("SKIPPED"),
+  INTERNAL_ERROR("INTERNAL_ERROR");
 
-    private String value;
+  private String value;
 
-    private RunLifeCycleStateDTO(String value) {
-        this.value = value;
-    }
+  private RunLifeCycleStateDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

@@ -22,18 +22,18 @@ import java.io.Serializable;
  *
  */
 public enum LanguageDTO implements Serializable {
-    SCALA("SCALA"),
-    PYTHON("PYTHON"),
-    SQL("SQL"),
-    R("R");
+  SCALA("SCALA"),
+  PYTHON("PYTHON"),
+  SQL("SQL"),
+  R("R");
 
-    private String value;
+  private String value;
 
-    LanguageDTO(String value) {
-        this.value = value;
-    }
+  LanguageDTO(String value) {
+    this.value = value;
+  }
 
-    public String toString() {
-        return value;
-    }
+  public String toString() {
+    return value;
+  }
 }

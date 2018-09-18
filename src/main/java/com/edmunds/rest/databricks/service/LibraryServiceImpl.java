@@ -22,50 +22,56 @@ import com.edmunds.rest.databricks.DatabricksRestClient;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Implementation of LibraryService.
  */
 public final class LibraryServiceImpl extends DatabricksService implements LibraryService {
 
-    public LibraryServiceImpl(final DatabricksRestClient client) {
-        super(client);
-    }
+  public LibraryServiceImpl(final DatabricksRestClient client) {
+    super(client);
+  }
 
-    @Override
-    public ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException {
-        byte[] response = client.performQuery(RequestMethod.GET, "/libraries/all-cluster-statuses", null);
-        Map<String, ClusterLibraryStatusesDTO[]> jsonObject = this.mapper.readValue(response, new TypeReference<Map<String, ClusterLibraryStatusesDTO[]>>() {});
-        return jsonObject.get("statuses");
-    }
+  @Override
+  public ClusterLibraryStatusesDTO[] allClusterStatuses()
+      throws IOException, DatabricksRestException {
+    byte[] response = client
+        .performQuery(RequestMethod.GET, "/libraries/all-cluster-statuses", null);
+    Map<String, ClusterLibraryStatusesDTO[]> jsonObject = this.mapper.readValue(response, new
+        TypeReference<Map<String, ClusterLibraryStatusesDTO[]>>() {
+        });
+    return jsonObject.get("statuses");
+  }
 
-    @Override
-    public ClusterLibraryStatusesDTO clusterStatus(String clusterId) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        byte[] response = client.performQuery(RequestMethod.GET, "/libraries/cluster-status", data);
-        return this.mapper.readValue(response, ClusterLibraryStatusesDTO.class);
-    }
+  @Override
+  public ClusterLibraryStatusesDTO clusterStatus(String clusterId)
+      throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    byte[] response = client.performQuery(RequestMethod.GET, "/libraries/cluster-status", data);
+    return this.mapper.readValue(response, ClusterLibraryStatusesDTO.class);
+  }
 
-    @Override
-    public void install(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        data.put("libraries", libraries);
+  @Override
+  public void install(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    data.put("libraries", libraries);
 
-        client.performQuery(RequestMethod.POST, "/libraries/install", data);
-    }
+    client.performQuery(RequestMethod.POST, "/libraries/install", data);
+  }
 
-    @Override
-    public void uninstall(String clusterId, LibraryDTO[] libraries) throws IOException, DatabricksRestException {
-        Map<String, Object> data = new HashMap<>();
-        data.put("cluster_id", clusterId);
-        data.put("libraries", libraries);
+  @Override
+  public void uninstall(String clusterId, LibraryDTO[] libraries)
+      throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    data.put("libraries", libraries);
 
-        client.performQuery(RequestMethod.POST, "/libraries/uninstall", data);
-    }
+    client.performQuery(RequestMethod.POST, "/libraries/uninstall", data);
+  }
 }

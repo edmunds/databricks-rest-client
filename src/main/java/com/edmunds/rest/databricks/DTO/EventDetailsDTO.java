@@ -15,102 +15,103 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class EventDetailsDTO implements Serializable {
-    @JsonProperty("current_num_workers")
-    private int currentNumWorkers;
-    @JsonProperty("target_num_workers")
-    private int targetNumWorkers;
-    @JsonProperty("previous_attributes")
-    private ClusterAttributesDTO previousAttributes;
-    @JsonProperty("attributes")
-    private ClusterAttributesDTO attributes;
-    @JsonProperty("previous_cluster_size")
-    private ClusterSizeDTO previousClusterSize;
-    @JsonProperty("cluster_size")
-    private ClusterSizeDTO clusterSize;
-    @JsonProperty("cause")
-    private ResizeCauseDTO cause;
-    @JsonProperty("reason")
-    private TerminationReasonDTO reason;
-    @JsonProperty("user")
-    private String user;
 
-    public int getCurrentNumWorkers() {
-        return currentNumWorkers;
-    }
+  @JsonProperty("current_num_workers")
+  private int currentNumWorkers;
+  @JsonProperty("target_num_workers")
+  private int targetNumWorkers;
+  @JsonProperty("previous_attributes")
+  private ClusterAttributesDTO previousAttributes;
+  @JsonProperty("attributes")
+  private ClusterAttributesDTO attributes;
+  @JsonProperty("previous_cluster_size")
+  private ClusterSizeDTO previousClusterSize;
+  @JsonProperty("cluster_size")
+  private ClusterSizeDTO clusterSize;
+  @JsonProperty("cause")
+  private ResizeCauseDTO cause;
+  @JsonProperty("reason")
+  private TerminationReasonDTO reason;
+  @JsonProperty("user")
+  private String user;
 
-    public void setCurrentNumWorkers(int currentNumWorkers) {
-        this.currentNumWorkers = currentNumWorkers;
-    }
+  public int getCurrentNumWorkers() {
+    return currentNumWorkers;
+  }
 
-    public int getTargetNumWorkers() {
-        return targetNumWorkers;
-    }
+  public void setCurrentNumWorkers(int currentNumWorkers) {
+    this.currentNumWorkers = currentNumWorkers;
+  }
 
-    public void setTargetNumWorkers(int targetNumWorkers) {
-        this.targetNumWorkers = targetNumWorkers;
-    }
+  public int getTargetNumWorkers() {
+    return targetNumWorkers;
+  }
 
-    public ClusterAttributesDTO getPreviousAttributes() {
-        return previousAttributes;
-    }
+  public void setTargetNumWorkers(int targetNumWorkers) {
+    this.targetNumWorkers = targetNumWorkers;
+  }
 
-    public void setPreviousAttributes(ClusterAttributesDTO previousAttributes) {
-        this.previousAttributes = previousAttributes;
-    }
+  public ClusterAttributesDTO getPreviousAttributes() {
+    return previousAttributes;
+  }
 
-    public ClusterAttributesDTO getAttributes() {
-        return attributes;
-    }
+  public void setPreviousAttributes(ClusterAttributesDTO previousAttributes) {
+    this.previousAttributes = previousAttributes;
+  }
 
-    public void setAttributes(ClusterAttributesDTO attributes) {
-        this.attributes = attributes;
-    }
+  public ClusterAttributesDTO getAttributes() {
+    return attributes;
+  }
 
-    public ClusterSizeDTO getPreviousClusterSize() {
-        return previousClusterSize;
-    }
+  public void setAttributes(ClusterAttributesDTO attributes) {
+    this.attributes = attributes;
+  }
 
-    public void setPreviousClusterSize(ClusterSizeDTO previousClusterSize) {
-        this.previousClusterSize = previousClusterSize;
-    }
+  public ClusterSizeDTO getPreviousClusterSize() {
+    return previousClusterSize;
+  }
 
-    public ClusterSizeDTO getClusterSize() {
-        return clusterSize;
-    }
+  public void setPreviousClusterSize(ClusterSizeDTO previousClusterSize) {
+    this.previousClusterSize = previousClusterSize;
+  }
 
-    public void setClusterSize(ClusterSizeDTO clusterSize) {
-        this.clusterSize = clusterSize;
-    }
+  public ClusterSizeDTO getClusterSize() {
+    return clusterSize;
+  }
 
-    public ResizeCauseDTO getCause() {
-        return cause;
-    }
+  public void setClusterSize(ClusterSizeDTO clusterSize) {
+    this.clusterSize = clusterSize;
+  }
 
-    public void setCause(ResizeCauseDTO cause) {
-        this.cause = cause;
-    }
+  public ResizeCauseDTO getCause() {
+    return cause;
+  }
 
-    public TerminationReasonDTO getReason() {
-        return reason;
-    }
+  public void setCause(ResizeCauseDTO cause) {
+    this.cause = cause;
+  }
 
-    public void setReason(TerminationReasonDTO reason) {
-        this.reason = reason;
-    }
+  public TerminationReasonDTO getReason() {
+    return reason;
+  }
 
-    public String getUser() {
-        return user;
-    }
+  public void setReason(TerminationReasonDTO reason) {
+    this.reason = reason;
+  }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+  public String getUser() {
+    return user;
+  }
+
+  public void setUser(String user) {
+    this.user = user;
+  }
 }

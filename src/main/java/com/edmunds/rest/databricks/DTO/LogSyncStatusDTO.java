@@ -15,32 +15,33 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class LogSyncStatusDTO implements Serializable {
-    @JsonProperty("last_attempted")
-    private long lastAttempted;
-    @JsonProperty("last_exception")
-    private String lastException;
 
-    public long getLastAttempted() {
-        return lastAttempted;
-    }
+  @JsonProperty("last_attempted")
+  private long lastAttempted;
+  @JsonProperty("last_exception")
+  private String lastException;
 
-    public void setLastAttempted(long lastAttempted) {
-        this.lastAttempted = lastAttempted;
-    }
+  public long getLastAttempted() {
+    return lastAttempted;
+  }
 
-    public String getLastException() {
-        return lastException;
-    }
+  public void setLastAttempted(long lastAttempted) {
+    this.lastAttempted = lastAttempted;
+  }
 
-    public void setLastException(String lastException) {
-        this.lastException = lastException;
-    }
+  public String getLastException() {
+    return lastException;
+  }
+
+  public void setLastException(String lastException) {
+    this.lastException = lastException;
+  }
 }

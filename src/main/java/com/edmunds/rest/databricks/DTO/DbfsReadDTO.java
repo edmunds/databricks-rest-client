@@ -17,30 +17,30 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class DbfsReadDTO implements Serializable {
-    @JsonProperty("bytes_read")
-    private long bytesRead;
-    private byte[] data;
 
-    public long getBytesRead() {
-        return bytesRead;
-    }
+  @JsonProperty("bytes_read")
+  private long bytesRead;
+  private byte[] data;
 
-    public void setBytesRead(long bytesRead) {
-        this.bytesRead = bytesRead;
-    }
+  public long getBytesRead() {
+    return bytesRead;
+  }
 
-    public byte[] getData() {
-        return data;
-    }
+  public void setBytesRead(long bytesRead) {
+    this.bytesRead = bytesRead;
+  }
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+  public byte[] getData() {
+    return data;
+  }
+
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 }

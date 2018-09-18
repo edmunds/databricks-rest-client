@@ -22,16 +22,16 @@ import java.io.Serializable;
  *
  */
 public enum EbsVolumeTypeDTO implements Serializable {
-    GENERAL_PURPOSE_SSD("GENERAL_PURPOSE_SSD"), THROUGHPUT_OPTIMIZED_HDD("THROUGHPUT_OPTIMIZED_HDD");
+  GENERAL_PURPOSE_SSD("GENERAL_PURPOSE_SSD"), THROUGHPUT_OPTIMIZED_HDD("THROUGHPUT_OPTIMIZED_HDD");
 
-    private String value;
+  private String value;
 
-    EbsVolumeTypeDTO(String value) {
-        this.value = value;
-    }
+  EbsVolumeTypeDTO(String value) {
+    this.value = value;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

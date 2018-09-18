@@ -15,92 +15,93 @@
  */
 
 package com.edmunds.rest.databricks.DTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 /**
  *
  */
 public class AwsAttributesDTO implements Serializable {
-    @JsonProperty("first_on_demand")
-    private int firstOnDemand;
-    @JsonProperty("availability")
-    private AwsAvailabilityDTO availability;
-    @JsonProperty("zone_id")
-    private String zoneId;
-    @JsonProperty("instance_profile_arn")
-    private String instanceProfileArn;
-    @JsonProperty("spot_bid_price_percent")
-    private int spotBidPricePercent;
-    @JsonProperty("ebs_volume_type")
-    private EbsVolumeTypeDTO ebsVolumeType;
-    @JsonProperty("ebs_volume_count")
-    private int ebsVolumeCount;
-    @JsonProperty("ebs_volume_size")
-    private int ebsVolumeSize;
 
-    public int getFirstOnDemand() {
-        return firstOnDemand;
-    }
+  @JsonProperty("first_on_demand")
+  private int firstOnDemand;
+  @JsonProperty("availability")
+  private AwsAvailabilityDTO availability;
+  @JsonProperty("zone_id")
+  private String zoneId;
+  @JsonProperty("instance_profile_arn")
+  private String instanceProfileArn;
+  @JsonProperty("spot_bid_price_percent")
+  private int spotBidPricePercent;
+  @JsonProperty("ebs_volume_type")
+  private EbsVolumeTypeDTO ebsVolumeType;
+  @JsonProperty("ebs_volume_count")
+  private int ebsVolumeCount;
+  @JsonProperty("ebs_volume_size")
+  private int ebsVolumeSize;
 
-    public void setFirstOnDemand(int firstOnDemand) {
-        this.firstOnDemand = firstOnDemand;
-    }
+  public int getFirstOnDemand() {
+    return firstOnDemand;
+  }
 
-    public AwsAvailabilityDTO getAvailability() {
-        return availability;
-    }
+  public void setFirstOnDemand(int firstOnDemand) {
+    this.firstOnDemand = firstOnDemand;
+  }
 
-    public void setAvailability(AwsAvailabilityDTO availability) {
-        this.availability = availability;
-    }
+  public AwsAvailabilityDTO getAvailability() {
+    return availability;
+  }
 
-    public String getZoneId() {
-        return zoneId;
-    }
+  public void setAvailability(AwsAvailabilityDTO availability) {
+    this.availability = availability;
+  }
 
-    public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;
-    }
+  public String getZoneId() {
+    return zoneId;
+  }
 
-    public String getInstanceProfileArn() {
-        return instanceProfileArn;
-    }
+  public void setZoneId(String zoneId) {
+    this.zoneId = zoneId;
+  }
 
-    public void setInstanceProfileArn(String instanceProfileArn) {
-        this.instanceProfileArn = instanceProfileArn;
-    }
+  public String getInstanceProfileArn() {
+    return instanceProfileArn;
+  }
 
-    public int getSpotBidPricePercent() {
-        return spotBidPricePercent;
-    }
+  public void setInstanceProfileArn(String instanceProfileArn) {
+    this.instanceProfileArn = instanceProfileArn;
+  }
 
-    public void setSpotBidPricePercent(int spotBidPricePercent) {
-        this.spotBidPricePercent = spotBidPricePercent;
-    }
+  public int getSpotBidPricePercent() {
+    return spotBidPricePercent;
+  }
 
-    public EbsVolumeTypeDTO getEbsVolumeType() {
-        return ebsVolumeType;
-    }
+  public void setSpotBidPricePercent(int spotBidPricePercent) {
+    this.spotBidPricePercent = spotBidPricePercent;
+  }
 
-    public void setEbsVolumeType(EbsVolumeTypeDTO ebsVolumeType) {
-        this.ebsVolumeType = ebsVolumeType;
-    }
+  public EbsVolumeTypeDTO getEbsVolumeType() {
+    return ebsVolumeType;
+  }
 
-    public int getEbsVolumeCount() {
-        return ebsVolumeCount;
-    }
+  public void setEbsVolumeType(EbsVolumeTypeDTO ebsVolumeType) {
+    this.ebsVolumeType = ebsVolumeType;
+  }
 
-    public void setEbsVolumeCount(int ebsVolumeCount) {
-        this.ebsVolumeCount = ebsVolumeCount;
-    }
+  public int getEbsVolumeCount() {
+    return ebsVolumeCount;
+  }
 
-    public int getEbsVolumeSize() {
-        return ebsVolumeSize;
-    }
+  public void setEbsVolumeCount(int ebsVolumeCount) {
+    this.ebsVolumeCount = ebsVolumeCount;
+  }
 
-    public void setEbsVolumeSize(int ebsVolumeSize) {
-        this.ebsVolumeSize = ebsVolumeSize;
-    }
+  public int getEbsVolumeSize() {
+    return ebsVolumeSize;
+  }
+
+  public void setEbsVolumeSize(int ebsVolumeSize) {
+    this.ebsVolumeSize = ebsVolumeSize;
+  }
 }
