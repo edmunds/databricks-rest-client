@@ -16,6 +16,9 @@
 
 package com.edmunds.rest.databricks;
 
+import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl425;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
@@ -50,6 +53,7 @@ public final class DatabricksServiceFactory {
 
   /**
    * Creating a Databricks Service object.
+   *
    * @param maxRetry http client maxRetry when failed due to I/O , timeout error
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
    */
@@ -67,16 +71,19 @@ public final class DatabricksServiceFactory {
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
       long retryInterval, boolean useLegacyAPI425) {
     if (useLegacyAPI425) {
-      client2dot0 = new DatabricksRestClientImpl425(username, password, host, "2.0", maxRetry,
-          retryInterval);
+      client2dot0 = DatabricksRestClientImpl425
+          .createClientWithUserPassword(username, password, host, "2.0", maxRetry,
+              retryInterval);
     } else {
-      client2dot0 = new DatabricksRestClientImpl(username, password, host, "2.0", maxRetry,
-          retryInterval);
+      client2dot0 = DatabricksRestClientImpl
+          .createClientWithUserPassword(username, password, host, "2.0", maxRetry,
+              retryInterval);
     }
   }
 
   /**
    * Create a databricks service factory using personal token authentication instead.
+   *
    * @param personalToken your personal token
    * @param host the databricks host
    * @param maxRetry the maximum number of retries
@@ -84,8 +91,8 @@ public final class DatabricksServiceFactory {
    */
   public DatabricksServiceFactory(String personalToken, String host,
       int maxRetry, long retryInterval) {
-    client2dot0 = new TokenAuthDatabricksRestClientImpl(personalToken, host, "2.0",
-        maxRetry, retryInterval);
+    client2dot0 = DatabricksRestClientImpl
+        .createClientWithTokenAuthentication(personalToken, host, "2.0", maxRetry, retryInterval);
   }
 
   /**

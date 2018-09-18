@@ -14,8 +14,11 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
+import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -27,14 +30,11 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -70,11 +70,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, false);
     this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
   }
-
-  /**
-   * init url/mapper/client variable.
-   */
-  protected abstract void init();
 
   protected byte[] extractContent(HttpResponse httpResponse)
       throws IOException, DatabricksRestException {

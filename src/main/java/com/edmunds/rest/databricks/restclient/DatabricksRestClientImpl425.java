@@ -14,8 +14,10 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.SecureRandom;
@@ -41,23 +43,29 @@ import org.apache.log4j.Logger;
 /**
  * To run on CDH5.7.1, use httpclient4.2.5 version API
  */
+//TODO add token support for this version?
 public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
-  protected final String username;
-  protected final String password;
-
-  public DatabricksRestClientImpl425(String username, String password, String host,
+  private DatabricksRestClientImpl425(String host,
       String apiVersion, int maxRetry, long retryInterval) {
     super(host, apiVersion, maxRetry, retryInterval);
-    this.username = username;
-    this.password = password;
-    init();
   }
 
-  @Override
-  protected void init() {
+  /**
+   * Constructs a older http-client version of user/password authentication rest client.
+   */
+  public static DatabricksRestClientImpl425 createClientWithUserPassword(String username,
+      String password, String host,
+      String apiVersion, int maxRetry, long retryInterval) {
+    DatabricksRestClientImpl425 client = new DatabricksRestClientImpl425(host, apiVersion, maxRetry,
+        retryInterval);
+    client.initClientWithUserPassword(username, password);
+    return client;
+  }
+
+  protected void initClientWithUserPassword(String username, String password) {
     try {
 
       SSLContext sslContext = SSLContext.getInstance("TLSv1.2");

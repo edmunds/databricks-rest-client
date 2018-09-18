@@ -16,13 +16,11 @@
 
 package com.edmunds.rest.databricks.fixtures;
 
-import com.edmunds.rest.databricks.DatabricksRestClient;
-import com.edmunds.rest.databricks.DatabricksRestClientImpl;
-import com.edmunds.rest.databricks.DatabricksRestClientImpl425;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
-
-import com.edmunds.rest.databricks.TokenAuthDatabricksRestClientImpl;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl425;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -48,14 +46,24 @@ public class DatabricksFixtures {
 
   public static DatabricksRestClient getDatabricksRestClient() throws IOException {
     if (client == null) {
-      client = new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
+      client = DatabricksRestClientImpl
+          .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
     }
     return client;
   }
 
   public static DatabricksRestClient createTokenAuthRestClient() {
     if (client == null) {
-      client = new TokenAuthDatabricksRestClientImpl(TOKEN, HOSTNAME, API_VERSION, 1, 10);
+      client = DatabricksRestClientImpl
+          .createClientWithTokenAuthentication(TOKEN, HOSTNAME, API_VERSION, 1, 10);
+    }
+    return client;
+  }
+
+  public static DatabricksRestClient createDatabricks425Client() {
+    if (client == null) {
+      client = DatabricksRestClientImpl425
+          .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
     }
     return client;
   }
@@ -69,7 +77,8 @@ public class DatabricksFixtures {
    */
   public static DatabricksRestClient createDatabricksRestClientWithRetryCode(int httpStatusCode)
       throws Exception {
-    DatabricksRestClient databricksClient = new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME,
+    DatabricksRestClient databricksClient = DatabricksRestClientImpl
+        .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME,
         API_VERSION, 1, 10);
 
     addHttpStatus(databricksClient, httpStatusCode);
@@ -79,7 +88,8 @@ public class DatabricksFixtures {
 
   public static DatabricksRestClient createDatabricksRestClient425WithRetryCode(int httpStatusCode)
       throws Exception {
-    DatabricksRestClientImpl425 databricksClient = new DatabricksRestClientImpl425(USERNAME, PASSWORD, HOSTNAME,
+    DatabricksRestClientImpl425 databricksClient = DatabricksRestClientImpl425
+        .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME,
         API_VERSION, 1, 10);
 
     addHttpStatus(databricksClient, httpStatusCode);

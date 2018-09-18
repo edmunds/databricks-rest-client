@@ -14,13 +14,14 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.RequestMethod;
 import java.util.Map;
 
 /**
- * A Simple Databricks Rest Client Interface.
- * Will perform a given rest request.
+ * A Simple Databricks Rest Client Interface. Will perform a given rest request.
  */
 public interface DatabricksRestClient {
 
