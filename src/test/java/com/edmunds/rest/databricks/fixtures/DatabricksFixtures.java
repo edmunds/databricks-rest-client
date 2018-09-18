@@ -22,6 +22,7 @@ import com.edmunds.rest.databricks.DatabricksRestClientImpl425;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
 
+import com.edmunds.rest.databricks.TokenAuthDatabricksRestClientImpl;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class DatabricksFixtures {
   public static String USERNAME;
   public static String PASSWORD;
   public static String HOSTNAME;
+  public static String TOKEN;
   private static DatabricksRestClient client;
   private static DatabricksServiceFactory factory;
 
@@ -41,11 +43,19 @@ public class DatabricksFixtures {
     USERNAME = System.getenv("DB_USER");
     PASSWORD = System.getenv("DB_PASSWORD");
     HOSTNAME = System.getenv("DB_URL");
+    TOKEN = System.getenv("DB_TOKEN");
   }
 
   public static DatabricksRestClient getDatabricksRestClient() throws IOException {
     if (client == null) {
       client = new DatabricksRestClientImpl(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
+    }
+    return client;
+  }
+
+  public static DatabricksRestClient createTokenAuthRestClient() {
+    if (client == null) {
+      client = new TokenAuthDatabricksRestClientImpl(USERNAME, TOKEN, HOSTNAME, API_VERSION, 1, 10);
     }
     return client;
   }

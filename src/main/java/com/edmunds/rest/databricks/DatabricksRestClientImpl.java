@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 /**
  * The main implementation of databricks rest client, which uses up to date httpclient.
  */
-public final class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
+public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
