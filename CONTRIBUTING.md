@@ -76,7 +76,10 @@ mvn release:clean release:prepare release:perform -Pdeploy
 
 
 ## Use a Consistent Coding Style
-TODO - going to add checkstyle to maven build
+We use a slight modification of google java style.
+Please configure your setup to use the checkstyle/google_checkstyle.xml files
+(For Intellij users, you should use the google-idea-checkstyle.xml for your auto-formatting)
+Currently, builds are configured to fail if style requirements are not met.
 
 ## References
 This document was adapted from the open-source contribution guidelines for [Transcriptase](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62)
