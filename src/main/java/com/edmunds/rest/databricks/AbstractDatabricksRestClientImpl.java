@@ -35,7 +35,7 @@ import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * This is the abstract databricks rest client that contains base functionality.
  */
 public abstract class AbstractDatabricksRestClientImpl implements DatabricksRestClient {
 
@@ -56,7 +56,15 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   protected HttpRequestRetryHandler retryHandler;
   protected ServiceUnavailableRetryStrategy retryStrategy;
 
-
+  /**
+   * Creates a rest client.
+   * @param username databricks username
+   * @param password databricks password
+   * @param host databricks host
+   * @param apiVersion databricks api version
+   * @param maxRetry how many retries
+   * @param retryInterval interval btween retries
+   */
   public AbstractDatabricksRestClientImpl(String username, String password, String host,
       String apiVersion,
       int maxRetry, long retryInterval) {

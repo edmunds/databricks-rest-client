@@ -24,7 +24,8 @@ import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
 
 /**
- *
+ * A Wrapper around the cluster part of the databricks rest api
+ * https://docs.databricks.com/api/latest/clusters.html.
  */
 public interface ClusterService {
 

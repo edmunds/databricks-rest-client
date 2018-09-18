@@ -36,7 +36,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * The main implementation of databricks rest client, which uses up to date httpclient.
  */
 public final class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
@@ -48,6 +48,7 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
     super(username, password, host, apiVersion, maxRetry, retryInterval);
   }
 
+  @Override
   protected void init() {
     CredentialsProvider credsProvider = new BasicCredentialsProvider();
     credsProvider.setCredentials(
@@ -86,6 +87,7 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
+  @Override
   public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
       throws
       DatabricksRestException {
@@ -111,9 +113,7 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
         }
       } catch (IOException ioe) {
         logger.debug("ignore close error", ioe);
-
       }
     }
   }
-
 }

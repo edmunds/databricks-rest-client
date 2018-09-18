@@ -23,7 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
+ * A wrapper around the databricks DbfsService.
+ * https://docs.databricks.com/api/latest/dbfs.html
  */
 public interface DbfsService {
 

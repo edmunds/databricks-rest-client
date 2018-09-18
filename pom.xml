@@ -128,6 +128,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
+                            <excludes>com/edmunds/rest/databricks/DTO/*</excludes>
                             <configLocation>checkstyle/google_checkstyle.xml</configLocation>
                             <useFile>checkstyle-errors.xml</useFile>
                             <encoding>UTF-8</encoding>

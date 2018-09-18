@@ -23,7 +23,8 @@ import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import java.io.IOException;
 
 /**
- *
+ * Wrapper around the Worspace API.
+ * https://docs.databricks.com/api/latest/workspace.html
  */
 public interface WorkspaceService {
 

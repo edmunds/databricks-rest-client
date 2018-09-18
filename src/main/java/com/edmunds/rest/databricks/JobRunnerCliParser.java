@@ -29,7 +29,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
- *
+ * A Command Line Interface to the JobRunner class.
  */
 public class JobRunnerCliParser {
 
@@ -56,6 +56,9 @@ public class JobRunnerCliParser {
   private HelpFormatter formatter = new HelpFormatter();
   private CommandLine commandLine;
 
+  /**
+   * Parse args.
+   */
   public void parse(String... cliArgs) throws ParseException {
     if (options == null) {
       options = makeOptions();
@@ -121,7 +124,9 @@ public class JobRunnerCliParser {
     return commandLine.hasOption(JOB_JAR_PARAMS);
   }
 
-
+  /**
+   * Return the jar parameters.
+   */
   public String[] getJarParams() {
     if (hasJobJarParams()) {
       return commandLine.getOptionValues(JOB_JAR_PARAMS);
@@ -134,6 +139,9 @@ public class JobRunnerCliParser {
     return commandLine.hasOption(JOB_NOTEBOOK_PARAMS);
   }
 
+  /**
+   * Return the notebook params.
+   */
   public Map<String, String> getNotebookParams() {
     Map<String, String> notebookParams = new HashMap<>();
 
@@ -158,6 +166,9 @@ public class JobRunnerCliParser {
     return commandLine.hasOption(JOB_PYTHON_PARAMS);
   }
 
+  /**
+   * Return the python params.
+   */
   public String[] getPythonParams() {
     if (hasJobPythonParams()) {
       return commandLine.getOptionValues(JOB_PYTHON_PARAMS);
@@ -170,6 +181,9 @@ public class JobRunnerCliParser {
     return commandLine.hasOption(JOB_SPARK_SUBMIT_PARAMS);
   }
 
+  /**
+   * Return the spark submit params.
+   */
   public String[] getSparkSubmitParams() {
     if (hasJobSaprkSubmitParams()) {
       return commandLine.getOptionValues(JOB_SPARK_SUBMIT_PARAMS);
@@ -178,6 +192,9 @@ public class JobRunnerCliParser {
     return new String[]{};
   }
 
+  /**
+   * Return the maximum amount of time that we can let the job run before considering it failed.
+   */
   public long getJobTimeout() {
     if (commandLine.hasOption(JOB_TIMEOUT)) {
       return Long.parseLong(commandLine.getOptionValue(JOB_TIMEOUT));
@@ -186,6 +203,9 @@ public class JobRunnerCliParser {
     return DEFAULT_JOB_TIMEOUT;
   }
 
+  /**
+   * Return how often to check what the status of the job is.@return
+   */
   public long getJobCheckInterval() {
     if (commandLine.hasOption(JOB_CHECK_INTERVAL)) {
       return Long.parseLong(commandLine.getOptionValue(JOB_CHECK_INTERVAL));

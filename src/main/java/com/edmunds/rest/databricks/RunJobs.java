@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 
 
 /**
- *
+ * Run Multiple Jobs Class.
  */
 public class RunJobs {
 
@@ -43,13 +43,18 @@ public class RunJobs {
   private long timeout;
   private long checkInterval;
 
+  /**
+   * Constructor.
+   */
   public RunJobs(RunJob[] runJobs, long timeout, long checkInterval) {
     this.runJobs = runJobs;
     this.timeout = timeout;
     this.checkInterval = checkInterval;
   }
 
-
+  /**
+   * Process the jobs.
+   */
   public List<Map.Entry<RunJob, Exception>> process() throws InterruptedException {
 
     List<RunJob> runningJobs = new ArrayList<>(runJobs.length);
@@ -108,13 +113,12 @@ public class RunJobs {
     return failedJobs;
   }
 
-
   private boolean checkJobIsFinished(RunDTO run) throws DatabricksRestException {
     RunLifeCycleStateDTO runLifeCycleState = run.getState().getLifeCycleState();
 
-    if (Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.TERMINATED) ||
-        Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.SKIPPED) ||
-        Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.INTERNAL_ERROR)) {
+    if (Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.TERMINATED)
+        || Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.SKIPPED)
+        || Objects.equals(runLifeCycleState, RunLifeCycleStateDTO.INTERNAL_ERROR)) {
 
       RunResultStateDTO runResultState = run.getState().getResultState();
       if (runResultState != RunResultStateDTO.SUCCESS) {
@@ -126,6 +130,4 @@ public class RunJobs {
 
     return false;
   }
-
-
 }

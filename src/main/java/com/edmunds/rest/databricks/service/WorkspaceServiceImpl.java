@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Implementation of the Workspace Service.
  */
 public class WorkspaceServiceImpl extends DatabricksService implements WorkspaceService {
 
@@ -36,6 +36,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
     super(client);
   }
 
+  @Override
   public void delete(String path, boolean recursive) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -44,6 +45,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
     client.performQuery(RequestMethod.POST, "/workspace/delete", data);
   }
 
+  @Override
   public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
       DatabricksRestException {
     byte[] responseBody = client
@@ -55,6 +57,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
     return result.get("content").getBytes();
   }
 
+  @Override
   public ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -68,6 +71,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
     client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
   }
 
+  @Override
   public ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -81,6 +85,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
     return result.get("objects");
   }
 
+  @Override
   public void mkdirs(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);

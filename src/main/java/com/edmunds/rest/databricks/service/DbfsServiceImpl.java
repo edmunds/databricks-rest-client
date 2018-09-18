@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.commons.net.util.Base64;
 
 /**
- *
+ * The implementation of DbfsService.
  */
 public class DbfsServiceImpl extends DatabricksService implements DbfsService {
 
@@ -38,6 +38,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     super(client);
   }
 
+  @Override
   public void rm(String path, boolean recursive) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -46,6 +47,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     client.performQuery(RequestMethod.POST, "/dbfs/delete", data);
   }
 
+  @Override
   public FileInfoDTO getInfo(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -55,6 +57,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     return mapper.readValue(responseBody, FileInfoDTO.class);
   }
 
+  @Override
   public FileInfoDTO[] ls(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -67,6 +70,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     return jsonObject.get("files");
   }
 
+  @Override
   public void mkdirs(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);
@@ -74,6 +78,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     client.performQuery(RequestMethod.POST, "/dbfs/mkdirs", data);
   }
 
+  @Override
   public void mv(String sourcePath, String destinationPath)
       throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
@@ -89,6 +94,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     addBlocks(inputStream, handle);
   }
 
+  @Override
   public DbfsReadDTO read(String path, long offset, long length)
       throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
@@ -101,6 +107,7 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
     return this.mapper.readValue(responseBody, DbfsReadDTO.class);
   }
 
+  @Override
   public DbfsReadDTO read(String path) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("path", path);

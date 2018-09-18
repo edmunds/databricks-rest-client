@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * A basic implementation of the ClusterService.
  */
 public final class ClusterServiceImpl extends DatabricksService implements ClusterService {
 

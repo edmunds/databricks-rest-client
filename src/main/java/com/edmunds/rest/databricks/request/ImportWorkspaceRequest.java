@@ -22,8 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Import Workspace Request object.
+ * Deprecated in favor of using DTOs
  */
+@Deprecated
 public class ImportWorkspaceRequest extends DatabricksRestRequest {
 
   private ImportWorkspaceRequest(Map<String, Object> data) {

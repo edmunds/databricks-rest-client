@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- *
+ * A wrapper around the Databricks Job API. https://docs.databricks.com/api/latest/jobs.html
  */
 public interface JobService {
 
@@ -129,16 +129,16 @@ public interface JobService {
   /**
    * Lists runs from most recently started to least.
    *
-   * @param jobId The job for which to list runs. If omitted, the Jobs service will list runs from
-   * all jobs
+   * @param jobId The job for which to list runs. If omitted,
+   *     the Jobs service will list runs from all jobs
    * @param activeOnly If true, lists active runs only; otherwise, lists both active and inactive
-   * runs
+   *     runs
    * @param offset The offset of the first run to return, relative to the most recent run. The
-   * default value is 20
+   *     default value is 20
    * @param limit The number of runs to return. This value should be greater than 0 and less than
-   * 1000
+   *     1000
    * @return Returns RunsDTO containing an array of runs and a boolean indicating if there are more
-   * jobs that haven't been included
+   *     jobs that haven't been included
    */
   RunsDTO listRuns(Long jobId, Boolean activeOnly, Integer offset, Integer limit)
       throws DatabricksRestException,

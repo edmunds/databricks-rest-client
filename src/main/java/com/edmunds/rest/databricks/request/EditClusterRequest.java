@@ -24,8 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Edit Cluster Request object.
+ * Should be deprecated in favor of using DTOs.
  */
+@Deprecated
 public class EditClusterRequest extends DatabricksRestRequest {
 
   private EditClusterRequest(Map<String, Object> data) {
@@ -39,6 +41,9 @@ public class EditClusterRequest extends DatabricksRestRequest {
 
     private Map<String, Object> data = new HashMap<>();
 
+    /**
+     * Constructor.
+     */
     public EditClusterRequestBuilder(int numWorkers, String clusterId, String clusterName, String
         sparkVersion, String nodeTypeId) {
       data.put("num_workers", numWorkers);
@@ -48,6 +53,9 @@ public class EditClusterRequest extends DatabricksRestRequest {
       data.put("node_type_id", nodeTypeId);
     }
 
+    /**
+     * Constructor.
+     */
     public EditClusterRequestBuilder(AutoScaleDTO autoscale, String clusterId, String clusterName,
         String
             sparkVersion, String nodeTypeId) {

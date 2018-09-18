@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * The implementation of JobService.
  */
 public class JobServiceImpl extends DatabricksService implements JobService {
 
@@ -102,8 +102,8 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     List<JobDTO> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
       String errorMessage = String
-          .format("[%s] job ids found for name: [%s]. Please delete duplicate jobs, or " +
-              "renaming conflicting jobs:\n%s\n", jobs.size(), jobName, jobs);
+          .format("[%s] job ids found for name: [%s]. Please delete duplicate jobs, or "
+              + "renaming conflicting jobs:\n%s\n", jobs.size(), jobName, jobs);
       if (failOnMultipleJobs) {
         throw new IllegalStateException(errorMessage);
       } else {
@@ -163,12 +163,6 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   public RunNowDTO runJobNow(long jobId, Map<String, String> notebookParams)
       throws DatabricksRestException,
       IOException {
-    Map<String, Object> data = new HashMap<>();
-    data.put("job_id", jobId);
-    if (notebookParams != null) {
-      data.put("notebook_params", notebookParams);
-    }
-
     RunParametersDTO parametersDTO = new RunParametersDTO();
     parametersDTO.setNotebookParams(notebookParams);
     return runJobNow(jobId, parametersDTO);
@@ -263,7 +257,9 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     List<JobDTO> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
       String errorMessage = String.format(
-          "[%s] job ids found for name: [%s]. Please consider deleting duplicate jobs, or renaming conflicting jobs:\n%s\n",
+          "[%s] job ids found for name: [%s]. Please consider deleting duplicate jobs, "
+              + "or renaming "
+              + "conflicting jobs:\n%s\n",
           jobs.size(), jobName, jobs);
 
       if (failOnDuplicateJobNames) {

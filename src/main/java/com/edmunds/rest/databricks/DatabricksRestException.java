@@ -17,7 +17,7 @@
 package com.edmunds.rest.databricks;
 
 /**
- *
+ * Any Databricks Rest Service exceptions.
  */
 public class DatabricksRestException extends Exception {
 

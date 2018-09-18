@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * Run Job Class.
  */
 public class RunJob {
 
@@ -53,6 +53,9 @@ public class RunJob {
     this(service, jobId, runParametersDTO, DEFAULT_JOB_TIMEOUT, DEFAULT_JOB_CHECK_INTERVAL);
   }
 
+  /**
+   * Constructor.
+   */
   public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO, long timeout,
       long checkInterval) {
     this.service = service;
@@ -63,6 +66,7 @@ public class RunJob {
   }
 
   /**
+   * Monitor the job.
    * @return throws DatabricksRestException if job do not succeed.
    */
   public RunResultStateDTO process()
@@ -93,7 +97,10 @@ public class RunJob {
     return resultState;
   }
 
-
+  /**
+   * Launch the job on databricks.
+   * @return a RunNowDTO object.
+   */
   public RunNowDTO launchJob() throws IOException, DatabricksRestException {
     RunNowDTO runNowDTO = service.runJobNow(jobId, runParametersDTO);
     runId = runNowDTO.getRunId();

@@ -22,7 +22,8 @@ import com.edmunds.rest.databricks.DatabricksRestException;
 import java.io.IOException;
 
 /**
- *
+ * The wrapper around the databricks Library API.
+ * https://docs.databricks.com/api/latest/libraries.html
  */
 public interface LibraryService {
 

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Implementation of LibraryService.
  */
 public final class LibraryServiceImpl extends DatabricksService implements LibraryService {
 

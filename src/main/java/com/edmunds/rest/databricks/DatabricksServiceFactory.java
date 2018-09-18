@@ -29,7 +29,7 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
 
 /**
- *
+ * Factory class for all other specific Databricks Service Wrappers.
  */
 public final class DatabricksServiceFactory {
 
@@ -49,6 +49,7 @@ public final class DatabricksServiceFactory {
   }
 
   /**
+   * Creating a Databricks Service object.
    * @param maxRetry http client maxRetry when failed due to I/O , timeout error
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
    */
@@ -74,44 +75,53 @@ public final class DatabricksServiceFactory {
     }
   }
 
+  /**
+   * Will return a Databricks Cluster Service singleton.
+   */
   public ClusterService getClusterService() {
     if (clusterService == null) {
       clusterService = new ClusterServiceImpl(client2dot0);
     }
-
     return clusterService;
-
   }
 
+  /**
+   * Will return a Databricks Library Service singleton.
+   */
   public LibraryService getLibraryService() {
     if (libraryService == null) {
       libraryService = new LibraryServiceImpl(client2dot0);
     }
-
     return libraryService;
   }
 
+  /**
+   * Will return a JobService singleton.
+   */
   public JobService getJobService() {
     if (jobService == null) {
       jobService = new JobServiceImpl(client2dot0);
     }
-
     return jobService;
   }
 
+  /**
+   * Will return a workspace singleton.
+   */
   public WorkspaceService getWorkspaceService() {
     if (workspaceService == null) {
       workspaceService = new WorkspaceServiceImpl(client2dot0);
     }
-
     return workspaceService;
   }
 
+  /**
+   * Will return a DBFS (databricks filesystem) singleton.
+   */
   public DbfsService getDbfsService() {
     if (dbfsService == null) {
       dbfsService = new DbfsServiceImpl(client2dot0);
     }
-
     return dbfsService;
   }
 }

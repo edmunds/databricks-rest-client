@@ -22,13 +22,16 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- *
+ * All Services will extend this base class which provides a wrapper around the rest client.
  */
 public abstract class DatabricksService {
 
   protected DatabricksRestClient client;
   protected ObjectMapper mapper;
 
+  /**
+   * Given a client, create a wrapper around it.
+   */
   public DatabricksService(final DatabricksRestClient client) {
     this.client = client;
     // Not failing on unknown properties because Databricks adds properties to DTOs regularly

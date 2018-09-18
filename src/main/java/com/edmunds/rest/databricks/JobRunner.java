@@ -24,13 +24,16 @@ import org.apache.commons.cli.ParseException;
 
 
 /**
- *
+ * A tool to launch and monitor Databricks Jobs.
  */
 public class JobRunner {
 
   private JobService service;
   private JobRunnerCliParser parser;
 
+  /**
+   * JobRunner from arguments.
+   */
   public JobRunner(String... args) throws ParseException {
     parser = new JobRunnerCliParser();
     parser.parse(args);
@@ -48,6 +51,13 @@ public class JobRunner {
     main.runJob();
   }
 
+  /**
+   * Runs a job on databricks.
+   * Will monitor its status.
+   * @throws IOException other errors
+   * @throws DatabricksRestException any databricks server errors including if the job failed.
+   * @throws InterruptedException thread interruption
+   */
   public void runJob() throws IOException, DatabricksRestException, InterruptedException {
     long jobId = getJobId();
 

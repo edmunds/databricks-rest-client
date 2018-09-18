@@ -17,7 +17,7 @@
 package com.edmunds.rest.databricks;
 
 /**
- *
+ * The type of the REST request.
  */
 public enum RequestMethod {
   GET, POST

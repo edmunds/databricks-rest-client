@@ -51,6 +51,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     super(username, password, host, apiVersion, maxRetry, retryInterval);
   }
 
+  @Override
   protected void init() {
     try {
 
@@ -84,7 +85,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
-
+  @Override
   public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
       throws
       DatabricksRestException {
@@ -110,5 +111,4 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
       }
     }
   }
-
 }

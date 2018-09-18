@@ -19,7 +19,8 @@ package com.edmunds.rest.databricks;
 import java.util.Map;
 
 /**
- *
+ * A Simple Databricks Rest Client Interface.
+ * Will perform a given rest request.
  */
 public interface DatabricksRestClient {
 
