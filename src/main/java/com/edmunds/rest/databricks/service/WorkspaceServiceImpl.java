@@ -23,7 +23,6 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.request.ExportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +45,12 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
   }
 
   public byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest) throws IOException,
-                                                                                      DatabricksRestException {
-    byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
-    Map<String, String> result = mapper.readValue(responseBody, new TypeReference<Map<String, String>>() {
-    });
+      DatabricksRestException {
+    byte[] responseBody = client
+        .performQuery(RequestMethod.GET, "/workspace/export", exportWorkspaceRequest.getData());
+    Map<String, String> result = mapper
+        .readValue(responseBody, new TypeReference<Map<String, String>>() {
+        });
 
     return result.get("content").getBytes();
   }
@@ -63,7 +64,7 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
   }
 
   public void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest) throws IOException,
-                                                                                    DatabricksRestException {
+      DatabricksRestException {
     client.performQuery(RequestMethod.POST, "/workspace/import", importWorkspaceRequest.getData());
   }
 
@@ -73,9 +74,10 @@ public class WorkspaceServiceImpl extends DatabricksService implements Workspace
 
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/workspace/list", data);
 
-    Map<String, ObjectInfoDTO[]> result = mapper.readValue(responseBody, new TypeReference<Map<String,
-        ObjectInfoDTO[]>>() {
-    });
+    Map<String, ObjectInfoDTO[]> result = mapper
+        .readValue(responseBody, new TypeReference<Map<String,
+            ObjectInfoDTO[]>>() {
+        });
     return result.get("objects");
   }
 

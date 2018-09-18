@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class CronScheduleDTO implements Serializable {
+
   @JsonProperty("quartz_cron_expression")
   private String quartzCronExpression;
   @JsonProperty("timezone_id")

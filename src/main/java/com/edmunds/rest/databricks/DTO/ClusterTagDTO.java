@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterTagDTO implements Serializable {
+
   @JsonProperty("key")
   private String key;
   @JsonProperty("value")

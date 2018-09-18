@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -25,6 +24,7 @@ import java.util.Map;
  *
  */
 public class TerminationReasonDTO implements Serializable {
+
   @JsonProperty("code")
   private TerminationCodeDTO code;
   @JsonProperty("parameters")

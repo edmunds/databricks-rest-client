@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class JobTaskDTO implements Serializable {
+
   @JsonProperty("notebook_task")
   private NotebookTaskDTO notebookTask;
   @JsonProperty("spark_jar_task")

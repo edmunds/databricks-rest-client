@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  */
 public class LibraryDTO implements Serializable {
+
   private PythonPyPiLibraryDTO pypi;
   private String egg;
   private String jar;

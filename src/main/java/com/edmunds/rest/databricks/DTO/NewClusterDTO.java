@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Map;
 
@@ -25,6 +24,7 @@ import java.util.Map;
  *
  */
 public class NewClusterDTO implements Serializable {
+
   @JsonProperty("spark_version")
   private String sparkVersion;
   @JsonProperty("aws_attributes")

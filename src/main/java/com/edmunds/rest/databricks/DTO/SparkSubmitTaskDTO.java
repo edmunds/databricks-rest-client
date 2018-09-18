@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  */
 public class SparkSubmitTaskDTO implements Serializable {
+
   private String[] parameters;
 
   public String[] getParameters() {

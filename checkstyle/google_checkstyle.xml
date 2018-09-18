@@ -18,7 +18,7 @@
 <module name = "Checker">
     <property name="charset" value="UTF-8"/>
 
-    <property name="severity" value="warning"/>
+    <property name="severity" value="error"/>
 
     <property name="fileExtensions" value="java, properties, xml"/>
     <!-- Checks for whitespace                               -->
@@ -116,6 +116,7 @@
             <property name="option" value="nl"/>
         </module>
         <module name="PackageName">
+            <property name="severity" value="warning"/>
             <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
             <message key="name.invalidPattern"
                      value="Package name ''{0}'' must match pattern ''{1}''."/>
@@ -185,6 +186,7 @@
             <property name="arrayInitIndent" value="2"/>
         </module>
         <module name="AbbreviationAsWordInName">
+            <property name="severity" value="warning"/>
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="1"/>
         </module>

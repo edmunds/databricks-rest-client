@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class RunNowDTO implements Serializable {
+
   @JsonProperty("run_id")
   private long runId;
   @JsonProperty("number_in_job")

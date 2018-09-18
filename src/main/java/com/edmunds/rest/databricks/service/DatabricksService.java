@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public abstract class DatabricksService {
+
   protected DatabricksRestClient client;
   protected ObjectMapper mapper;
 

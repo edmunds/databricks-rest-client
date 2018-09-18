@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  */
 public class ViewItemDTO implements Serializable {
+
   private String content;
   private String name;
   private ViewTypeDTO type;

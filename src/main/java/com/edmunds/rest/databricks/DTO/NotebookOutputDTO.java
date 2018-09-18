@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  */
 public class NotebookOutputDTO implements Serializable {
+
   private String result;
 
   public String getResult() {

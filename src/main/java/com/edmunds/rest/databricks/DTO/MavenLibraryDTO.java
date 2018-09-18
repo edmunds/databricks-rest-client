@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  */
 public class MavenLibraryDTO implements Serializable {
+
   private String coordinates;
   private String repo;
   private String[] exclusions;

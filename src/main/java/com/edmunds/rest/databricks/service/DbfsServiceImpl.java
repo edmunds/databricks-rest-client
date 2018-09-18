@@ -22,13 +22,12 @@ import com.edmunds.rest.databricks.DatabricksRestClient;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.commons.net.util.Base64;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.net.util.Base64;
 
 /**
  *
@@ -62,8 +61,9 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
 
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/dbfs/list", data);
 
-    Map<String, FileInfoDTO[]> jsonObject = this.mapper.readValue(responseBody, new TypeReference<Map<String, FileInfoDTO[]>>() {
-    });
+    Map<String, FileInfoDTO[]> jsonObject = this.mapper
+        .readValue(responseBody, new TypeReference<Map<String, FileInfoDTO[]>>() {
+        });
     return jsonObject.get("files");
   }
 
@@ -118,8 +118,9 @@ public class DbfsServiceImpl extends DatabricksService implements DbfsService {
 
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/dbfs/create", data);
 
-    Map<String, Long> jsonObject = this.mapper.readValue(responseBody, new TypeReference<Map<String, Long>>() {
-    });
+    Map<String, Long> jsonObject = this.mapper
+        .readValue(responseBody, new TypeReference<Map<String, Long>>() {
+        });
     return jsonObject.get("handle");
   }
 

@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterLibraryStatusesDTO implements Serializable {
+
   @JsonProperty("cluster_id")
   private String clusterId;
   @JsonProperty("library_statuses")

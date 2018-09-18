@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
@@ -25,6 +24,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class SparkJarTaskDTO implements Serializable {
+
   @JsonProperty("jar_uri")
   private String jarUri;
   @JsonProperty("main_class_name")

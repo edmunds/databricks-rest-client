@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -30,10 +33,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 /**
  *
@@ -58,8 +57,9 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   protected ServiceUnavailableRetryStrategy retryStrategy;
 
 
-  public AbstractDatabricksRestClientImpl(String username, String password, String host, String apiVersion,
-                                          int maxRetry, long retryInterval) {
+  public AbstractDatabricksRestClientImpl(String username, String password, String host,
+      String apiVersion,
+      int maxRetry, long retryInterval) {
     this.username = username;
     this.password = password;
     this.host = host;
@@ -72,8 +72,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * init url/mapper/client variable.
-   *
-   * @return
    */
   protected abstract void init();
 
@@ -97,7 +95,8 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   }
 
 
-  protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path, Map<String, Object> data)
+  protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path,
+      Map<String, Object> data)
       throws UnsupportedEncodingException, JsonProcessingException {
     if (requestMethod == RequestMethod.GET) {
       return makeGetMethod(path, data);

@@ -19,13 +19,13 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
 import com.edmunds.rest.databricks.DTO.LibraryDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
-
 import java.io.IOException;
 
 /**
  *
  */
 public interface LibraryService {
+
   ClusterLibraryStatusesDTO[] allClusterStatuses() throws IOException, DatabricksRestException;
 
   ClusterLibraryStatusesDTO clusterStatus(String clusterId)

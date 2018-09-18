@@ -20,7 +20,6 @@ import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
 import com.edmunds.rest.databricks.DTO.ClusterLogConfDTO;
 import com.edmunds.rest.databricks.DTO.ClusterTagDTO;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,16 +36,19 @@ public class CreateClusterRequest extends DatabricksRestRequest {
    * Builder.
    */
   public static class CreateClusterRequestBuilder {
+
     private Map<String, Object> data = new HashMap<>();
 
-    public CreateClusterRequestBuilder(int numWorkers, String clusterName, String sparkVersion, String nodeTypeId) {
+    public CreateClusterRequestBuilder(int numWorkers, String clusterName, String sparkVersion,
+        String nodeTypeId) {
       data.put("num_workers", numWorkers);
       data.put("cluster_name", clusterName);
       data.put("spark_version", sparkVersion);
       data.put("node_type_id", nodeTypeId);
     }
 
-    public CreateClusterRequestBuilder(AutoScaleDTO autoscale, String clusterName, String sparkVersion, String nodeTypeId) {
+    public CreateClusterRequestBuilder(AutoScaleDTO autoscale, String clusterName,
+        String sparkVersion, String nodeTypeId) {
       data.put("autoscale", autoscale);
       data.put("cluster_name", clusterName);
       data.put("spark_version", sparkVersion);

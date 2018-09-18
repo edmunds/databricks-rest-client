@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class NodeTypeDTO implements Serializable {
+
   @JsonProperty("node_type_id")
   private String nodeTypeId;
   @JsonProperty("memory_mb")

@@ -24,7 +24,6 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +40,8 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   @Override
   public String create(CreateClusterRequest createClusterRequest)
       throws IOException, DatabricksRestException {
-    byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/create", createClusterRequest.getData());
+    byte[] responseBody = client
+        .performQuery(RequestMethod.POST, "/clusters/create", createClusterRequest.getData());
     Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
     return (String) response.get("cluster_id");
   }
@@ -101,8 +101,9 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   @Override
   public ClusterInfoDTO[] list() throws IOException, DatabricksRestException {
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list", null);
-    Map<String, ClusterInfoDTO[]> jsonObject = this.mapper.readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {
-    });
+    Map<String, ClusterInfoDTO[]> jsonObject = this.mapper
+        .readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {
+        });
     return jsonObject.get("clusters");
   }
 }

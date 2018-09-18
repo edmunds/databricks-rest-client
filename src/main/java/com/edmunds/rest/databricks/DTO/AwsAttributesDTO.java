@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class AwsAttributesDTO implements Serializable {
+
   @JsonProperty("first_on_demand")
   private int firstOnDemand;
   @JsonProperty("availability")

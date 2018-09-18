@@ -16,11 +16,11 @@
 
 package com.edmunds.rest.databricks;
 
+import static java.lang.Thread.sleep;
+
 import com.edmunds.rest.databricks.DTO.RunDTO;
 import com.edmunds.rest.databricks.DTO.RunLifeCycleStateDTO;
 import com.edmunds.rest.databricks.DTO.RunResultStateDTO;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -28,8 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import static java.lang.Thread.sleep;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -97,7 +96,8 @@ public class RunJobs {
 
           } finally {
             failedJobs.add(new AbstractMap.SimpleEntry(runningJob,
-                new DatabricksRestException("Job canceled due to timeout " + timeout / 1000 + "secs")));
+                new DatabricksRestException(
+                    "Job canceled due to timeout " + timeout / 1000 + "secs")));
           }
         }
         runningJobs.clear();

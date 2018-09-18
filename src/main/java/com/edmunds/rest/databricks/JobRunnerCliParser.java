@@ -16,6 +16,11 @@
 
 package com.edmunds.rest.databricks;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -23,16 +28,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  *
  */
 public class JobRunnerCliParser {
+
   private static final String SERVICE_NAME = "Run Job";
   private static final String HELP_NAME = "help";
   private static final String USERNAME = "username";
@@ -127,7 +127,7 @@ public class JobRunnerCliParser {
       return commandLine.getOptionValues(JOB_JAR_PARAMS);
     }
 
-    return new String[] {};
+    return new String[]{};
   }
 
   public boolean hasJobNotebookParams() {
@@ -141,7 +141,8 @@ public class JobRunnerCliParser {
       String[] args = commandLine.getOptionValues(JOB_NOTEBOOK_PARAMS);
 
       if (args.length % 2 != 0) {
-        throw new IllegalArgumentException("Notebook parameters must be a multiple of 2 for key/value pairs.");
+        throw new IllegalArgumentException(
+            "Notebook parameters must be a multiple of 2 for key/value pairs.");
       }
 
       for (int i = 0; i < args.length; i += 2) {
@@ -162,7 +163,7 @@ public class JobRunnerCliParser {
       return commandLine.getOptionValues(JOB_PYTHON_PARAMS);
     }
 
-    return new String[] {};
+    return new String[]{};
   }
 
   public boolean hasJobSaprkSubmitParams() {
@@ -174,7 +175,7 @@ public class JobRunnerCliParser {
       return commandLine.getOptionValues(JOB_SPARK_SUBMIT_PARAMS);
     }
 
-    return new String[] {};
+    return new String[]{};
   }
 
   public long getJobTimeout() {

@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class SparkPythonTaskDTO implements Serializable {
+
   @JsonProperty("python_file")
   private String pythonFile;
   private String[] parameters;

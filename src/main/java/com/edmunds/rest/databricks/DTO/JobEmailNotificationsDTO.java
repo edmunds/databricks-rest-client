@@ -18,7 +18,6 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
@@ -27,6 +26,7 @@ import java.io.Serializable;
 @SuppressWarnings("PMD")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JobEmailNotificationsDTO implements Serializable {
+
   @JsonProperty("on_failure")
   private String[] onFailure;
   @JsonProperty("on_start")

@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +24,7 @@ import java.util.Date;
  *
  */
 public class RunDTO implements Serializable {
+
   @JsonProperty("job_id")
   private long jobId;
   @JsonProperty("run_id")

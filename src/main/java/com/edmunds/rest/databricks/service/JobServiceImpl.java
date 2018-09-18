@@ -27,8 +27,6 @@ import com.edmunds.rest.databricks.DatabricksRestClient;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -55,8 +54,9 @@ public class JobServiceImpl extends DatabricksService implements JobService {
         TypeReference<Map<String, Object>>() {
         });
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/jobs/create", data);
-    Map<String, Long> response = this.mapper.readValue(responseBody, new TypeReference<Map<String, Long>>() {
-    });
+    Map<String, Long> response = this.mapper
+        .readValue(responseBody, new TypeReference<Map<String, Long>>() {
+        });
     return response.get("job_id");
   }
 
@@ -101,8 +101,9 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       throws IOException, DatabricksRestException {
     List<JobDTO> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
-      String errorMessage = String.format("[%s] job ids found for name: [%s]. Please delete duplicate jobs, or " +
-          "renaming conflicting jobs:\n%s\n", jobs.size(), jobName, jobs);
+      String errorMessage = String
+          .format("[%s] job ids found for name: [%s]. Please delete duplicate jobs, or " +
+              "renaming conflicting jobs:\n%s\n", jobs.size(), jobName, jobs);
       if (failOnMultipleJobs) {
         throw new IllegalStateException(errorMessage);
       } else {
@@ -161,7 +162,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   @Override
   public RunNowDTO runJobNow(long jobId, Map<String, String> notebookParams)
       throws DatabricksRestException,
-             IOException {
+      IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
     if (notebookParams != null) {
@@ -176,7 +177,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   //CHECKSTYLE:OFF
   @Override
   public RunNowDTO runJobNow(long jobId, RunParametersDTO params) throws DatabricksRestException,
-                                                                         IOException {
+      IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
     if (params == null) {
@@ -203,7 +204,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
 
   @Override
   public RunsDTO listRuns(Long jobId, Boolean activeOnly, Integer offset, Integer limit) throws
-                                                                                         DatabricksRestException, IOException {
+      DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
 
     if (jobId != null) {
@@ -261,7 +262,9 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     String jobName = jobSettingsDTO.getName();
     List<JobDTO> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
-      String errorMessage = String.format("[%s] job ids found for name: [%s]. Please consider deleting duplicate jobs, or renaming conflicting jobs:\n%s\n", jobs.size(), jobName, jobs);
+      String errorMessage = String.format(
+          "[%s] job ids found for name: [%s]. Please consider deleting duplicate jobs, or renaming conflicting jobs:\n%s\n",
+          jobs.size(), jobName, jobs);
 
       if (failOnDuplicateJobNames) {
         throw new IllegalArgumentException(errorMessage);

@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
@@ -25,6 +24,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class JobsDTO implements Serializable {
+
   @JsonProperty("jobs")
   private JobDTO[] jobs;
 

@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Map;
+import javax.net.ssl.SSLContext;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -32,10 +35,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import javax.net.ssl.SSLContext;
-import java.io.IOException;
-import java.util.Map;
-
 /**
  *
  */
@@ -44,7 +43,8 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
 
-  public DatabricksRestClientImpl(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
+  public DatabricksRestClientImpl(String username, String password, String host, String apiVersion,
+      int maxRetry, long retryInterval) {
     super(username, password, host, apiVersion, maxRetry, retryInterval);
   }
 
@@ -72,7 +72,7 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
       // Allow TLSv1.2 protocol only
       SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
           ctx,
-          new String[] {"TLSv1.2"},
+          new String[]{"TLSv1.2"},
           null,
           SSLConnectionSocketFactory.getDefaultHostnameVerifier());
       clientBuilder = clientBuilder.setSSLSocketFactory(sslsf);

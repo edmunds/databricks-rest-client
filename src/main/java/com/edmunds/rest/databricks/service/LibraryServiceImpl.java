@@ -22,7 +22,6 @@ import com.edmunds.rest.databricks.DatabricksRestClient;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,8 @@ public final class LibraryServiceImpl extends DatabricksService implements Libra
   @Override
   public ClusterLibraryStatusesDTO[] allClusterStatuses()
       throws IOException, DatabricksRestException {
-    byte[] response = client.performQuery(RequestMethod.GET, "/libraries/all-cluster-statuses", null);
+    byte[] response = client
+        .performQuery(RequestMethod.GET, "/libraries/all-cluster-statuses", null);
     Map<String, ClusterLibraryStatusesDTO[]> jsonObject = this.mapper.readValue(response, new
         TypeReference<Map<String, ClusterLibraryStatusesDTO[]>>() {
         });

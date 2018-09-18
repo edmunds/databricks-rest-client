@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class ObjectInfoDTO implements Serializable {
+
   @JsonProperty("object_type")
   private ObjectTypeDTO objectType;
   private String path;

@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class AutoScaleDTO implements Serializable {
+
   @JsonProperty("min_workers")
   private int minWorkers;
   @JsonProperty("max_workers")

@@ -19,9 +19,8 @@ package com.edmunds.rest.databricks;
 import com.edmunds.rest.databricks.DTO.JobDTO;
 import com.edmunds.rest.databricks.DTO.RunParametersDTO;
 import com.edmunds.rest.databricks.service.JobService;
-import org.apache.commons.cli.ParseException;
-
 import java.io.IOException;
+import org.apache.commons.cli.ParseException;
 
 
 /**
@@ -63,7 +62,8 @@ public class JobRunner {
       runParametersDTO.setPythonParams(parser.getPythonParams());
     }
 
-    RunJob runJob = new RunJob(service, jobId, runParametersDTO, parser.getJobTimeout(), parser.getJobCheckInterval());
+    RunJob runJob = new RunJob(service, jobId, runParametersDTO, parser.getJobTimeout(),
+        parser.getJobCheckInterval());
     runJob.process();
 
   }

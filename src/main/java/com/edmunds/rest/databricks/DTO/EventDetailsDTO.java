@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class EventDetailsDTO implements Serializable {
+
   @JsonProperty("current_num_workers")
   private int currentNumWorkers;
   @JsonProperty("target_num_workers")

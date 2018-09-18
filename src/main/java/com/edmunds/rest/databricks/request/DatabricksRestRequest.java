@@ -22,6 +22,7 @@ import java.util.Map;
  *
  */
 public abstract class DatabricksRestRequest {
+
   private Map<String, Object> data;
 
   public DatabricksRestRequest(Map<String, Object> data) {

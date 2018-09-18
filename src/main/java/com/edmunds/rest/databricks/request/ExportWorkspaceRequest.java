@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.request;
 
 import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
-
 import java.util.HashMap;
 import java.util.Map;
 

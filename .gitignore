@@ -18,3 +18,5 @@ test-output/
 .checkstyle
 .pmd
 .pmdruleset.xml
+
+checkstyle-errors.xml

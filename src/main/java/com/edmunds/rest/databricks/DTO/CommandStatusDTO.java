@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class CommandStatusDTO implements Serializable {
+
   @JsonProperty("id")
   private String id;
   @JsonProperty("status")

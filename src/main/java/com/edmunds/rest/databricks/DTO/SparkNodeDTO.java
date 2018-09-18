@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class SparkNodeDTO implements Serializable {
+
   @JsonProperty("private_ip")
   private String privateIp;
   @JsonProperty("public_dns")

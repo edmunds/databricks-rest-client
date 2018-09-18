@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class RunStateDTO implements Serializable {
+
   @JsonProperty("life_cycle_state")
   private RunLifeCycleStateDTO lifeCycleState;
   @JsonProperty("result_state")

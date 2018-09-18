@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.security.SecureRandom;
+import java.util.Map;
+import javax.net.ssl.SSLContext;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -35,10 +38,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import javax.net.ssl.SSLContext;
-import java.security.SecureRandom;
-import java.util.Map;
-
 /**
  * To run on CDH5.7.1, use httpclient4.2.5 version API
  */
@@ -47,7 +46,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
 
-  public DatabricksRestClientImpl425(String username, String password, String host, String apiVersion, int maxRetry, long retryInterval) {
+  public DatabricksRestClientImpl425(String username, String password, String host,
+      String apiVersion, int maxRetry, long retryInterval) {
     super(username, password, host, apiVersion, maxRetry, retryInterval);
   }
 
@@ -67,10 +67,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
       HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
       HttpConnectionParams.setSoTimeout(params, SOCKET_TIMEOUT);
 
-
       DefaultHttpClient defaultHttpClient = new DefaultHttpClient(cm, params);
       defaultHttpClient.setHttpRequestRetryHandler(retryHandler);
-
 
       defaultHttpClient.getCredentialsProvider().setCredentials(
           new AuthScope(host, HTTPS_PORT),

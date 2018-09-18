@@ -18,7 +18,6 @@ package com.edmunds.rest.databricks.request;
 
 import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.LanguageDTO;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +25,7 @@ import java.util.Map;
  *
  */
 public class ImportWorkspaceRequest extends DatabricksRestRequest {
+
   private ImportWorkspaceRequest(Map<String, Object> data) {
     super(data);
   }
@@ -34,6 +34,7 @@ public class ImportWorkspaceRequest extends DatabricksRestRequest {
    * Builder.
    */
   public static class ImportWorkspaceRequestBuilder {
+
     private Map<String, Object> data = new HashMap<>();
 
     public ImportWorkspaceRequestBuilder(String path) {

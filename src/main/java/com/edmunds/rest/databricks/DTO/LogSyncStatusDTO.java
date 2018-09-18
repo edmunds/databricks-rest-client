@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class LogSyncStatusDTO implements Serializable {
+
   @JsonProperty("last_attempted")
   private long lastAttempted;
   @JsonProperty("last_exception")

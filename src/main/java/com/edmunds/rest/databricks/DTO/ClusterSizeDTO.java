@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterSizeDTO implements Serializable {
+
   @JsonProperty("num_workers")
   private int numWorkers;
   @JsonProperty("autoscale")

@@ -23,10 +23,9 @@ import com.edmunds.rest.databricks.DTO.RunParametersDTO;
 import com.edmunds.rest.databricks.DTO.RunResultStateDTO;
 import com.edmunds.rest.databricks.DTO.RunStateDTO;
 import com.edmunds.rest.databricks.service.JobService;
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -54,7 +53,8 @@ public class RunJob {
     this(service, jobId, runParametersDTO, DEFAULT_JOB_TIMEOUT, DEFAULT_JOB_CHECK_INTERVAL);
   }
 
-  public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO, long timeout, long checkInterval) {
+  public RunJob(JobService service, long jobId, RunParametersDTO runParametersDTO, long timeout,
+      long checkInterval) {
     this.service = service;
     this.jobId = jobId;
     this.runParametersDTO = runParametersDTO;
@@ -64,9 +64,6 @@ public class RunJob {
 
   /**
    * @return throws DatabricksRestException if job do not succeed.
-   * @throws IOException
-   * @throws DatabricksRestException
-   * @throws InterruptedException
    */
   public RunResultStateDTO process()
       throws IOException, DatabricksRestException, InterruptedException {
@@ -79,14 +76,17 @@ public class RunJob {
     RunResultStateDTO resultState = runStateDTO.getResultState();
     switch (resultState) {
       case SUCCESS:
-        log.info("Job[=" + jobId + "] finished successfully. '" + resultState.name() + "' " + runStateDTO.getStateMessage());
+        log.info(
+            "Job[=" + jobId + "] finished successfully. '" + resultState.name() + "' " + runStateDTO
+                .getStateMessage());
         break;
       case FAILED:
       case TIMEDOUT:
       case CANCELED:
         throw new DatabricksRestException("Job[=" + jobId + "] error '" + resultState.name() + "'");
       default:
-        throw new DatabricksRestException("Job[=" + jobId + "] error by unknown '" + resultState.name() + "'");
+        throw new DatabricksRestException(
+            "Job[=" + jobId + "] error by unknown '" + resultState.name() + "'");
 
     }
 
@@ -98,7 +98,8 @@ public class RunJob {
     RunNowDTO runNowDTO = service.runJobNow(jobId, runParametersDTO);
     runId = runNowDTO.getRunId();
     numberInJob = runNowDTO.getNumberInJob();
-    log.info("RunJob run-id=" + runId + ", [" + service.buildRunJobRestUrl(jobId, numberInJob) + "]");
+    log.info(
+        "RunJob run-id=" + runId + ", [" + service.buildRunJobRestUrl(jobId, numberInJob) + "]");
 
     return runNowDTO;
   }
@@ -117,13 +118,16 @@ public class RunJob {
         case PENDING:
         case RUNNING:
         case TERMINATING:
-          log.info("Sleep for " + (checkInterval / 1000) + " secs. Job lifeCycleState '" + lifeCycleState + "'");
+          log.info(
+              "Sleep for " + (checkInterval / 1000) + " secs. Job lifeCycleState '" + lifeCycleState
+                  + "'");
           Thread.sleep(checkInterval);
           elapsed += checkInterval;
           continue;
 
         case SKIPPED:
-          throw new DatabricksRestException("Job lifeCycleState '" + lifeCycleState + "'. " + runStateDTO.getStateMessage());
+          throw new DatabricksRestException(
+              "Job lifeCycleState '" + lifeCycleState + "'. " + runStateDTO.getStateMessage());
 
         default:
           return runStateDTO;

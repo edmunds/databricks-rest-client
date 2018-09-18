@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class ClusterEventDTO implements Serializable {
+
   @JsonProperty("cluster_id")
   private String clusterId;
   @JsonProperty("timestamp")

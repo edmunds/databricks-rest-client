@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class PythonPyPiLibraryDTO implements Serializable {
+
   @JsonProperty("package")
   private String pyPackage;
   @JsonProperty("repo")

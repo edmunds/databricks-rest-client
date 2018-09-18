@@ -22,14 +22,14 @@ import java.util.Map;
  *
  */
 public interface DatabricksRestClient {
+
   /**
    * Performs the given query.
    *
    * @param requestMethod Type of request method. Only supports GET and POST methods.
-   * @param path          Path of the request URL
-   * @param data          Any data needed for the request
+   * @param path Path of the request URL
+   * @param data Any data needed for the request
    * @return Returns a byte array of the response from the server
-   * @throws DatabricksRestException
    */
   byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
       throws DatabricksRestException;

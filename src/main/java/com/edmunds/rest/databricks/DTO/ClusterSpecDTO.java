@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
@@ -25,6 +24,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("PMD")
 public class ClusterSpecDTO implements Serializable {
+
   @JsonProperty("existing_cluster_id")
   private String existingClusterId;
   @JsonProperty("new_cluster")

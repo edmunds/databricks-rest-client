@@ -16,22 +16,21 @@
 
 package com.edmunds.rest.databricks;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
 import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Retry Strategy when get HTTP response status code.
- * ref> https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+ * Retry Strategy when get HTTP response status code. ref> https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 public class HttpServiceUnavailableRetryStrategy implements ServiceUnavailableRetryStrategy {
 
   private static final Set<Integer> retryStatusSet = new HashSet<>();
-  private static Logger logger = Logger.getLogger(HttpServiceUnavailableRetryStrategy.class.getName());
+  private static Logger logger = Logger
+      .getLogger(HttpServiceUnavailableRetryStrategy.class.getName());
 
   static {
     retryStatusSet.add(408); // Request Timeout
@@ -58,12 +57,16 @@ public class HttpServiceUnavailableRetryStrategy implements ServiceUnavailableRe
   }
 
   @Override
-  public boolean retryRequest(final HttpResponse response, final int executionCount, final HttpContext context) {
+  public boolean retryRequest(final HttpResponse response, final int executionCount,
+      final HttpContext context) {
     this.executeCount = executionCount;
 
-    boolean isRetry = executionCount <= this.maxRetries && retryStatusSet.contains(response.getStatusLine().getStatusCode());
+    boolean isRetry = executionCount <= this.maxRetries && retryStatusSet
+        .contains(response.getStatusLine().getStatusCode());
     if (isRetry) {
-      logger.warn("Retry HttpRequest " + executionCount + "th. statusCode=" + response.getStatusLine().getStatusCode());
+      logger.warn(
+          "Retry HttpRequest " + executionCount + "th. statusCode=" + response.getStatusLine()
+              .getStatusCode());
     }
 
     return isRetry;

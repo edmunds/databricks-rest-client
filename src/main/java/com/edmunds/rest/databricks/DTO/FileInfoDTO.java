@@ -17,13 +17,13 @@
 package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**
  *
  */
 public class FileInfoDTO implements Serializable {
+
   private String path;
   @JsonProperty("is_dir")
   private boolean isDir;

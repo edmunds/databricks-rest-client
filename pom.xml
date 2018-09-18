@@ -128,7 +128,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <configLocation>checkstyle.xml</configLocation>
+                            <configLocation>checkstyle/google_checkstyle.xml</configLocation>
                             <useFile>checkstyle-errors.xml</useFile>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>

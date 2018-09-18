@@ -21,7 +21,6 @@ import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
-
 import java.io.IOException;
 
 /**
