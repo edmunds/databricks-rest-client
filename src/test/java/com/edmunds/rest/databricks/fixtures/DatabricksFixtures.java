@@ -55,7 +55,7 @@ public class DatabricksFixtures {
 
   public static DatabricksRestClient createTokenAuthRestClient() {
     if (client == null) {
-      client = new TokenAuthDatabricksRestClientImpl(USERNAME, TOKEN, HOSTNAME, API_VERSION, 1, 10);
+      client = new TokenAuthDatabricksRestClientImpl(TOKEN, HOSTNAME, API_VERSION, 1, 10);
     }
     return client;
   }

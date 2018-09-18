@@ -97,5 +97,4 @@ public class DatabricksRestClientTest {
       assertEquals(retryStrategy.getExecuteCount(), 2);
     }
   }
-
 }

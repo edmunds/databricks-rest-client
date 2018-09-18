@@ -44,5 +44,17 @@ public class TokenAuthDatabricksRestClientTest {
     Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
 
     assertNotNull(response);
+    System.out.println(response);
+  }
+
+  @Test(expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp = ".*ENDPOINT_NOT_FOUND" +
+      ".*")
+  public void performQuery_withInvalidPath_throwsDatabricksRestException() throws Exception {
+    client.performQuery(RequestMethod.GET, "/fake_path", null);
+  }
+
+  @Test(expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp = ".*INVALID_PARAMETER_VALUE.*")
+  public void performQuery_withInvalidParameter_throwsDatabricksRestException() throws Exception {
+    client.performQuery(RequestMethod.GET, "/clusters/get", null);
   }
 }

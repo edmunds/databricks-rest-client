@@ -42,10 +42,15 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
+  protected final String username;
+  protected final String password;
 
   public DatabricksRestClientImpl(String username, String password, String host, String apiVersion,
       int maxRetry, long retryInterval) {
-    super(username, password, host, apiVersion, maxRetry, retryInterval);
+    super(host, apiVersion, maxRetry, retryInterval);
+    this.username = username;
+    this.password = password;
+    init();
   }
 
   @Override

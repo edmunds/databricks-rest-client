@@ -76,6 +76,19 @@ public final class DatabricksServiceFactory {
   }
 
   /**
+   * Create a databricks service factory using personal token authentication instead.
+   * @param personalToken your personal token
+   * @param host the databricks host
+   * @param maxRetry the maximum number of retries
+   * @param retryInterval the retry interval between each attempt
+   */
+  public DatabricksServiceFactory(String personalToken, String host,
+      int maxRetry, long retryInterval) {
+    client2dot0 = new TokenAuthDatabricksRestClientImpl(personalToken, host, "2.0",
+        maxRetry, retryInterval);
+  }
+
+  /**
    * Will return a Databricks Cluster Service singleton.
    */
   public ClusterService getClusterService() {
