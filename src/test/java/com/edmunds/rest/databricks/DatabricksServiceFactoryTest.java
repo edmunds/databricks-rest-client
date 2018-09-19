@@ -16,28 +16,43 @@
 
 package com.edmunds.rest.databricks;
 
+import static org.testng.Assert.assertNotNull;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertNotNull;
 
 /**
  * Created by shong on 7/21/16.
  */
 public class DatabricksServiceFactoryTest {
-  private DatabricksServiceFactory factory;
 
-  @BeforeClass
-  public void setUpOnce() {
-    factory = new DatabricksServiceFactory("", "", "");
+  @Test
+  public void testBuilder_withTokens() {
+    DatabricksServiceFactory serviceFactory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithTokenAuthentication("myToken", "myHost")
+            .withMaxRetries(5)
+            .withRetryInterval(10000L)
+            .build();
+    assertNotNull(serviceFactory.getJobService());
+    assertNotNull(serviceFactory.getLibraryService());
+    assertNotNull(serviceFactory.getDbfsService());
+    assertNotNull(serviceFactory.getJobService());
+    assertNotNull(serviceFactory.getWorkspaceService());
   }
 
   @Test
-  public void getService_whenCalled_returnsANotNullObject() {
-    assertNotNull(factory.getClusterService());
-    assertNotNull(factory.getLibraryService());
-    assertNotNull(factory.getDbfsService());
-    assertNotNull(factory.getJobService());
-    assertNotNull(factory.getWorkspaceService());
+  public void testBuilder_withPassword() {
+    DatabricksServiceFactory serviceFactory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithUserPasswordAuthentication("myUser", "myPassword", "myHost")
+            .withMaxRetries(5)
+            .withRetryInterval(10000L)
+            .build();
+    assertNotNull(serviceFactory.getJobService());
+    assertNotNull(serviceFactory.getLibraryService());
+    assertNotNull(serviceFactory.getDbfsService());
+    assertNotNull(serviceFactory.getJobService());
+    assertNotNull(serviceFactory.getWorkspaceService());
   }
 }

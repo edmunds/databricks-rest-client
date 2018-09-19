@@ -32,7 +32,9 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
 
 /**
- * Factory class for all other specific Databricks Service Wrappers.
+ * This is the class that clients should interact with.
+ * It provides singletons for all of the Services, as well as
+ * abstracting the construction of the databricks rest client.
  */
 public final class DatabricksServiceFactory {
 
@@ -46,6 +48,11 @@ public final class DatabricksServiceFactory {
   private JobService jobService;
   private DbfsService dbfsService;
 
+  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
+    this.client2dot0 = databricksRestClient;
+  }
+
+  @Deprecated
   public DatabricksServiceFactory(String username, String password, String host) {
     this(username, password, host, DEFAULT_HTTP_CLIENT_MAX_RETRY,
         DEFAULT_HTTP_CLIENT_RETRY_INTERVAL);
@@ -57,6 +64,7 @@ public final class DatabricksServiceFactory {
    * @param maxRetry http client maxRetry when failed due to I/O , timeout error
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
    */
+  @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
       long retryInterval) {
     this(username, password, host, maxRetry, retryInterval, false);
@@ -68,6 +76,7 @@ public final class DatabricksServiceFactory {
    *
    * @param useLegacyAPI425 choose what version of API compatible HttpClient.
    */
+  @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
       long retryInterval, boolean useLegacyAPI425) {
     if (useLegacyAPI425) {
@@ -89,6 +98,7 @@ public final class DatabricksServiceFactory {
    * @param maxRetry the maximum number of retries
    * @param retryInterval the retry interval between each attempt
    */
+  @Deprecated
   public DatabricksServiceFactory(String personalToken, String host,
       int maxRetry, long retryInterval) {
     client2dot0 = DatabricksRestClientImpl
@@ -143,5 +153,86 @@ public final class DatabricksServiceFactory {
       dbfsService = new DbfsServiceImpl(client2dot0);
     }
     return dbfsService;
+  }
+
+  /**
+   * This is how the DatabricksServiceFactory should be constructed. This gives flexibility to add
+   * more parameters later without ending up with large constructors.
+   */
+  public static class Builder {
+
+    long retryInterval = DEFAULT_HTTP_CLIENT_RETRY_INTERVAL;
+    int maxRetries = DEFAULT_HTTP_CLIENT_MAX_RETRY;
+    String token;
+    String host;
+    String username;
+    String password;
+
+    private Builder() {
+      //NO-OP
+    }
+
+    /**
+     * Creates a DatabricksServiceFactory using token authentication.
+     *
+     * @param token your databricks token
+     * @param host the databricks host where that token is valid
+     * @return the builder object
+     */
+    public static Builder createServiceFactoryWithTokenAuthentication(String token, String host) {
+      Builder builder = new Builder();
+      builder.token = token;
+      builder.host = host;
+      return builder;
+    }
+
+    /**
+     * Creates a DatabrickServiceFactory using username password authentication.
+     *
+     * @param username databricks username
+     * @param password databricks password
+     * @param host the host object
+     * @return the builder object
+     */
+    public static Builder createServiceFactoryWithUserPasswordAuthentication(String username,
+        String password, String host) {
+      Builder builder = new Builder();
+      builder.username = username;
+      builder.password = password;
+      builder.host = host;
+      return builder;
+    }
+
+    public Builder withMaxRetries(int maxRetries) {
+      this.maxRetries = maxRetries;
+      return this;
+    }
+
+    public Builder withRetryInterval(long retryInterval) {
+      this.retryInterval = retryInterval;
+      return this;
+    }
+
+    /**
+     * Builds a DatabricksServiceFactory. Conducts basic validation.
+     *
+     * @return the databricks service factory object
+     */
+    public DatabricksServiceFactory build() {
+      if (token != null) {
+        return new DatabricksServiceFactory(
+            DatabricksRestClientImpl
+                .createClientWithTokenAuthentication(token, host, "2.0", maxRetries, retryInterval)
+        );
+      } else if (username != null && password != null) {
+        return new DatabricksServiceFactory(
+            DatabricksRestClientImpl
+                .createClientWithUserPassword(username, password, host, "2.0", maxRetries,
+                    retryInterval)
+        );
+      } else {
+        throw new IllegalArgumentException("Token or username/password must be set!");
+      }
+    }
   }
 }

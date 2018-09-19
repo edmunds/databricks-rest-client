@@ -83,7 +83,10 @@ public class JobRunner {
     String password = parser.getPassword();
     String hostname = parser.getHostname();
 
-    DatabricksServiceFactory factory = new DatabricksServiceFactory(username, password, hostname);
+    DatabricksServiceFactory factory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithUserPasswordAuthentication(username, password, hostname)
+            .build();
     return factory.getJobService();
   }
 
