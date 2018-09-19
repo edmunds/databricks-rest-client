@@ -77,6 +77,10 @@ As such we currently only have integration tests.
 
 
 ## Integration Tests
+IMPORTANT: integration tests do not execute automatically as part of a build.
+It is your responsibility (and Pull Request Reviewers) to make sure the integration tests
+pass before merging in code.
+
 ### Setup
 You need to set the following environment properties in your .bash_profile
 ```bash
