@@ -178,10 +178,10 @@ public interface JobService {
   /**
    * "resets" or "edits" a job definition.
    * https://docs.databricks.com/api/latest/jobs.html#reset
-   * @param jobId
-   * @param jobSettings
-   * @throws IOException
-   * @throws DatabricksRestException
+   * @param jobId the job to edit
+   * @param jobSettings the settings to change the job to
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any specific db errors
    */
   void reset(long jobId, JobSettingsDTO jobSettings) throws IOException, DatabricksRestException;
 
