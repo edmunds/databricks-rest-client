@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * Base class for Request Objects.
  */
-@Deprecated
 public abstract class DatabricksRestRequest {
 
   private Map<String, Object> data;

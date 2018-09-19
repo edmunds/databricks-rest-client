@@ -28,18 +28,64 @@ import java.io.IOException;
  */
 public interface WorkspaceService {
 
+  /**
+   * Deletes a specific workspace path.
+   * https://docs.databricks.com/api/latest/workspace.html#delete
+   * @param path the workspace path to delete
+   * @param recursive whether or not its recursive
+   * @throws IOException any other errors
+   * @throws DatabricksRestException databricks specific errors
+   */
   void delete(String path, boolean recursive) throws IOException, DatabricksRestException;
 
+  /**
+   * Exports a workspace path FROM databricks to local machine.
+   * https://docs.databricks.com/api/latest/workspace.html#export
+   * @param exportWorkspaceRequest the request object
+   * @return the bytes of the export
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any specific db errors
+   */
   byte[] exportWorkspace(ExportWorkspaceRequest exportWorkspaceRequest)
       throws IOException, DatabricksRestException;
 
+  /**
+   * Gets the status of a specific workspace path.
+   * https://docs.databricks.com/api/latest/workspace.html#get-status
+   * @param path the workspace path
+   * @return the workspace info object
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any specific db errors
+   */
   ObjectInfoDTO getStatus(String path) throws IOException, DatabricksRestException;
 
+  /**
+   * Imports files INTO databricks from local machine.
+   * https://docs.databricks.com/api/latest/workspace.html#import
+   * @param importWorkspaceRequest the import workspace request
+   * @throws IOException any other errors
+   * @throws DatabricksRestException specific db exceptions
+   */
   void importWorkspace(ImportWorkspaceRequest importWorkspaceRequest)
       throws IOException, DatabricksRestException;
 
+  /**
+   * Lists all objects in a specific db workspace path.
+   * https://docs.databricks.com/api/latest/workspace.html#list
+   * @param path the db workspace path
+   * @return the array of objects
+   * @throws IOException any other errors
+   * @throws DatabricksRestException specific db exceptions
+   */
   ObjectInfoDTO[] listStatus(String path) throws IOException, DatabricksRestException;
 
+  /**
+   * Makes a path (and any parent paths if they do not exist) on db workspace.
+   * https://docs.databricks.com/api/latest/workspace.html#mkdirs
+   * @param path the db workspace path to create
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any specific db exceptions
+   */
   void mkdirs(String path) throws IOException, DatabricksRestException;
 
 }

@@ -14,8 +14,6 @@ please see the accompanying java doc.
 
 ###Cluster Service
 
-The cluster service allows 
-
 ###Dbfs Service
 
 ###Job Service
@@ -24,10 +22,36 @@ The cluster service allows
 
 ###Workspace Service
 
-## How to use
+## Examples
 ```java
+public class MyClient {
+  public static void main(String[] args) throws DatabricksRestException, IOException {
+    // Construct a serviceFactory using token authentication
+    DatabricksServiceFactory serviceFactory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithTokenAuthentication("myToken", "myHost")
+            .withMaxRetries(5)
+            .withRetryInterval(10000L)
+            .build();
+    
+    // Lets get our databricks job "myJob" and edit maxRetries to 5
+    JobDTO jobDTO = serviceFactory.getJobService().getJobByName("myJob");
+    JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
+    jobSettingsDTO.setMaxRetries(5);
+    serviceFactory.getJobService().upsertJob(jobSettingsDTO, true);
 
+    // Lets install a jar to a specific cluster
+    LibraryDTO libraryDTO = new LibraryDTO();
+    libraryDTO.setJar("s3://myBucket/myJar.jar");
+    for (ClusterInfoDTO clusterInfoDTO : serviceFactory.getClusterService().list()) {
+      if (clusterInfoDTO.getClusterName().equals("myCluster")) {
+        serviceFactory.getLibraryService().install(clusterInfoDTO.getClusterId(), new LibraryDTO[]{libraryDTO});
+      }
+    }
+    }
+}
 ```
+For more examples, take a look at the service tests.
 
 ## Building, Installing and Running
 

@@ -22,9 +22,8 @@ import java.util.Map;
 
 /**
  * Export Workspace Request object.
- * Should be deprecated in favor of using DTOs.
+ * TODO Should be deprecated in favor of using DTOs.
  */
-@Deprecated
 public class ExportWorkspaceRequest extends DatabricksRestRequest {
 
   private ExportWorkspaceRequest(Map<String, Object> data) {
