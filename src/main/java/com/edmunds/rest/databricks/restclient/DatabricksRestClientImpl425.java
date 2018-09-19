@@ -41,9 +41,11 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 /**
- * To run on CDH5.7.1, use httpclient4.2.5 version API
+ * This implementation uses an older version of httpclient (version 4.2.5)
+ * Which allows it to be used on certain systems that enforce older versions of the library.
+ * This version will be eventually removed, so please don't use it unless you have to.
  */
-//TODO add token support for this version?
+@Deprecated
 public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
