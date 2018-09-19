@@ -16,9 +16,11 @@
 
 package com.edmunds.rest.databricks.service;
 
+import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.JobDTO;
 import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
 import com.edmunds.rest.databricks.DTO.JobsDTO;
+import com.edmunds.rest.databricks.DTO.LanguageDTO;
 import com.edmunds.rest.databricks.DTO.NotebookTaskDTO;
 import com.edmunds.rest.databricks.DTO.RunDTO;
 import com.edmunds.rest.databricks.DTO.RunLifeCycleStateDTO;
@@ -27,6 +29,10 @@ import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.TestUtil;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
+import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
+import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspaceRequestBuilder;
+import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -43,14 +49,14 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by shong on 7/31/16.
- */
+//TODO clean up
 public class JobServiceTest {
   String defaultClusterId;
   String jobName = "JobServiceTest_setUpOnce_test_job";
   String multiJobName = "JobServiceTest_multipleJobs";
+  private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
   private JobService service;
+  private WorkspaceService workspaceService;
   private long jobId;
   private Long runId = null;
   private long multiJobId[];
@@ -59,13 +65,26 @@ public class JobServiceTest {
   public void setUpOnce() throws IOException, DatabricksRestException {
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getJobService();
+    workspaceService = factory.getWorkspaceService();
+
+    //TODO repeated code from job runner, also keep DRY with notebook path
+    workspaceService.mkdirs("/tmp/testing/");
+    InputStream stream = this.getClass().getClassLoader().getResourceAsStream("test_notebook.scala");
+    byte[] content = IOUtils.toByteArray(stream);
+    ImportWorkspaceRequest request = new ImportWorkspaceRequestBuilder(NOTEBOOK_PATH)
+        .withContent(content)
+        .withFormat(ExportFormatDTO.SOURCE)
+        .withLanguage(LanguageDTO.SCALA)
+        .withOverwrite(true)
+        .build();
+    workspaceService.importWorkspace(request);
 
     //Delete any existing jobs
     deleteAllJobs(jobName);
     deleteAllJobs(multiJobName);
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
-    notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
+    notebook_task.setNotebookPath(NOTEBOOK_PATH);
 
     defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
@@ -85,6 +104,8 @@ public class JobServiceTest {
   public void tearDownOnce() throws IOException, DatabricksRestException {
     deleteAllJobs(jobName);
     deleteAllJobs(multiJobName);
+
+    workspaceService.delete(NOTEBOOK_PATH, false);
   }
 
   private void deleteAllJobs(String jobName) throws IOException, DatabricksRestException {
