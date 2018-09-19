@@ -18,7 +18,6 @@ package com.edmunds.rest.databricks;
 
 import static org.testng.Assert.assertNotNull;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**

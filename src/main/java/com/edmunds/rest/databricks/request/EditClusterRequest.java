@@ -25,9 +25,8 @@ import java.util.Map;
 
 /**
  * Edit Cluster Request object.
- * Should be deprecated in favor of using DTOs.
+ * TODO Should be deprecated in favor of using DTOs.
  */
-@Deprecated
 public class EditClusterRequest extends DatabricksRestRequest {
 
   private EditClusterRequest(Map<String, Object> data) {
