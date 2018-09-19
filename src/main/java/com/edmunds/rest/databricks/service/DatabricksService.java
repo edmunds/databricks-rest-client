@@ -16,7 +16,7 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DatabricksRestClient;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

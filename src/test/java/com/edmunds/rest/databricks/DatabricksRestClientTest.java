@@ -16,30 +16,38 @@
 
 package com.edmunds.rest.databricks;
 
-import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 public class DatabricksRestClientTest {
-  private DatabricksRestClient client;
   private ObjectMapper mapper;
 
   @BeforeClass
   public void setUpOnce() throws IOException {
-    client = DatabricksFixtures.getDatabricksRestClient();
     mapper = new ObjectMapper();
   }
 
-  @Test
-  public void getRequest_whenCalled_returnsValidResponse()
+  @DataProvider(name = "Clients")
+  public Object[][] getClients() throws IOException {
+    return new Object[][]{
+        {DatabricksFixtures.getDatabricksRestClient()},
+        {DatabricksFixtures.createTokenAuthRestClient()},
+        {DatabricksFixtures.createDatabricks425Client()}
+    };
+  }
+
+  @Test(dataProvider = "Clients")
+  public void getRequest_whenCalled_returnsValidResponse(DatabricksRestClient client)
       throws IOException, DatabricksRestException {
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/libraries/all-cluster-statuses", null);
     Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
@@ -48,8 +56,8 @@ public class DatabricksRestClientTest {
   }
 
   // I ignored this test as this run id doesn't appear to be available anymore.
-  @Test(enabled = false)
-  public void getRequest_whenCalledWithData_returnsValidResponse()
+  @Test(enabled = false, dataProvider = "Clients")
+  public void getRequest_whenCalledWithData_returnsValidResponse(DatabricksRestClient client)
       throws IOException, DatabricksRestException {
     int id = 1452843;
     Map<String, Object> data = new HashMap<>();
@@ -62,17 +70,19 @@ public class DatabricksRestClientTest {
     assertEquals(result, result);
   }
 
-  @Test(expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp = ".*ENDPOINT_NOT_FOUND" +
+  @Test(dataProvider = "Clients", expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp =
+      ".*ENDPOINT_NOT_FOUND" +
       ".*")
-  public void performQuery_withInvalidPath_throwsDatabricksRestException() throws Exception {
+  public void performQuery_withInvalidPath_throwsDatabricksRestException(
+      DatabricksRestClient client) throws Exception {
     client.performQuery(RequestMethod.GET, "/fake_path", null);
   }
 
-  @Test(expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp = ".*INVALID_PARAMETER_VALUE.*")
-  public void performQuery_withInvalidParameter_throwsDatabricksRestException() throws Exception {
+  @Test(dataProvider = "Clients", expectedExceptions = DatabricksRestException.class, expectedExceptionsMessageRegExp = ".*INVALID_PARAMETER_VALUE.*")
+  public void performQuery_withInvalidParameter_throwsDatabricksRestException(
+      DatabricksRestClient client) throws Exception {
     client.performQuery(RequestMethod.GET, "/clusters/get", null);
   }
-
 
   @Test
   public void performQuery_retry_when_404() throws Exception {
@@ -97,5 +107,4 @@ public class DatabricksRestClientTest {
       assertEquals(retryStrategy.getExecuteCount(), 2);
     }
   }
-
 }

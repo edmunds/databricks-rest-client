@@ -14,13 +14,18 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.net.ssl.SSLContext;
+import org.apache.http.Header;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -32,42 +37,76 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 /**
  * The main implementation of databricks rest client, which uses up to date httpclient.
  */
-public final class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
+public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
-
-  public DatabricksRestClientImpl(String username, String password, String host, String apiVersion,
-      int maxRetry, long retryInterval) {
-    super(username, password, host, apiVersion, maxRetry, retryInterval);
+  private DatabricksRestClientImpl(String host, String apiVersion, int maxRetry,
+      long retryInterval) {
+    super(host, apiVersion, maxRetry, retryInterval);
   }
 
-  @Override
-  protected void init() {
+  /**
+   * Constructs a rest client with user and password authentication.
+   */
+  public static DatabricksRestClientImpl createClientWithUserPassword(String username,
+      String password, String host,
+      String apiVersion, int maxRetry, long retryInterval) {
+    DatabricksRestClientImpl client = new DatabricksRestClientImpl(host, apiVersion, maxRetry,
+        retryInterval);
+    client.initClientWithUserPassword(username, password);
+    return client;
+  }
+
+  /**
+   * Constructs a rest client with token authentication.
+   */
+  public static DatabricksRestClientImpl createClientWithTokenAuthentication(String token,
+      String host,
+      String apiVersion, int maxRetry, long retryInterval) {
+    DatabricksRestClientImpl client = new DatabricksRestClientImpl(host, apiVersion, maxRetry,
+        retryInterval);
+    client.initClientWithToken(token);
+    return client;
+  }
+
+  protected void initClientWithUserPassword(String username, String password) {
     CredentialsProvider credsProvider = new BasicCredentialsProvider();
     credsProvider.setCredentials(
         new AuthScope(host, HTTPS_PORT),
         new UsernamePasswordCredentials(username, password));
 
-    RequestConfig defaultRequestConfig = RequestConfig.custom()
-        .setExpectContinueEnabled(true)
-        .setSocketTimeout(SOCKET_TIMEOUT)
-        .setConnectTimeout(CONNECTION_TIMEOUT)
-        .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
-        .build();
-
     HttpClientBuilder clientBuilder = HttpClients.custom()
         .setDefaultCredentialsProvider(credsProvider)
         .setRetryHandler(retryHandler)
         .setServiceUnavailableRetryStrategy(retryStrategy)
-        .setDefaultRequestConfig(defaultRequestConfig);
+        .setDefaultRequestConfig(createRequestConfig());
 
+    commonInit(clientBuilder);
+  }
+
+  protected void initClientWithToken(String personalToken) {
+    List<Header> headers = new ArrayList<>();
+    Header authHeader = new BasicHeader("Authorization", String.format("Bearer %s", personalToken));
+    headers.add(authHeader);
+
+    HttpClientBuilder clientBuilder = HttpClients.custom()
+        .setRetryHandler(retryHandler)
+        .setServiceUnavailableRetryStrategy(retryStrategy)
+        .setDefaultRequestConfig(createRequestConfig())
+        .setDefaultHeaders(headers);
+
+    commonInit(clientBuilder);
+  }
+
+  protected void commonInit(HttpClientBuilder clientBuilder) {
     try {
       SSLContext ctx = SSLContext.getDefault();
       // Allow TLSv1.2 protocol only
@@ -85,6 +124,16 @@ public final class DatabricksRestClientImpl extends AbstractDatabricksRestClient
 
     url = String.format("https://%s/api/%s", host, apiVersion);
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+  }
+
+  private RequestConfig createRequestConfig() {
+    RequestConfig defaultRequestConfig = RequestConfig.custom()
+        .setExpectContinueEnabled(true)
+        .setSocketTimeout(SOCKET_TIMEOUT)
+        .setConnectTimeout(CONNECTION_TIMEOUT)
+        .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
+        .build();
+    return defaultRequestConfig;
   }
 
   @Override

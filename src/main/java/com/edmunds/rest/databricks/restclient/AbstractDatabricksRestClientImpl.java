@@ -14,8 +14,11 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
+import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -46,8 +49,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
   protected final String apiVersion;
   protected final String host;
-  protected final String username;
-  protected final String password;
 
   protected String url;
   protected ObjectMapper mapper;
@@ -58,31 +59,17 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * Creates a rest client.
-   * @param username databricks username
-   * @param password databricks password
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
    * @param retryInterval interval btween retries
    */
-  public AbstractDatabricksRestClientImpl(String username, String password, String host,
-      String apiVersion,
-      int maxRetry, long retryInterval) {
-    this.username = username;
-    this.password = password;
+  public AbstractDatabricksRestClientImpl(String host, String apiVersion, int maxRetry, long retryInterval) {
     this.host = host;
     this.apiVersion = apiVersion;
     this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, false);
     this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
-
-    init();
   }
-
-  /**
-   * init url/mapper/client variable.
-   */
-  protected abstract void init();
-
 
   protected byte[] extractContent(HttpResponse httpResponse)
       throws IOException, DatabricksRestException {
@@ -97,11 +84,9 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     return IOUtils.toByteArray(httpResponse.getEntity().getContent());
   }
 
-
   public String getHost() {
     return host;
   }
-
 
   protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path,
       Map<String, Object> data)
@@ -165,5 +150,4 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
     return new StringEntity(body);
   }
-
 }
