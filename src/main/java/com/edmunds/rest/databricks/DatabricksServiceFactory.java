@@ -228,17 +228,18 @@ public final class DatabricksServiceFactory {
     }
 
     /**
-     * Builds a DatabricksServiceFactory. Conducts basic validation.
-     *
+     * Builds a DatabricksServiceFactory.
      * @return the databricks service factory object
      */
     public DatabricksServiceFactory build() {
-      if (token != null) {
+      //NOTE this is not validation, but logic to determine which rest client to build.
+      if (token != null && !token.equals("")) {
         return new DatabricksServiceFactory(
             DatabricksRestClientImpl
                 .createClientWithTokenAuthentication(token, host, "2.0", maxRetries, retryInterval)
         );
-      } else if (username != null && password != null) {
+      } else if (username != null && !username.equals("") && password != null
+          && !password.equals("")) {
         return new DatabricksServiceFactory(
             DatabricksRestClientImpl
                 .createClientWithUserPassword(username, password, host, "2.0", maxRetries,
