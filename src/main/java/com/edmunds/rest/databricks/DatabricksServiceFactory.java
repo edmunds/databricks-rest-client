@@ -52,6 +52,12 @@ public final class DatabricksServiceFactory {
     this.client2dot0 = databricksRestClient;
   }
 
+  /**
+   * Old constructor.
+   * @deprecated in version 2.0.2,
+   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String,
+   * String, String)}
+   */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host) {
     this(username, password, host, DEFAULT_HTTP_CLIENT_MAX_RETRY,
@@ -63,6 +69,9 @@ public final class DatabricksServiceFactory {
    *
    * @param maxRetry http client maxRetry when failed due to I/O , timeout error
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
+   *
+   * @deprecated in version 2.0.2,
+   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
@@ -75,6 +84,8 @@ public final class DatabricksServiceFactory {
    * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
    *
    * @param useLegacyAPI425 choose what version of API compatible HttpClient.
+   * @deprecated in version 2.0.2,
+   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
@@ -97,6 +108,9 @@ public final class DatabricksServiceFactory {
    * @param host the databricks host
    * @param maxRetry the maximum number of retries
    * @param retryInterval the retry interval between each attempt
+   *
+   * @deprecated in version 2.0.2,
+   *     please use {@link Builder#createServiceFactoryWithTokenAuthentication(String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String personalToken, String host,
