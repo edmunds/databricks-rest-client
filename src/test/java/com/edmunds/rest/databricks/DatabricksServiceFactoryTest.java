@@ -54,4 +54,24 @@ public class DatabricksServiceFactoryTest {
     assertNotNull(serviceFactory.getJobService());
     assertNotNull(serviceFactory.getWorkspaceService());
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testBuilderWithUsername_whenBlank_throwsIllegalArgumentException() {
+    DatabricksServiceFactory serviceFactory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithUserPasswordAuthentication("", "", "myHost")
+            .withMaxRetries(5)
+            .withRetryInterval(10000L)
+            .build();
+  }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testBuilderWithPassword_whenBlank_throwsIllegalArgumentException() {
+    DatabricksServiceFactory serviceFactory =
+        DatabricksServiceFactory.Builder
+            .createServiceFactoryWithTokenAuthentication("", "myHost")
+            .withMaxRetries(5)
+            .withRetryInterval(10000L)
+            .build();
+  }
 }
