@@ -124,7 +124,8 @@ public class DatabricksFixtures {
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {
     if (factory == null) {
-      factory = new DatabricksServiceFactory(USERNAME, PASSWORD, HOSTNAME);
+      factory = DatabricksServiceFactory.Builder
+          .createServiceFactoryWithUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME).build();
     }
 
     return factory;
