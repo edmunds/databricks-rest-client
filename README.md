@@ -8,19 +8,23 @@ _This is a simple java library that provides programmatic access to the [Databri
 [![Javadocs](http://www.javadoc.io/badge/com.edmunds.databricks/databricks-rest-client.svg)](http://www.javadoc.io/doc/com.edmunds.databricks/databricks-rest-client)
 
 This library only implements a percentage of all of the functionality that the Databricks Rest Interface provides.
-The idea is to add functionality as users of this library need it. Below you will find a quick summary of 
-the current supported functionality with a brief example. For details on exactly which methods are supported,
-please see the accompanying java doc.
+The idea is to add functionality as users of this library need it.
+Here are the current Endpoints that are supported:
 
-###Cluster Service
+- Cluster Service
 
-###Dbfs Service
+- Dbfs Service
 
-###Job Service
+- Job Service
 
-###Library Service
+- Library Service
 
-###Workspace Service
+- Workspace Service
+
+Please look at the javadocs for the specific service to get more detailed information on what
+functionality is currently available.
+
+If there is important functionality that is currently missing, please create a github issue.
 
 ## Examples
 ```java
