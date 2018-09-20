@@ -3,7 +3,7 @@
 _This is a simple java library that provides programmatic access to the [Databricks Rest Service](https://docs.databricks.com/api/latest/index.html)._
 
 ## Build Status
-[![Build Status](https://travis-ci.org/edmunds/databricks-rest-client.png)](https://travis-ci.org/edmunds/databricks-rest-client)
+[![Build Status](https://travis-ci.org/edmunds/databricks-rest-client.svg?branch=master)](https://travis-ci.org/edmunds/databricks-rest-client)
 
 ## API Overview
 

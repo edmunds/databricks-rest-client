@@ -23,13 +23,13 @@ import java.io.IOException;
 
 /**
  * The wrapper around the databricks Library API.
- * https://docs.databricks.com/api/latest/libraries.html
+ * @see <a href="https://docs.databricks.com/api/latest/libraries.html">https://docs.databricks.com/api/latest/libraries.html</a>
  */
 public interface LibraryService {
 
   /**
    * Gets the statuses of all clusters on a databricks instance.
-   * https://docs.databricks.com/api/latest/libraries.html#all-cluster-statuses
+   * @see <a href="https://docs.databricks.com/api/latest/libraries.html#all-cluster-statuses">https://docs.databricks.com/api/latest/libraries.html#all-cluster-statuses</a>
    * @return the array of all cluster statuses.
    * @throws IOException any other errors.
    * @throws DatabricksRestException errors with db request.
@@ -38,7 +38,7 @@ public interface LibraryService {
 
   /**
    * Gets the status of a specific cluster.
-   * https://docs.databricks.com/api/latest/libraries.html#cluster-status
+   * @see <a href="https://docs.databricks.com/api/latest/libraries.html#cluster-status">https://docs.databricks.com/api/latest/libraries.html#cluster-status</a>
    * @param clusterId the cluster id to get the status of
    * @return the cluster status dto object
    * @throws IOException any other errors
@@ -49,7 +49,7 @@ public interface LibraryService {
 
   /**
    * Installs one or more libraries on a specific cluster.
-   * https://docs.databricks.com/api/latest/libraries.html#install
+   * @see <a href="https://docs.databricks.com/api/latest/libraries.html#install">https://docs.databricks.com/api/latest/libraries.html#install</a>
    * @param clusterId the cluster to install to.
    * @param libraries the libraries to install to this clsuter
    * @throws IOException any other errors
@@ -60,7 +60,7 @@ public interface LibraryService {
 
   /**
    * Uninstalls one or more libraries from a specific cluster.
-   * https://docs.databricks.com/api/latest/libraries.html#uninstall
+   * @see <a href="https://docs.databricks.com/api/latest/libraries.html#uninstall">https://docs.databricks.com/api/latest/libraries.html#uninstall</a>
    * @param clusterId the cluster to uninstall a library from
    * @param libraries the libraries to uninstall
    * @throws IOException any other errors
