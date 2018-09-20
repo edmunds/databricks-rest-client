@@ -21,7 +21,7 @@ package com.edmunds.rest.databricks;
  */
 public class DatabricksRestException extends Exception {
 
-  public DatabricksRestException(String message) {
+  public DatabricksRestException(int message) {
     super(message);
   }
 
