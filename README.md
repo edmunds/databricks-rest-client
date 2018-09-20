@@ -5,7 +5,7 @@ _This is a simple java library that provides programmatic access to the [Databri
 
 ## API Overview
 
-[![Javadocs](http://www.javadoc.io/badge/com.edmunds.databricks/databricks-rest-client.svg)](http://www.javadoc.io/doc/com.edmunds.databricks/databricks-rest-client)
+[![Javadocs](http://www.javadoc.io/badge/com.edmunds/databricks-rest-client.svg)](http://www.javadoc.io/doc/com.edmunds/databricks-rest-client)
 
 This library only implements a percentage of all of the functionality that the Databricks Rest Interface provides.
 The idea is to add functionality as users of this library need it.
