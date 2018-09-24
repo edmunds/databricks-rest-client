@@ -31,33 +31,33 @@ import java.util.regex.Pattern;
 
 /**
  * A wrapper around the Databricks Job API.
- * https://docs.databricks.com/api/latest/jobs.html
+ * @see <a href="https://docs.databricks.com/api/latest/jobs.html">https://docs.databricks.com/api/latest/jobs.html</a>
  */
 public interface JobService {
 
   /**
    * Creates job from settings DTO.
-   * https://docs.databricks.com/api/latest/jobs.html#create
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#create">https://docs.databricks.com/api/latest/jobs.html#create</a>
    */
   long createJob(JobSettingsDTO jobSettingsDTO) throws IOException, DatabricksRestException;
 
   /**
    * Deletes the job and sends an email to the addresses specified in email_notifications.
-   * https://docs.databricks.com/api/latest/jobs.html#delete
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#delete">https://docs.databricks.com/api/latest/jobs.html#delete</a>
    * @param jobId The canonical identifier of the job to delete
    */
   void deleteJob(long jobId) throws IOException, DatabricksRestException;
 
   /**
    * Deletes a job with a given name. Will fail if multiple jobs exist.
-   * https://docs.databricks.com/api/latest/jobs.html#delete
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#delete">https://docs.databricks.com/api/latest/jobs.html#delete</a>
    * @param jobName - the job name to delete.
    */
   void deleteJob(String jobName) throws IOException, DatabricksRestException;
 
   /**
    * Retrieves information about a single job.
-   * https://docs.databricks.com/api/latest/jobs.html#get
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#get">https://docs.databricks.com/api/latest/jobs.html#get</a>
    * @param jobId The canonical identifier of the job to retrieve information about
    * @return POJO of the Job information
    */
@@ -65,7 +65,7 @@ public interface JobService {
 
   /**
    * Retrieves all jobs matching a name exactly.
-   * https://docs.databricks.com/api/latest/jobs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @param jobName - the full name of the job
    * @return - all jobs that match.
    */
@@ -75,7 +75,7 @@ public interface JobService {
    * Will try and get a job by name. If more then one job exists, it will fail. If no job exists it
    * will return null.
    * Uses a list behind the scenes, so is O(n) with number of jobs.
-   * https://docs.databricks.com/api/latest/jobs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    */
   JobDTO getJobByName(String jobName) throws IOException, DatabricksRestException;
 
@@ -83,7 +83,7 @@ public interface JobService {
    * Will try and get a job by name. If more then one job exists and failOnMultipleJobs set to
    * false, it will return the first job created.
    * Uses a list behind the scenes, so is O(n) with number of jobs.
-   * https://docs.databricks.com/api/latest/jobs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    */
   JobDTO getJobByName(String jobName, boolean failOnMultipleJobs)
       throws IOException, DatabricksRestException;
@@ -92,14 +92,14 @@ public interface JobService {
   /**
    * Retrieves all jobs with a name matching a given regex.
    * Uses a list behind the scenes, so is O(n) with number of jobs.
-   * https://docs.databricks.com/api/latest/jobs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @param regex - the regex to earch for
    */
   List<JobDTO> getJobsByRegex(Pattern regex) throws IOException, DatabricksRestException;
 
   /**
    * Returns a list of all jobs that are active.
-   * https://docs.databricks.com/api/latest/jobs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @return A POJO of the Jobs
    */
   JobsDTO listAllJobs() throws IOException, DatabricksRestException;
@@ -113,7 +113,7 @@ public interface JobService {
 
   /**
    * Runs the job now.
-   * https://docs.databricks.com/api/latest/jobs.html#run-now
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#run-now">https://docs.databricks.com/api/latest/jobs.html#run-now</a>
    * @param jobId The job to run
    * @return Returns the run_id and number_in_run of the triggered run
    */
@@ -121,7 +121,7 @@ public interface JobService {
 
   /**
    * Runs the job now. With specific notebook params.
-   * https://docs.databricks.com/api/latest/jobs.html#run-now
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#run-now">https://docs.databricks.com/api/latest/jobs.html#run-now</a>
    * @param jobId The job to run
    * @param notebookParams A map from keys to values for jobs with notebook task
    * @return Returns the run_id and number_in_run of the triggered run
@@ -131,7 +131,7 @@ public interface JobService {
 
   /**
    * Runs the job now. With specific run parameters.
-   * https://docs.databricks.com/api/latest/jobs.html#run-now
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#run-now">https://docs.databricks.com/api/latest/jobs.html#run-now</a>
    * @param jobId the job id to run
    * @param params the run parameters
    * @return the run now object
@@ -143,7 +143,7 @@ public interface JobService {
 
   /**
    * Lists runs from most recently started to least.
-   * https://docs.databricks.com/api/latest/jobs.html#runs-list
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-list">https://docs.databricks.com/api/latest/jobs.html#runs-list</a>
    * @param jobId The job for which to list runs. If omitted,
    *     the Jobs service will list runs from all jobs
    * @param activeOnly If true, lists active runs only; otherwise, lists both active and inactive
@@ -161,7 +161,7 @@ public interface JobService {
 
   /**
    * Retrieves the metadata of a run.
-   * https://docs.databricks.com/api/latest/jobs.html#runs-get
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-get">https://docs.databricks.com/api/latest/jobs.html#runs-get</a>
    * @param runId The canonical identifier of the run for which to retrieve the metadata
    * @return Returns the metadata of the specified run
    */
@@ -170,14 +170,14 @@ public interface JobService {
   /**
    * Cancels a run. The run is canceled asynchronously, so when this request completes, the run may
    * still be running. The run will be terminated shortly.
-   * https://docs.databricks.com/api/latest/jobs.html#runs-cancel
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-cancel">https://docs.databricks.com/api/latest/jobs.html#runs-cancel</a>
    * @param runId The desired run to cancel
    */
   void cancelRun(long runId) throws IOException, DatabricksRestException;
 
   /**
    * "resets" or "edits" a job definition.
-   * https://docs.databricks.com/api/latest/jobs.html#reset
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#reset">https://docs.databricks.com/api/latest/jobs.html#reset</a>
    * @param jobId the job to edit
    * @param jobSettings the settings to change the job to
    * @throws IOException any other errors
@@ -197,9 +197,9 @@ public interface JobService {
    * the job if it doesn't exist - reset the job if it does exist.
    * Uses a combination of
    * If job doesn't exist:
-   * https://docs.databricks.com/api/latest/jobs.html#create
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#create">https://docs.databricks.com/api/latest/jobs.html#create</a>
    * If job exists:
-   * https://docs.databricks.com/api/latest/jobs.html#reset
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#reset">https://docs.databricks.com/api/latest/jobs.html#reset</a>
    */
   void upsertJob(JobSettingsDTO jobSettingsDTO, boolean failOnDuplicateJobNames)
       throws IOException, DatabricksRestException;

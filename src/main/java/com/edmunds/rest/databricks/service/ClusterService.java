@@ -24,14 +24,14 @@ import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
 
 /**
- * A Wrapper around the cluster part of the databricks rest api
- * https://docs.databricks.com/api/latest/clusters.html.
+ * A Wrapper around the cluster part of the databricks rest api.
+ * @see <a href="https://docs.databricks.com/api/latest/clusters.html">https://docs.databricks.com/api/latest/clusters.html</a>
  */
 public interface ClusterService {
 
   /**
    * Creates a databricks cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#create
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
    * @param createClusterRequest the cluster request object
    * @return the clusterId
    * @throws IOException other connection errors
@@ -42,7 +42,7 @@ public interface ClusterService {
 
   /**
    * Edits the configurations of a databricks cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#edit
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param editClusterRequest the edit cluster request object
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
@@ -51,7 +51,7 @@ public interface ClusterService {
 
   /**
    * Starts a databricks cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#start
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#start">https://docs.databricks.com/api/latest/clusters.html#start</a>
    * @param clusterId the clusterId of the cluster you want to start.
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
@@ -60,7 +60,7 @@ public interface ClusterService {
 
   /**
    * Restarts a given databricks cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#restart
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#restart">https://docs.databricks.com/api/latest/clusters.html#restart</a>
    * @param clusterId the clusterid of the cluster you want to restart.
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
@@ -69,7 +69,7 @@ public interface ClusterService {
 
   /**
    * Resizes a cluster. Will give it a fixed number of workers.
-   * https://docs.databricks.com/api/latest/clusters.html#resize
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#resize">https://docs.databricks.com/api/latest/clusters.html#resize</a>
    * @param numWorkers the number of workers you want to resize to
    * @param clusterId the clusterId you want to operate on
    * @throws IOException any other errors
@@ -79,7 +79,7 @@ public interface ClusterService {
 
   /**
    * Resizes a cluster. Will add/edit autoscale functionality.
-   * https://docs.databricks.com/api/latest/clusters.html#resize
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#resize">https://docs.databricks.com/api/latest/clusters.html#resize</a>
    * @param autoscale the autoscale specs.
    * @param clusterId the clusterId you want to work on
    * @throws IOException any other errors
@@ -89,7 +89,7 @@ public interface ClusterService {
 
   /**
    * Terminates a cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#delete-terminate
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#delete-terminate">https://docs.databricks.com/api/latest/clusters.html#delete-terminate</a>
    * @param clusterId the cluster you want to terminate
    * @throws IOException any other errors
    * @throws DatabricksRestException errors with request
@@ -98,7 +98,7 @@ public interface ClusterService {
 
   /**
    * Gets information about a given cluster.
-   * https://docs.databricks.com/api/latest/clusters.html#get
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#get">https://docs.databricks.com/api/latest/clusters.html#get</a>
    * @param clusterId the cluster you want to get info about
    * @return the information DTO object
    * @throws IOException any other errors.
@@ -108,6 +108,7 @@ public interface ClusterService {
 
   /**
    * Lists all of the clusters on a given databricks instance.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#list">https://docs.databricks.com/api/latest/clusters.html#list</a>
    * @return an array of cluster information objects
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request

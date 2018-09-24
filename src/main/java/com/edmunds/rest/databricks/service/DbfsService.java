@@ -24,13 +24,13 @@ import java.io.InputStream;
 
 /**
  * A wrapper around the databricks DbfsService.
- * https://docs.databricks.com/api/latest/dbfs.html
+ * @see <a href="https://docs.databricks.com/api/latest/dbfs.html">Documentation</a>
  */
 public interface DbfsService {
 
   /**
    * Removes a dbfs path.
-   * https://docs.databricks.com/api/latest/dbfs.html#delete
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#delete">Documentation</a>
    * @param path the path to delete
    * @param recursive whether or not it should be recursive
    * @throws IOException any other errors
@@ -40,7 +40,7 @@ public interface DbfsService {
 
   /**
    * Get info of a specific file or directory on dbfs.
-   * https://docs.databricks.com/api/latest/dbfs.html#get-status
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#get-status">Documentation</a>
    * @param path the dbfs path
    * @return the file info status object
    * @throws IOException any other errors
@@ -50,7 +50,7 @@ public interface DbfsService {
 
   /**
    * Lists files and directories in a dbfs path.
-   * https://docs.databricks.com/api/latest/dbfs.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#list">Documentation</a>
    * @param path the dbfs path
    * @return an array of file info objects.
    * @throws IOException any other errors
@@ -60,7 +60,7 @@ public interface DbfsService {
 
   /**
    * Makes a directory (and parent directories) at a given path.
-   * https://docs.databricks.com/api/latest/dbfs.html#mkdirs
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#mkdirs">Documentation</a>
    * @param path the dbfs path to create
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors in request
@@ -69,7 +69,7 @@ public interface DbfsService {
 
   /**
    * Moves a file from one path to another.
-   * https://docs.databricks.com/api/latest/dbfs.html#move
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#move">Documentation</a>
    * @param sourcePath the source dbfs path
    * @param destinationPath the destination dbfs path
    * @throws IOException any other errors
@@ -80,9 +80,9 @@ public interface DbfsService {
   /**
    * Will create a file and write to that file on dbfs.
    * Combination of:
-   * https://docs.databricks.com/api/latest/dbfs.html#create
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#create">Documentation</a>
    * and
-   * https://docs.databricks.com/api/latest/dbfs.html#put
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#put">Documentation</a>
    * @param path the path to create a file/write to
    * @param inputStream the stream to output to dbfs
    * @param overwrite whether or not you want to overwrite the file
@@ -94,7 +94,7 @@ public interface DbfsService {
 
   /**
    * Reads a file from dbfs.
-   * https://docs.databricks.com/api/latest/dbfs.html#read
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#read">Documentation</a>
    * @param path the dbfs path to read from
    * @param offset the offset of the file you want to read from
    * @param length how many bytes you want to read
@@ -107,7 +107,7 @@ public interface DbfsService {
 
   /**
    * Will read a whole file.
-   * https://docs.databricks.com/api/latest/dbfs.html#read
+   * @see <a href="https://docs.databricks.com/api/latest/dbfs.html#read">Documentation</a>
    * @param path the dbfs path to read from
    * @return the dbfs read DTO object
    * @throws IOException any other errors

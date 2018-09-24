@@ -24,13 +24,13 @@ import java.io.IOException;
 
 /**
  * Wrapper around the Worspace API.
- * https://docs.databricks.com/api/latest/workspace.html
+ * @see <a href="https://docs.databricks.com/api/latest/workspace.html">https://docs.databricks.com/api/latest/workspace.html</a>
  */
 public interface WorkspaceService {
 
   /**
    * Deletes a specific workspace path.
-   * https://docs.databricks.com/api/latest/workspace.html#delete
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#delete">https://docs.databricks.com/api/latest/workspace.html#delete</a>
    * @param path the workspace path to delete
    * @param recursive whether or not its recursive
    * @throws IOException any other errors
@@ -40,7 +40,7 @@ public interface WorkspaceService {
 
   /**
    * Exports a workspace path FROM databricks to local machine.
-   * https://docs.databricks.com/api/latest/workspace.html#export
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#export">https://docs.databricks.com/api/latest/workspace.html#export</a>
    * @param exportWorkspaceRequest the request object
    * @return the bytes of the export
    * @throws IOException any other errors
@@ -51,7 +51,7 @@ public interface WorkspaceService {
 
   /**
    * Gets the status of a specific workspace path.
-   * https://docs.databricks.com/api/latest/workspace.html#get-status
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#get-status">https://docs.databricks.com/api/latest/workspace.html#get-status</a>
    * @param path the workspace path
    * @return the workspace info object
    * @throws IOException any other errors
@@ -61,7 +61,7 @@ public interface WorkspaceService {
 
   /**
    * Imports files INTO databricks from local machine.
-   * https://docs.databricks.com/api/latest/workspace.html#import
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#import">https://docs.databricks.com/api/latest/workspace.html#import</a>
    * @param importWorkspaceRequest the import workspace request
    * @throws IOException any other errors
    * @throws DatabricksRestException specific db exceptions
@@ -71,7 +71,7 @@ public interface WorkspaceService {
 
   /**
    * Lists all objects in a specific db workspace path.
-   * https://docs.databricks.com/api/latest/workspace.html#list
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#list">https://docs.databricks.com/api/latest/workspace.html#list</a>
    * @param path the db workspace path
    * @return the array of objects
    * @throws IOException any other errors
@@ -81,7 +81,7 @@ public interface WorkspaceService {
 
   /**
    * Makes a path (and any parent paths if they do not exist) on db workspace.
-   * https://docs.databricks.com/api/latest/workspace.html#mkdirs
+   * @see <a href="https://docs.databricks.com/api/latest/workspace.html#mkdirs">https://docs.databricks.com/api/latest/workspace.html#mkdirs</a>
    * @param path the db workspace path to create
    * @throws IOException any other errors
    * @throws DatabricksRestException any specific db exceptions
