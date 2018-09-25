@@ -46,25 +46,41 @@ public class DatabricksFixtures {
 
   public static DatabricksRestClient getDatabricksRestClient() throws IOException {
     if (client == null) {
-      client = DatabricksRestClientImpl
-          .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
+      DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
+              .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+              .withMaxRetries(1)
+              .withRetryInterval(10)
+              .withApiVersion(API_VERSION);
+      client = new DatabricksRestClientImpl(builder);
     }
+
     return client;
   }
 
   public static DatabricksRestClient createTokenAuthRestClient() {
     if (client == null) {
-      client = DatabricksRestClientImpl
-          .createClientWithTokenAuthentication(TOKEN, HOSTNAME, API_VERSION, 1, 10);
+      DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
+              .createTokenAuthentication(TOKEN, HOSTNAME)
+              .withMaxRetries(1)
+              .withRetryInterval(10)
+              .withApiVersion(API_VERSION);
+      client = new DatabricksRestClientImpl(builder);
     }
+
     return client;
   }
 
   public static DatabricksRestClient createDatabricks425Client() {
     if (client == null) {
-      client = DatabricksRestClientImpl425
-          .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME, API_VERSION, 1, 10);
+      DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
+              .createTokenAuthentication(TOKEN, HOSTNAME)
+              .withMaxRetries(1)
+              .withRetryInterval(10)
+              .withUseLegacyAPI425(true)
+              .withApiVersion(API_VERSION);
+      client = new DatabricksRestClientImpl425(builder);
     }
+
     return client;
   }
 
@@ -77,9 +93,13 @@ public class DatabricksFixtures {
    */
   public static DatabricksRestClient createDatabricksRestClientWithRetryCode(int httpStatusCode)
       throws Exception {
-    DatabricksRestClient databricksClient = DatabricksRestClientImpl
-        .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME,
-        API_VERSION, 1, 10);
+
+    DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
+            .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+            .withMaxRetries(1)
+            .withRetryInterval(10)
+            .withApiVersion(API_VERSION);
+    DatabricksRestClient databricksClient = new DatabricksRestClientImpl(builder);
 
     addHttpStatus(databricksClient, httpStatusCode);
 
@@ -88,9 +108,13 @@ public class DatabricksFixtures {
 
   public static DatabricksRestClient createDatabricksRestClient425WithRetryCode(int httpStatusCode)
       throws Exception {
-    DatabricksRestClientImpl425 databricksClient = DatabricksRestClientImpl425
-        .createClientWithUserPassword(USERNAME, PASSWORD, HOSTNAME,
-        API_VERSION, 1, 10);
+    DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
+            .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+            .withMaxRetries(1)
+            .withRetryInterval(10)
+            .withApiVersion(API_VERSION);
+
+    DatabricksRestClientImpl425 databricksClient = new DatabricksRestClientImpl425(builder);
 
     addHttpStatus(databricksClient, httpStatusCode);
 
@@ -124,8 +148,7 @@ public class DatabricksFixtures {
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {
     if (factory == null) {
-      factory = DatabricksServiceFactory.Builder
-          .createServiceFactoryWithUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME).build();
+      factory = DatabricksServiceFactory.Builder.createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME).build();
     }
 
     return factory;

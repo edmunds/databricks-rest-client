@@ -85,7 +85,7 @@ public class JobRunner {
 
     DatabricksServiceFactory factory =
         DatabricksServiceFactory.Builder
-            .createServiceFactoryWithUserPasswordAuthentication(username, password, hostname)
+            .createUserPasswordAuthentication(username, password, hostname)
             .build();
     return factory.getJobService();
   }

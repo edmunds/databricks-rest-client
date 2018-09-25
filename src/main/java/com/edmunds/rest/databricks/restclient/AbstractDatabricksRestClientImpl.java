@@ -42,11 +42,10 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractDatabricksRestClientImpl implements DatabricksRestClient {
 
-  protected static final int HTTPS_PORT = 443;
-  protected static final int SOCKET_TIMEOUT = 10000;
-  protected static final int CONNECTION_TIMEOUT = 10000;
-  protected static final int CONNECTION_REQUEST_TIMEOUT = 10000;
   private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
+
+  protected static final int HTTPS_PORT = 443;
+
   protected final String apiVersion;
   protected final String host;
 
@@ -150,4 +149,9 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
     return new StringEntity(body);
   }
+
+  static boolean isNotEmpty(String str) {
+    return str != null && str.length() > 0;
+  }
+
 }
