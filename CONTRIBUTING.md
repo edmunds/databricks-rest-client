@@ -56,11 +56,14 @@ Here are the steps to be able to make a release:
 2. Respond to this ticket saying that your username needs permission:
 https://issues.sonatype.org/browse/OSSRH-42546
 3. Add to your ~/.m2/settings.xml
-    <server>
-      <id>ossrh</id>
-      <username>{sonatype username}</username>
-      <password>{sonatype password}</password>
-    </server>
+```xml 
+<server>
+  <id>ossrh</id>
+  <username>{sonatype username}</username>
+  <password>{sonatype password}</password>
+</server>
+``` 
+
 4. [Install GPG](https://central.sonatype.org/pages/working-with-pgp-signatures.html) and make a key.
 5. Upload your key to a couple of servers:
 ```bash
