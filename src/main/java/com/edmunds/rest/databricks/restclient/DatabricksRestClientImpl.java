@@ -49,18 +49,15 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
-  private DatabricksServiceFactory.Builder builder;
-
   /**
    * Constructs a rest client.
    */
   public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder) {
     super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval());
 
-    this.builder = builder;
     if (isNotEmpty(builder.getToken())
             || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
-      initClient();
+      initClient(builder);
 
     } else {
       throw new IllegalArgumentException("Token or username/password must be set!");
@@ -70,7 +67,7 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
 
 
-  protected void initClient() {
+  protected void initClient(DatabricksServiceFactory.Builder builder) {
 
     HttpClientBuilder clientBuilder = HttpClients.custom()
             .setRetryHandler(retryHandler)

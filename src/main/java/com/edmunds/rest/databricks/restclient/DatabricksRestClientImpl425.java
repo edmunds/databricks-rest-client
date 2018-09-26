@@ -52,7 +52,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
 
-  private DatabricksServiceFactory.Builder builder;
+  private boolean isTokenAuth = false;
+  private String authToken = null;
 
   /**
    * Constructs a older http-client version of user/password authentication rest client.
@@ -60,10 +61,9 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
   public DatabricksRestClientImpl425(DatabricksServiceFactory.Builder builder) {
     super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval());
 
-    this.builder = builder;
     if (isNotEmpty(builder.getToken())
             || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
-      initClient();
+      initClient(builder);
 
     } else {
       throw new IllegalArgumentException("Token or username/password must be set!");
@@ -71,7 +71,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
   }
 
 
-  protected void initClient() {
+  protected void initClient(DatabricksServiceFactory.Builder builder) {
     try {
 
       SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
@@ -90,7 +90,12 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
       DefaultHttpClient defaultHttpClient = new DefaultHttpClient(cm, params);
       defaultHttpClient.setHttpRequestRetryHandler(retryHandler);
 
-      if (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword())) {
+      // set authorization header if token base
+      if (isNotEmpty(builder.getToken())) {
+        isTokenAuth = true;
+        authToken = builder.getToken();
+
+      } else if (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword())) {
         defaultHttpClient.getCredentialsProvider().setCredentials(
                 new AuthScope(host, HTTPS_PORT),
                 new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
@@ -117,8 +122,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
       method = makeHttpMethod(requestMethod, path, data);
 
       // set authorization header if token base
-      if (isNotEmpty(builder.getToken())) {
-        method.addHeader("Authorization", String.format("Bearer %s", builder.getToken()));
+      if (isTokenAuth) {
+        method.addHeader("Authorization", String.format("Bearer %s", authToken));
       }
 
       HttpResponse httpResponse = client.execute(method);

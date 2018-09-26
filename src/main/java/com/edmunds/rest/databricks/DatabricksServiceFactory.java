@@ -212,7 +212,8 @@ public final class DatabricksServiceFactory {
 
 
     /**
-     * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
+     * set true if you want to use http-client v4.2.5 compatible API.
+     * This could be needed in some runtime environment which provide legacy http-client library as platform runtime.
      */
     public boolean useLegacyAPI425 = false;
 
