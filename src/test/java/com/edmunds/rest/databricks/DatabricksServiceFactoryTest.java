@@ -29,7 +29,7 @@ public class DatabricksServiceFactoryTest {
   public void testBuilder_withTokens() {
     DatabricksServiceFactory serviceFactory =
         DatabricksServiceFactory.Builder
-            .createServiceFactoryWithTokenAuthentication("myToken", "myHost")
+            .createTokenAuthentication("myToken", "myHost")
             .withMaxRetries(5)
             .withRetryInterval(10000L)
             .build();
@@ -44,7 +44,7 @@ public class DatabricksServiceFactoryTest {
   public void testBuilder_withPassword() {
     DatabricksServiceFactory serviceFactory =
         DatabricksServiceFactory.Builder
-            .createServiceFactoryWithUserPasswordAuthentication("myUser", "myPassword", "myHost")
+            .createUserPasswordAuthentication("myUser", "myPassword", "myHost")
             .withMaxRetries(5)
             .withRetryInterval(10000L)
             .build();
@@ -59,7 +59,7 @@ public class DatabricksServiceFactoryTest {
   public void testBuilderWithUsername_whenBlank_throwsIllegalArgumentException() {
     DatabricksServiceFactory serviceFactory =
         DatabricksServiceFactory.Builder
-            .createServiceFactoryWithUserPasswordAuthentication("", "", "myHost")
+            .createUserPasswordAuthentication("", "", "myHost")
             .withMaxRetries(5)
             .withRetryInterval(10000L)
             .build();
@@ -69,7 +69,7 @@ public class DatabricksServiceFactoryTest {
   public void testBuilderWithPassword_whenBlank_throwsIllegalArgumentException() {
     DatabricksServiceFactory serviceFactory =
         DatabricksServiceFactory.Builder
-            .createServiceFactoryWithTokenAuthentication("", "myHost")
+            .createTokenAuthentication("", "myHost")
             .withMaxRetries(5)
             .withRetryInterval(10000L)
             .build();

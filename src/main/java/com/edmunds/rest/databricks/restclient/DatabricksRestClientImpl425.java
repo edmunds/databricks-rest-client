@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.restclient;
 
 import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,24 +51,27 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl425.class.getName());
 
-  private DatabricksRestClientImpl425(String host,
-      String apiVersion, int maxRetry, long retryInterval) {
-    super(host, apiVersion, maxRetry, retryInterval);
-  }
+
+  private boolean isTokenAuth = false;
+  private String authToken = null;
 
   /**
    * Constructs a older http-client version of user/password authentication rest client.
    */
-  public static DatabricksRestClientImpl425 createClientWithUserPassword(String username,
-      String password, String host,
-      String apiVersion, int maxRetry, long retryInterval) {
-    DatabricksRestClientImpl425 client = new DatabricksRestClientImpl425(host, apiVersion, maxRetry,
-        retryInterval);
-    client.initClientWithUserPassword(username, password);
-    return client;
+  public DatabricksRestClientImpl425(DatabricksServiceFactory.Builder builder) {
+    super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval());
+
+    if (isNotEmpty(builder.getToken())
+            || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
+      initClient(builder);
+
+    } else {
+      throw new IllegalArgumentException("Token or username/password must be set!");
+    }
   }
 
-  protected void initClientWithUserPassword(String username, String password) {
+
+  protected void initClient(DatabricksServiceFactory.Builder builder) {
     try {
 
       SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
@@ -80,15 +84,22 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
       ClientConnectionManager cm = new BasicClientConnectionManager(schemeRegistry);
 
       HttpParams params = new BasicHttpParams();
-      HttpConnectionParams.setConnectionTimeout(params, CONNECTION_TIMEOUT);
-      HttpConnectionParams.setSoTimeout(params, SOCKET_TIMEOUT);
+      HttpConnectionParams.setConnectionTimeout(params, builder.getConnectionTimeout());
+      HttpConnectionParams.setSoTimeout(params, builder.getSoTimeout());
 
       DefaultHttpClient defaultHttpClient = new DefaultHttpClient(cm, params);
       defaultHttpClient.setHttpRequestRetryHandler(retryHandler);
 
-      defaultHttpClient.getCredentialsProvider().setCredentials(
-          new AuthScope(host, HTTPS_PORT),
-          new UsernamePasswordCredentials(username, password));
+      // set authorization header if token base
+      if (isNotEmpty(builder.getToken())) {
+        isTokenAuth = true;
+        authToken = builder.getToken();
+
+      } else if (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword())) {
+        defaultHttpClient.getCredentialsProvider().setCredentials(
+                new AuthScope(host, HTTPS_PORT),
+                new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
+      }
 
       client = new AutoRetryHttpClient(defaultHttpClient, retryStrategy);
 
@@ -100,6 +111,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
+
   @Override
   public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
       throws
@@ -108,6 +120,12 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     HttpRequestBase method = null;
     try {
       method = makeHttpMethod(requestMethod, path, data);
+
+      // set authorization header if token base
+      if (isTokenAuth) {
+        method.addHeader("Authorization", String.format("Bearer %s", authToken));
+      }
+
       HttpResponse httpResponse = client.execute(method);
 
       byte[] response = extractContent(httpResponse);

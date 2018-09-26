@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.restclient;
 
 import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,65 +49,48 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
 
-  private DatabricksRestClientImpl(String host, String apiVersion, int maxRetry,
-      long retryInterval) {
-    super(host, apiVersion, maxRetry, retryInterval);
-  }
-
   /**
-   * Constructs a rest client with user and password authentication.
+   * Constructs a rest client.
    */
-  public static DatabricksRestClientImpl createClientWithUserPassword(String username,
-      String password, String host,
-      String apiVersion, int maxRetry, long retryInterval) {
-    DatabricksRestClientImpl client = new DatabricksRestClientImpl(host, apiVersion, maxRetry,
-        retryInterval);
-    client.initClientWithUserPassword(username, password);
-    return client;
+  public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder) {
+    super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval());
+
+    if (isNotEmpty(builder.getToken())
+            || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
+      initClient(builder);
+
+    } else {
+      throw new IllegalArgumentException("Token or username/password must be set!");
+    }
+
   }
 
-  /**
-   * Constructs a rest client with token authentication.
-   */
-  public static DatabricksRestClientImpl createClientWithTokenAuthentication(String token,
-      String host,
-      String apiVersion, int maxRetry, long retryInterval) {
-    DatabricksRestClientImpl client = new DatabricksRestClientImpl(host, apiVersion, maxRetry,
-        retryInterval);
-    client.initClientWithToken(token);
-    return client;
-  }
 
-  protected void initClientWithUserPassword(String username, String password) {
-    CredentialsProvider credsProvider = new BasicCredentialsProvider();
-    credsProvider.setCredentials(
-        new AuthScope(host, HTTPS_PORT),
-        new UsernamePasswordCredentials(username, password));
+
+  protected void initClient(DatabricksServiceFactory.Builder builder) {
 
     HttpClientBuilder clientBuilder = HttpClients.custom()
-        .setDefaultCredentialsProvider(credsProvider)
-        .setRetryHandler(retryHandler)
-        .setServiceUnavailableRetryStrategy(retryStrategy)
-        .setDefaultRequestConfig(createRequestConfig());
+            .setRetryHandler(retryHandler)
+            .setServiceUnavailableRetryStrategy(retryStrategy)
+            .setDefaultRequestConfig(createRequestConfig(builder));
 
-    commonInit(clientBuilder);
-  }
+    if (isNotEmpty(builder.getToken())) {
+      List<Header> headers = new ArrayList<>();
+      Header authHeader = new BasicHeader("Authorization", String.format("Bearer %s", builder.getToken()));
+      headers.add(authHeader);
 
-  protected void initClientWithToken(String personalToken) {
-    List<Header> headers = new ArrayList<>();
-    Header authHeader = new BasicHeader("Authorization", String.format("Bearer %s", personalToken));
-    headers.add(authHeader);
+      clientBuilder.setDefaultHeaders(headers);
 
-    HttpClientBuilder clientBuilder = HttpClients.custom()
-        .setRetryHandler(retryHandler)
-        .setServiceUnavailableRetryStrategy(retryStrategy)
-        .setDefaultRequestConfig(createRequestConfig())
-        .setDefaultHeaders(headers);
+    } else { // password authorization
+      CredentialsProvider credsProvider = new BasicCredentialsProvider();
+      credsProvider.setCredentials(
+              new AuthScope(host, HTTPS_PORT),
+              new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
 
-    commonInit(clientBuilder);
-  }
+      clientBuilder.setDefaultCredentialsProvider(credsProvider);
 
-  protected void commonInit(HttpClientBuilder clientBuilder) {
+    }
+
     try {
       SSLContext ctx = SSLContext.getDefault();
       // Allow TLSv1.2 protocol only
@@ -126,14 +110,14 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
-  private RequestConfig createRequestConfig() {
-    RequestConfig defaultRequestConfig = RequestConfig.custom()
+
+  private RequestConfig createRequestConfig(DatabricksServiceFactory.Builder builder) {
+    return RequestConfig.custom()
         .setExpectContinueEnabled(true)
-        .setSocketTimeout(SOCKET_TIMEOUT)
-        .setConnectTimeout(CONNECTION_TIMEOUT)
-        .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
+        .setSocketTimeout(builder.getSoTimeout())
+        .setConnectTimeout(builder.getConnectionTimeout())
+        .setConnectionRequestTimeout(builder.getConnectionRequestTimeout())
         .build();
-    return defaultRequestConfig;
   }
 
   @Override

@@ -38,8 +38,20 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
  */
 public final class DatabricksServiceFactory {
 
+  /**
+   * Databricks rest http client socket parameters default values.
+   * Unit is milliseconds
+   */
+  public static final int SOCKET_TIMEOUT = 10000;
+  public static final int CONNECTION_TIMEOUT = 10000;
+  public static final int CONNECTION_REQUEST_TIMEOUT = 10000;
+
+  /**
+   * Databricks rest http client {@link com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy} default values.
+   */
   public static final int DEFAULT_HTTP_CLIENT_MAX_RETRY = 3;
   public static final long DEFAULT_HTTP_CLIENT_RETRY_INTERVAL = 10000L;
+
 
   private DatabricksRestClient client2dot0;
   private ClusterService clusterService;
@@ -55,7 +67,7 @@ public final class DatabricksServiceFactory {
   /**
    * Old constructor.
    * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String,
+   *     please use {@link Builder#createUserPasswordAuthentication(String,
    * String, String)}
    */
   @Deprecated
@@ -71,7 +83,7 @@ public final class DatabricksServiceFactory {
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
    *
    * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String, String, String)}
+   *     please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
@@ -85,20 +97,17 @@ public final class DatabricksServiceFactory {
    *
    * @param useLegacyAPI425 choose what version of API compatible HttpClient.
    * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createServiceFactoryWithUserPasswordAuthentication(String, String, String)}
+   *     please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
       long retryInterval, boolean useLegacyAPI425) {
-    if (useLegacyAPI425) {
-      client2dot0 = DatabricksRestClientImpl425
-          .createClientWithUserPassword(username, password, host, "2.0", maxRetry,
-              retryInterval);
-    } else {
-      client2dot0 = DatabricksRestClientImpl
-          .createClientWithUserPassword(username, password, host, "2.0", maxRetry,
-              retryInterval);
-    }
+
+    client2dot0 = Builder.createUserPasswordAuthentication(username, password, host)
+          .withMaxRetries(maxRetry)
+          .withRetryInterval(retryInterval)
+          .withUseLegacyAPI425(useLegacyAPI425)
+          .build().client2dot0;
   }
 
   /**
@@ -110,13 +119,16 @@ public final class DatabricksServiceFactory {
    * @param retryInterval the retry interval between each attempt
    *
    * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createServiceFactoryWithTokenAuthentication(String, String)}
+   *     please use {@link Builder#createTokenAuthentication(String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String personalToken, String host,
       int maxRetry, long retryInterval) {
-    client2dot0 = DatabricksRestClientImpl
-        .createClientWithTokenAuthentication(personalToken, host, "2.0", maxRetry, retryInterval);
+
+    client2dot0 = Builder.createTokenAuthentication(personalToken, host)
+            .withMaxRetries(maxRetry)
+            .withRetryInterval(retryInterval)
+            .build().client2dot0;
   }
 
   /**
@@ -175,15 +187,85 @@ public final class DatabricksServiceFactory {
    */
   public static class Builder {
 
-    long retryInterval = DEFAULT_HTTP_CLIENT_RETRY_INTERVAL;
-    int maxRetries = DEFAULT_HTTP_CLIENT_MAX_RETRY;
-    String token;
     String host;
+    String token;
     String username;
     String password;
 
+    /**
+     * Databricks rest-api version.
+     */
+    String apiVersion = "2.0";
+
+    /**
+     * Databricks rest http client {@link com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy} default.
+     */
+    long retryInterval = DEFAULT_HTTP_CLIENT_RETRY_INTERVAL;
+    int maxRetries = DEFAULT_HTTP_CLIENT_MAX_RETRY;
+
+    /**
+     * Databricks rest http client socket parameters.
+     */
+    int soTimeout = SOCKET_TIMEOUT;
+    int connectionTimeout = CONNECTION_TIMEOUT;
+    int connectionRequestTimeout = CONNECTION_REQUEST_TIMEOUT;
+
+
+    /**
+     * set true if you want to use http-client v4.2.5 compatible API.
+     * This could be needed in some runtime environment which provide legacy http-client library as platform runtime.
+     */
+    public boolean useLegacyAPI425 = false;
+
+
+
     private Builder() {
       //NO-OP
+    }
+
+
+    public String getHost() {
+      return host;
+    }
+
+    public String getToken() {
+      return token;
+    }
+
+    public String getUsername() {
+      return username;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public String getApiVersion() {
+      return apiVersion;
+    }
+
+    public long getRetryInterval() {
+      return retryInterval;
+    }
+
+    public int getMaxRetries() {
+      return maxRetries;
+    }
+
+    public int getSoTimeout() {
+      return soTimeout;
+    }
+
+    public int getConnectionTimeout() {
+      return connectionTimeout;
+    }
+
+    public int getConnectionRequestTimeout() {
+      return connectionRequestTimeout;
+    }
+
+    public boolean isUseLegacyAPI425() {
+      return useLegacyAPI425;
     }
 
     /**
@@ -193,7 +275,7 @@ public final class DatabricksServiceFactory {
      * @param host the databricks host where that token is valid
      * @return the builder object
      */
-    public static Builder createServiceFactoryWithTokenAuthentication(String token, String host) {
+    public static Builder createTokenAuthentication(String token, String host) {
       Builder builder = new Builder();
       builder.token = token;
       builder.host = host;
@@ -208,7 +290,7 @@ public final class DatabricksServiceFactory {
      * @param host the host object
      * @return the builder object
      */
-    public static Builder createServiceFactoryWithUserPasswordAuthentication(String username,
+    public static Builder createUserPasswordAuthentication(String username,
         String password, String host) {
       Builder builder = new Builder();
       builder.username = username;
@@ -217,37 +299,80 @@ public final class DatabricksServiceFactory {
       return builder;
     }
 
+
+    public Builder withApiVersion(String apiVersion) {
+      this.apiVersion = apiVersion;
+      return this;
+    }
+
     public Builder withMaxRetries(int maxRetries) {
       this.maxRetries = maxRetries;
       return this;
     }
 
+    /**
+    * set Http Retry Interval.
+    * @param retryInterval unit is milliseconds
+    * @return
+    */
     public Builder withRetryInterval(long retryInterval) {
       this.retryInterval = retryInterval;
       return this;
     }
 
     /**
+    * set Http-Client SoTimeout.
+    * @param soTimeout unit is milliseconds
+    * @return
+    */
+    public Builder withSoTimeout(int soTimeout) {
+      this.soTimeout = soTimeout;
+      return this;
+    }
+
+    /**
+    * set Http-Client connection timeout.
+    * @param connectionTimeout unit is milliseconds
+    * @return
+    */
+    public Builder withConnectionTimeout(int connectionTimeout) {
+      this.connectionTimeout = connectionTimeout;
+      return this;
+    }
+
+    /**
+    * set Http-Client connection request timeout.
+    * @param connectionRequestTimeout unit is milliseconds
+    * @return
+    */
+    public Builder withConnectionRequestTimeout(int connectionRequestTimeout) {
+      this.connectionRequestTimeout = connectionRequestTimeout;
+      return this;
+    }
+
+    public Builder withUseLegacyAPI425(boolean useLegacyAPI425) {
+      this.useLegacyAPI425 = useLegacyAPI425;
+      return this;
+    }
+
+
+    /**
      * Builds a DatabricksServiceFactory.
      * @return the databricks service factory object
      */
     public DatabricksServiceFactory build() {
-      //NOTE this is not validation, but logic to determine which rest client to build.
-      if (token != null && !token.equals("")) {
-        return new DatabricksServiceFactory(
-            DatabricksRestClientImpl
-                .createClientWithTokenAuthentication(token, host, "2.0", maxRetries, retryInterval)
-        );
-      } else if (username != null && !username.equals("") && password != null
-          && !password.equals("")) {
-        return new DatabricksServiceFactory(
-            DatabricksRestClientImpl
-                .createClientWithUserPassword(username, password, host, "2.0", maxRetries,
-                    retryInterval)
-        );
+
+      DatabricksRestClient restClient = null;
+      if (useLegacyAPI425) {
+        restClient = new DatabricksRestClientImpl425(this);
+
       } else {
-        throw new IllegalArgumentException("Token or username/password must be set!");
+        restClient = new DatabricksRestClientImpl(this);
       }
+
+      return new DatabricksServiceFactory(restClient);
+
     }
+
   }
 }
