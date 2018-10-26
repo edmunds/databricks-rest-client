@@ -117,7 +117,14 @@ public interface ClusterService {
    */
   ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
 
-
-  ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int limit) throws IOException,
+  /**
+   * Lists events of a specific cluster on a given databricks instance.
+   * Allows you to filter which events you want to see too.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#events">https://docs.databricks.com/api/latest/clusters.html#events</a>
+   * @return an array of cluster information objects
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int offset, int limit) throws IOException,
       DatabricksRestException;
 }

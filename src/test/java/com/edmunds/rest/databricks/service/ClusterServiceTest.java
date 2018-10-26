@@ -165,7 +165,7 @@ public class ClusterServiceTest {
   public void listEvents_whenCalled_showsEvents() throws IOException, DatabricksRestException {
     ClusterInfoDTO[] clusterInfoDTO = service.list();
     String clusterId = clusterInfoDTO[0].getClusterId();
-    ClusterEventsDTO events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 50);
+    ClusterEventsDTO events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 0, 50);
     assert(events.getEvents().size() > 0);
   }
 }

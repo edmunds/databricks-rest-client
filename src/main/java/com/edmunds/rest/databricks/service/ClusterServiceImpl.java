@@ -109,14 +109,14 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
     return jsonObject.get("clusters");
   }
 
-  // TODO this needs to properly handle offsets and limits!!
   @Override
-  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int limit) throws
+  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int offset, int limit) throws
       IOException,
       DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("cluster_id", clusterId);
     data.put("event_types", eventsToFilter);
+    data.put("offset", offset);
     data.put("limit", limit);
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/events", data);
     return this.mapper.readValue(responseBody, ClusterEventsDTO.class);
