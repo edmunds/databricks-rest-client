@@ -121,10 +121,11 @@ public interface ClusterService {
    * Lists events of a specific cluster on a given databricks instance.
    * Allows you to filter which events you want to see too.
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#events">https://docs.databricks.com/api/latest/clusters.html#events</a>
-   * @return an array of cluster information objects
+   * @return an array of cluster events objects
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
    */
-  ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int offset, int limit) throws IOException,
+  ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
+      int offset, int limit) throws IOException,
       DatabricksRestException;
 }

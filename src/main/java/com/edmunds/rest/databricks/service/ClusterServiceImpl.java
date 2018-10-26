@@ -110,7 +110,8 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
-  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int offset, int limit) throws
+  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
+      int offset, int limit) throws
       IOException,
       DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
