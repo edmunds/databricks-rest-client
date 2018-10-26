@@ -17,6 +17,8 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
@@ -157,5 +159,13 @@ public class ClusterServiceTest {
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
     assertEquals(clusterInfo.getNodeTypeId(), "r3.2xlarge");
     assertEquals(clusterInfo.getNumWorkers(), 1);
+  }
+
+  @Test
+  public void listEvents_whenCalled_showsEvents() throws IOException, DatabricksRestException {
+    ClusterInfoDTO[] clusterInfoDTO = service.list();
+    String clusterId = clusterInfoDTO[0].getClusterId();
+    ClusterEventsDTO events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 50);
+    assert(events.getEvents().size() > 0);
   }
 }

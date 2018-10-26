@@ -206,6 +206,8 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
     if (activeOnly != null) {
       data.put("active_only", activeOnly);
+    } else {
+      data.put("completed_only", true);
     }
     if (offset != null) {
       data.put("offset", offset);

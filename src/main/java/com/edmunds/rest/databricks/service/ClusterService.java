@@ -17,6 +17,8 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
@@ -115,4 +117,7 @@ public interface ClusterService {
    */
   ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
 
+
+  ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int limit) throws IOException,
+      DatabricksRestException;
 }

@@ -17,6 +17,8 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
@@ -105,5 +107,18 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
         .readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {
         });
     return jsonObject.get("clusters");
+  }
+
+  // TODO this needs to properly handle offsets and limits!!
+  @Override
+  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter, int limit) throws
+      IOException,
+      DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    data.put("event_types", eventsToFilter);
+    data.put("limit", limit);
+    byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/events", data);
+    return this.mapper.readValue(responseBody, ClusterEventsDTO.class);
   }
 }
