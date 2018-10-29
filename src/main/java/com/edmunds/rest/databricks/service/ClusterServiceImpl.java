@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
@@ -28,6 +29,7 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -110,7 +112,7 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
-  public ClusterEventsDTO listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
+  public List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
       int offset, int limit) throws
       IOException,
       DatabricksRestException {
@@ -120,6 +122,7 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
     data.put("offset", offset);
     data.put("limit", limit);
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/events", data);
-    return this.mapper.readValue(responseBody, ClusterEventsDTO.class);
+    ClusterEventsDTO clusterEvents = this.mapper.readValue(responseBody, ClusterEventsDTO.class);
+    return clusterEvents.getEvents();
   }
 }
