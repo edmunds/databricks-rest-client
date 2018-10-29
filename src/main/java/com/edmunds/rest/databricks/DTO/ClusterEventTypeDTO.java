@@ -19,10 +19,16 @@ package com.edmunds.rest.databricks.DTO;
 import java.io.Serializable;
 
 /**
- *
+ * Cluster Event DTO object. See below link.
+ * @see <a href="https://docs.databricks.com/api/latest/clusters.html#clustereventsclustereventtype">https://docs.databricks.com/api/latest/clusters.html#clustereventsclustereventtype</a>
  */
 public enum ClusterEventTypeDTO implements Serializable {
     CREATING("CREATING"),
+    DID_NOT_EXPAND_DISK("DID_NOT_EXPAND_DISK"),
+    EXPANDED_DISK("EXPANDED_DISK"),
+    FAILED_TO_EXPAND_DISK("FAILED_TO_EXPAND_DISK"),
+    INIT_SCRIPTS_STARTING("INIT_SCRIPTS_STARTING"),
+    INIT_SCRIPTS_FINISHED("INIT_SCRIPTS_FINISHED"),
     STARTING("STARTING"),
     RESTARTING("RESTARTING"),
     TERMINATING("TERMINATING"),
