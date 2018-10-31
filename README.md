@@ -2,6 +2,11 @@
 
 _This is a simple java library that provides programmatic access to the [Databricks Rest Service](https://docs.databricks.com/api/latest/index.html)._
 
+NOTE: that the project used to be under the groupId _com.edmunds.databricks_
+It is now under _com.edmunds_.
+
+At some point we will plan on deleting the old artifacts from maven-central.
+
 ## Build Status
 [![Build Status](https://travis-ci.org/edmunds/databricks-rest-client.svg?branch=master)](https://travis-ci.org/edmunds/databricks-rest-client)
 
