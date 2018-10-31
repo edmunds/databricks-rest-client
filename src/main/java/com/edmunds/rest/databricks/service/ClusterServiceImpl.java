@@ -17,6 +17,9 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
@@ -26,6 +29,7 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -105,5 +109,20 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
         .readValue(responseBody, new TypeReference<Map<String, ClusterInfoDTO[]>>() {
         });
     return jsonObject.get("clusters");
+  }
+
+  @Override
+  public List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
+      int offset, int limit) throws
+      IOException,
+      DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    data.put("event_types", eventsToFilter);
+    data.put("offset", offset);
+    data.put("limit", limit);
+    byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/events", data);
+    ClusterEventsDTO clusterEvents = this.mapper.readValue(responseBody, ClusterEventsDTO.class);
+    return clusterEvents.getEvents();
   }
 }

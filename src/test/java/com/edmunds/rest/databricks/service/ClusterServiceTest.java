@@ -17,6 +17,9 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
@@ -24,6 +27,7 @@ import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
+import java.util.List;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -46,10 +50,6 @@ public class ClusterServiceTest {
 
   @BeforeClass
   public void setUpOnce() throws IOException, DatabricksRestException {
-    if (true) {
-      throw new SkipException("Running these tests takes time and costs money");
-    }
-
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getClusterService();
     String uniqueId = UUID.randomUUID().toString();
@@ -157,5 +157,13 @@ public class ClusterServiceTest {
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
     assertEquals(clusterInfo.getNodeTypeId(), "r3.2xlarge");
     assertEquals(clusterInfo.getNumWorkers(), 1);
+  }
+
+  @Test
+  public void listEvents_whenCalled_showsEvents() throws IOException, DatabricksRestException {
+    ClusterInfoDTO[] clusterInfoDTO = service.list();
+    String clusterId = clusterInfoDTO[0].getClusterId();
+    List<ClusterEventDTO> events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 0, 50);
+    assertTrue(events.size() > 0);
   }
 }

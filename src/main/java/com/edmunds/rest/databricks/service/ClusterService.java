@@ -17,11 +17,15 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A Wrapper around the cluster part of the databricks rest api.
@@ -115,4 +119,15 @@ public interface ClusterService {
    */
   ClusterInfoDTO[] list() throws IOException, DatabricksRestException;
 
+  /**
+   * Lists events of a specific cluster on a given databricks instance.
+   * Allows you to filter which events you want to see too.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#events">https://docs.databricks.com/api/latest/clusters.html#events</a>
+   * @return an array of cluster events objects
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
+      int offset, int limit) throws IOException,
+      DatabricksRestException;
 }
