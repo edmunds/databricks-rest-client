@@ -19,11 +19,13 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Map;
+import lombok.Data;
 
 /**
  *
  */
 @SuppressWarnings("PMD")
+@Data
 public class RunParametersDTO implements Serializable {
 
   @JsonProperty("jar_params")

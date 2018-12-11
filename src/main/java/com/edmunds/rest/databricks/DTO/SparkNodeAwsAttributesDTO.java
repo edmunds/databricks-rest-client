@@ -18,10 +18,12 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  *
  */
+@Data
 public class SparkNodeAwsAttributesDTO implements Serializable {
 
   @JsonProperty("is_spot")

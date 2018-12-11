@@ -18,11 +18,13 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  *
  */
 @SuppressWarnings("PMD")
+@Data
 public class JobSettingsDTO implements Serializable {
 
   @JsonProperty("name")
@@ -175,4 +177,19 @@ public class JobSettingsDTO implements Serializable {
   public void setSparkJarTask(SparkJarTaskDTO sparkJarTask) {
     this.sparkJarTask = sparkJarTask;
   }
+
+//  @Override
+//  public String toString() {
+//    return ReflectionToStringBuilder.toString(this);
+//  }
+//
+//  @Override
+//  public boolean equals(Object other) {
+//    return EqualsBuilder.reflectionEquals(this, other);
+//  }
+//
+//  @Override
+//  public int hashCode() {
+//    return HashCodeBuilder.reflectionHashCode(this);
+//  }
 }

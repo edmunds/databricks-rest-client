@@ -17,10 +17,12 @@
 package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  *
  */
+@Data
 public class NotebookOutputDTO implements Serializable {
 
   private String result;

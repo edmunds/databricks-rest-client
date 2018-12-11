@@ -18,11 +18,13 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  *
  */
 @SuppressWarnings("PMD")
+@Data
 public class RunsDTO implements Serializable {
 
   @JsonProperty("runs")
