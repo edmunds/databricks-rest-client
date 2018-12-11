@@ -32,5 +32,4 @@ public class AutoScaleDTO implements Serializable {
   private int minWorkers;
   @Getter @Setter @JsonProperty("max_workers")
   private int maxWorkers;
-
 }
