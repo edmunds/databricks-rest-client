@@ -178,18 +178,4 @@ public class JobSettingsDTO implements Serializable {
     this.sparkJarTask = sparkJarTask;
   }
 
-//  @Override
-//  public String toString() {
-//    return ReflectionToStringBuilder.toString(this);
-//  }
-//
-//  @Override
-//  public boolean equals(Object other) {
-//    return EqualsBuilder.reflectionEquals(this, other);
-//  }
-//
-//  @Override
-//  public int hashCode() {
-//    return HashCodeBuilder.reflectionHashCode(this);
-//  }
 }
