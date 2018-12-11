@@ -18,15 +18,19 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class CronScheduleDTO implements Serializable {
 
-  @JsonProperty("quartz_cron_expression")
+  @Getter @Setter @JsonProperty("quartz_cron_expression")
   private String quartzCronExpression;
-  @JsonProperty("timezone_id")
+  @Getter @Setter @JsonProperty("timezone_id")
   private String timezoneId;
 
   public String getQuartzCronExpression() {

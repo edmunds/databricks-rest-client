@@ -18,30 +18,18 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class AutoScaleDTO implements Serializable {
 
-  @JsonProperty("min_workers")
+  @Getter @Setter @JsonProperty("min_workers")
   private int minWorkers;
-  @JsonProperty("max_workers")
+  @Getter @Setter @JsonProperty("max_workers")
   private int maxWorkers;
-
-  public int getMinWorkers() {
-    return minWorkers;
-  }
-
-  public void setMinWorkers(int minWorkers) {
-    this.minWorkers = minWorkers;
-  }
-
-  public int getMaxWorkers() {
-    return maxWorkers;
-  }
-
-  public void setMaxWorkers(int maxWorkers) {
-    this.maxWorkers = maxWorkers;
-  }
 }

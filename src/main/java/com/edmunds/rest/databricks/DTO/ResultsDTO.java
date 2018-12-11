@@ -18,81 +18,29 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
 @SuppressWarnings("PMD")
+@Data
 public class ResultsDTO implements Serializable {
 
-  @JsonProperty("resultType")
+  @Getter @Setter @JsonProperty("resultType")
   private String resultType;
-  @JsonProperty("data")
+  @Getter @Setter @JsonProperty("data")
   private Object data;
-  @JsonProperty("schema")
+  @Getter @Setter @JsonProperty("schema")
   private Object schema;
-  @JsonProperty("truncated")
+  @Getter @Setter @JsonProperty("truncated")
   private boolean truncated;
-  @JsonProperty("isJsonSchema")
+  @Getter @Setter @JsonProperty("isJsonSchema")
   private boolean isJsonSchema;
-  @JsonProperty("summary")
+  @Getter @Setter @JsonProperty("summary")
   private String summary;
-  @JsonProperty("cause")
+  @Getter @Setter @JsonProperty("cause")
   private String cause;
-
-  public String getResultType() {
-    return resultType;
-  }
-
-  public void setResultType(String resultType) {
-    this.resultType = resultType;
-  }
-
-  public Object getData() {
-    return data;
-  }
-
-  public void setData(Object data) {
-    this.data = data;
-  }
-
-  public Object getSchema() {
-    return schema;
-  }
-
-  public void setSchema(Object schema) {
-    this.schema = schema;
-  }
-
-  public boolean getTruncated() {
-    return truncated;
-  }
-
-  public void setTruncated(boolean truncated) {
-    this.truncated = truncated;
-  }
-
-  public boolean getIsJsonSchema() {
-    return isJsonSchema;
-  }
-
-  public void setIsJsonSchema(boolean isJsonSchema) {
-    this.isJsonSchema = isJsonSchema;
-  }
-
-  public String getSummary() {
-    return summary;
-  }
-
-  public void setSummary(String summary) {
-    this.summary = summary;
-  }
-
-  public String getCause() {
-    return cause;
-  }
-
-  public void setCause(String cause) {
-    this.cause = cause;
-  }
 }

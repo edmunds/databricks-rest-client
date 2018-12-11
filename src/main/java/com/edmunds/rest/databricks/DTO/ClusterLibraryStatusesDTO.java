@@ -18,30 +18,19 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class ClusterLibraryStatusesDTO implements Serializable {
 
-  @JsonProperty("cluster_id")
+  @Getter @Setter @JsonProperty("cluster_id")
   private String clusterId;
-  @JsonProperty("library_statuses")
+  @Getter @Setter @JsonProperty("library_statuses")
   private LibraryFullStatusDTO[] libraryFullStatuses;
 
-  public String getClusterId() {
-    return clusterId;
-  }
-
-  public void setClusterId(String clusterId) {
-    this.clusterId = clusterId;
-  }
-
-  public LibraryFullStatusDTO[] getLibraryFullStatuses() {
-    return libraryFullStatuses;
-  }
-
-  public void setLibraryFullStatuses(LibraryFullStatusDTO[] libraryFullStatuses) {
-    this.libraryFullStatuses = libraryFullStatuses;
-  }
 }

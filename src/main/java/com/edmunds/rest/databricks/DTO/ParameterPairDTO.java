@@ -18,30 +18,18 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class ParameterPairDTO implements Serializable {
 
-  @JsonProperty("key")
+  @Getter @Setter @JsonProperty("key")
   private TerminationParameterDTO key;
-  @JsonProperty("value")
+  @Getter @Setter @JsonProperty("value")
   private String value;
-
-  public TerminationParameterDTO getKey() {
-    return key;
-  }
-
-  public void setKey(TerminationParameterDTO key) {
-    this.key = key;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
 }

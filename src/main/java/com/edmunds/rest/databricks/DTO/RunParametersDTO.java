@@ -19,51 +19,24 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Map;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
 @SuppressWarnings("PMD")
+@Data
 public class RunParametersDTO implements Serializable {
 
-  @JsonProperty("jar_params")
+  @Getter @Setter @JsonProperty("jar_params")
   private String[] jarParams;
-  @JsonProperty("notebook_params")
+  @Getter @Setter @JsonProperty("notebook_params")
   private Map notebookParams;
+  @Getter @Setter
   @JsonProperty("python_params")
   private String[] pythonParams;
-  @JsonProperty("spark_submit_params")
+  @Getter @Setter @JsonProperty("spark_submit_params")
   private String[] sparkSubmitParams;
-
-  public String[] getPythonParams() {
-    return pythonParams;
-  }
-
-  public void setPythonParams(String[] pythonParams) {
-    this.pythonParams = pythonParams;
-  }
-
-  public String[] getSparkSubmitParams() {
-    return sparkSubmitParams;
-  }
-
-  public void setSparkSubmitParams(String[] sparkSubmitParams) {
-    this.sparkSubmitParams = sparkSubmitParams;
-  }
-
-  public String[] getJarParams() {
-    return jarParams;
-  }
-
-  public void setJarParams(String[] jarParams) {
-    this.jarParams = jarParams;
-  }
-
-  public Map getNotebookParams() {
-    return notebookParams;
-  }
-
-  public void setNotebookParams(Map notebookParams) {
-    this.notebookParams = notebookParams;
-  }
 }

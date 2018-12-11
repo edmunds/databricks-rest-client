@@ -18,30 +18,19 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 /**
  *
  */
+@Data
 public class PythonPyPiLibraryDTO implements Serializable {
 
-  @JsonProperty("package")
+  @Getter @Setter @JsonProperty("package")
   private String pyPackage;
-  @JsonProperty("repo")
+  @Getter @Setter @JsonProperty("repo")
   private String repo;
-
-  public String getPyPackage() {
-    return pyPackage;
-  }
-
-  public void setPyPackage(String pyPackage) {
-    this.pyPackage = pyPackage;
-  }
-
-  public String getRepo() {
-    return repo;
-  }
-
-  public void setRepo(String repo) {
-    this.repo = repo;
-  }
 }

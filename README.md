@@ -69,6 +69,8 @@ For more examples, take a look at the service tests.
 ### Getting Started and Prerequisites
 
 - You will need Maven installed
+- Not required! Because you can build and develop without it, but you will likely want Lombok configured with your IDEA:
+https://projectlombok.org/setup/intellij
 
 ### Building
 

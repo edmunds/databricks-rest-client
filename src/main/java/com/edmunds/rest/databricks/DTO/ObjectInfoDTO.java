@@ -18,38 +18,20 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class ObjectInfoDTO implements Serializable {
 
-  @JsonProperty("object_type")
+  @Getter @Setter @JsonProperty("object_type")
   private ObjectTypeDTO objectType;
+  @Getter @Setter
   private String path;
+  @Getter @Setter
   private LanguageDTO language;
-
-  public ObjectTypeDTO getObjectType() {
-    return objectType;
-  }
-
-  public void setObjectType(ObjectTypeDTO objectType) {
-    this.objectType = objectType;
-  }
-
-  public String getPath() {
-    return path;
-  }
-
-  public void setPath(String path) {
-    this.path = path;
-  }
-
-  public LanguageDTO getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(LanguageDTO language) {
-    this.language = language;
-  }
 }

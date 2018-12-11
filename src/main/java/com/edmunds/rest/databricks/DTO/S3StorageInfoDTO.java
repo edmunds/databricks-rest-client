@@ -18,80 +18,30 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 /**
  *
  */
+@Data
 public class S3StorageInfoDTO implements Serializable {
 
-  @JsonProperty("destination")
+  @Getter @Setter @JsonProperty("destination")
   private String destination;
-  @JsonProperty("region")
+  @Getter @Setter @JsonProperty("region")
   private String region;
-  @JsonProperty("endpoint")
+  @Getter @Setter @JsonProperty("endpoint")
   private String endpoint;
-  @JsonProperty("enable_encryption")
+  @Getter @Setter @JsonProperty("enable_encryption")
   private boolean enableEncryption;
-  @JsonProperty("encryption_type")
+  @Getter @Setter @JsonProperty("encryption_type")
   private String encryptionType;
-  @JsonProperty("kms_key")
+  @Getter @Setter @JsonProperty("kms_key")
   private String kmsKey;
-  @JsonProperty("canned_acl")
+  @Getter @Setter @JsonProperty("canned_acl")
   private String cannedAcl;
 
-  public String getDestination() {
-    return destination;
-  }
-
-  public void setDestination(String destination) {
-    this.destination = destination;
-  }
-
-  public String getRegion() {
-    return region;
-  }
-
-  public void setRegion(String region) {
-    this.region = region;
-  }
-
-  public String getEndpoint() {
-    return endpoint;
-  }
-
-  public void setEndpoint(String endpoint) {
-    this.endpoint = endpoint;
-  }
-
-  public boolean isEnableEncryption() {
-    return enableEncryption;
-  }
-
-  public void setEnableEncryption(boolean enableEncryption) {
-    this.enableEncryption = enableEncryption;
-  }
-
-  public String getEncryptionType() {
-    return encryptionType;
-  }
-
-  public void setEncryptionType(String encryptionType) {
-    this.encryptionType = encryptionType;
-  }
-
-  public String getKmsKey() {
-    return kmsKey;
-  }
-
-  public void setKmsKey(String kmsKey) {
-    this.kmsKey = kmsKey;
-  }
-
-  public String getCannedAcl() {
-    return cannedAcl;
-  }
-
-  public void setCannedAcl(String cannedAcl) {
-    this.cannedAcl = cannedAcl;
-  }
 }

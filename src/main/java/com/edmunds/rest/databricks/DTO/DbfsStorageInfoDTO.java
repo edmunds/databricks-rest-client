@@ -18,13 +18,17 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class DbfsStorageInfoDTO implements Serializable {
 
-  @JsonProperty("destination")
+  @Getter @Setter @JsonProperty("destination")
   private String destination;
 
   public String getDestination() {

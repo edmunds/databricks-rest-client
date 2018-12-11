@@ -17,19 +17,17 @@
 package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 /**
  *
  */
+@Data
 public class SparkSubmitTaskDTO implements Serializable {
 
+  @Getter @Setter
   private String[] parameters;
-
-  public String[] getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(String[] parameters) {
-    this.parameters = parameters;
-  }
 }

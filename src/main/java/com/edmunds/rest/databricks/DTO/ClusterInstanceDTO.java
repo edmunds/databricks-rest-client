@@ -18,30 +18,19 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class ClusterInstanceDTO implements Serializable {
 
-  @JsonProperty("cluster_id")
+  @Getter @Setter @JsonProperty("cluster_id")
   private String clusterId;
-  @JsonProperty("spark_context_id")
+  @Getter @Setter @JsonProperty("spark_context_id")
   private String sparkContextId;
 
-  public String getClusterId() {
-    return clusterId;
-  }
-
-  public void setClusterId(String clusterId) {
-    this.clusterId = clusterId;
-  }
-
-  public String getSparkContextId() {
-    return sparkContextId;
-  }
-
-  public void setSparkContextId(String sparkContextId) {
-    this.sparkContextId = sparkContextId;
-  }
 }

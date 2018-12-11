@@ -36,7 +36,7 @@ import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
  * It provides singletons for all of the Services, as well as
  * abstracting the construction of the databricks rest client.
  */
-public final class DatabricksServiceFactory {
+public class DatabricksServiceFactory {
 
   /**
    * Databricks rest http client socket parameters default values.

@@ -18,51 +18,23 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  */
+@Data
 public class ClusterEventDTO implements Serializable {
 
-  @JsonProperty("cluster_id")
+  @Getter @Setter @JsonProperty("cluster_id")
   private String clusterId;
-  @JsonProperty("timestamp")
+  @Getter @Setter @JsonProperty("timestamp")
   private long timestamp;
-  @JsonProperty("type")
+  @Getter @Setter @JsonProperty("type")
   private ClusterEventTypeDTO type;
-  @JsonProperty("details")
+  @Getter @Setter @JsonProperty("details")
   private EventDetailsDTO details;
-
-  public String getClusterId() {
-    return clusterId;
-  }
-
-  public void setClusterId(String clusterId) {
-    this.clusterId = clusterId;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(long timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public ClusterEventTypeDTO getType() {
-    return type;
-  }
-
-  public void setType(ClusterEventTypeDTO type) {
-    this.type = type;
-  }
-
-  public EventDetailsDTO getDetails() {
-    return details;
-  }
-
-  public void setDetails(EventDetailsDTO details) {
-    this.details = details;
-  }
 
 }
