@@ -18,6 +18,8 @@ package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,49 +27,15 @@ import lombok.Data;
 @Data
 public class LibraryDTO implements Serializable {
 
+  @Getter @Setter
   private PythonPyPiLibraryDTO pypi;
+  @Getter @Setter
   private String egg;
+  @Getter @Setter
   private String jar;
+  @Getter @Setter
   private MavenLibraryDTO maven;
+  @Getter @Setter
   private RCranLibraryDTO cran;
 
-  public String getEgg() {
-    return egg;
-  }
-
-  public void setEgg(String egg) {
-    this.egg = egg;
-  }
-
-  public RCranLibraryDTO getCran() {
-    return cran;
-  }
-
-  public void setCran(RCranLibraryDTO cran) {
-    this.cran = cran;
-  }
-
-  public PythonPyPiLibraryDTO getPypi() {
-    return pypi;
-  }
-
-  public void setPypi(PythonPyPiLibraryDTO pypi) {
-    this.pypi = pypi;
-  }
-
-  public String getJar() {
-    return jar;
-  }
-
-  public void setJar(String jar) {
-    this.jar = jar;
-  }
-
-  public MavenLibraryDTO getMaven() {
-    return maven;
-  }
-
-  public void setMaven(MavenLibraryDTO maven) {
-    this.maven = maven;
-  }
 }

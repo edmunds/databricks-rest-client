@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -27,43 +29,12 @@ import lombok.Data;
 @Data
 public class SparkJarTaskDTO implements Serializable {
 
-  @JsonProperty("jar_uri")
+  @Getter @Setter @JsonProperty("jar_uri")
   private String jarUri;
-  @JsonProperty("main_class_name")
+  @Getter @Setter @JsonProperty("main_class_name")
   private String mainClassName;
+  @Getter @Setter
   private String[] parameters;
-  @JsonProperty("run_as_repl")
+  @Getter @Setter @JsonProperty("run_as_repl")
   private boolean runAsRepl;
-
-  public boolean isRunAsRepl() {
-    return runAsRepl;
-  }
-
-  public void setRunAsRepl(boolean runAsRepl) {
-    this.runAsRepl = runAsRepl;
-  }
-
-  public String getJarUri() {
-    return jarUri;
-  }
-
-  public void setJarUri(String jarUri) {
-    this.jarUri = jarUri;
-  }
-
-  public String getMainClassName() {
-    return this.mainClassName;
-  }
-
-  public void setMainClassName(String mainClassName) {
-    this.mainClassName = mainClassName;
-  }
-
-  public String[] getParameters() {
-    return this.parameters;
-  }
-
-  public void setParameters(String[] parameters) {
-    this.parameters = parameters;
-  }
 }

@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,14 +28,7 @@ import lombok.Data;
 @Data
 public class SparkNodeAwsAttributesDTO implements Serializable {
 
-  @JsonProperty("is_spot")
+  @Getter @Setter @JsonProperty("is_spot")
   private boolean isSpot;
 
-  public boolean isSpot() {
-    return isSpot;
-  }
-
-  public void setIsSpot(boolean isSpot) {
-    this.isSpot = isSpot;
-  }
 }

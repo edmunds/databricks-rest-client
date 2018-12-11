@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,44 +28,13 @@ import lombok.Data;
 @Data
 public class JobTaskDTO implements Serializable {
 
-  @JsonProperty("notebook_task")
+  @Getter @Setter @JsonProperty("notebook_task")
   private NotebookTaskDTO notebookTask;
-  @JsonProperty("spark_jar_task")
+  @Getter @Setter @JsonProperty("spark_jar_task")
   private SparkJarTaskDTO sparkJarTask;
-  @JsonProperty("spark_python_task")
+  @Getter @Setter @JsonProperty("spark_python_task")
   private SparkPythonTaskDTO sparkPythonTask;
-  @JsonProperty("spark_submit_task")
+  @Getter @Setter @JsonProperty("spark_submit_task")
   private SparkSubmitTaskDTO sparkSubmitTask;
 
-  public SparkPythonTaskDTO getSparkPythonTask() {
-    return sparkPythonTask;
-  }
-
-  public void setSparkPythonTask(SparkPythonTaskDTO sparkPythonTask) {
-    this.sparkPythonTask = sparkPythonTask;
-  }
-
-  public SparkSubmitTaskDTO getSparkSubmitTask() {
-    return sparkSubmitTask;
-  }
-
-  public void setSparkSubmitTask(SparkSubmitTaskDTO sparkSubmitTask) {
-    this.sparkSubmitTask = sparkSubmitTask;
-  }
-
-  public NotebookTaskDTO getNotebookTask() {
-    return notebookTask;
-  }
-
-  public void setNotebookTask(NotebookTaskDTO notebookTask) {
-    this.notebookTask = notebookTask;
-  }
-
-  public SparkJarTaskDTO getSparkJarTask() {
-    return sparkJarTask;
-  }
-
-  public void setSparkJarTask(SparkJarTaskDTO sparkJarTask) {
-    this.sparkJarTask = sparkJarTask;
-  }
 }

@@ -18,17 +18,13 @@ package com.edmunds.rest.databricks.DTO;
 
 import java.util.List;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 public class ClusterEventsDTO {
 
+    @Getter @Setter
     private List<ClusterEventDTO> events;
 
-    public List<ClusterEventDTO> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<ClusterEventDTO> events) {
-        this.events = events;
-    }
 }

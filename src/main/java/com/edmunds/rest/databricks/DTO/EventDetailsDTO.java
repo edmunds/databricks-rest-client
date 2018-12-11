@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,94 +28,23 @@ import lombok.Data;
 @Data
 public class EventDetailsDTO implements Serializable {
 
-  @JsonProperty("current_num_workers")
+  @Getter @Setter @JsonProperty("current_num_workers")
   private int currentNumWorkers;
-  @JsonProperty("target_num_workers")
+  @Getter @Setter @JsonProperty("target_num_workers")
   private int targetNumWorkers;
-  @JsonProperty("previous_attributes")
+  @Getter @Setter @JsonProperty("previous_attributes")
   private ClusterAttributesDTO previousAttributes;
-  @JsonProperty("attributes")
+  @Getter @Setter @JsonProperty("attributes")
   private ClusterAttributesDTO attributes;
-  @JsonProperty("previous_cluster_size")
+  @Getter @Setter @JsonProperty("previous_cluster_size")
   private ClusterSizeDTO previousClusterSize;
-  @JsonProperty("cluster_size")
+  @Getter @Setter @JsonProperty("cluster_size")
   private ClusterSizeDTO clusterSize;
-  @JsonProperty("cause")
+  @Getter @Setter @JsonProperty("cause")
   private ResizeCauseDTO cause;
-  @JsonProperty("reason")
+  @Getter @Setter @JsonProperty("reason")
   private TerminationReasonDTO reason;
-  @JsonProperty("user")
+  @Getter @Setter @JsonProperty("user")
   private String user;
 
-  public int getCurrentNumWorkers() {
-    return currentNumWorkers;
-  }
-
-  public void setCurrentNumWorkers(int currentNumWorkers) {
-    this.currentNumWorkers = currentNumWorkers;
-  }
-
-  public int getTargetNumWorkers() {
-    return targetNumWorkers;
-  }
-
-  public void setTargetNumWorkers(int targetNumWorkers) {
-    this.targetNumWorkers = targetNumWorkers;
-  }
-
-  public ClusterAttributesDTO getPreviousAttributes() {
-    return previousAttributes;
-  }
-
-  public void setPreviousAttributes(ClusterAttributesDTO previousAttributes) {
-    this.previousAttributes = previousAttributes;
-  }
-
-  public ClusterAttributesDTO getAttributes() {
-    return attributes;
-  }
-
-  public void setAttributes(ClusterAttributesDTO attributes) {
-    this.attributes = attributes;
-  }
-
-  public ClusterSizeDTO getPreviousClusterSize() {
-    return previousClusterSize;
-  }
-
-  public void setPreviousClusterSize(ClusterSizeDTO previousClusterSize) {
-    this.previousClusterSize = previousClusterSize;
-  }
-
-  public ClusterSizeDTO getClusterSize() {
-    return clusterSize;
-  }
-
-  public void setClusterSize(ClusterSizeDTO clusterSize) {
-    this.clusterSize = clusterSize;
-  }
-
-  public ResizeCauseDTO getCause() {
-    return cause;
-  }
-
-  public void setCause(ResizeCauseDTO cause) {
-    this.cause = cause;
-  }
-
-  public TerminationReasonDTO getReason() {
-    return reason;
-  }
-
-  public void setReason(TerminationReasonDTO reason) {
-    this.reason = reason;
-  }
-
-  public String getUser() {
-    return user;
-  }
-
-  public void setUser(String user) {
-    this.user = user;
-  }
 }

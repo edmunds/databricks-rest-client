@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,24 +28,9 @@ import lombok.Data;
 @Data
 public class LogSyncStatusDTO implements Serializable {
 
-  @JsonProperty("last_attempted")
+  @Getter @Setter @JsonProperty("last_attempted")
   private long lastAttempted;
-  @JsonProperty("last_exception")
+  @Getter @Setter @JsonProperty("last_exception")
   private String lastException;
 
-  public long getLastAttempted() {
-    return lastAttempted;
-  }
-
-  public void setLastAttempted(long lastAttempted) {
-    this.lastAttempted = lastAttempted;
-  }
-
-  public String getLastException() {
-    return lastException;
-  }
-
-  public void setLastException(String lastException) {
-    this.lastException = lastException;
-  }
 }

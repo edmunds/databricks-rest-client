@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,34 +28,10 @@ import lombok.Data;
 @Data
 public class RunStateDTO implements Serializable {
 
-  @JsonProperty("life_cycle_state")
+  @Getter @Setter @JsonProperty("life_cycle_state")
   private RunLifeCycleStateDTO lifeCycleState;
-  @JsonProperty("result_state")
+  @Getter @Setter @JsonProperty("result_state")
   private RunResultStateDTO resultState;
-  @JsonProperty("state_message")
+  @Getter @Setter @JsonProperty("state_message")
   private String stateMessage;
-
-  public RunLifeCycleStateDTO getLifeCycleState() {
-    return lifeCycleState;
-  }
-
-  public void setLifeCycleState(RunLifeCycleStateDTO lifeCycleState) {
-    this.lifeCycleState = lifeCycleState;
-  }
-
-  public RunResultStateDTO getResultState() {
-    return resultState;
-  }
-
-  public void setResultState(RunResultStateDTO resultState) {
-    this.resultState = resultState;
-  }
-
-  public String getStateMessage() {
-    return stateMessage;
-  }
-
-  public void setStateMessage(String stateMessage) {
-    this.stateMessage = stateMessage;
-  }
 }

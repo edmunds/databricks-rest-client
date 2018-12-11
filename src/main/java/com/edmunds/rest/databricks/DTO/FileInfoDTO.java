@@ -19,6 +19,9 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 
 /**
  *
@@ -26,33 +29,11 @@ import lombok.Data;
 @Data
 public class FileInfoDTO implements Serializable {
 
+  @Getter @Setter
   private String path;
-  @JsonProperty("is_dir")
+  @Getter @Setter @JsonProperty("is_dir")
   private boolean isDir;
-  @JsonProperty("file_size")
+  @Getter @Setter @JsonProperty("file_size")
   private long fileSize;
 
-  public String getPath() {
-    return path;
-  }
-
-  public void setPath(String path) {
-    this.path = path;
-  }
-
-  public boolean isDir() {
-    return isDir;
-  }
-
-  public void setDir(boolean dir) {
-    isDir = dir;
-  }
-
-  public long getFileSize() {
-    return fileSize;
-  }
-
-  public void setFileSize(long fileSize) {
-    this.fileSize = fileSize;
-  }
 }

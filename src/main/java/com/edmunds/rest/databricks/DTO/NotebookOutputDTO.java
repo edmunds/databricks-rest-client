@@ -18,6 +18,8 @@ package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,13 +27,6 @@ import lombok.Data;
 @Data
 public class NotebookOutputDTO implements Serializable {
 
+  @Getter @Setter
   private String result;
-
-  public String getResult() {
-    return result;
-  }
-
-  public void setResult(String result) {
-    this.result = result;
-  }
 }

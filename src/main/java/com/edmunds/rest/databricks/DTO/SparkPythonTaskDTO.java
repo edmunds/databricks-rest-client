@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,23 +28,8 @@ import lombok.Data;
 @Data
 public class SparkPythonTaskDTO implements Serializable {
 
-  @JsonProperty("python_file")
+  @Getter @Setter @JsonProperty("python_file")
   private String pythonFile;
+  @Getter @Setter
   private String[] parameters;
-
-  public String getPythonFile() {
-    return pythonFile;
-  }
-
-  public void setPythonFile(String pythonFile) {
-    this.pythonFile = pythonFile;
-  }
-
-  public String[] getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(String[] parameters) {
-    this.parameters = parameters;
-  }
 }

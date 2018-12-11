@@ -19,6 +19,8 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -26,24 +28,9 @@ import lombok.Data;
 @Data
 public class ClusterSizeDTO implements Serializable {
 
-  @JsonProperty("num_workers")
+  @Getter @Setter @JsonProperty("num_workers")
   private int numWorkers;
-  @JsonProperty("autoscale")
+  @Getter @Setter @JsonProperty("autoscale")
   private AutoScaleDTO autoscale;
 
-  public int getNumWorkers() {
-    return numWorkers;
-  }
-
-  public void setNumWorkers(int numWorkers) {
-    this.numWorkers = numWorkers;
-  }
-
-  public AutoScaleDTO getAutoscale() {
-    return autoscale;
-  }
-
-  public void setAutoscale(AutoScaleDTO autoscale) {
-    this.autoscale = autoscale;
-  }
 }

@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Map;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -27,9 +29,9 @@ import lombok.Data;
 @Data
 public class TerminationReasonDTO implements Serializable {
 
-  @JsonProperty("code")
+  @Getter @Setter @JsonProperty("code")
   private TerminationCodeDTO code;
-  @JsonProperty("parameters")
+  @Getter @Setter @JsonProperty("parameters")
   private Map<String, String> parameters;
 
   public TerminationCodeDTO getCode() {

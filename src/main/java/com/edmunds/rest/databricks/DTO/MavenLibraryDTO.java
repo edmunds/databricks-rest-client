@@ -18,6 +18,8 @@ package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,31 +27,11 @@ import lombok.Data;
 @Data
 public class MavenLibraryDTO implements Serializable {
 
+  @Getter @Setter
   private String coordinates;
+  @Getter @Setter
   private String repo;
+  @Getter @Setter
   private String[] exclusions;
 
-  public String getCoordinates() {
-    return coordinates;
-  }
-
-  public void setCoordinates(String coordinates) {
-    this.coordinates = coordinates;
-  }
-
-  public String getRepo() {
-    return repo;
-  }
-
-  public void setRepo(String repo) {
-    this.repo = repo;
-  }
-
-  public String[] getExclusions() {
-    return exclusions;
-  }
-
-  public void setExclusions(String[] exclusions) {
-    this.exclusions = exclusions;
-  }
 }
