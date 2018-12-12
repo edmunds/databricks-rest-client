@@ -69,7 +69,7 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
   protected void initClient(DatabricksServiceFactory.Builder builder) {
 
-    HttpClientBuilder clientBuilder = HttpClients.custom()
+    HttpClientBuilder clientBuilder = HttpClients.custom().useSystemProperties()
             .setRetryHandler(retryHandler)
             .setServiceUnavailableRetryStrategy(retryStrategy)
             .setDefaultRequestConfig(createRequestConfig(builder));
