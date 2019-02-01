@@ -16,6 +16,8 @@ import org.apache.log4j.Logger;
 public class GroupsServiceImpl extends DatabricksService implements GroupsService {
 
   private static Logger log = Logger.getLogger(GroupsServiceImpl.class);
+  private static final PrincipalNameDTO[] EMPTY_MEMBERS_ARRAY = {};
+  private static final String[] EMPTY_STRING_ARRAY = {};
 
   public GroupsServiceImpl(final DatabricksRestClient client) {
     super(client);
@@ -61,7 +63,8 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
     Map<String, PrincipalNameDTO[]> jsonObject = this.mapper
         .readValue(responseBody, new TypeReference<Map<String, PrincipalNameDTO[]>>() {
         });
-    return jsonObject.get("members");
+    PrincipalNameDTO[] members = jsonObject.get("members");
+    return members != null ? members : EMPTY_MEMBERS_ARRAY;
   }
 
   @Override
@@ -70,7 +73,8 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
     Map<String, String[]> jsonObject = this.mapper
         .readValue(responseBody, new TypeReference<Map<String, String[]>>() {
         });
-    return jsonObject.get("group_names");
+    String[] groups = jsonObject.get("group_names");
+    return groups != null ? groups : EMPTY_STRING_ARRAY;
   }
 
   @Override
@@ -82,7 +86,8 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
     Map<String, String[]> jsonObject = this.mapper
         .readValue(responseBody, new TypeReference<Map<String, String[]>>() {
         });
-    return jsonObject.get("group_names");
+    String[] groups = jsonObject.get("group_names");
+    return groups != null ? groups : EMPTY_STRING_ARRAY;
   }
 
   @Override
@@ -94,7 +99,8 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
     Map<String, String[]> jsonObject = this.mapper
         .readValue(responseBody, new TypeReference<Map<String, String[]>>() {
         });
-    return jsonObject.get("group_names");
+    String[] groups = jsonObject.get("group_names");
+    return groups != null ? groups : EMPTY_STRING_ARRAY;
   }
 
   @Override

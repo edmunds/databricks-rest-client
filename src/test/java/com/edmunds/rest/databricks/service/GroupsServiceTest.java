@@ -95,6 +95,14 @@ public class GroupsServiceTest {
     assertEquals(members.length, 1);
   }
 
+  @Test(dependsOnMethods = {"createGroup_whenCalled_createsGroupWithCorrectName"})
+  public void listParentsOfGroup_whenCalledWithNoParents_returnsEmptyArray() throws IOException, DatabricksRestException {
+    service.createGroup(testGroupName);
+
+    String[] parents = service.listParentsOfGroup(testGroupName);
+    assertEquals(parents.length, 0);
+  }
+
   @Test(dependsOnMethods = {"addGroupToGroup_whenCalled_correctlyAddsUserToGroup"})
   public void listParentsOfGroup_whenCalled_returnsCorrectParent() throws IOException, DatabricksRestException {
     service.createGroup(testGroupName);
