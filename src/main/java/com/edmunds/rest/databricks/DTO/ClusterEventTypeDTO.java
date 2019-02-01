@@ -36,7 +36,8 @@ public enum ClusterEventTypeDTO implements Serializable {
     RUNNING("RUNNING"),
     RESIZING("RESIZING"),
     UPSIZE_COMPLETED("UPSIZE_COMPLETED"),
-    NODES_LOST("NODES_LOST");
+    NODES_LOST("NODES_LOST"),
+    DRIVER_HEALTHY("DRIVER_HEALTHY");
 
     private String value;
 
