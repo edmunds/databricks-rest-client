@@ -23,6 +23,8 @@ import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
 import com.edmunds.rest.databricks.service.DbfsServiceImpl;
+import com.edmunds.rest.databricks.service.InstanceProfilesService;
+import com.edmunds.rest.databricks.service.InstanceProfilesServiceImpl;
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.JobServiceImpl;
 import com.edmunds.rest.databricks.service.LibraryService;
@@ -59,6 +61,7 @@ public class DatabricksServiceFactory {
   private WorkspaceService workspaceService;
   private JobService jobService;
   private DbfsService dbfsService;
+  private InstanceProfilesService instanceProfilesService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
     this.client2dot0 = databricksRestClient;
@@ -179,6 +182,16 @@ public class DatabricksServiceFactory {
       dbfsService = new DbfsServiceImpl(client2dot0);
     }
     return dbfsService;
+  }
+
+  /**
+   * Will return an Instance Profiles singleton.
+   */
+  public InstanceProfilesService getInstanceProfilesService() {
+    if (instanceProfilesService == null) {
+      instanceProfilesService = new InstanceProfilesServiceImpl(client2dot0);
+    }
+    return instanceProfilesService;
   }
 
   /**
