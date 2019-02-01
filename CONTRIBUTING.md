@@ -81,8 +81,28 @@ mvn release:clean release:prepare release:perform -Pdeploy
 ## Use a Consistent Coding Style
 We use a slight modification of google java style.
 Please configure your setup to use the checkstyle/google_checkstyle.xml files
-(For Intellij users, you should use the google-idea-checkstyle.xml for your auto-formatting)
+(For Intellij users, see the section on [setting up intellij checkstyle](#setting-up-intellij-checkstyle))
 Currently, builds are configured to fail if style requirements are not met.
+
 
 ## References
 This document was adapted from the open-source contribution guidelines for [Transcriptase](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62)
+
+#Setting Up Intellij Checkstyle
+1) Install CheckStyle Plugin
+    - Instructions on how to do so can be found [here](https://medium.com/@jayanga/how-to-configure-checkstyle-and-findbugs-plugins-to-intellij-idea-for-wso2-products-c5f4bbe9673a)
+2) Configure CheckStyle Plugin
+    - Navigate to Preferences -> Other Settings -> Checkstyle
+    - Click "+" under Configuration File to add a new configuration
+    - Add a relevant description
+    - Click the "Use a local Checkstyle file" radio button
+    - Click "Browse" and navigate to the databricks-rest-client/checkstyle/google_checkstyle.xml file
+    - The new checkstyle file should now be listed under "Configuration File", check it and apply
+3) Run the "Checkstyle real-time scan"
+    - Right click on a file you would like to apply the checkstyle to
+    - Navigate to Analyze -> Run Inspection By Name
+    - In the search bar that appears, type "Checkstyle real-time scan"
+    - You can now select to run the checkstyle on files of your choosing
+4) Fix checkstyle errors that the scan detects
+    - Don't forget to ignore checkstyle errors that occur in the DTO package! These are ignored at build time
+    
