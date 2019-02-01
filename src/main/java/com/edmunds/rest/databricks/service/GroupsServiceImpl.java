@@ -122,7 +122,6 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
   @Override
   public void deleteGroup(String groupName) throws IOException, DatabricksRestException {
     boolean groupExists = groupExists(groupName);
-
     // Doing this check and logging rather than letting API throw a "RESOURCE_DOES_NOT_EXISTS" exception
     if (groupExists) {
       Map<String, Object> data = new HashMap<>();
