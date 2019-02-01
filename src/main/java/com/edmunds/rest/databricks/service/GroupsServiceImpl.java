@@ -48,7 +48,14 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
       data.put("group_name", groupName);
       byte[] responseBody = client.performQuery(RequestMethod.POST, "/groups/create", data);
       Map<String, Object> response = this.mapper.readValue(responseBody, Map.class);
-      return (String) response.get("group_name");
+      Object returnedGroupName = response.get("group_name");
+      if (returnedGroupName != null) {
+        return (String) returnedGroupName;
+      } else {
+        throw new DatabricksRestException(String.format("There was an issue creating group [%s]. "
+            + "No group_name was returned. You may need to reach out to Databricks Support for further diagnosis.",
+            groupName));
+      }
     } else {
       log.info(String.format("Group with name [%s] already exists", groupName));
       return groupName;
