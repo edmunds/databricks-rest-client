@@ -35,6 +35,8 @@ public class DatabricksFixtures {
   public static String HOSTNAME;
   public static String TOKEN;
   private static DatabricksRestClient client;
+  private static DatabricksRestClient tokenAuthClient;
+  private static DatabricksRestClient db425Client;
   private static DatabricksServiceFactory factory;
 
   static {
@@ -58,30 +60,30 @@ public class DatabricksFixtures {
   }
 
   public static DatabricksRestClient createTokenAuthRestClient() {
-    if (client == null) {
+    if (tokenAuthClient == null) {
       DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
               .createTokenAuthentication(TOKEN, HOSTNAME)
               .withMaxRetries(1)
               .withRetryInterval(10)
               .withApiVersion(API_VERSION);
-      client = new DatabricksRestClientImpl(builder);
+      tokenAuthClient = new DatabricksRestClientImpl(builder);
     }
 
-    return client;
+    return tokenAuthClient;
   }
 
   public static DatabricksRestClient createDatabricks425Client() {
-    if (client == null) {
+    if (db425Client == null) {
       DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
               .createTokenAuthentication(TOKEN, HOSTNAME)
               .withMaxRetries(1)
               .withRetryInterval(10)
               .withUseLegacyAPI425(true)
               .withApiVersion(API_VERSION);
-      client = new DatabricksRestClientImpl425(builder);
+      db425Client = new DatabricksRestClientImpl425(builder);
     }
 
-    return client;
+    return db425Client;
   }
 
   /**
