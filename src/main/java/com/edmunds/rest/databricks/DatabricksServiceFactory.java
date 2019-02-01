@@ -23,6 +23,8 @@ import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
 import com.edmunds.rest.databricks.service.DbfsServiceImpl;
+import com.edmunds.rest.databricks.service.GroupsService;
+import com.edmunds.rest.databricks.service.GroupsServiceImpl;
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.JobServiceImpl;
 import com.edmunds.rest.databricks.service.LibraryService;
@@ -59,6 +61,7 @@ public class DatabricksServiceFactory {
   private WorkspaceService workspaceService;
   private JobService jobService;
   private DbfsService dbfsService;
+  private GroupsService groupsService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
     this.client2dot0 = databricksRestClient;
@@ -66,9 +69,8 @@ public class DatabricksServiceFactory {
 
   /**
    * Old constructor.
-   * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createUserPasswordAuthentication(String,
-   * String, String)}
+   *
+   * @deprecated in version 2.0.2, please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host) {
@@ -79,15 +81,13 @@ public class DatabricksServiceFactory {
   /**
    * Creating a Databricks Service object.
    *
-   * @param maxRetry http client maxRetry when failed due to I/O , timeout error
+   * @param maxRetry      http client maxRetry when failed due to I/O , timeout error
    * @param retryInterval http client retry interval when failed due to I/O , timeout error
-   *
-   * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
+   * @deprecated in version 2.0.2, please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
-      long retryInterval) {
+                                  long retryInterval) {
     this(username, password, host, maxRetry, retryInterval, false);
   }
 
@@ -96,39 +96,36 @@ public class DatabricksServiceFactory {
    * When use databricks service on CDH 5.7.1 , useLegacyAPI425 set true for v4.2.5 compatible API.
    *
    * @param useLegacyAPI425 choose what version of API compatible HttpClient.
-   * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
+   * @deprecated in version 2.0.2, please use {@link Builder#createUserPasswordAuthentication(String, String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
-      long retryInterval, boolean useLegacyAPI425) {
+                                  long retryInterval, boolean useLegacyAPI425) {
 
     client2dot0 = Builder.createUserPasswordAuthentication(username, password, host)
-          .withMaxRetries(maxRetry)
-          .withRetryInterval(retryInterval)
-          .withUseLegacyAPI425(useLegacyAPI425)
-          .build().client2dot0;
+        .withMaxRetries(maxRetry)
+        .withRetryInterval(retryInterval)
+        .withUseLegacyAPI425(useLegacyAPI425)
+        .build().client2dot0;
   }
 
   /**
    * Create a databricks service factory using personal token authentication instead.
    *
    * @param personalToken your personal token
-   * @param host the databricks host
-   * @param maxRetry the maximum number of retries
+   * @param host          the databricks host
+   * @param maxRetry      the maximum number of retries
    * @param retryInterval the retry interval between each attempt
-   *
-   * @deprecated in version 2.0.2,
-   *     please use {@link Builder#createTokenAuthentication(String, String)}
+   * @deprecated in version 2.0.2, please use {@link Builder#createTokenAuthentication(String, String)}
    */
   @Deprecated
   public DatabricksServiceFactory(String personalToken, String host,
-      int maxRetry, long retryInterval) {
+                                  int maxRetry, long retryInterval) {
 
     client2dot0 = Builder.createTokenAuthentication(personalToken, host)
-            .withMaxRetries(maxRetry)
-            .withRetryInterval(retryInterval)
-            .build().client2dot0;
+        .withMaxRetries(maxRetry)
+        .withRetryInterval(retryInterval)
+        .build().client2dot0;
   }
 
   /**
@@ -182,6 +179,16 @@ public class DatabricksServiceFactory {
   }
 
   /**
+   * Will return a Groups singleton.
+   */
+  public GroupsService getGroupsService() {
+    if (groupsService == null) {
+      groupsService = new GroupsServiceImpl(client2dot0);
+    }
+    return groupsService;
+  }
+
+  /**
    * This is how the DatabricksServiceFactory should be constructed. This gives flexibility to add
    * more parameters later without ending up with large constructors.
    */
@@ -216,7 +223,6 @@ public class DatabricksServiceFactory {
      * This could be needed in some runtime environment which provide legacy http-client library as platform runtime.
      */
     public boolean useLegacyAPI425 = false;
-
 
 
     private Builder() {
@@ -272,7 +278,7 @@ public class DatabricksServiceFactory {
      * Creates a DatabricksServiceFactory using token authentication.
      *
      * @param token your databricks token
-     * @param host the databricks host where that token is valid
+     * @param host  the databricks host where that token is valid
      * @return the builder object
      */
     public static Builder createTokenAuthentication(String token, String host) {
@@ -287,11 +293,11 @@ public class DatabricksServiceFactory {
      *
      * @param username databricks username
      * @param password databricks password
-     * @param host the host object
+     * @param host     the host object
      * @return the builder object
      */
     public static Builder createUserPasswordAuthentication(String username,
-        String password, String host) {
+                                                           String password, String host) {
       Builder builder = new Builder();
       builder.username = username;
       builder.password = password;
@@ -311,40 +317,44 @@ public class DatabricksServiceFactory {
     }
 
     /**
-    * set Http Retry Interval.
-    * @param retryInterval unit is milliseconds
-    * @return
-    */
+     * set Http Retry Interval.
+     *
+     * @param retryInterval unit is milliseconds
+     * @return
+     */
     public Builder withRetryInterval(long retryInterval) {
       this.retryInterval = retryInterval;
       return this;
     }
 
     /**
-    * set Http-Client SoTimeout.
-    * @param soTimeout unit is milliseconds
-    * @return
-    */
+     * set Http-Client SoTimeout.
+     *
+     * @param soTimeout unit is milliseconds
+     * @return
+     */
     public Builder withSoTimeout(int soTimeout) {
       this.soTimeout = soTimeout;
       return this;
     }
 
     /**
-    * set Http-Client connection timeout.
-    * @param connectionTimeout unit is milliseconds
-    * @return
-    */
+     * set Http-Client connection timeout.
+     *
+     * @param connectionTimeout unit is milliseconds
+     * @return
+     */
     public Builder withConnectionTimeout(int connectionTimeout) {
       this.connectionTimeout = connectionTimeout;
       return this;
     }
 
     /**
-    * set Http-Client connection request timeout.
-    * @param connectionRequestTimeout unit is milliseconds
-    * @return
-    */
+     * set Http-Client connection request timeout.
+     *
+     * @param connectionRequestTimeout unit is milliseconds
+     * @return
+     */
     public Builder withConnectionRequestTimeout(int connectionRequestTimeout) {
       this.connectionRequestTimeout = connectionRequestTimeout;
       return this;
@@ -358,6 +368,7 @@ public class DatabricksServiceFactory {
 
     /**
      * Builds a DatabricksServiceFactory.
+     *
      * @return the databricks service factory object
      */
     public DatabricksServiceFactory build() {
