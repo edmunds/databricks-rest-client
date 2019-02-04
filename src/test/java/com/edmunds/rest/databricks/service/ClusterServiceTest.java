@@ -155,7 +155,7 @@ public class ClusterServiceTest {
   public void edit_whenCalled_changesNodeType() throws IOException, DatabricksRestException {
     String name = service.getInfo(clusterId).getClusterName();
     EditClusterRequest editRequest = new EditClusterRequest.EditClusterRequestBuilder(1, clusterId, name,
-        SPARK_VERSION, MEDIUM_NODE_TYPE).build();
+        SPARK_VERSION, MEDIUM_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
     service.edit(editRequest);
     await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
     service.restart(clusterId);
