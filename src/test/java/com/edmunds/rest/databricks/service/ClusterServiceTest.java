@@ -16,12 +16,7 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
-import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
-import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
+import com.edmunds.rest.databricks.DTO.*;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
@@ -48,13 +43,25 @@ public class ClusterServiceTest {
   private String clusterId;
   private ClusterService service;
 
+  private static final String SMALL_NODE_TYPE = "m4.large";
+  private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
+  private static final String SPARK_VERSION = "4.0.x-scala2.11";
+  private static final String CLUSTER_NAME_PREFIX = "clusterServiceTest_";
+
+  private AwsAttributesDTO awsAttributesDTO;
+
   @BeforeClass
   public void setUpOnce() throws IOException, DatabricksRestException {
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getClusterService();
     String uniqueId = UUID.randomUUID().toString();
-    CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(1, "clusterServiceTest_"
-        + uniqueId, "4.0.x-scala2.11", "r3.xlarge").build();
+    awsAttributesDTO = new AwsAttributesDTO();
+    awsAttributesDTO.setEbsVolumeType(EbsVolumeTypeDTO.GENERAL_PURPOSE_SSD);
+    awsAttributesDTO.setEbsVolumeCount(1);
+    awsAttributesDTO.setEbsVolumeSize(100);
+
+    CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
+        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
     clusterId = service.create(request);
   }
 
@@ -78,8 +85,8 @@ public class ClusterServiceTest {
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void createAndDeleteCluster() throws IOException, DatabricksRestException {
     String uniqueId = UUID.randomUUID().toString();
-    CreateClusterRequest newRequest = new CreateClusterRequest.CreateClusterRequestBuilder(1, "clusterServiceTest_"
-        + uniqueId, "4.0.x-scala2.11", "r3.xlarge").build();
+    CreateClusterRequest newRequest = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
+        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
     String createdClusterId = service.create(newRequest);
     assertNotNull(createdClusterId);
 
@@ -147,15 +154,15 @@ public class ClusterServiceTest {
       "showClusterStatus_whenCalled_returnsClusterStatuses"})
   public void edit_whenCalled_changesNodeType() throws IOException, DatabricksRestException {
     String name = service.getInfo(clusterId).getClusterName();
-    EditClusterRequest editRequest = new EditClusterRequest.EditClusterRequestBuilder(1, clusterId, name, "4.0" +
-        ".x-scala2.11", "r3.2xlarge").build();
+    EditClusterRequest editRequest = new EditClusterRequest.EditClusterRequestBuilder(1, clusterId, name,
+        SPARK_VERSION, MEDIUM_NODE_TYPE).build();
     service.edit(editRequest);
     await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
     service.restart(clusterId);
     await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
 
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
-    assertEquals(clusterInfo.getNodeTypeId(), "r3.2xlarge");
+    assertEquals(clusterInfo.getNodeTypeId(), MEDIUM_NODE_TYPE);
     assertEquals(clusterInfo.getNumWorkers(), 1);
   }
 
