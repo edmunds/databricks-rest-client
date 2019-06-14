@@ -30,6 +30,7 @@ import com.edmunds.rest.databricks.request.EditClusterRequest;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,27 +157,35 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
 
   @Override
   public void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
-    boolean clusterExists = false;
-    String clusterId = "";
-    ClusterInfoDTO[] clusters = list();
     String clusterName = clusterDTO.getClusterName();
-    for (ClusterInfoDTO cluster : clusters) {
-      if (clusterName.equals(cluster.getClusterName())) {
-        clusterExists = true;
-        clusterId = cluster.getClusterId();
-        break;
-      }
+    List<ClusterInfoDTO> clusters = findByName(clusterName);
+
+    if (clusters.size() > 1) {
+      log.error(String.format("[%s] clusters found for name: [%s]. "
+          + "Please consider deleting or renaming duplicate clusters. "
+          + "UPDATING FIRST CLUSTER ONLY", clusters.size(), clusterName));
     }
 
-    if (clusterExists) {
+    if (clusters.size() == 0) {
+      log.info(String.format("Created cluster: id=[%s]", create(clusterDTO)));
+    } else {
+      String clusterId = clusters.get(0).getClusterId();
       UpsertClusterDTO upsertClusterDTO = mapper.convertValue(clusterDTO, UpsertClusterDTO.class);
       upsertClusterDTO.setClusterId(clusterId);
       edit(upsertClusterDTO);
-      log.info(String.format("Created cluster: id=[%s]", clusterId));
-    } else {
-      clusterId = create(clusterDTO);
       log.info(String.format("Updated cluster: name=[%s], id=[%s]", clusterName, clusterId));
     }
   }
 
+  @Override
+  public List<ClusterInfoDTO> findByName(String clusterName)
+      throws IOException, DatabricksRestException {
+    List<ClusterInfoDTO> result = new ArrayList<>();
+    for (ClusterInfoDTO cluster : list()) {
+      if (clusterName.equals(cluster.getClusterName())) {
+        result.add(cluster);
+      }
+    }
+    return result;
+  }
 }

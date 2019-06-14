@@ -166,4 +166,14 @@ public interface ClusterService {
    * @param clusterDTO cluster DTO
    */
   void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+
+  /**
+   * Look for clusters with a given name.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#findByName">https://docs.databricks.com/api/latest/clusters.html#findByName</a>
+   * @param clusterName name to look for
+   * @return a list of cluster information objects
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<ClusterInfoDTO> findByName(String clusterName) throws IOException, DatabricksRestException;
 }
