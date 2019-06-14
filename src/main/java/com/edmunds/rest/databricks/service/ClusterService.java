@@ -21,6 +21,7 @@ import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DTO.NewClusterDTO;
+import com.edmunds.rest.databricks.DTO.UpsertClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
@@ -57,7 +58,7 @@ public interface ClusterService {
 
   /**
    * Edits the configurations of a databricks cluster.
-   * @deprecated in version 2.3.2, please use {@link ClusterService#edit(NewClusterDTO)}
+   * @deprecated in version 2.3.2, please use {@link ClusterService#edit(UpsertClusterDTO)}
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param editClusterRequest the edit cluster request object
    * @throws IOException any other errors
@@ -73,7 +74,7 @@ public interface ClusterService {
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
    */
-  void edit(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+  void edit(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 
   /**
    * Starts a databricks cluster.
@@ -155,8 +156,8 @@ public interface ClusterService {
 
   /**
    * Given a cluster settings DTO object it will:
-   * - create the cluster if it doesn't exist
-   * - edit the cluster if it does exist.
+   * - create the cluster if id isn't specified
+   * - edit the cluster if id is specified.
    * Uses a combination of
    * If cluster doesn't exist:
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
@@ -164,5 +165,5 @@ public interface ClusterService {
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param clusterDTO cluster DTO
    */
-  void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+  void upsertCluster(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 }
