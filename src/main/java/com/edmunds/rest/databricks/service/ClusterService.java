@@ -19,8 +19,9 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.NewClusterDTO;
+import com.edmunds.rest.databricks.DTO.UpsertClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
@@ -35,23 +36,45 @@ public interface ClusterService {
 
   /**
    * Creates a databricks cluster.
+   * @deprecated in version 2.3.2, please use {@link ClusterService#create(NewClusterDTO)}
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
    * @param createClusterRequest the cluster request object
    * @return the clusterId
    * @throws IOException other connection errors
    * @throws DatabricksRestException any errors with the request
    */
-  String create(CreateClusterRequest createClusterRequest)
-      throws IOException, DatabricksRestException;
+  @Deprecated
+  String create(CreateClusterRequest createClusterRequest) throws IOException, DatabricksRestException;
+
+  /**
+   * Creates a databricks cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
+   * @param clusterDTO cluster DTO
+   * @return the clusterId
+   * @throws IOException other connection errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  String create(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 
   /**
    * Edits the configurations of a databricks cluster.
+   * @deprecated in version 2.3.2, please use {@link ClusterService#edit(UpsertClusterDTO)}
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param editClusterRequest the edit cluster request object
    * @throws IOException any other errors
    * @throws DatabricksRestException any errors with the request
    */
+  @Deprecated
   void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
+
+  /**
+   * Edits the configurations of a databricks cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
+   * @param clusterDTO cluster DTO
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  void edit(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 
   /**
    * Starts a databricks cluster.
@@ -130,4 +153,27 @@ public interface ClusterService {
   List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
       int offset, int limit) throws IOException,
       DatabricksRestException;
+
+  /**
+   * Given a cluster settings DTO object it will:
+   * - create the cluster if it doesn't exist
+   * - edit the cluster if it does exist.
+   * Uses a combination of
+   * If cluster doesn't exist:
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
+   * If cluster exists:
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
+   * @param clusterDTO cluster DTO
+   */
+  void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+
+  /**
+   * Look for clusters with a given name.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#findByName">https://docs.databricks.com/api/latest/clusters.html#findByName</a>
+   * @param clusterName name to look for
+   * @return a list of cluster information objects
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<ClusterInfoDTO> findByName(String clusterName) throws IOException, DatabricksRestException;
 }

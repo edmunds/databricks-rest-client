@@ -27,6 +27,7 @@ import java.util.Map;
  * A Cluster Request object.
  * TODO Should be deprecated in favor of using DTO objects.
  */
+@Deprecated
 public class CreateClusterRequest extends DatabricksRestRequest {
 
   private CreateClusterRequest(Map<String, Object> data) {
