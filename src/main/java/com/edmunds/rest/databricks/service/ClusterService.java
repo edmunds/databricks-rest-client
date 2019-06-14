@@ -156,8 +156,8 @@ public interface ClusterService {
 
   /**
    * Given a cluster settings DTO object it will:
-   * - create the cluster if id isn't specified
-   * - edit the cluster if id is specified.
+   * - create the cluster if it doesn't exist
+   * - edit the cluster if it does exist.
    * Uses a combination of
    * If cluster doesn't exist:
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#create">https://docs.databricks.com/api/latest/clusters.html#create</a>
@@ -165,5 +165,5 @@ public interface ClusterService {
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param clusterDTO cluster DTO
    */
-  void upsertCluster(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+  void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 }

@@ -155,15 +155,27 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
-  public void upsertCluster(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException {
-    String clusterId = clusterDTO.getClusterId();
-    if (clusterId == null || clusterId.equals("")) {
-      clusterId = create(clusterDTO);
-      log.info(String.format("Creating cluster: id=[%s]", clusterId));
+  public void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
+    boolean clusterExists = false;
+    String clusterId = "";
+    ClusterInfoDTO[] clusters = list();
+    String clusterName = clusterDTO.getClusterName();
+    for (ClusterInfoDTO cluster : clusters) {
+      if (clusterName.equals(cluster.getClusterName())) {
+        clusterExists = true;
+        clusterId = cluster.getClusterId();
+        break;
+      }
+    }
+
+    if (clusterExists) {
+      UpsertClusterDTO upsertClusterDTO = mapper.convertValue(clusterDTO, UpsertClusterDTO.class);
+      upsertClusterDTO.setClusterId(clusterId);
+      edit(upsertClusterDTO);
+      log.info(String.format("Created cluster: id=[%s]", clusterId));
     } else {
-      edit(clusterDTO);
-      log.info(String.format("Updated cluster: name=[%s], id=[%s]",
-              clusterDTO.getClusterName(), clusterId));
+      clusterId = create(clusterDTO);
+      log.info(String.format("Updated cluster: name=[%s], id=[%s]", clusterName, clusterId));
     }
   }
 
