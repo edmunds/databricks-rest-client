@@ -169,10 +169,10 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
 
     if (clusterExists) {
       edit(clusterDTO);
-      log.info(String.format("Created cluster, cluster_id: %s", clusterId));
+      log.info(String.format("Updated cluster, cluster_id: %s", clusterId));
     } else {
       clusterId = create(clusterDTO);
-      log.info(String.format("Updated cluster, cluster_id: %s", clusterId));
+      log.info(String.format("Created cluster, cluster_id: %s", clusterId));
     }
   }
 
