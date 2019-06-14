@@ -21,6 +21,7 @@ import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.NewClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
@@ -31,16 +32,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * A basic implementation of the ClusterService.
  */
 public final class ClusterServiceImpl extends DatabricksService implements ClusterService {
 
+  private static Logger log = Logger.getLogger(ClusterServiceImpl.class);
+
   public ClusterServiceImpl(final DatabricksRestClient client) {
     super(client);
   }
 
+  @Deprecated
   @Override
   public String create(CreateClusterRequest createClusterRequest)
       throws IOException, DatabricksRestException {
@@ -51,9 +56,31 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
+  public String create(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
+    String marshalled = this.mapper.writeValueAsString(clusterDTO);
+    Map<String, Object> data = this.mapper
+        .readValue(marshalled, new TypeReference<Map<String, Object>>() {
+        });
+    byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/create", data);
+    Map<String, String> response = this.mapper.readValue(
+            responseBody, new TypeReference<Map<String, Long>>() {});
+    return response.get("cluster_id");
+  }
+
+  @Deprecated
+  @Override
   public void edit(EditClusterRequest editClusterRequest)
       throws IOException, DatabricksRestException {
     client.performQuery(RequestMethod.POST, "/clusters/edit", editClusterRequest.getData());
+  }
+
+  @Override
+  public void edit(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
+    String marshalled = this.mapper.writeValueAsString(clusterDTO);
+    Map<String, Object> data = this.mapper
+        .readValue(marshalled, new TypeReference<Map<String, Object>>() {
+        });
+    client.performQuery(RequestMethod.POST, "/clusters/edit", data);
   }
 
   @Override
@@ -125,4 +152,28 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
     ClusterEventsDTO clusterEvents = this.mapper.readValue(responseBody, ClusterEventsDTO.class);
     return clusterEvents.getEvents();
   }
+
+  @Override
+  public void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
+    String clusterName = clusterDTO.getClusterName();
+    boolean clusterExists = false;
+    String clusterId = "";
+    ClusterInfoDTO[] clusters = list();
+    for (ClusterInfoDTO cluster : clusters) {
+      if (clusterName.equals(cluster.getClusterName())) {
+        clusterExists = true;
+        clusterId = cluster.getClusterId();
+        break;
+      }
+    }
+
+    if (clusterExists) {
+      edit(clusterDTO);
+      log.info(String.format("Created cluster, cluster_id: %s", clusterId));
+    } else {
+      clusterId = create(clusterDTO);
+      log.info(String.format("Updated cluster, cluster_id: %s", clusterId));
+    }
+  }
+
 }
