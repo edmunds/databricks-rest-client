@@ -41,6 +41,7 @@ import org.testng.annotations.Test;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.UUID;
 
 import static com.edmunds.rest.databricks.TestUtil.clusterStatusHasChangedTo;
@@ -108,6 +109,7 @@ public class DatabricksRestClientIT {
     newClusterDTO.setNumWorkers(numWorkers);
     newClusterDTO.setSparkVersion(sparkVersion);
     newClusterDTO.setNodeTypeId(nodeId);
+    newClusterDTO.setArtifactPaths(Arrays.asList("path1", "path2"));
 
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName("JobServiceTest_integrationTest_job");

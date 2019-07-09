@@ -18,6 +18,7 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
@@ -57,5 +58,7 @@ public class NewClusterDTO implements Serializable {
   private int autoTerminationMinutes;
   @Getter @Setter @JsonProperty("enable_elastic_disk")
   private boolean enableElasticDisk;
+  @Getter @Setter @JsonProperty("artifact_paths")
+  private Collection<String> artifactPaths;
 
 }
