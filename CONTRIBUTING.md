@@ -90,7 +90,7 @@ This document was adapted from the open-source contribution guidelines for [Tran
 
 # Setting Up Intellij Checkstyle
 1) Import Formatter Settings
-    - Navigate to Settings -> Code Style -> Java
+    - Navigate to Settings -> Editor -> Code Style -> Java
     - Click on cogwheel near the "Scheme" selector
     - Choose "Import Scheme" -> "Intellij IDEA code style XML"
     - Select databricks-rest-client/checkstyle/google-idea-checkstyle.xml file
