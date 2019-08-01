@@ -83,9 +83,9 @@ public final class LibraryServiceImpl extends DatabricksService implements Libra
 
   @Override
   public void uninstallAll(String clusterId) throws IOException, DatabricksRestException {
-    ClusterLibraryStatusesDTO clusterStatues = clusterStatus(clusterId);
+    ClusterLibraryStatusesDTO clusterStatuses = clusterStatus(clusterId);
     List<LibraryDTO> librariesToUninstall = new ArrayList<>();
-    for (LibraryFullStatusDTO libraryStatusDTO : clusterStatues.getLibraryFullStatuses()) {
+    for (LibraryFullStatusDTO libraryStatusDTO : clusterStatuses.getLibraryFullStatuses()) {
       log.info("Found Library: " + libraryStatusDTO.getLibrary().toString());
       librariesToUninstall.add(libraryStatusDTO.getLibrary());
     }
