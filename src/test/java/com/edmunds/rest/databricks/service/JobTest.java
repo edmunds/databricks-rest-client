@@ -39,7 +39,6 @@ import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-//TODO cleanup
 public class JobTest {
   private static final String JOB_NAME = "JobRunnerTest_test_job";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
@@ -57,7 +56,6 @@ public class JobTest {
     service = factory.getJobService();
     workspaceService = factory.getWorkspaceService();
 
-    //TODO repeated code from job service, also keep DRY with notebook path
     workspaceService.mkdirs("/tmp/testing/");
     InputStream stream = this.getClass().getClassLoader().getResourceAsStream("test_notebook.scala");
     byte[] content = IOUtils.toByteArray(stream);
@@ -103,39 +101,3 @@ public class JobTest {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

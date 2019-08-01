@@ -25,7 +25,7 @@ import lombok.Setter;
 
 
 /**
- *
+ * DTO to hold RunDTO and NotebookOutputDTO values together to get complete run metadata
  */
 @Data
 public class RunMetadataDTO implements Serializable {
