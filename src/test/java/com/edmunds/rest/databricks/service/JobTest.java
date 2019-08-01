@@ -32,10 +32,12 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.*;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 //TODO cleanup
 public class JobTest {
@@ -43,8 +45,8 @@ public class JobTest {
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
   private JobService service;
   private WorkspaceService workspaceService;
-  private RunDTO runDTO ;
-  private RunNowDTO runNowDTO ;
+  private RunDTO runDTO;
+  private RunNowDTO runNowDTO;
   private String[] argsWithJobId;
   private String[] argsWithJobName;
   private String[] argsWithInvalidJobName;
@@ -60,11 +62,11 @@ public class JobTest {
     InputStream stream = this.getClass().getClassLoader().getResourceAsStream("test_notebook.scala");
     byte[] content = IOUtils.toByteArray(stream);
     ImportWorkspaceRequest request = new ImportWorkspaceRequestBuilder(NOTEBOOK_PATH)
-        .withContent(content)
-        .withFormat(ExportFormatDTO.SOURCE)
-        .withLanguage(LanguageDTO.SCALA)
-        .withOverwrite(true)
-        .build();
+            .withContent(content)
+            .withFormat(ExportFormatDTO.SOURCE)
+            .withLanguage(LanguageDTO.SCALA)
+            .withOverwrite(true)
+            .build();
     workspaceService.importWorkspace(request);
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
@@ -84,30 +86,7 @@ public class JobTest {
     runNowDTO = service.runSubmit(jobSettingsDTO);
     runDTO = service.getRun(runNowDTO.getRunId());
 
-    argsWithJobId = new String[] {
-        "-u " + USERNAME,
-        "-p " + PASSWORD,
-        "-h " + HOSTNAME,
-        "-j " + runDTO.getJobId()
-    };
-
-    argsWithJobName = new String[] {
-        "-u " + USERNAME,
-        "-p " + PASSWORD,
-        "-h " + HOSTNAME,
-        "-n " + JOB_NAME
-    };
-
-    argsWithInvalidJobName =
-        new String[] {
-            "-u " + USERNAME,
-            "-p " + PASSWORD,
-            "-h " + HOSTNAME,
-            "-n " + "Fake Job Name"
-        };
-
   }
-
 
   @AfterClass(alwaysRun = true)
   public void tearDownOnce() throws IOException, DatabricksRestException {
@@ -117,48 +96,46 @@ public class JobTest {
   }
 
   @Test
-  public void main_whenCalledWithArguments_startsRunOfJob()
-      throws InterruptedException, DatabricksRestException, IOException, ParseException {
-    int expected = getNumberOfRuns(runDTO.getJobId()) + 1;
-
-    JobRunner.main(argsWithJobId);
-
-    int numberOfRuns = getNumberOfRuns(runDTO.getJobId());
-    assertEquals(numberOfRuns, expected);
-  }
-
-  @Test
-  public void main_whenCalledWithJobName_startsRunOfJob()
-      throws InterruptedException, DatabricksRestException, ParseException, IOException {
-    int expected = getNumberOfRuns(runDTO.getJobId()) + 1;
-
-    JobRunner.main(argsWithJobName);
-
-    int numberOfRuns = getNumberOfRuns(runDTO.getJobId());
-    assertEquals(numberOfRuns, expected);
-  }
-
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void main_whenCalledWithInvalidJobName_throwsIllegalArgumentException()
-      throws InterruptedException, DatabricksRestException, ParseException, IOException {
-    JobRunner.main(argsWithInvalidJobName);
-  }
-
-  @Test
-  public void main_whenCalled_runsToCompletionWithSuccess()
-      throws InterruptedException, DatabricksRestException, ParseException, IOException {
-    JobRunner.main(argsWithJobId);
-
-    assertEquals(runDTO.getState().getLifeCycleState(), RunLifeCycleStateDTO.TERMINATED);
-    assertEquals(runDTO.getState().getResultState(), RunResultStateDTO.SUCCESS);
-  }
-
-  private RunDTO getMostRecentRun(Long jobId) throws IOException, DatabricksRestException {
-    return service.listRuns(jobId, null, null, null).getRuns()[0];
-  }
-
-  private int getNumberOfRuns(long jobId) throws IOException, DatabricksRestException {
+  public void main_runExists()
+          throws InterruptedException, DatabricksRestException, IOException, ParseException {
     RunsDTO runsDTO = service.listRuns(runDTO.getJobId(), null, null, null);
-    return runsDTO.getRuns() != null ? runsDTO.getRuns().length : 0;
+    assertEquals(runsDTO.getRuns().length, 1);
   }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
