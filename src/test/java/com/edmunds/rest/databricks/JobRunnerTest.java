@@ -58,7 +58,7 @@ public class JobRunnerTest {
   private String[] argsWithInvalidJobName;
 
   @BeforeClass(enabled = true)
-  public void setUpOnce() throws IOException, DatabricksRestException {
+  public void setUpOnce() throws IOException, DatabricksRestException, InterruptedException {
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getJobService();
     workspaceService = factory.getWorkspaceService();

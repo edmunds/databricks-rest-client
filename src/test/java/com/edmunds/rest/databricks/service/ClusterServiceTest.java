@@ -61,7 +61,9 @@ public class ClusterServiceTest {
     awsAttributesDTO.setEbsVolumeSize(100);
 
     CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
-        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
+        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE)
+        .withAutoterminationMinutes(10)
+        .withAwsAttributes(awsAttributesDTO).build();
     clusterId = service.create(request);
   }
 
@@ -86,7 +88,9 @@ public class ClusterServiceTest {
   public void createAndDeleteCluster() throws IOException, DatabricksRestException {
     String uniqueId = UUID.randomUUID().toString();
     CreateClusterRequest newRequest = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
-        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
+        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE)
+        .withAutoterminationMinutes(10)
+        .withAwsAttributes(awsAttributesDTO).build();
     String createdClusterId = service.create(newRequest);
     assertNotNull(createdClusterId);
 

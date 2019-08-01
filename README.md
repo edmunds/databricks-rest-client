@@ -97,8 +97,6 @@ pass before merging in code.
 ### Setup
 You need to set the following environment properties in your .bash_profile
 ```bash
-export DB_USER=myuser@domain.com
-export DB_PASSWORD=mypassword
 export DB_URL=my-databricks-account.databricks.com
 export DB_TOKEN=my-token
 ```

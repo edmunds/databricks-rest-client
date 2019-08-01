@@ -62,7 +62,7 @@ public class JobServiceTest {
   private long multiJobId[];
 
   @BeforeClass
-  public void setUpOnce() throws IOException, DatabricksRestException {
+  public void setUpOnce() throws IOException, DatabricksRestException, InterruptedException {
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getJobService();
     workspaceService = factory.getWorkspaceService();
