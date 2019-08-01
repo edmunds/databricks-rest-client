@@ -18,18 +18,24 @@ package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
 import com.edmunds.rest.databricks.DTO.LibraryDTO;
+import com.edmunds.rest.databricks.DTO.LibraryFullStatusDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * Implementation of LibraryService.
  */
 public final class LibraryServiceImpl extends DatabricksService implements LibraryService {
+
+  private static Logger log = Logger.getLogger(LibraryServiceImpl.class);
 
   public LibraryServiceImpl(final DatabricksRestClient client) {
     super(client);
@@ -73,5 +79,22 @@ public final class LibraryServiceImpl extends DatabricksService implements Libra
     data.put("libraries", libraries);
 
     client.performQuery(RequestMethod.POST, "/libraries/uninstall", data);
+  }
+
+  @Override
+  public void uninstallAll(String clusterId) throws IOException, DatabricksRestException {
+    ClusterLibraryStatusesDTO clusterStatues = clusterStatus(clusterId);
+    List<LibraryDTO> librariesToUninstall = new ArrayList<>();
+    for (LibraryFullStatusDTO libraryStatusDTO : clusterStatues.getLibraryFullStatuses()) {
+      log.info("Found Library: " + libraryStatusDTO.getLibrary().toString());
+      librariesToUninstall.add(libraryStatusDTO.getLibrary());
+    }
+    try {
+      uninstall(clusterId,
+          librariesToUninstall.toArray(new LibraryDTO[librariesToUninstall.size()]));
+    } catch (DatabricksRestException e) {
+      log.error(e);
+      throw new DatabricksRestException("Error uninstalling libraries");
+    }
   }
 }
