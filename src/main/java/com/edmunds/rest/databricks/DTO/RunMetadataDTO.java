@@ -30,10 +30,14 @@ import lombok.Setter;
 @Data
 public class RunMetadataDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("metadata")
+  @Getter
+  @Setter
+  @JsonProperty("metadata")
   private RunDTO run;
 
-  @Getter @Setter @JsonProperty("notebook_output")
+  @Getter
+  @Setter
+  @JsonProperty("notebook_output")
   private NotebookOutputDTO notebookOutput;
 
 }

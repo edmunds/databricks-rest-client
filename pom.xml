@@ -20,7 +20,7 @@
 
     <groupId>com.edmunds</groupId>
     <artifactId>databricks-rest-client</artifactId>
-    <version>2.3.3-SNAPSHOT</version>
+    <version>2.3.3-fs1</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A simple java rest client to interact with the Databricks Rest Service

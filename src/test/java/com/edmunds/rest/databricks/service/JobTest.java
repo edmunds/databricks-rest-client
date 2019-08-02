@@ -16,28 +16,29 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.*;
+import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
+import com.edmunds.rest.databricks.DTO.JobDTO;
+import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
+import com.edmunds.rest.databricks.DTO.LanguageDTO;
+import com.edmunds.rest.databricks.DTO.NotebookTaskDTO;
+import com.edmunds.rest.databricks.DTO.RunDTO;
+import com.edmunds.rest.databricks.DTO.RunNowDTO;
+import com.edmunds.rest.databricks.DTO.RunsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
-import com.edmunds.rest.databricks.JobRunner;
 import com.edmunds.rest.databricks.TestUtil;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspaceRequestBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-
-import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.*;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class JobTest {
   private static final String JOB_NAME = "JobRunnerTest_test_job";
@@ -60,11 +61,11 @@ public class JobTest {
     InputStream stream = this.getClass().getClassLoader().getResourceAsStream("test_notebook.scala");
     byte[] content = IOUtils.toByteArray(stream);
     ImportWorkspaceRequest request = new ImportWorkspaceRequestBuilder(NOTEBOOK_PATH)
-            .withContent(content)
-            .withFormat(ExportFormatDTO.SOURCE)
-            .withLanguage(LanguageDTO.SCALA)
-            .withOverwrite(true)
-            .build();
+        .withContent(content)
+        .withFormat(ExportFormatDTO.SOURCE)
+        .withLanguage(LanguageDTO.SCALA)
+        .withOverwrite(true)
+        .build();
     workspaceService.importWorkspace(request);
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
@@ -95,7 +96,7 @@ public class JobTest {
 
   @Test
   public void main_runExists()
-          throws InterruptedException, DatabricksRestException, IOException, ParseException {
+      throws InterruptedException, DatabricksRestException, IOException, ParseException {
     RunsDTO runsDTO = service.listRuns(runDTO.getJobId(), null, null, null);
     assertEquals(runsDTO.getRuns().length, 1);
   }

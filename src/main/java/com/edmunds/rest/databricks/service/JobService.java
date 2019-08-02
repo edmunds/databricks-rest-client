@@ -206,17 +206,19 @@ public interface JobService {
 
   /**
    * Submit a one-time run. This endpoint doesn’t require a Databricks job to be created
-   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-submit">https://docs.databricks.com/api/latest/jobs.html#runs-submit</a>
+   *
    * @param jobSettings the settings to change the job to
    * @return Returns the run_id of the triggered run
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-submit">https://docs.databricks.com/api/latest/jobs.html#runs-submit</a>
    */
   RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException;
 
   /**
    * Retrieve the output of a run
-   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-get-output">https://docs.databricks.com/api/latest/jobs.html#runs-get-output</a>
+   *
    * @param runId The desired run id
    * @return Returns the data output of the specified run
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-get-output">https://docs.databricks.com/api/latest/jobs.html#runs-get-output</a>
    */
   String getOutput(long runId) throws IOException, DatabricksRestException;
 }
