@@ -7,6 +7,13 @@ It is now under _com.edmunds_.
 
 At some point we will plan on deleting the old artifacts from maven-central.
 
+## Additional Details
+This fork is needed in order to add additional features to the repo to be released in a short time
+
+What blocks us from using the upstream version is lack of support for few latest REST endpoints like /jobs/runs/submit and /jobs/runs/get-output in the upstream repo
+
+Command to build jar: mvn clean install -Dcheckstyle.skip=true -Dmaven.javadoc.skip=true verify
+
 ## Build Status
 [![Build Status](https://travis-ci.org/edmunds/databricks-rest-client.svg?branch=master)](https://travis-ci.org/edmunds/databricks-rest-client)
 
