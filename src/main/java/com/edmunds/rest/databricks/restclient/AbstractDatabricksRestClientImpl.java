@@ -76,7 +76,13 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
    * @param requestSentRetryEnabled from the docs in DefaultHttpRequestRetryHandler:
    *                                Whether or not methods that have successfully sent their request will be retried
    */
-  public AbstractDatabricksRestClientImpl(String host, String apiVersion, int maxRetry, long retryInterval, boolean requestSentRetryEnabled) {
+  public AbstractDatabricksRestClientImpl(
+          String host,
+          String apiVersion,
+          int maxRetry,
+          long retryInterval,
+          boolean requestSentRetryEnabled
+  ) {
     this.host = host;
     this.apiVersion = apiVersion;
     this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, requestSentRetryEnabled);

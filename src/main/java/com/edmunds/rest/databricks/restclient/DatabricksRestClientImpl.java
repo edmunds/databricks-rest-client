@@ -53,7 +53,13 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
    * Constructs a rest client.
    */
   public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder) {
-    super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval(), builder.isRequestSentRetryEnabled());
+    super(
+            builder.getHost(),
+            builder.getApiVersion(),
+            builder.getMaxRetries(),
+            builder.getRetryInterval(),
+            builder.isRequestSentRetryEnabled()
+    );
 
     if (isNotEmpty(builder.getToken())
             || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {

@@ -231,8 +231,8 @@ public class DatabricksServiceFactory {
     int connectionRequestTimeout = CONNECTION_REQUEST_TIMEOUT;
 
     /**
-     * from the docs in DefaultHttpRequestRetryHandler:
-     * Whether or not methods that have successfully sent their request will be retried
+     * From the docs in DefaultHttpRequestRetryHandler:
+     * Whether or not methods that have successfully sent their request will be retried.
      */
     boolean requestSentRetryEnabled = false;
 
@@ -292,7 +292,7 @@ public class DatabricksServiceFactory {
       return requestSentRetryEnabled;
     }
 
-      public boolean isUseLegacyAPI425() {
+    public boolean isUseLegacyAPI425() {
       return useLegacyAPI425;
     }
 
