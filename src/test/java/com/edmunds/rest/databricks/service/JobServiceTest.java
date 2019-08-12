@@ -16,6 +16,13 @@
 
 package com.edmunds.rest.databricks.service;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.awaitility.Awaitility.await;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.JobDTO;
 import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
@@ -28,30 +35,21 @@ import com.edmunds.rest.databricks.DTO.RunsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.TestUtil;
+import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspaceRequestBuilder;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static org.awaitility.Awaitility.await;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
-//TODO clean up
-public class JobServiceTest {
-  String defaultClusterId;
+public class JobServiceTest  extends ClusterDependentTest{
   String jobName = "JobServiceTest_setUpOnce_test_job";
   String multiJobName = "JobServiceTest_multipleJobs";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
@@ -63,6 +61,7 @@ public class JobServiceTest {
 
   @BeforeClass
   public void setUpOnce() throws IOException, DatabricksRestException, InterruptedException {
+    super.setUpOnce();
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getJobService();
     workspaceService = factory.getWorkspaceService();
@@ -86,10 +85,10 @@ public class JobServiceTest {
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
 
-    defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
+    clusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(jobName);
-    jobSettingsDTO.setExistingClusterId(defaultClusterId);
+    jobSettingsDTO.setExistingClusterId(clusterId);
     jobSettingsDTO.setNotebookTask(notebook_task);
 
     jobId = service.createJob(jobSettingsDTO);
@@ -102,6 +101,7 @@ public class JobServiceTest {
 
   @AfterClass(alwaysRun = true)
   public void tearDownOnce() throws IOException, DatabricksRestException {
+    super.tearDownOnce();
     deleteAllJobs(jobName);
     deleteAllJobs(multiJobName);
 
@@ -124,7 +124,7 @@ public class JobServiceTest {
   public void createMultiJobs() throws IOException, DatabricksRestException {
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(multiJobName);
-    jobSettingsDTO.setExistingClusterId(defaultClusterId);
+    jobSettingsDTO.setExistingClusterId(clusterId);
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
     jobSettingsDTO.setNotebookTask(notebook_task);

@@ -32,17 +32,16 @@ import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.LibraryService;
-
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import org.apache.log4j.Logger;
 
 public final class TestUtil {
   private TestUtil() {
   }
-
+  private final static Logger logger = Logger.getLogger(TestUtil.class.getName());
   private static final String SMALL_NODE_TYPE = "m4.large";
   private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
   private static final String SPARK_VERSION = "4.0.x-scala2.11";
@@ -52,21 +51,25 @@ public final class TestUtil {
       throws IOException, DatabricksRestException, InterruptedException {
     ClusterInfoDTO[] clusters = clusterService.list();
     String clusterId = null;
+    logger.info("looking for cluster that starts with prefix: " + CLUSTER_NAME_PREFIX);
     for (ClusterInfoDTO cluster : clusters) {
       if (cluster.getClusterName().contains(CLUSTER_NAME_PREFIX)) {
         clusterId = cluster.getClusterId();
       }
     }
     if (clusterId == null) {
+      logger.info("Test cluster did not exist. Creating.");
       clusterId = createCluster(clusterService);
     }
     try {
+      logger.info("Trying to start cluster...");
       clusterService.start(clusterId);
     } catch (DatabricksRestException e) {
       e.printStackTrace();
     }
     await().atMost(10, MINUTES)
         .until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, clusterService));
+    logger.info("Cluster started! Beginning tests");
     return clusterId;
   }
 

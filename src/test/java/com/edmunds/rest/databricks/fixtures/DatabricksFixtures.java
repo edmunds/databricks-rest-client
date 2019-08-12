@@ -30,8 +30,6 @@ import java.util.Set;
  */
 public class DatabricksFixtures {
   private final static String API_VERSION = "2.0";
-  public static String USERNAME;
-  public static String PASSWORD;
   public static String HOSTNAME;
   public static String TOKEN;
   private static DatabricksRestClient client;
@@ -40,8 +38,6 @@ public class DatabricksFixtures {
   private static DatabricksServiceFactory factory;
 
   static {
-    USERNAME = System.getenv("DB_USER");
-    PASSWORD = System.getenv("DB_PASSWORD");
     HOSTNAME = System.getenv("DB_URL");
     TOKEN = System.getenv("DB_TOKEN");
   }

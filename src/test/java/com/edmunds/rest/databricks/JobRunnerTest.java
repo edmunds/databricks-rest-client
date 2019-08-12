@@ -42,8 +42,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.HOSTNAME;
-import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.PASSWORD;
-import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.USERNAME;
+import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.TOKEN;
 import static org.testng.Assert.assertEquals;
 
 //TODO cleanup
@@ -92,23 +91,20 @@ public class JobRunnerTest {
     jobId = service.createJob(jobSettingsDTO);
 
     argsWithJobId = new String[] {
-        "-u " + USERNAME,
-        "-p " + PASSWORD,
+        "-t " + TOKEN,
         "-h " + HOSTNAME,
         "-j " + jobId
     };
 
     argsWithJobName = new String[] {
-        "-u " + USERNAME,
-        "-p " + PASSWORD,
+        "-t " + TOKEN,
         "-h " + HOSTNAME,
         "-n " + JOB_NAME
     };
 
     argsWithInvalidJobName =
         new String[] {
-            "-u " + USERNAME,
-            "-p " + PASSWORD,
+            "-t " + TOKEN,
             "-h " + HOSTNAME,
             "-n " + "Fake Job Name"
         };
