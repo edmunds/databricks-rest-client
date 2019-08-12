@@ -214,7 +214,7 @@ public interface JobService {
   RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException;
 
   /**
-   * Retrieve the output of a run
+   * Retrieve the output of a run.
    *
    * @param runId The desired run id
    * @return Returns the data output of the specified run
