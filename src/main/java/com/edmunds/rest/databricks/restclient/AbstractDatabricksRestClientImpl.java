@@ -61,12 +61,31 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
-   * @param retryInterval interval btween retries
+   * @param retryInterval interval between retries
    */
   public AbstractDatabricksRestClientImpl(String host, String apiVersion, int maxRetry, long retryInterval) {
+    this(host, apiVersion, maxRetry, retryInterval, false);
+  }
+
+  /**
+   * Creates a rest client.
+   * @param host databricks host
+   * @param apiVersion databricks api version
+   * @param maxRetry how many retries
+   * @param retryInterval interval between retries
+   * @param requestSentRetryEnabled from the docs in DefaultHttpRequestRetryHandler:
+   *                                Whether or not methods that have successfully sent their request will be retried
+   */
+  public AbstractDatabricksRestClientImpl(
+          String host,
+          String apiVersion,
+          int maxRetry,
+          long retryInterval,
+          boolean requestSentRetryEnabled
+  ) {
     this.host = host;
     this.apiVersion = apiVersion;
-    this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, false);
+    this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, requestSentRetryEnabled);
     this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
   }
 

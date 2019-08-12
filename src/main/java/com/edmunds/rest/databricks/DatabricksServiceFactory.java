@@ -230,6 +230,11 @@ public class DatabricksServiceFactory {
     int connectionTimeout = CONNECTION_TIMEOUT;
     int connectionRequestTimeout = CONNECTION_REQUEST_TIMEOUT;
 
+    /**
+     * From the docs in DefaultHttpRequestRetryHandler:
+     * Whether or not methods that have successfully sent their request will be retried.
+     */
+    boolean requestSentRetryEnabled = false;
 
     /**
      * set true if you want to use http-client v4.2.5 compatible API.
@@ -281,6 +286,10 @@ public class DatabricksServiceFactory {
 
     public int getConnectionRequestTimeout() {
       return connectionRequestTimeout;
+    }
+
+    public boolean isRequestSentRetryEnabled() {
+      return requestSentRetryEnabled;
     }
 
     public boolean isUseLegacyAPI425() {
@@ -381,6 +390,10 @@ public class DatabricksServiceFactory {
       return this;
     }
 
+    public Builder withRequestSentRetryEnabled(boolean requestSentRetryEnabled) {
+      this.requestSentRetryEnabled = requestSentRetryEnabled;
+      return this;
+    }
 
     /**
      * Builds a DatabricksServiceFactory.
