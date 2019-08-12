@@ -20,6 +20,7 @@ import com.edmunds.rest.databricks.DTO.JobDTO;
 import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
 import com.edmunds.rest.databricks.DTO.JobsDTO;
 import com.edmunds.rest.databricks.DTO.RunDTO;
+import com.edmunds.rest.databricks.DTO.RunMetadataDTO;
 import com.edmunds.rest.databricks.DTO.RunNowDTO;
 import com.edmunds.rest.databricks.DTO.RunParametersDTO;
 import com.edmunds.rest.databricks.DTO.RunsDTO;
@@ -278,5 +279,26 @@ public class JobServiceImpl extends DatabricksService implements JobService {
         log.info(String.format("Updated job, url: %s", getJobLink(job.getJobId())));
       }
     }
+  }
+
+  @Override
+  public RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException {
+    String marshalled = this.mapper.writeValueAsString(jobSettings);
+    Map<String, Object> data = this.mapper.readValue(marshalled, new
+        TypeReference<Map<String, Object>>() {
+        });
+    byte[] responseBody = client.performQuery(RequestMethod.POST, "/jobs/runs/submit", data);
+    return this.mapper.readValue(responseBody, RunNowDTO.class);
+  }
+
+  @Override
+  public String getOutput(long runId)
+      throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("run_id", runId);
+
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/runs/get-output", data);
+    RunMetadataDTO metadata = this.mapper.readValue(responseBody, RunMetadataDTO.class);
+    return metadata.getNotebookOutput().getResult();
   }
 }
