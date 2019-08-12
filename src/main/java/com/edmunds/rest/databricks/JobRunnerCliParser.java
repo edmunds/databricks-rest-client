@@ -88,6 +88,9 @@ public class JobRunnerCliParser {
     return toReturn.toArray(new String[0]);
   }
 
+  /**
+   * Returns the username.
+   */
   public String getUsername() {
     if (commandLine.hasOption(USERNAME)) {
       return getOptionValue(USERNAME);
@@ -96,6 +99,9 @@ public class JobRunnerCliParser {
     }
   }
 
+  /**
+   * Returns the password.
+   */
   public String getPassword() {
     if (commandLine.hasOption(PASSWORD)) {
       return getOptionValue(PASSWORD);
@@ -104,6 +110,9 @@ public class JobRunnerCliParser {
     }
   }
 
+  /**
+   * Returns the token.
+   */
   public String getToken() {
     if (commandLine.hasOption(TOKEN)) {
       return getOptionValue(TOKEN);
