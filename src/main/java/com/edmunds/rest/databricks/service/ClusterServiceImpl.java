@@ -21,6 +21,7 @@ import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
 import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
 import com.edmunds.rest.databricks.DTO.NewClusterDTO;
 import com.edmunds.rest.databricks.DTO.UpsertClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.log4j.Logger;
 
 /**
@@ -90,6 +92,12 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
     Map<String, Object> data = new HashMap<>();
     data.put("cluster_id", clusterId);
     client.performQuery(RequestMethod.POST, "/clusters/start", data);
+  }
+
+  @Override
+  public boolean isClusterRunning(String clusterId) throws IOException, DatabricksRestException {
+    ClusterInfoDTO info = this.getInfo(clusterId);
+    return info.getState() == ClusterStateDTO.RUNNING;
   }
 
   @Override
@@ -187,5 +195,19 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
       }
     }
     return result;
+  }
+
+  @Override
+  public Optional<ClusterInfoDTO> findUniqueByName(String clusterName)
+      throws IOException, DatabricksRestException {
+    List<ClusterInfoDTO> clusters = findByName(clusterName);
+    if (clusters.size() > 1) {
+      throw new DatabricksRestException(
+          String.format("There are %d clusters with this name: %s", clusters.size(), clusterName));
+    } else if (clusters.size() == 1) {
+      return Optional.of(clusters.get(0));
+    } else {
+      return Optional.empty();
+    }
   }
 }

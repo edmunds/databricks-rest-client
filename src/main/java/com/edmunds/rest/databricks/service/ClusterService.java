@@ -27,6 +27,7 @@ import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A Wrapper around the cluster part of the databricks rest api.
@@ -84,6 +85,15 @@ public interface ClusterService {
    * @throws DatabricksRestException any errors with the request
    */
   void start(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
+   * Returns true if the cluster is running.
+   * @param clusterId the clusterId to check.
+   * @return true if the cluster is running.
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  boolean isClusterRunning(String clusterId) throws IOException, DatabricksRestException;
 
   /**
    * Restarts a given databricks cluster.
@@ -176,4 +186,17 @@ public interface ClusterService {
    * @throws DatabricksRestException any errors with the request
    */
   List<ClusterInfoDTO> findByName(String clusterName) throws IOException, DatabricksRestException;
+
+  /**
+   * Same as findByName, but it will throw an exception if more then one cluster has the name.
+   *
+   * @param clusterName name to look for
+   * @return a cluster if only one was found
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request,
+   *            including if more then 1 cluster was found with the name.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#findByName">https://docs.databricks.com/api/latest/clusters.html#findByName</a>
+   */
+  Optional<ClusterInfoDTO> findUniqueByName(String clusterName)
+      throws IOException, DatabricksRestException;
 }

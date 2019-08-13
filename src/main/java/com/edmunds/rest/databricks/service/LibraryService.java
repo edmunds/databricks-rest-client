@@ -68,4 +68,11 @@ public interface LibraryService {
    */
   void uninstall(String clusterId, LibraryDTO[] libraries)
       throws IOException, DatabricksRestException;
+
+  /**
+   * Uninstalls all libraries from a specific cluster.
+   *
+   * @see <a href="https://docs.databricks.com/api/latest/libraries.html#uninstall">https://docs.databricks.com/api/latest/libraries.html#uninstall</a>
+   */
+  void uninstallAll(String clusterId) throws IOException, DatabricksRestException;
 }
