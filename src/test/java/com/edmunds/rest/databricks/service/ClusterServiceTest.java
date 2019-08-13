@@ -18,6 +18,7 @@ package com.edmunds.rest.databricks.service;
 
 import static com.edmunds.rest.databricks.TestUtil.clusterStatusHasChangedTo;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -69,7 +70,8 @@ public class ClusterServiceTest extends ClusterDependentTest {
     assertNotNull(createdClusterId);
 
     service.delete(createdClusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED,
+    await().pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED,
         createdClusterId, service));
   }
 
@@ -93,7 +95,9 @@ public class ClusterServiceTest extends ClusterDependentTest {
       throws IOException, DatabricksRestException {
     service.restart(clusterId);
 
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RESTARTING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RESTARTING, clusterId, service));
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce", "showClusterStatus_whenCalled_returnsClusterStatuses"})
@@ -113,10 +117,14 @@ public class ClusterServiceTest extends ClusterDependentTest {
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void stopAndStartCluster() throws IOException, DatabricksRestException {
     service.delete(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED, clusterId, service));
 
     service.start(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce",
@@ -127,9 +135,13 @@ public class ClusterServiceTest extends ClusterDependentTest {
     EditClusterRequest editRequest = new EditClusterRequest.EditClusterRequestBuilder(1, clusterId, name,
         SPARK_VERSION, MEDIUM_NODE_TYPE).withAwsAttributes(getAwsAttributesDTO()).build();
     service.edit(editRequest);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
     service.restart(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
 
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
     assertEquals(clusterInfo.getNodeTypeId(), MEDIUM_NODE_TYPE);

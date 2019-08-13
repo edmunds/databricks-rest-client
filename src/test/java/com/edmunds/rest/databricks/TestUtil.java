@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
@@ -33,6 +34,8 @@ import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.LibraryService;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -47,19 +50,44 @@ public final class TestUtil {
   private static final String SPARK_VERSION = "4.0.x-scala2.11";
   private static final String CLUSTER_NAME_PREFIX = "clusterServiceTest_";
 
-  public static String getDefaultClusterId(ClusterService clusterService)
-      throws IOException, DatabricksRestException, InterruptedException {
+  public static List<String> getTestClusters(ClusterService clusterService)
+      throws IOException, DatabricksRestException {
     ClusterInfoDTO[] clusters = clusterService.list();
-    String clusterId = null;
+    List<String> foundClusters = new ArrayList<>();
     logger.info("looking for cluster that starts with prefix: " + CLUSTER_NAME_PREFIX);
     for (ClusterInfoDTO cluster : clusters) {
       if (cluster.getClusterName().contains(CLUSTER_NAME_PREFIX)) {
-        clusterId = cluster.getClusterId();
+        logger.info("found existing cluster! " + cluster.getClusterName());
+        foundClusters.add(cluster.getClusterId());
       }
     }
-    if (clusterId == null) {
+    return foundClusters;
+  }
+
+  public static void cleanupTestClusters(ClusterService clusterService,
+      List<String> testClustersToCleanup)
+      throws IOException, DatabricksRestException {
+    for (int i = 0; i < testClustersToCleanup.size(); i++) {
+      logger.info("Terminating old test cluster: " + testClustersToCleanup.get(i));
+      clusterService.delete(testClustersToCleanup.get(i));
+    }
+  }
+
+  public static String getTestClusterId(ClusterService clusterService)
+      throws IOException, DatabricksRestException, InterruptedException {
+    List<String> testClusters = getTestClusters(clusterService);
+    if (testClusters.size() > 1) {
+      cleanupTestClusters(clusterService, testClusters.subList(1, testClusters.size()));
+    }
+    String clusterId;
+    if (testClusters.isEmpty()) {
       logger.info("Test cluster did not exist. Creating.");
       clusterId = createCluster(clusterService);
+    } else {
+      clusterId = testClusters.get(0);
+    }
+    if (clusterService.isClusterRunning(clusterId)) {
+      return clusterId;
     }
     try {
       logger.info("Trying to start cluster...");
@@ -67,7 +95,7 @@ public final class TestUtil {
     } catch (DatabricksRestException e) {
       e.printStackTrace();
     }
-    await().atMost(10, MINUTES)
+    await().atMost(10, MINUTES).pollInterval(30, SECONDS)
         .until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, clusterService));
     logger.info("Cluster started! Beginning tests");
     return clusterId;
@@ -142,7 +170,7 @@ public final class TestUtil {
              DatabricksRestException {
     LibraryFullStatusDTO[] libraryFullStatuses = service.clusterStatus(String.valueOf(clusterId)).getLibraryFullStatuses();
     for (LibraryFullStatusDTO libraryFullStatusDTO : libraryFullStatuses) {
-      if (Objects.equals(libraryFullStatusDTO.getLibrary().getJar(), library.getJar())) {
+      if (Objects.equals(libraryFullStatusDTO.getLibrary(), library)) {
         return libraryFullStatusDTO.getStatus();
       }
     }

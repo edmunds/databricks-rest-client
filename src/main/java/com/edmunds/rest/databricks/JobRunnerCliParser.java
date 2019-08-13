@@ -250,12 +250,12 @@ public class JobRunnerCliParser {
     opts.addOption("h", HOSTNAME, true, "databricks hostname");
     opts.addOption("j", JOB_ID, true, "integer job id to run");
     opts.addOption("n", JOB_NAME, true, "name of databricks job");
-    opts.addOption("pj", JOB_JAR_PARAMS, false, "parameters for jar spark");
-    opts.addOption("pn", JOB_NOTEBOOK_PARAMS, false, "parameters for notebook");
-    opts.addOption("ps", JOB_SPARK_SUBMIT_PARAMS, false, "parameters for spark-submit");
-    opts.addOption("py", JOB_PYTHON_PARAMS, false, "parameters for python");
-    opts.addOption("to", JOB_TIMEOUT, false, "job timeout milliseconds");
-    opts.addOption("ci", JOB_CHECK_INTERVAL, false, "job check interval milliseconds");
+    opts.addOption("pj", JOB_JAR_PARAMS, true, "parameters for jar spark");
+    opts.addOption("pn", JOB_NOTEBOOK_PARAMS, true, "parameters for notebook");
+    opts.addOption("ps", JOB_SPARK_SUBMIT_PARAMS, true, "parameters for spark-submit");
+    opts.addOption("py", JOB_PYTHON_PARAMS, true, "parameters for python");
+    opts.addOption("to", JOB_TIMEOUT, true, "job timeout milliseconds");
+    opts.addOption("ci", JOB_CHECK_INTERVAL, true, "job check interval milliseconds");
 
     return opts;
   }

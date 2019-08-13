@@ -31,7 +31,6 @@ import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspac
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.WorkspaceService;
 import java.io.InputStream;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.testng.annotations.AfterClass;
@@ -45,10 +44,10 @@ import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.HOSTNAME;
 import static com.edmunds.rest.databricks.fixtures.DatabricksFixtures.TOKEN;
 import static org.testng.Assert.assertEquals;
 
-//TODO cleanup
 public class JobRunnerTest {
   private static final String JOB_NAME = "JobRunnerTest_test_job";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
+  private static final Long CHECK_INTERVAL = 10000L;
   private JobService service;
   private WorkspaceService workspaceService;
   private Long jobId = null;
@@ -76,7 +75,7 @@ public class JobRunnerTest {
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
-    String defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
+    String defaultClusterId = TestUtil.getTestClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(JOB_NAME);
     jobSettingsDTO.setExistingClusterId(defaultClusterId);
@@ -93,19 +92,22 @@ public class JobRunnerTest {
     argsWithJobId = new String[] {
         "-t " + TOKEN,
         "-h " + HOSTNAME,
+        "--checkInterval " + CHECK_INTERVAL,
         "-j " + jobId
     };
 
     argsWithJobName = new String[] {
         "-t " + TOKEN,
         "-h " + HOSTNAME,
-        "-n " + JOB_NAME
+        "--checkInterval " + CHECK_INTERVAL,
+        "-n " + JOB_NAME,
     };
 
     argsWithInvalidJobName =
         new String[] {
             "-t " + TOKEN,
             "-h " + HOSTNAME,
+            "--checkInterval " + CHECK_INTERVAL,
             "-n " + "Fake Job Name"
         };
 

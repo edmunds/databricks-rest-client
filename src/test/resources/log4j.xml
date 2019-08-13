@@ -30,7 +30,7 @@
 
     <logger name="com.edmunds">
         <level value="DEBUG" />
-        <appender-ref ref="console" />
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <root>

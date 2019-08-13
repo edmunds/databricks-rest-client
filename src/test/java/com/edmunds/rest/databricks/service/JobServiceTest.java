@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.service;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -85,7 +86,7 @@ public class JobServiceTest  extends ClusterDependentTest{
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
 
-    clusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
+    clusterId = TestUtil.getTestClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(jobName);
     jobSettingsDTO.setExistingClusterId(clusterId);
@@ -95,7 +96,9 @@ public class JobServiceTest  extends ClusterDependentTest{
 
     runId = service.runJobNow(jobId).getRunId();
 
-    await().atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
         runId, service));
   }
 
@@ -227,7 +230,9 @@ public class JobServiceTest  extends ClusterDependentTest{
     long calledRunId = service.runJobNow(jobId, notebook_params).getRunId();
 
 
-    await().atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
         calledRunId, service));
 
     assertTrue(isRunIdValid(calledRunId));
