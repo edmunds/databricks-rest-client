@@ -16,6 +16,8 @@
 
 package com.edmunds.rest.databricks.service;
 
+import static org.testng.Assert.assertEquals;
+
 import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.JobDTO;
 import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
@@ -26,7 +28,7 @@ import com.edmunds.rest.databricks.DTO.RunNowDTO;
 import com.edmunds.rest.databricks.DTO.RunsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
-import com.edmunds.rest.databricks.TestUtil;
+import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspaceRequestBuilder;
@@ -38,9 +40,8 @@ import org.apache.commons.io.IOUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.testng.Assert.assertEquals;
 
-public class JobTest {
+public class JobSubmitRunTest extends ClusterDependentTest {
   private static final String JOB_NAME = "JobRunnerTest_test_job";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
   private JobService service;
@@ -52,7 +53,8 @@ public class JobTest {
   private String[] argsWithInvalidJobName;
 
   @BeforeClass(enabled = true)
-  public void setUpOnce() throws IOException, DatabricksRestException {
+  public void setUpOnce() throws IOException, DatabricksRestException, InterruptedException {
+    super.setUpOnce();
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
     service = factory.getJobService();
     workspaceService = factory.getWorkspaceService();
@@ -70,10 +72,9 @@ public class JobTest {
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
-    String defaultClusterId = TestUtil.getDefaultClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(JOB_NAME);
-    jobSettingsDTO.setExistingClusterId(defaultClusterId);
+    jobSettingsDTO.setExistingClusterId(clusterId);
     jobSettingsDTO.setNotebookTask(notebook_task);
 
     // there's possibility test TearDownFailure. it cause test job not-deleted.
@@ -100,5 +101,4 @@ public class JobTest {
     RunsDTO runsDTO = service.listRuns(runDTO.getJobId(), null, null, null);
     assertEquals(runsDTO.getRuns().length, 1);
   }
-
 }

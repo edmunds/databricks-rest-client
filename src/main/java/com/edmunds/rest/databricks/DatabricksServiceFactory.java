@@ -317,7 +317,10 @@ public class DatabricksServiceFactory {
      * @param password databricks password
      * @param host     the host object
      * @return the builder object
+     *
+     * @deprecated in version 2.3.4, please use {@link Builder#createTokenAuthentication(String, String)}
      */
+    @Deprecated
     public static Builder createUserPasswordAuthentication(String username,
                                                            String password, String host) {
       Builder builder = new Builder();

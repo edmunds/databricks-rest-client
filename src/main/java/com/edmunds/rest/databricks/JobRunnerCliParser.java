@@ -37,6 +37,7 @@ public class JobRunnerCliParser {
   private static final String HELP_NAME = "help";
   private static final String USERNAME = "username";
   private static final String PASSWORD = "password";
+  private static final String TOKEN = "token";
   private static final String HOSTNAME = "hostname";
   private static final String JOB_ID = "job_id";
   private static final String JOB_NAME = "name";
@@ -87,12 +88,37 @@ public class JobRunnerCliParser {
     return toReturn.toArray(new String[0]);
   }
 
+  /**
+   * Returns the username.
+   */
   public String getUsername() {
-    return getOptionValue(USERNAME);
+    if (commandLine.hasOption(USERNAME)) {
+      return getOptionValue(USERNAME);
+    } else {
+      return null;
+    }
   }
 
+  /**
+   * Returns the password.
+   */
   public String getPassword() {
-    return getOptionValue(PASSWORD);
+    if (commandLine.hasOption(PASSWORD)) {
+      return getOptionValue(PASSWORD);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Returns the token.
+   */
+  public String getToken() {
+    if (commandLine.hasOption(TOKEN)) {
+      return getOptionValue(TOKEN);
+    } else {
+      return null;
+    }
   }
 
   public String getHostname() {
@@ -220,15 +246,16 @@ public class JobRunnerCliParser {
     opts.addOption(HELP_NAME, false, "print this message");
     opts.addOption("u", USERNAME, true, "databricks login username");
     opts.addOption("p", PASSWORD, true, "databricks login password");
+    opts.addOption("t", TOKEN, true, "databricks login token");
     opts.addOption("h", HOSTNAME, true, "databricks hostname");
     opts.addOption("j", JOB_ID, true, "integer job id to run");
     opts.addOption("n", JOB_NAME, true, "name of databricks job");
-    opts.addOption("pj", JOB_JAR_PARAMS, false, "parameters for jar spark");
-    opts.addOption("pn", JOB_NOTEBOOK_PARAMS, false, "parameters for notebook");
-    opts.addOption("ps", JOB_SPARK_SUBMIT_PARAMS, false, "parameters for spark-submit");
-    opts.addOption("py", JOB_PYTHON_PARAMS, false, "parameters for python");
-    opts.addOption("to", JOB_TIMEOUT, false, "job timeout milliseconds");
-    opts.addOption("ci", JOB_CHECK_INTERVAL, false, "job check interval milliseconds");
+    opts.addOption("pj", JOB_JAR_PARAMS, true, "parameters for jar spark");
+    opts.addOption("pn", JOB_NOTEBOOK_PARAMS, true, "parameters for notebook");
+    opts.addOption("ps", JOB_SPARK_SUBMIT_PARAMS, true, "parameters for spark-submit");
+    opts.addOption("py", JOB_PYTHON_PARAMS, true, "parameters for python");
+    opts.addOption("to", JOB_TIMEOUT, true, "job timeout milliseconds");
+    opts.addOption("ci", JOB_CHECK_INTERVAL, true, "job check interval milliseconds");
 
     return opts;
   }
@@ -238,8 +265,18 @@ public class JobRunnerCliParser {
   }
 
   private boolean hasValidArguments() {
+    return hasValidUserPasswordArguments() || hasValidTokenArguments();
+  }
+
+  private boolean hasValidUserPasswordArguments() {
     return commandLine.hasOption(USERNAME)
         && commandLine.hasOption(PASSWORD)
+        && commandLine.hasOption(HOSTNAME)
+        && (commandLine.hasOption(JOB_ID) || commandLine.hasOption(JOB_NAME));
+  }
+
+  private boolean hasValidTokenArguments() {
+    return commandLine.hasOption(TOKEN)
         && commandLine.hasOption(HOSTNAME)
         && (commandLine.hasOption(JOB_ID) || commandLine.hasOption(JOB_NAME));
   }

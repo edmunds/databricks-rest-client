@@ -30,8 +30,6 @@ import java.util.Set;
  */
 public class DatabricksFixtures {
   private final static String API_VERSION = "2.0";
-  public static String USERNAME;
-  public static String PASSWORD;
   public static String HOSTNAME;
   public static String TOKEN;
   private static DatabricksRestClient client;
@@ -40,8 +38,6 @@ public class DatabricksFixtures {
   private static DatabricksServiceFactory factory;
 
   static {
-    USERNAME = System.getenv("DB_USER");
-    PASSWORD = System.getenv("DB_PASSWORD");
     HOSTNAME = System.getenv("DB_URL");
     TOKEN = System.getenv("DB_TOKEN");
   }
@@ -49,7 +45,7 @@ public class DatabricksFixtures {
   public static DatabricksRestClient getDatabricksRestClient() throws IOException {
     if (client == null) {
       DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
-              .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+              .createTokenAuthentication(TOKEN, HOSTNAME)
               .withMaxRetries(1)
               .withRetryInterval(10)
               .withApiVersion(API_VERSION);
@@ -97,7 +93,7 @@ public class DatabricksFixtures {
       throws Exception {
 
     DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
-            .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+            .createTokenAuthentication(TOKEN, HOSTNAME)
             .withMaxRetries(1)
             .withRetryInterval(10)
             .withApiVersion(API_VERSION);
@@ -111,7 +107,7 @@ public class DatabricksFixtures {
   public static DatabricksRestClient createDatabricksRestClient425WithRetryCode(int httpStatusCode)
       throws Exception {
     DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
-            .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+            .createTokenAuthentication(TOKEN, HOSTNAME)
             .withMaxRetries(1)
             .withRetryInterval(10)
             .withApiVersion(API_VERSION);
@@ -150,7 +146,7 @@ public class DatabricksFixtures {
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {
     if (factory == null) {
-      factory = DatabricksServiceFactory.Builder.createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME).build();
+      factory = DatabricksServiceFactory.Builder.createTokenAuthentication(TOKEN, HOSTNAME).build();
     }
 
     return factory;

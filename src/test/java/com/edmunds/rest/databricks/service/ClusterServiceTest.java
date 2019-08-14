@@ -16,65 +16,42 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.*;
-import com.edmunds.rest.databricks.DatabricksRestException;
-import com.edmunds.rest.databricks.DatabricksServiceFactory;
-import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
-import com.edmunds.rest.databricks.request.CreateClusterRequest;
-import com.edmunds.rest.databricks.request.EditClusterRequest;
-import java.util.List;
-import org.testng.SkipException;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.UUID;
-
 import static com.edmunds.rest.databricks.TestUtil.clusterStatusHasChangedTo;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-public class ClusterServiceTest {
-  private String clusterId;
-  private ClusterService service;
+import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
+import com.edmunds.rest.databricks.DTO.EbsVolumeTypeDTO;
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
+import com.edmunds.rest.databricks.request.CreateClusterRequest;
+import com.edmunds.rest.databricks.request.EditClusterRequest;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+import org.testng.annotations.Test;
 
+public class ClusterServiceTest extends ClusterDependentTest {
   private static final String SMALL_NODE_TYPE = "m4.large";
   private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
   private static final String SPARK_VERSION = "4.0.x-scala2.11";
   private static final String CLUSTER_NAME_PREFIX = "clusterServiceTest_";
 
-  private AwsAttributesDTO awsAttributesDTO;
-
-  @BeforeClass
-  public void setUpOnce() throws IOException, DatabricksRestException {
-    DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
-    service = factory.getClusterService();
-    String uniqueId = UUID.randomUUID().toString();
-    awsAttributesDTO = new AwsAttributesDTO();
+  private AwsAttributesDTO getAwsAttributesDTO() {
+    AwsAttributesDTO awsAttributesDTO = new AwsAttributesDTO();
     awsAttributesDTO.setEbsVolumeType(EbsVolumeTypeDTO.GENERAL_PURPOSE_SSD);
     awsAttributesDTO.setEbsVolumeCount(1);
     awsAttributesDTO.setEbsVolumeSize(100);
-
-    CreateClusterRequest request = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
-        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
-    clusterId = service.create(request);
-  }
-
-  @AfterClass(alwaysRun = true)
-  public void tearDownOnce() throws IOException, DatabricksRestException {
-    if (clusterId != null) {
-      service.delete(clusterId);
-    }
-  }
-
-  @BeforeMethod
-  public void setUp() throws IOException {
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    return awsAttributesDTO;
   }
 
   @Test
@@ -86,12 +63,15 @@ public class ClusterServiceTest {
   public void createAndDeleteCluster() throws IOException, DatabricksRestException {
     String uniqueId = UUID.randomUUID().toString();
     CreateClusterRequest newRequest = new CreateClusterRequest.CreateClusterRequestBuilder(1, CLUSTER_NAME_PREFIX
-        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
+        + uniqueId, SPARK_VERSION, SMALL_NODE_TYPE)
+        .withAutoterminationMinutes(10)
+        .withAwsAttributes(getAwsAttributesDTO()).build();
     String createdClusterId = service.create(newRequest);
     assertNotNull(createdClusterId);
 
     service.delete(createdClusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED,
+    await().pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED,
         createdClusterId, service));
   }
 
@@ -115,15 +95,9 @@ public class ClusterServiceTest {
       throws IOException, DatabricksRestException {
     service.restart(clusterId);
 
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RESTARTING, clusterId, service));
-  }
-
-  @Test(dependsOnMethods = {"testSetUpOnce"})
-  public void resizeCluster_whenCalled_statusChangesToReconfiguring()
-      throws IOException, DatabricksRestException {
-    service.resize(2, clusterId);
-
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RESIZING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RESTARTING, clusterId, service));
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce", "showClusterStatus_whenCalled_returnsClusterStatuses"})
@@ -143,10 +117,14 @@ public class ClusterServiceTest {
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void stopAndStartCluster() throws IOException, DatabricksRestException {
     service.delete(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.TERMINATED, clusterId, service));
 
     service.start(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce",
@@ -155,11 +133,15 @@ public class ClusterServiceTest {
   public void edit_whenCalled_changesNodeType() throws IOException, DatabricksRestException {
     String name = service.getInfo(clusterId).getClusterName();
     EditClusterRequest editRequest = new EditClusterRequest.EditClusterRequestBuilder(1, clusterId, name,
-        SPARK_VERSION, MEDIUM_NODE_TYPE).withAwsAttributes(awsAttributesDTO).build();
+        SPARK_VERSION, MEDIUM_NODE_TYPE).withAwsAttributes(getAwsAttributesDTO()).build();
     service.edit(editRequest);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
     service.restart(clusterId);
-    await().atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
+    await()
+        .pollInterval(10, SECONDS)
+        .atMost(10, MINUTES).until(clusterStatusHasChangedTo(ClusterStateDTO.RUNNING, clusterId, service));
 
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
     assertEquals(clusterInfo.getNodeTypeId(), MEDIUM_NODE_TYPE);
