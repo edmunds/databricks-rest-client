@@ -84,12 +84,12 @@ public class JobRunner {
     String token = parser.getToken();
     String hostname = parser.getHostname();
 
-    DatabricksServiceFactory factory = null;
+    DatabricksServiceFactory factory;
     if (token != null) {
       factory = DatabricksServiceFactory.Builder.createTokenAuthentication(token, hostname)
           .build();
     } else {
-      DatabricksServiceFactory.Builder
+      factory = DatabricksServiceFactory.Builder
           .createUserPasswordAuthentication(username, password, hostname)
           .build();
     }
