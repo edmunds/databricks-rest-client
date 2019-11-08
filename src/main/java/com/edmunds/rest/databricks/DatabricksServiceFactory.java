@@ -212,6 +212,8 @@ public class DatabricksServiceFactory {
     String username;
     String password;
 
+    String userAgent;
+
     /**
      * Databricks rest-api version.
      */
@@ -262,6 +264,10 @@ public class DatabricksServiceFactory {
 
     public String getPassword() {
       return password;
+    }
+
+    public String getUserAgent() {
+      return userAgent;
     }
 
     public String getApiVersion() {
@@ -392,6 +398,11 @@ public class DatabricksServiceFactory {
 
     public Builder withRequestSentRetryEnabled(boolean requestSentRetryEnabled) {
       this.requestSentRetryEnabled = requestSentRetryEnabled;
+      return this;
+    }
+
+    public Builder withUserAgent(String userAgent) {
+      this.userAgent = userAgent;
       return this;
     }
 
