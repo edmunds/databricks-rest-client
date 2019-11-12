@@ -31,6 +31,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
@@ -117,6 +118,10 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
       return makePostMethod(path, data);
     }
 
+    if (requestMethod == RequestMethod.PATCH) {
+      return makePatchMethod(path, data);
+    }
+
     throw new IllegalArgumentException(requestMethod + " is not a valid request method");
   }
 
@@ -125,6 +130,18 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     HttpGet method = new HttpGet(url + path + commands);
     logger.info(method.toString());
 
+    return method;
+  }
+
+  protected HttpPatch makePatchMethod(String path, Map<String, Object> data)
+      throws UnsupportedEncodingException, JsonProcessingException {
+    HttpPatch method = new HttpPatch(url + path);
+    logger.info(method.toString());
+
+    StringEntity requestEntity = makeStringRequestEntity(data);
+    method.setEntity(requestEntity);
+    method.setHeader("Accept", "application/json");
+    method.setHeader("Content-type", "application/json");
     return method;
   }
 
