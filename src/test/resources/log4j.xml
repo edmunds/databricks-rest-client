@@ -25,9 +25,16 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%-5p] %d %c{1} %M - %m%n"/>
         </layout>
+
     </appender>
 
+    <logger name="com.edmunds">
+        <level value="DEBUG" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
     <root>
+
         <priority value="WARN"/>
         <appender-ref ref="CONSOLE"/>
     </root>

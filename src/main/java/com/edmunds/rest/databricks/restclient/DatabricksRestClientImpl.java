@@ -80,13 +80,10 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
             .setServiceUnavailableRetryStrategy(retryStrategy)
             .setDefaultRequestConfig(createRequestConfig(builder));
 
+    List<Header> headers = new ArrayList<>();
     if (isNotEmpty(builder.getToken())) {
-      List<Header> headers = new ArrayList<>();
       Header authHeader = new BasicHeader("Authorization", String.format("Bearer %s", builder.getToken()));
       headers.add(authHeader);
-
-      clientBuilder.setDefaultHeaders(headers);
-
     } else { // password authorization
       CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(
@@ -95,6 +92,16 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
       clientBuilder.setDefaultCredentialsProvider(credsProvider);
 
+    }
+
+    String userAgent = builder.getUserAgent();
+    if (userAgent != null && userAgent.length() > 0) {
+      Header userAgentHeader = new BasicHeader("User-Agent", userAgent);
+      headers.add(userAgentHeader);
+    }
+
+    if (!headers.isEmpty()) {
+      clientBuilder.setDefaultHeaders(headers);
     }
 
     try {
