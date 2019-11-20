@@ -13,12 +13,17 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.edmunds.rest.databricks.DTO.scim;
 
-package com.edmunds.rest.databricks;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-/**
- * The type of the REST request.
- */
-public enum RequestMethod {
-  GET, POST, PATCH, DELETE, PUT
+
+@Data
+public class OperationsDTO {
+
+  @JsonProperty("schemas")
+  private final String[] schemas = new String[]{"urn:ietf:params:scim:api:messages:2.0:PatchOp"};
+  @JsonProperty("Operations")
+  private Operation[] operations;
 }
