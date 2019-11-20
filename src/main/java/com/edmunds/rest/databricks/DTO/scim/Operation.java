@@ -13,12 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.edmunds.rest.databricks.DTO.scim;
 
-package com.edmunds.rest.databricks;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-/**
- * The type of the REST request.
- */
-public enum RequestMethod {
-  GET, POST, PATCH, DELETE, PUT
+@Data
+public abstract class Operation {
+
+  @JsonProperty("op")
+  protected String op;
+  @JsonProperty("path")
+  protected String path;
+  @JsonProperty("value")
+  protected Object value;
 }

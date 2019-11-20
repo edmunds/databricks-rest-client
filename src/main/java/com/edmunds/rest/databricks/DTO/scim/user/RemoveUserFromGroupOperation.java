@@ -13,12 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.edmunds.rest.databricks.DTO.scim.user;
 
-package com.edmunds.rest.databricks;
+import com.edmunds.rest.databricks.DTO.scim.Operation;
 
-/**
- * The type of the REST request.
- */
-public enum RequestMethod {
-  GET, POST, PATCH, DELETE, PUT
+public class RemoveUserFromGroupOperation extends Operation {
+
+  private long member;
+
+  public RemoveUserFromGroupOperation(long member) {
+    this.member = member;
+    op = "remove";
+    path = "members[value eq \"" + member + "\"]";
+  }
+
 }

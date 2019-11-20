@@ -13,12 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.edmunds.rest.databricks.DTO.scim.user;
 
-package com.edmunds.rest.databricks;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * The type of the REST request.
- */
-public enum RequestMethod {
-  GET, POST, PATCH, DELETE, PUT
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmailDTO {
+
+  private String type;
+  private String value;
+  private boolean primary;
+
+  public EmailDTO(EmailDTO from) {
+    this.type = from.type;
+    this.value = from.value;
+    this.primary = from.primary;
+  }
 }
+

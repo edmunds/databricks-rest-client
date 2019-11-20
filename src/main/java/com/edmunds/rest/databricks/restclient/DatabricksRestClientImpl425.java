@@ -22,6 +22,7 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.Map;
 import javax.net.ssl.SSLContext;
 import org.apache.http.HttpResponse;
@@ -111,6 +112,10 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
+  @Override
+  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException{
+    return performQuery(requestMethod, path, Collections.emptyMap());
+  }
 
   @Override
   public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)

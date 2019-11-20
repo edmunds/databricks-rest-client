@@ -146,7 +146,12 @@ public class DatabricksFixtures {
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {
     if (factory == null) {
-      factory = DatabricksServiceFactory.Builder.createTokenAuthentication(TOKEN, HOSTNAME).build();
+      factory = DatabricksServiceFactory.Builder.createTokenAuthentication(TOKEN, HOSTNAME)
+              .withMaxRetries(3)
+              .withSoTimeout(60*1000)
+              .withConnectionRequestTimeout(60*1000)
+              .withRetryInterval(5000L)
+              .build();
     }
 
     return factory;

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javax.net.ssl.SSLContext;
@@ -132,6 +133,12 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
         .setConnectionRequestTimeout(builder.getConnectionRequestTimeout())
         .build();
   }
+
+  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException{
+    return performQuery(requestMethod, path, Collections.emptyMap());
+  }
+
+
 
   @Override
   public byte[] performQuery(RequestMethod requestMethod, String path, Map<String, Object> data)
