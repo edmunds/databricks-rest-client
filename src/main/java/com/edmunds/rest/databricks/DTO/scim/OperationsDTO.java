@@ -21,9 +21,8 @@ import lombok.Data;
 @Data
 public class OperationsDTO {
 
-  @JsonProperty("Operations")
-  private Operation[] operations;
-
   @JsonProperty("schemas")
   private final String[] schemas = new String[]{"urn:ietf:params:scim:api:messages:2.0:PatchOp"};
+  @JsonProperty("Operations")
+  private Operation[] operations;
 }

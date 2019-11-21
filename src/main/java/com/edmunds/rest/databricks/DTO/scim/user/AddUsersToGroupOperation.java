@@ -22,6 +22,8 @@ import java.util.List;
 
 public class AddUsersToGroupOperation extends Operation {
 
+  private long[] members;
+
   public AddUsersToGroupOperation(long[] members) {
     this.members = members;
     op = "add";
@@ -37,7 +39,5 @@ public class AddUsersToGroupOperation extends Operation {
 
     value = membersMap;
   }
-
-  private long[] members;
 
 }

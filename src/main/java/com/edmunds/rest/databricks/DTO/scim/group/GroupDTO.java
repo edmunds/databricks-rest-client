@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 package com.edmunds.rest.databricks.DTO.scim.group;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 import lombok.Data;
@@ -26,14 +27,14 @@ import lombok.Data;
 @Data
 public class GroupDTO {
 
+  @JsonProperty("schemas")
+  private final String[] schemas = new String[]{"urn:ietf:params:scim:schemas:core:2.0:Group"};
   @JsonProperty("id")
   private long id;
   @JsonProperty("displayName")
   private String display;
   @JsonProperty("members")
   private MemberDTO[] memberDTOS = new MemberDTO[0];
-  @JsonProperty("schemas")
-  private final String[] schemas = new String[]{"urn:ietf:params:scim:schemas:core:2.0:Group"};
 
   public GroupDTO() {
   }
@@ -51,12 +52,12 @@ public class GroupDTO {
 
   @Override
   public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-          return false;
-      }
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     GroupDTO groupDTO = (GroupDTO) o;
     return display.equals(groupDTO.display);
   }

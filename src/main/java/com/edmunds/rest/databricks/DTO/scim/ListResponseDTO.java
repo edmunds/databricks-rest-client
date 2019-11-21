@@ -24,6 +24,8 @@ import lombok.Data;
 @Data
 public class ListResponseDTO<V> {
 
+  @JsonProperty("schemas")
+  private final String[] schemas = new String[]{"urn:ietf:params:scim:api:messages:2.0:ListResponse"};
   @JsonProperty("totalResults")
   private int totalResults;
   @JsonProperty("startIndex")
@@ -32,6 +34,4 @@ public class ListResponseDTO<V> {
   private int itemsPerPage;
   @JsonProperty("Resources")
   private V[] resources;
-  @JsonProperty("schemas")
-  private final String[] schemas = new String[]{"urn:ietf:params:scim:api:messages:2.0:ListResponse"};
 }

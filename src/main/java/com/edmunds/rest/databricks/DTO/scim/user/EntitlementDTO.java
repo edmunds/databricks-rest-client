@@ -25,17 +25,6 @@ import java.util.Map;
 public enum EntitlementDTO implements Serializable {
 
   ALLOW_CLUSTER_CREATE("allow-cluster-create"), ALLOW_INSTANCE_POOL_CREATE("allow-instance-pool-create");
-  private final String value;
-
-  EntitlementDTO(String value) {
-    this.value = value;
-  }
-
-  @Override
-  public String toString() {
-    return this.value;
-  }
-
   private static Map<String, EntitlementDTO> namesMap = new HashMap<>();
 
   static {
@@ -43,17 +32,28 @@ public enum EntitlementDTO implements Serializable {
     namesMap.put("allow-instance-pool-create", ALLOW_INSTANCE_POOL_CREATE);
   }
 
+  private final String value;
+
+  EntitlementDTO(String value) {
+    this.value = value;
+  }
+
   @JsonCreator
   public static EntitlementDTO forValue(String value) {
     return namesMap.get(value);
   }
 
+  @Override
+  public String toString() {
+    return this.value;
+  }
+
   @JsonValue
   public String toValue() {
     for (Map.Entry<String, EntitlementDTO> entry : namesMap.entrySet()) {
-        if (entry.getValue() == this) {
-            return entry.getKey();
-        }
+      if (entry.getValue() == this) {
+        return entry.getKey();
+      }
     }
     return null;
   }

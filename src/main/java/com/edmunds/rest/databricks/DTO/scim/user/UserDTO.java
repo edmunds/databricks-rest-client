@@ -35,22 +35,20 @@ import java.util.Objects;
 
 /**
  * Databricks SCIM user.
- *
  * @see <a href="https://tools.ietf.org/html/rfc7643#section-4.1">https://tools.ietf.org/html/rfc7643#section-4.1</a>
  */
 public class UserDTO {
 
+  @JsonProperty("schemas")
+  private final String[] schemas = new String[]{"urn:ietf:params:scim:schemas:core:2.0:User"};
   @JsonProperty("id")
   private long id;
   @JsonProperty("userName")
   private String userName;
-
   @JsonProperty("name")
   private NameDTO name;
-
   @JsonProperty("emails")
   private EmailDTO[] emails;//can't be actually customized. setting username will create an entry (work,username,primary)
-
   @JsonProperty("active")
   private boolean active = true;
   @JsonSerialize(using = UserGroupSerializer.class)
@@ -60,8 +58,6 @@ public class UserDTO {
   private EntitlementsDTO[] entitlements = new EntitlementsDTO[0];
   @JsonProperty("displayName")
   private String displayName;
-  @JsonProperty("schemas")
-  private final String[] schemas = new String[]{"urn:ietf:params:scim:schemas:core:2.0:User"};
 
   public UserDTO() {
   }
@@ -69,9 +65,9 @@ public class UserDTO {
   public UserDTO(UserDTO from) {
     this.id = from.id;
     this.userName = from.userName;
-      if (from.name != null) {
-          this.name = new NameDTO(from.name);
-      }
+    if (from.name != null) {
+      this.name = new NameDTO(from.name);
+    }
     if (from.emails != null) {
       emails = new EmailDTO[from.emails.length];
       for (int i = 0; i < emails.length; i++) {
@@ -95,52 +91,14 @@ public class UserDTO {
     this.displayName = from.displayName;
   }
 
-  public static class UserGroupSerializer extends JsonSerializer<GroupDTO[]> {
-
-    public UserGroupSerializer() {
-    }
-
-    @Override
-    public void serialize(GroupDTO[] value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-      gen.writeStartArray();
-      for (GroupDTO groupDTO : value) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("display", groupDTO.getDisplay());
-        map.put("value", "" + groupDTO.getId());
-        gen.writeObject(map);
-      }
-      gen.writeEndArray();
-    }
-  }
-
-  public static class UserGroupDeSerializer extends JsonDeserializer<GroupDTO[]> {
-
-    public UserGroupDeSerializer() {
-    }
-
-    @Override
-    public GroupDTO[] deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-      ObjectCodec oc = p.getCodec();
-      ArrayNode node = oc.readTree(p);
-      GroupDTO[] groups = new GroupDTO[node.size()];
-      for (int i = 0; i < node.size(); i++) {
-        JsonNode current = node.get(i);
-        groups[i] = new GroupDTO();
-        groups[i].setId(Long.parseLong(current.get("value").asText()));
-        groups[i].setDisplay(current.get("display").asText());
-      }
-      return groups;
-    }
-  }
-
   @Override
   public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-          return false;
-      }
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     UserDTO userDTO = (UserDTO) o;
     return active == userDTO.active &&
         Objects.equals(userName, userDTO.userName) &&
@@ -228,5 +186,43 @@ public class UserDTO {
 
   private void setDisplayName(String displayName) {
     this.displayName = displayName;
+  }
+
+  public static class UserGroupSerializer extends JsonSerializer<GroupDTO[]> {
+
+    public UserGroupSerializer() {
+    }
+
+    @Override
+    public void serialize(GroupDTO[] value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+      gen.writeStartArray();
+      for (GroupDTO groupDTO : value) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("display", groupDTO.getDisplay());
+        map.put("value", "" + groupDTO.getId());
+        gen.writeObject(map);
+      }
+      gen.writeEndArray();
+    }
+  }
+
+  public static class UserGroupDeSerializer extends JsonDeserializer<GroupDTO[]> {
+
+    public UserGroupDeSerializer() {
+    }
+
+    @Override
+    public GroupDTO[] deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+      ObjectCodec oc = p.getCodec();
+      ArrayNode node = oc.readTree(p);
+      GroupDTO[] groups = new GroupDTO[node.size()];
+      for (int i = 0; i < node.size(); i++) {
+        JsonNode current = node.get(i);
+        groups[i] = new GroupDTO();
+        groups[i].setId(Long.parseLong(current.get("value").asText()));
+        groups[i].setDisplay(current.get("display").asText());
+      }
+      return groups;
+    }
   }
 }
