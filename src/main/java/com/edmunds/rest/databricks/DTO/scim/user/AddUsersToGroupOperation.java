@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim.user;
 
 import com.edmunds.rest.databricks.DTO.scim.Operation;
@@ -24,6 +25,10 @@ public class AddUsersToGroupOperation extends Operation {
 
   private long[] members;
 
+  /**
+   * Builds a new AddUsersToGroupOperation.
+   * @param members array of user identifiers (id's)
+   */
   public AddUsersToGroupOperation(long[] members) {
     this.members = members;
     op = "add";

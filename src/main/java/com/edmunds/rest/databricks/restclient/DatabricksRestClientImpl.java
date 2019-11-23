@@ -134,7 +134,7 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
         .build();
   }
 
-  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException{
+  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException {
     return performQuery(requestMethod, path, Collections.emptyMap());
   }
 

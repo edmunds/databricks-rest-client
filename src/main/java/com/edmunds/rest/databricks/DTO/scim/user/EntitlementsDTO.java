@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim.user;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +27,10 @@ public class EntitlementsDTO {
 
   private EntitlementDTO value;
 
+  /**
+   * Copy constructor.
+   * @param from object to copy from
+   */
   public EntitlementsDTO(EntitlementsDTO from) {
     this.value = from.value;
   }

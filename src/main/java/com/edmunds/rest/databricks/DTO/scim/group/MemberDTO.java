@@ -17,9 +17,11 @@ package com.edmunds.rest.databricks.DTO.scim.group;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class MemberDTO {
 
   @JsonProperty("display")
@@ -30,6 +32,10 @@ public class MemberDTO {
   public MemberDTO() {
   }
 
+  /**
+   * Copy constructor.
+   * @param from object to copy from
+   */
   public MemberDTO(MemberDTO from) {
     this.display = from.display;
     this.value = from.value;
@@ -44,8 +50,8 @@ public class MemberDTO {
       return false;
     }
     MemberDTO memberDTO = (MemberDTO) o;
-    return value == memberDTO.value &&
-        Objects.equals(display, memberDTO.display);
+    return value == memberDTO.value
+        && Objects.equals(display, memberDTO.display);
   }
 
   @Override

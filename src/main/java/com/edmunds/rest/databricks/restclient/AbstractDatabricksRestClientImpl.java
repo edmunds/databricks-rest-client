@@ -127,9 +127,9 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
         return makeDeleteMethod(path);
       case PUT:
         return makePutMethod(path, data);
+      default:
+        throw new IllegalArgumentException(requestMethod + " is not a valid request method");
     }
-
-    throw new IllegalArgumentException(requestMethod + " is not a valid request method");
   }
 
   protected HttpGet makeGetMethod(String path, Map<String, Object> data) {

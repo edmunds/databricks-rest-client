@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
@@ -36,7 +37,6 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
 
   private static final String SCIM_USERS = "/preview/scim/v2/Users";
   private static final String SCIM_GROUPS = "/preview/scim/v2/Groups";
-  private static Logger log = Logger.getLogger(ScimServiceImpl.class);
 
   public ScimServiceImpl(final DatabricksRestClient client) {
     super(client);

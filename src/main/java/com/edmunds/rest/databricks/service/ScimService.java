@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
@@ -23,7 +24,7 @@ import java.io.IOException;
 
 /**
  * The wrapper around the databricks SCIM API. Note that currently the API is in public preview mode - modifications are
- * expected
+ * expected.
  *
  * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#">https://docs.databricks.com/dev-tools/api/latest/scim.html#</a>
  */
@@ -84,7 +85,7 @@ public interface ScimService {
   long createUser(UserDTO userDTO) throws IOException, DatabricksRestException;
 
   /**
-   * Updates an user
+   * Updates an user.
    *
    * @param userDTO POJO representing an user
    * @throws IOException             any other errors

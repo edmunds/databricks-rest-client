@@ -13,13 +13,14 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * Represents a query response as defined by @see <a href="https://tools.ietf.org/html/rfc7644#section-3.4.2">https://tools.ietf.org/html/rfc7644#section-3.4.2</a>
+ * Represents a query response as defined by @see <a href="https://tools.ietf.org/html/rfc7644#section-3.4.2">https://tools.ietf.org/html/rfc7644#section-3.4.2</a> .
  */
 @Data
 public class ListResponseDTO<V> {

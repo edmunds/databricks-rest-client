@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim.user;
 
 import com.edmunds.rest.databricks.DTO.scim.group.GroupDTO;
@@ -35,6 +36,7 @@ import java.util.Objects;
 
 /**
  * Databricks SCIM user.
+ *
  * @see <a href="https://tools.ietf.org/html/rfc7643#section-4.1">https://tools.ietf.org/html/rfc7643#section-4.1</a>
  */
 public class UserDTO {
@@ -47,8 +49,9 @@ public class UserDTO {
   private String userName;
   @JsonProperty("name")
   private NameDTO name;
+  //can't be actually customized for the moment. setting username will create an entry (work,username,primary)
   @JsonProperty("emails")
-  private EmailDTO[] emails;//can't be actually customized. setting username will create an entry (work,username,primary)
+  private EmailDTO[] emails;
   @JsonProperty("active")
   private boolean active = true;
   @JsonSerialize(using = UserGroupSerializer.class)
@@ -62,6 +65,11 @@ public class UserDTO {
   public UserDTO() {
   }
 
+  /**
+   * Builds an user from another one.
+   *
+   * @param from object to copy from
+   */
   public UserDTO(UserDTO from) {
     this.id = from.id;
     this.userName = from.userName;
@@ -69,24 +77,16 @@ public class UserDTO {
       this.name = new NameDTO(from.name);
     }
     if (from.emails != null) {
-      emails = new EmailDTO[from.emails.length];
-      for (int i = 0; i < emails.length; i++) {
-        emails[i] = new EmailDTO(from.emails[i]);
-      }
+      emails = Arrays.copyOf(from.emails, from.emails.length);
     }
 
     this.active = from.active;
     if (from.groups != null) {
-      groups = new GroupDTO[from.groups.length];
-      for (int i = 0; i < groups.length; i++) {
-        groups[i] = new GroupDTO(from.groups[i]);
-      }
+      groups = Arrays.copyOf(from.groups, from.groups.length);
     }
+
     if (from.entitlements != null) {
-      entitlements = new EntitlementsDTO[from.entitlements.length];
-      for (int i = 0; i < entitlements.length; i++) {
-        entitlements[i] = new EntitlementsDTO(from.entitlements[i]);
-      }
+      entitlements = Arrays.copyOf(from.entitlements, from.entitlements.length);
     }
     this.displayName = from.displayName;
   }
@@ -100,12 +100,12 @@ public class UserDTO {
       return false;
     }
     UserDTO userDTO = (UserDTO) o;
-    return active == userDTO.active &&
-        Objects.equals(userName, userDTO.userName) &&
-        Objects.equals(name, userDTO.name) &&
-        Arrays.equals(emails, userDTO.emails) &&
-        Arrays.equals(groups, userDTO.groups) &&
-        Arrays.equals(entitlements, userDTO.entitlements);
+    return active == userDTO.active
+        && Objects.equals(userName, userDTO.userName)
+        && Objects.equals(name, userDTO.name)
+        && Arrays.equals(emails, userDTO.emails)
+        && Arrays.equals(groups, userDTO.groups)
+        && Arrays.equals(entitlements, userDTO.entitlements);
   }
 
   @Override
@@ -119,17 +119,17 @@ public class UserDTO {
 
   @Override
   public String toString() {
-    return "UserDTO{" +
-        "id=" + id +
-        ", userName='" + userName + '\'' +
-        ", name=" + name +
-        ", emails=" + Arrays.toString(emails) +
-        ", active=" + active +
-        ", groups=" + Arrays.toString(groups) +
-        ", entitlements=" + Arrays.toString(entitlements) +
-        ", displayName='" + displayName + '\'' +
-        ", schemas=" + Arrays.toString(schemas) +
-        '}';
+    return "UserDTO{"
+        + "id=" + id
+        + ", userName='" + userName + '\''
+        + ", name=" + name
+        + ", emails=" + Arrays.toString(emails)
+        + ", active=" + active
+        + ", groups=" + Arrays.toString(groups)
+        + ", entitlements=" + Arrays.toString(entitlements)
+        + ", displayName='" + displayName + '\''
+        + ", schemas=" + Arrays.toString(schemas)
+        + '}';
   }
 
   public long getId() {
@@ -149,6 +149,11 @@ public class UserDTO {
     emails = new EmailDTO[]{new EmailDTO("work", userName, true)};
   }
 
+  /**
+   * Set user name family and given name.
+   * @param familyName family name
+   * @param givenName given name
+   */
   public void setNameDetails(String familyName, String givenName) {
     name = new NameDTO();
     name.setFamilyName(familyName);

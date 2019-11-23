@@ -18,6 +18,7 @@ package com.edmunds.rest.databricks.DTO.scim;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+
 @Data
 public class OperationsDTO {
 

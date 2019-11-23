@@ -13,11 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * Used for SCIM patch operations as defined by
+ * @see <a href="https://tools.ietf.org/html/rfc7644#section-3.5.2">https://tools.ietf.org/html/rfc7644#section-3.5.2</a> .
+ * Each operation has one "op" member (add, remove or replace), path (optional for add/replace, mandatory for remove)
+ * and value (specific for each particular operation).
+ */
 @Data
 public abstract class Operation {
 

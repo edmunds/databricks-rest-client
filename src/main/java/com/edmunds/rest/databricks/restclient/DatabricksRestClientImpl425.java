@@ -113,7 +113,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
   }
 
   @Override
-  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException{
+  public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException {
     return performQuery(requestMethod, path, Collections.emptyMap());
   }
 

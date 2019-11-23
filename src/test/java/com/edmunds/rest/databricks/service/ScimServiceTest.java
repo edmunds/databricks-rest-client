@@ -70,7 +70,7 @@ public class ScimServiceTest {
         idUSer1 = 0;
       }
     } catch (Exception e) {
-      //ignore
+      System.err.println("exception during delete users, the test database was not properly cleaned up "+e.getMessage());
     }
 
   }
@@ -82,7 +82,7 @@ public class ScimServiceTest {
         idGroup1 = 0;
       }
     } catch (Exception e) {
-      //ignore
+      System.err.println("exception during delete groups, the test database was not properly cleaned up "+e.getMessage());
     }
   }
 

@@ -16,13 +16,14 @@
 package com.edmunds.rest.databricks.DTO.scim.group;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 import java.util.Objects;
 import lombok.Data;
 
 /**
  * Databricks SCIM Group.
  *
- * @see <a href="https://tools.ietf.org/html/rfc7643#section-4.2">https://tools.ietf.org/html/rfc7643#section-4.2</a>
+ * @see <a href="https://tools.ietf.org/html/rfc7643#section-4.2">https://tools.ietf.org/html/rfc7643#section-4.2</a> .
  */
 @Data
 public class GroupDTO {
@@ -39,14 +40,15 @@ public class GroupDTO {
   public GroupDTO() {
   }
 
+  /**
+   * Creates a group from another one.
+   * @param from object to copy from
+   */
   public GroupDTO(GroupDTO from) {
     this.id = from.id;
     this.display = from.display;
     if (from.memberDTOS != null) {
-      memberDTOS = new MemberDTO[from.memberDTOS.length];
-      for (int i = 0; i < memberDTOS.length; i++) {
-        memberDTOS[i] = new MemberDTO(from.memberDTOS[i]);
-      }
+      memberDTOS = Arrays.copyOf(from.memberDTOS, from.memberDTOS.length);
     }
   }
 
@@ -59,11 +61,11 @@ public class GroupDTO {
       return false;
     }
     GroupDTO groupDTO = (GroupDTO) o;
-    return display.equals(groupDTO.display);
+    return id == groupDTO.id;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(display);
+    return Objects.hash(id);
   }
 }

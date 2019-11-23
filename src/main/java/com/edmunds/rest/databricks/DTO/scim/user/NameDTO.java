@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim.user;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +32,10 @@ public class NameDTO {
   private String honorificPrefix;
   private String honorificSuffix;
 
+  /**
+   * Builds an namedto from another one.
+   * @param from object to copy from
+   */
   public NameDTO(NameDTO from) {
     this.formatted = from.formatted;
     this.familyName = from.familyName;

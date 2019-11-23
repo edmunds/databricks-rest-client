@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 package com.edmunds.rest.databricks.DTO.scim.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,6 +39,11 @@ public enum EntitlementDTO implements Serializable {
     this.value = value;
   }
 
+  /**
+   * Used for jackson deserialization.
+   * @param value string
+   * @return deserialized entitlement
+   */
   @JsonCreator
   public static EntitlementDTO forValue(String value) {
     return namesMap.get(value);
@@ -48,6 +54,10 @@ public enum EntitlementDTO implements Serializable {
     return this.value;
   }
 
+  /**
+   * Used for jackson serialization.
+   * @return serialized entitlement
+   */
   @JsonValue
   public String toValue() {
     for (Map.Entry<String, EntitlementDTO> entry : namesMap.entrySet()) {
@@ -55,6 +65,6 @@ public enum EntitlementDTO implements Serializable {
         return entry.getKey();
       }
     }
-    return null;
+    throw new IllegalStateException("entitlement value can't be serialized for internal problems (most likely a bug)");
   }
 }
