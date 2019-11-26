@@ -63,12 +63,16 @@ public class ClusterInfoDTO implements Serializable {
   private Map<String, String> customTags;
   @Getter @Setter @JsonProperty("cluster_log_conf")
   private ClusterLogConfDTO clusterLogConf;
+  @Getter @Setter @JsonProperty("init_scripts")
+  private InitScriptInfoDTO[] initScripts;
   @Getter @Setter @JsonProperty("spark_env_vars")
   private Map<String, String> sparkEnvVars;
   @Getter @Setter @JsonProperty("autotermination_minutes")
   private int autoTerminationMinutes;
   @Getter @Setter @JsonProperty("enable_elastic_disk")
   private boolean enableElasticDisk;
+  @Getter @Setter @JsonProperty("instance_pool_id")
+  private String instancePoolId;
   @Getter @Setter @JsonProperty("cluster_source")
   private ClusterSourceDTO clusterSource;
   @Getter @Setter @JsonProperty("state")
@@ -93,6 +97,4 @@ public class ClusterInfoDTO implements Serializable {
   private LogSyncStatusDTO clusterLogStatus;
   @Getter @Setter @JsonProperty("termination_reason")
   private TerminationReasonDTO terminationReason;
-  @Getter @Setter @JsonProperty("enable_jdbc_auto_start")
-  private boolean enableJdbcAutoStart;
 }

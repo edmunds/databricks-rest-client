@@ -27,37 +27,35 @@ import lombok.Setter;
  *
  */
 @Data
-public class ClusterAttributesDTO implements Serializable {
+public class InstancePoolAndStatsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("cluster_name")
-  private String clusterName;
-  @Getter @Setter @JsonProperty("spark_version")
-  private String sparkVersion;
-  @Getter @Setter @JsonProperty("spark_conf")
-  private Map<String, String> sparkConf;
+  @Getter @Setter @JsonProperty("instance_pool_name")
+  private String instancePoolName;
+  @Getter @Setter @JsonProperty("min_idle_instances")
+  private int minIdleInstances;
+  @Getter @Setter @JsonProperty("max_capacity")
+  private int maxCapacity;
   @Getter @Setter @JsonProperty("aws_attributes")
-  private AwsAttributesDTO awsAttributes;
+  private InstancePoolAwsAttributesDTO awsAttributes;
   @Getter @Setter @JsonProperty("node_type_id")
   private String nodeTypeId;
-  @Getter @Setter @JsonProperty("driver_node_type_id")
-  private String driverNodeTypeId;
-  @Getter @Setter @JsonProperty("ssh_public_keys")
-  private String[] sshPublicKeys;
   @Getter @Setter @JsonProperty("custom_tags")
   private Map<String, String> customTags;
-  @Getter @Setter @JsonProperty("cluster_log_conf")
-  private ClusterLogConfDTO clusterLogConf;
-  @Getter @Setter @JsonProperty("init_scripts")
-  private InitScriptInfoDTO[] initScripts;
-  @Getter @Setter @JsonProperty("spark_env_vars")
-  private Map<String, String> sparkEnvVars;
-  @Getter @Setter @JsonProperty("autotermination_minutes")
-  private int autoTerminationMinutes;
+  @Getter @Setter @JsonProperty("idle_instance_autotermination_minutes")
+  private int idleInstanceAutoterminationMinutes;
   @Getter @Setter @JsonProperty("enable_elastic_disk")
   private boolean enableElasticDisk;
+  @Getter @Setter @JsonProperty("disk_spec")
+  private DiskSpecDTO diskSpec;
+  @Getter @Setter @JsonProperty("preloaded_spark_versions")
+  private String[] preloadedSparkVersions;
   @Getter @Setter @JsonProperty("instance_pool_id")
   private String instancePoolId;
-  @Getter @Setter @JsonProperty("cluster_source")
-  private ClusterSourceDTO clusterSource;
+  @Getter @Setter @JsonProperty("default_tags")
+  private Map<String, String> defaultTags;
+  @Getter @Setter
+  private InstancePoolStateDTO state;
+  @Getter @Setter
+  private InstancePoolStatsDTO stats;
 
 }

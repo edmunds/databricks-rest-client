@@ -28,7 +28,7 @@ public enum TriggerTypeDTO implements Serializable {
 
   private String value;
 
-  private TriggerTypeDTO(String value) {
+  TriggerTypeDTO(String value) {
     this.value = value;
   }
 
