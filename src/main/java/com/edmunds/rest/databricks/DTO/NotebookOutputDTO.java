@@ -29,4 +29,6 @@ public class NotebookOutputDTO implements Serializable {
 
   @Getter @Setter
   private String result;
+  @Getter @Setter
+  private boolean truncated;
 }

@@ -29,18 +29,10 @@ import lombok.Setter;
 @Data
 public class JobSettingsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("name")
-  private String name;
-  @Getter @Setter @JsonProperty("new_cluster")
-  private NewClusterDTO newCluster;
   @Getter @Setter @JsonProperty("existing_cluster_id")
   private String existingClusterId;
-  @Getter @Setter @JsonProperty("email_notifications")
-  private JobEmailNotificationsDTO emailNotifications;
-  @Getter @Setter @JsonProperty("timeout_seconds")
-  private Long timeoutSeconds;
-  @Getter @Setter @JsonProperty("schedule")
-  private CronScheduleDTO schedule;
+  @Getter @Setter @JsonProperty("new_cluster")
+  private NewClusterDTO newCluster;
   @Getter @Setter @JsonProperty("notebook_task")
   private NotebookTaskDTO notebookTask;
   @Getter @Setter @JsonProperty("spark_jar_task")
@@ -49,14 +41,22 @@ public class JobSettingsDTO implements Serializable {
   private SparkPythonTaskDTO sparkPythonTask;
   @Getter @Setter @JsonProperty("spark_submit_task")
   private SparkSubmitTaskDTO sparkSubmitTask;
-  @Getter @Setter @JsonProperty("retry_on_timeout")
-  private boolean retryOnTimeout;
+  @Getter @Setter @JsonProperty("name")
+  private String name;
+  @Getter @Setter @JsonProperty("libraries")
+  private LibraryDTO[] libraries;
+  @Getter @Setter @JsonProperty("email_notifications")
+  private JobEmailNotificationsDTO emailNotifications;
+  @Getter @Setter @JsonProperty("timeout_seconds")
+  private Long timeoutSeconds;
   @Getter @Setter @JsonProperty("max_retries")
   private Integer maxRetries;
   @Getter @Setter @JsonProperty("min_retry_interval_millis")
   private Long minRetryIntervalMillis;
-  @Getter @Setter @JsonProperty("libraries")
-  private LibraryDTO[] libraries;
+  @Getter @Setter @JsonProperty("retry_on_timeout")
+  private boolean retryOnTimeout;
+  @Getter @Setter @JsonProperty("schedule")
+  private CronScheduleDTO schedule;
   @Getter @Setter @JsonProperty("max_concurrent_runs")
   private Integer maxConcurrentRuns;
 }

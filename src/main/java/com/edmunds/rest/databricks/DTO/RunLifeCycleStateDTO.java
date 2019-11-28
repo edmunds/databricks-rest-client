@@ -31,7 +31,7 @@ public enum RunLifeCycleStateDTO implements Serializable {
 
   private String value;
 
-  private RunLifeCycleStateDTO(String value) {
+  RunLifeCycleStateDTO(String value) {
     this.value = value;
   }
 

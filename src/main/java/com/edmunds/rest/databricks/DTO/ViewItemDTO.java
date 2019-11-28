@@ -18,6 +18,8 @@ package com.edmunds.rest.databricks.DTO;
 
 import java.io.Serializable;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,31 +27,11 @@ import lombok.Data;
 @Data
 public class ViewItemDTO implements Serializable {
 
+  @Getter @Setter
   private String content;
+  @Getter @Setter
   private String name;
+  @Getter @Setter
   private ViewTypeDTO type;
 
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public ViewTypeDTO getType() {
-    return type;
-  }
-
-  public void setType(ViewTypeDTO type) {
-    this.type = type;
-  }
 }

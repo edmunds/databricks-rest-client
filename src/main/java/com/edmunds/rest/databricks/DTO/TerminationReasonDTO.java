@@ -33,20 +33,4 @@ public class TerminationReasonDTO implements Serializable {
   private TerminationCodeDTO code;
   @Getter @Setter @JsonProperty("parameters")
   private Map<String, String> parameters;
-
-  public TerminationCodeDTO getCode() {
-    return code;
-  }
-
-  public void setCode(TerminationCodeDTO code) {
-    this.code = code;
-  }
-
-  public Map<String, String> getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(Map<String, String> parameters) {
-    this.parameters = parameters;
-  }
 }

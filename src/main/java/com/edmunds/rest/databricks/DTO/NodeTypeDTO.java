@@ -40,4 +40,6 @@ public class NodeTypeDTO implements Serializable {
   private String instanceTypeId;
   @Getter @Setter @JsonProperty("is_deprecated")
   private boolean isDeprecated;
+  @Getter @Setter @JsonProperty("node_info")
+  private ClusterCloudProviderNodeInfoDTO nodeInfo;
 }

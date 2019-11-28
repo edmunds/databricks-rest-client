@@ -33,19 +33,4 @@ public class CronScheduleDTO implements Serializable {
   @Getter @Setter @JsonProperty("timezone_id")
   private String timezoneId;
 
-  public String getQuartzCronExpression() {
-    return quartzCronExpression;
-  }
-
-  public void setQuartzCronExpression(String quartzCronExpression) {
-    this.quartzCronExpression = quartzCronExpression;
-  }
-
-  public String getTimezoneId() {
-    return timezoneId;
-  }
-
-  public void setTimezoneId(String timezoneId) {
-    this.timezoneId = timezoneId;
-  }
 }

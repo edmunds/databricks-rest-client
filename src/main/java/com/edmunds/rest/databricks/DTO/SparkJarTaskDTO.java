@@ -25,7 +25,6 @@ import lombok.Setter;
 /**
  *
  */
-@SuppressWarnings("PMD")
 @Data
 public class SparkJarTaskDTO implements Serializable {
 
@@ -35,6 +34,4 @@ public class SparkJarTaskDTO implements Serializable {
   private String mainClassName;
   @Getter @Setter
   private String[] parameters;
-  @Getter @Setter @JsonProperty("run_as_repl")
-  private boolean runAsRepl;
 }

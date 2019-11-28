@@ -28,11 +28,13 @@ import lombok.Setter;
 public class LibraryDTO implements Serializable {
 
   @Getter @Setter
-  private PythonPyPiLibraryDTO pypi;
+  private String jar;
   @Getter @Setter
   private String egg;
   @Getter @Setter
-  private String jar;
+  private String whl;
+  @Getter @Setter
+  private PythonPyPiLibraryDTO pypi;
   @Getter @Setter
   private MavenLibraryDTO maven;
   @Getter @Setter

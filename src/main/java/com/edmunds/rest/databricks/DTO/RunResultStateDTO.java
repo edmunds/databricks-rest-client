@@ -29,7 +29,7 @@ public enum RunResultStateDTO implements Serializable {
 
   private String value;
 
-  private RunResultStateDTO(String value) {
+  RunResultStateDTO(String value) {
     this.value = value;
   }
 
