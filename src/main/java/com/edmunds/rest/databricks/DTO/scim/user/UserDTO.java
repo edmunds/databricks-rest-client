@@ -29,12 +29,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import lombok.*;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Databricks SCIM user.
@@ -112,8 +114,9 @@ public class UserDTO {
 
   /**
    * Set user name family and given name.
+   *
    * @param familyName family name
-   * @param givenName given name
+   * @param givenName  given name
    */
   public void setNameDetails(String familyName, String givenName) {
     name = new NameDTO();
