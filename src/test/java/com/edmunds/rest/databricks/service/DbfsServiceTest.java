@@ -17,7 +17,7 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.DbfsReadDTO;
-import com.edmunds.rest.databricks.DTO.FileInfoDTO;
+import com.edmunds.rest.databricks.DTO.dbfs.FileInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;

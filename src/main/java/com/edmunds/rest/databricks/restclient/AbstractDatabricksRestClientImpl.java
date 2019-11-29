@@ -59,6 +59,7 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * Creates a rest client.
+   *
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
@@ -70,6 +71,7 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * Creates a rest client.
+   *
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
@@ -78,16 +80,20 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
    *                                Whether or not methods that have successfully sent their request will be retried
    */
   public AbstractDatabricksRestClientImpl(
-          String host,
-          String apiVersion,
-          int maxRetry,
-          long retryInterval,
-          boolean requestSentRetryEnabled
+      String host,
+      String apiVersion,
+      int maxRetry,
+      long retryInterval,
+      boolean requestSentRetryEnabled
   ) {
     this.host = host;
     this.apiVersion = apiVersion;
     this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, requestSentRetryEnabled);
     this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
+  }
+
+  static boolean isNotEmpty(String str) {
+    return str != null && str.length() > 0;
   }
 
   protected byte[] extractContent(HttpResponse httpResponse)
@@ -184,10 +190,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     logger.info(body);
 
     return new StringEntity(body);
-  }
-
-  static boolean isNotEmpty(String str) {
-    return str != null && str.length() > 0;
   }
 
 }

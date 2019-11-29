@@ -19,8 +19,6 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -28,8 +26,9 @@ import lombok.Setter;
 @Data
 public class RunNowDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("run_id")
+  @JsonProperty("run_id")
   private long runId;
-  @Getter @Setter @JsonProperty("number_in_job")
+  @JsonProperty("number_in_job")
   private long numberInJob;
+
 }

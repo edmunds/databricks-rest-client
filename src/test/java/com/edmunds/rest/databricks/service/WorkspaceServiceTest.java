@@ -16,26 +16,25 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
-import com.edmunds.rest.databricks.DTO.LanguageDTO;
-import com.edmunds.rest.databricks.DTO.ObjectInfoDTO;
-import com.edmunds.rest.databricks.DTO.ObjectTypeDTO;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
+import com.edmunds.rest.databricks.DTO.workspace.LanguageDTO;
+import com.edmunds.rest.databricks.DTO.workspace.ObjectInfoDTO;
+import com.edmunds.rest.databricks.DTO.workspace.ObjectTypeDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.ExportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
-import org.apache.commons.codec.binary.Base64;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.apache.commons.codec.binary.Base64;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  *

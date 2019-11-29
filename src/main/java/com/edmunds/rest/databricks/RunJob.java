@@ -16,12 +16,12 @@
 
 package com.edmunds.rest.databricks;
 
-import com.edmunds.rest.databricks.DTO.RunDTO;
-import com.edmunds.rest.databricks.DTO.RunLifeCycleStateDTO;
 import com.edmunds.rest.databricks.DTO.RunNowDTO;
-import com.edmunds.rest.databricks.DTO.RunParametersDTO;
-import com.edmunds.rest.databricks.DTO.RunResultStateDTO;
-import com.edmunds.rest.databricks.DTO.RunStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunLifeCycleStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunResultStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunStateDTO;
 import com.edmunds.rest.databricks.service.JobService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +67,7 @@ public class RunJob {
 
   /**
    * Monitor the job.
+   *
    * @return throws DatabricksRestException if job do not succeed.
    */
   public RunResultStateDTO process()
@@ -99,6 +100,7 @@ public class RunJob {
 
   /**
    * Launch the job on databricks.
+   *
    * @return a RunNowDTO object.
    */
   public RunNowDTO launchJob() throws IOException, DatabricksRestException {

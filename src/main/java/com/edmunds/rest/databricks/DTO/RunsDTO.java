@@ -16,11 +16,10 @@
 
 package com.edmunds.rest.databricks.DTO;
 
+import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -29,9 +28,9 @@ import lombok.Setter;
 @Data
 public class RunsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("runs")
+  @JsonProperty("runs")
   private RunDTO[] runs;
-  @Getter @Setter @JsonProperty("has_more")
+  @JsonProperty("has_more")
   private boolean hasMore;
 
 }

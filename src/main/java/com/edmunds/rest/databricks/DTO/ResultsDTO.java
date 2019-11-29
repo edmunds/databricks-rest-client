@@ -19,8 +19,6 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -29,18 +27,19 @@ import lombok.Setter;
 @Data
 public class ResultsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("resultType")
+  @JsonProperty("resultType")
   private String resultType;
-  @Getter @Setter @JsonProperty("data")
+  @JsonProperty("data")
   private Object data;
-  @Getter @Setter @JsonProperty("schema")
+  @JsonProperty("schema")
   private Object schema;
-  @Getter @Setter @JsonProperty("truncated")
+  @JsonProperty("truncated")
   private boolean truncated;
-  @Getter @Setter @JsonProperty("isJsonSchema")
+  @JsonProperty("isJsonSchema")
   private boolean isJsonSchema;
-  @Getter @Setter @JsonProperty("summary")
+  @JsonProperty("summary")
   private String summary;
-  @Getter @Setter @JsonProperty("cause")
+  @JsonProperty("cause")
   private String cause;
+
 }

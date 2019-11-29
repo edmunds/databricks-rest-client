@@ -20,7 +20,7 @@
 
     <groupId>com.edmunds</groupId>
     <artifactId>databricks-rest-client</artifactId>
-    <version>2.4.3-SNAPSHOT</version>
+    <version>2.5.1-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A simple java rest client to interact with the Databricks Rest Service
@@ -129,7 +129,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <excludes>com/edmunds/rest/databricks/DTO/*</excludes>
+                            <excludes>com/edmunds/rest/databricks/DTO/**</excludes>
                             <configLocation>checkstyle/google_checkstyle.xml</configLocation>
                             <useFile>checkstyle-errors.xml</useFile>
                             <encoding>UTF-8</encoding>

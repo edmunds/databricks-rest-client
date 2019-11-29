@@ -16,14 +16,14 @@
 
 package com.edmunds.rest.databricks;
 
-import com.edmunds.rest.databricks.DTO.ExportFormatDTO;
-import com.edmunds.rest.databricks.DTO.JobDTO;
-import com.edmunds.rest.databricks.DTO.JobSettingsDTO;
-import com.edmunds.rest.databricks.DTO.LanguageDTO;
-import com.edmunds.rest.databricks.DTO.NotebookTaskDTO;
-import com.edmunds.rest.databricks.DTO.RunDTO;
-import com.edmunds.rest.databricks.DTO.RunLifeCycleStateDTO;
-import com.edmunds.rest.databricks.DTO.RunResultStateDTO;
+import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
+import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
+import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
+import com.edmunds.rest.databricks.DTO.workspace.LanguageDTO;
+import com.edmunds.rest.databricks.DTO.jobs.NotebookTaskDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunLifeCycleStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunResultStateDTO;
 import com.edmunds.rest.databricks.DTO.RunsDTO;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;

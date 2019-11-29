@@ -24,12 +24,12 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
-import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
-import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
-import com.edmunds.rest.databricks.DTO.ClusterStateDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AwsAttributesDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterStateDTO;
 import com.edmunds.rest.databricks.DTO.EbsVolumeTypeDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;

@@ -16,11 +16,11 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
-import com.edmunds.rest.databricks.DTO.LibraryDTO;
-import com.edmunds.rest.databricks.DTO.LibraryFullStatusDTO;
-import com.edmunds.rest.databricks.DTO.LibraryInstallStatusDTO;
-import com.edmunds.rest.databricks.DTO.MavenLibraryDTO;
+import com.edmunds.rest.databricks.DTO.libraries.ClusterLibraryStatusesDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryFullStatusDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryInstallStatusDTO;
+import com.edmunds.rest.databricks.DTO.libraries.MavenLibraryDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.TestUtil;

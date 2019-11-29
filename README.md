@@ -20,17 +20,17 @@ Here are the current Endpoints that are supported:
 
 - Cluster Service
 
-- Dbfs Service
+- DBFS Service
+
+- Groups Service
+
+- Instance Profiles Service
 
 - Job Service
 
 - Library Service
 
 - Workspace Service
-
-- Groups Service
-
-- Instance Profiles Service
 
 Please look at the javadocs for the specific service to get more detailed information on what
 functionality is currently available.

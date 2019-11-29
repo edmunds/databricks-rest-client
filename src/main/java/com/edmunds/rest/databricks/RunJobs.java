@@ -18,9 +18,9 @@ package com.edmunds.rest.databricks;
 
 import static java.lang.Thread.sleep;
 
-import com.edmunds.rest.databricks.DTO.RunDTO;
-import com.edmunds.rest.databricks.DTO.RunLifeCycleStateDTO;
-import com.edmunds.rest.databricks.DTO.RunResultStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunLifeCycleStateDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunResultStateDTO;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;

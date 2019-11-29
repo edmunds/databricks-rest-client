@@ -16,8 +16,8 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
-import com.edmunds.rest.databricks.DTO.LibraryDTO;
+import com.edmunds.rest.databricks.DTO.libraries.ClusterLibraryStatusesDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import java.io.IOException;
 

@@ -19,8 +19,6 @@ package com.edmunds.rest.databricks.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -28,9 +26,8 @@ import lombok.Setter;
 @Data
 public class DbfsReadDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("bytes_read")
+  @JsonProperty("bytes_read")
   private long bytesRead;
-  @Getter @Setter
   private byte[] data;
 
 }

@@ -16,8 +16,8 @@
 
 package com.edmunds.rest.databricks;
 
-import com.edmunds.rest.databricks.DTO.JobDTO;
-import com.edmunds.rest.databricks.DTO.RunParametersDTO;
+import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTO;
 import com.edmunds.rest.databricks.service.JobService;
 import java.io.IOException;
 import org.apache.commons.cli.ParseException;
@@ -52,8 +52,8 @@ public class JobRunner {
   }
 
   /**
-   * Runs a job on databricks.
-   * Will monitor its status.
+   * Runs a job on databricks. Will monitor its status.
+   *
    * @throws IOException other errors
    * @throws DatabricksRestException any databricks server errors including if the job failed.
    * @throws InterruptedException thread interruption
