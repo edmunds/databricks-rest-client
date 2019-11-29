@@ -17,7 +17,6 @@ package com.edmunds.rest.databricks.DTO.scim.group;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
-import java.util.Objects;
 import lombok.Data;
 
 /**
@@ -42,6 +41,7 @@ public class GroupDTO {
 
   /**
    * Creates a group from another one.
+   *
    * @param from object to copy from
    */
   public GroupDTO(GroupDTO from) {
@@ -52,20 +52,4 @@ public class GroupDTO {
     }
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    GroupDTO groupDTO = (GroupDTO) o;
-    return id == groupDTO.id;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
 }

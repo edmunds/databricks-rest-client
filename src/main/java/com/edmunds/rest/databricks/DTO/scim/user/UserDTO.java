@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import lombok.*;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,17 +41,29 @@ import java.util.Objects;
  *
  * @see <a href="https://tools.ietf.org/html/rfc7643#section-4.1">https://tools.ietf.org/html/rfc7643#section-4.1</a>
  */
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "schemas")
+//note - it's not very clear what's the schema to be used right now - the documentation shows a different
+//value compared with the actual implementation so in this version schemas is not used for eq/hashcode
+@ToString
 public class UserDTO {
 
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   @JsonProperty("schemas")
   private final String[] schemas = new String[]{"urn:ietf:params:scim:schemas:core:2.0:User"};
   @JsonProperty("id")
   private long id;
   @JsonProperty("userName")
   private String userName;
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   @JsonProperty("name")
   private NameDTO name;
   //can't be actually customized for the moment. setting username will create an entry (work,username,primary)
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   @JsonProperty("emails")
   private EmailDTO[] emails;
   @JsonProperty("active")
@@ -91,59 +105,6 @@ public class UserDTO {
     this.displayName = from.displayName;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserDTO userDTO = (UserDTO) o;
-    return active == userDTO.active
-        && Objects.equals(userName, userDTO.userName)
-        && Objects.equals(name, userDTO.name)
-        && Arrays.equals(emails, userDTO.emails)
-        && Arrays.equals(groups, userDTO.groups)
-        && Arrays.equals(entitlements, userDTO.entitlements);
-  }
-
-  @Override
-  public int hashCode() {
-    int result = Objects.hash(userName, name, active);
-    result = 31 * result + Arrays.hashCode(emails);
-    result = 31 * result + Arrays.hashCode(groups);
-    result = 31 * result + Arrays.hashCode(entitlements);
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return "UserDTO{"
-        + "id=" + id
-        + ", userName='" + userName + '\''
-        + ", name=" + name
-        + ", emails=" + Arrays.toString(emails)
-        + ", active=" + active
-        + ", groups=" + Arrays.toString(groups)
-        + ", entitlements=" + Arrays.toString(entitlements)
-        + ", displayName='" + displayName + '\''
-        + ", schemas=" + Arrays.toString(schemas)
-        + '}';
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
   public void setUserName(String userName) {
     this.userName = userName;
     emails = new EmailDTO[]{new EmailDTO("work", userName, true)};
@@ -159,38 +120,6 @@ public class UserDTO {
     name.setFamilyName(familyName);
     name.setGivenName(givenName);
     setDisplayName(givenName + " " + familyName);
-  }
-
-  public boolean isActive() {
-    return active;
-  }
-
-  public void setActive(boolean active) {
-    this.active = active;
-  }
-
-  public GroupDTO[] getGroups() {
-    return groups;
-  }
-
-  public void setGroups(GroupDTO[] groups) {
-    this.groups = groups;
-  }
-
-  public EntitlementsDTO[] getEntitlements() {
-    return entitlements;
-  }
-
-  public void setEntitlements(EntitlementsDTO[] entitlements) {
-    this.entitlements = entitlements;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  private void setDisplayName(String displayName) {
-    this.displayName = displayName;
   }
 
   public static class UserGroupSerializer extends JsonSerializer<GroupDTO[]> {
