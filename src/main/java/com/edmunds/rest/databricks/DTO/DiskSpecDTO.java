@@ -18,7 +18,6 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +26,13 @@ import lombok.Setter;
  *
  */
 @Data
-public class NotebookTaskDTO implements Serializable {
+public class DiskSpecDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("notebook_path")
-  private String notebookPath;
-  @Getter @Setter @JsonProperty("base_parameters")
-  private Map<String, String> baseParameters;
+  @Getter @Setter @JsonProperty("disk_type")
+  private DiskTypeDTO diskType;
+  @Getter @Setter @JsonProperty("disk_count")
+  private int diskCount;
+  @Getter @Setter @JsonProperty("disk_size")
+  private int diskSize;
 
-  // custom parameters
-  @Getter @Setter @JsonProperty("revision_timestamp")
-  private long revisionTimestamp;
 }

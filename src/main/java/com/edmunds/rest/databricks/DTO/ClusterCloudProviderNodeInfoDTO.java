@@ -18,7 +18,6 @@ package com.edmunds.rest.databricks.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +26,13 @@ import lombok.Setter;
  *
  */
 @Data
-public class NotebookTaskDTO implements Serializable {
+public class ClusterCloudProviderNodeInfoDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("notebook_path")
-  private String notebookPath;
-  @Getter @Setter @JsonProperty("base_parameters")
-  private Map<String, String> baseParameters;
+  @Getter @Setter
+  private ClusterCloudProviderNodeStatusDTO status;
+  @Getter @Setter @JsonProperty("available_core_quota")
+  private int availableCoreQuota;
+  @Getter @Setter @JsonProperty("total_core_quota")
+  private int totalCoreQuota;
 
-  // custom parameters
-  @Getter @Setter @JsonProperty("revision_timestamp")
-  private long revisionTimestamp;
 }

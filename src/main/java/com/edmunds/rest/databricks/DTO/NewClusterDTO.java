@@ -30,20 +30,20 @@ import lombok.Setter;
 @Data
 public class NewClusterDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("spark_version")
-  private String sparkVersion;
-  @Getter @Setter @JsonProperty("aws_attributes")
-  private AwsAttributesDTO awsAttributes;
-  @Getter @Setter @JsonProperty("node_type_id")
-  private String nodeTypeId;
   @Getter @Setter @JsonProperty("num_workers")
   private int numWorkers;
   @Getter @Setter @JsonProperty("autoscale")
   private AutoScaleDTO autoScale;
   @Getter @Setter @JsonProperty("cluster_name")
   private String clusterName;
+  @Getter @Setter @JsonProperty("spark_version")
+  private String sparkVersion;
   @Getter @Setter @JsonProperty("spark_conf")
   private Map<String, String> sparkConf;
+  @Getter @Setter @JsonProperty("aws_attributes")
+  private AwsAttributesDTO awsAttributes;
+  @Getter @Setter @JsonProperty("node_type_id")
+  private String nodeTypeId;
   @Getter @Setter @JsonProperty("driver_node_type_id")
   private String driverNodeTypeId;
   @Getter @Setter @JsonProperty("ssh_public_keys")
@@ -52,12 +52,18 @@ public class NewClusterDTO implements Serializable {
   private Map<String, String> customTags;
   @Getter @Setter @JsonProperty("cluster_log_conf")
   private ClusterLogConfDTO clusterLogConf;
+  @Getter @Setter @JsonProperty("init_scripts")
+  private InitScriptInfoDTO initScripts;
   @Getter @Setter @JsonProperty("spark_env_vars")
   private Map<String, String> sparkEnvVars;
-  @Getter @Setter @JsonProperty("autotermination_minutes")
-  private int autoTerminationMinutes;
   @Getter @Setter @JsonProperty("enable_elastic_disk")
   private boolean enableElasticDisk;
+  @Getter @Setter @JsonProperty("instance_pool_id")
+  private String instancePoolId;
+
+  // custom parameters
+  @Getter @Setter @JsonProperty("autotermination_minutes")
+  private int autoTerminationMinutes;
   @Getter @Setter @JsonProperty("artifact_paths")
   private Collection<String> artifactPaths;
 

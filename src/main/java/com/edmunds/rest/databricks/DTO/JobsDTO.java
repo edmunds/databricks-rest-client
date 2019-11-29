@@ -32,11 +32,4 @@ public class JobsDTO implements Serializable {
   @Getter @Setter @JsonProperty("jobs")
   private JobDTO[] jobs;
 
-  public JobDTO[] getJobs() {
-    return jobs;
-  }
-
-  public void setJobs(JobDTO[] jobs) {
-    this.jobs = jobs;
-  }
 }

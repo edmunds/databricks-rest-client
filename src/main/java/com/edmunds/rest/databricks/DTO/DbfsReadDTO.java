@@ -30,21 +30,7 @@ public class DbfsReadDTO implements Serializable {
 
   @Getter @Setter @JsonProperty("bytes_read")
   private long bytesRead;
+  @Getter @Setter
   private byte[] data;
 
-  public long getBytesRead() {
-    return bytesRead;
-  }
-
-  public void setBytesRead(long bytesRead) {
-    this.bytesRead = bytesRead;
-  }
-
-  public byte[] getData() {
-    return data;
-  }
-
-  public void setData(byte[] data) {
-    this.data = data;
-  }
 }

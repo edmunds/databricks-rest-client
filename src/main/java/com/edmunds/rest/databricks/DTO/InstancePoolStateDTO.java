@@ -16,25 +16,23 @@
 
 package com.edmunds.rest.databricks.DTO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Map;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
  */
-@Data
-public class NotebookTaskDTO implements Serializable {
+public enum InstancePoolStateDTO implements Serializable {
+  ACTIVE("ACTIVE"),
+  DELETED("DELETED");
 
-  @Getter @Setter @JsonProperty("notebook_path")
-  private String notebookPath;
-  @Getter @Setter @JsonProperty("base_parameters")
-  private Map<String, String> baseParameters;
+  private String value;
 
-  // custom parameters
-  @Getter @Setter @JsonProperty("revision_timestamp")
-  private long revisionTimestamp;
+  InstancePoolStateDTO(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
 }

@@ -34,8 +34,7 @@ public class RunParametersDTO implements Serializable {
   private String[] jarParams;
   @Getter @Setter @JsonProperty("notebook_params")
   private Map notebookParams;
-  @Getter @Setter
-  @JsonProperty("python_params")
+  @Getter @Setter @JsonProperty("python_params")
   private String[] pythonParams;
   @Getter @Setter @JsonProperty("spark_submit_params")
   private String[] sparkSubmitParams;

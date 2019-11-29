@@ -31,12 +31,12 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JobEmailNotificationsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("on_failure")
-  private String[] onFailure;
   @Getter @Setter @JsonProperty("on_start")
   private String[] onStart;
   @Getter @Setter @JsonProperty("on_success")
   private String[] onSuccess;
+  @Getter @Setter @JsonProperty("on_failure")
+  private String[] onFailure;
   @Getter @Setter @JsonProperty("no_alert_for_skipped_runs")
   private boolean noAlertForSkippedRuns;
 

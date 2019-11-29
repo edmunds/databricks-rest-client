@@ -31,11 +31,11 @@ public class JobDTO implements Serializable {
 
   @Getter @Setter @JsonProperty("job_id")
   private long jobId;
+  @Getter @Setter @JsonProperty("creator_user_name")
+  private String creatorUserName;
   @Getter @Setter @JsonProperty("settings")
   private JobSettingsDTO settings;
   @Getter @Setter @JsonProperty("created_time")
   private Date createdTime;
-  @Getter @Setter @JsonProperty("creator_user_name")
-  private String creatorUserName;
 
 }

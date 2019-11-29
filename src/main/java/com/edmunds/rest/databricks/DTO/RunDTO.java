@@ -34,18 +34,22 @@ public class RunDTO implements Serializable {
   private long jobId;
   @Getter @Setter @JsonProperty("run_id")
   private long runId;
+  @Getter @Setter @JsonProperty("creator_user_name")
+  private String creatorUserName;
   @Getter @Setter @JsonProperty("number_in_job")
   private long numberInJob;
+  @Getter @Setter @JsonProperty("original_attempt_run_id")
+  private long originalAttemptRunId;
   @Getter @Setter @JsonProperty("state")
   private RunStateDTO state;
+  @Getter @Setter @JsonProperty("schedule")
+  private CronScheduleDTO schedule;
   @Getter @Setter @JsonProperty("task")
   private JobTaskDTO task;
   @Getter @Setter @JsonProperty("cluster_spec")
   private ClusterSpecDTO clusterSpec;
   @Getter @Setter @JsonProperty("cluster_instance")
   private ClusterInstanceDTO clusterInstance;
-  @Getter @Setter @JsonProperty("original_attempt_run_id")
-  private long originalAttemptRunId;
   @Getter @Setter @JsonProperty("overriding_parameters")
   private RunParametersDTO overridingParameters;
   @Getter @Setter @JsonProperty("start_time")
@@ -58,10 +62,8 @@ public class RunDTO implements Serializable {
   private long cleanupDuration;
   @Getter @Setter @JsonProperty("trigger")
   private TriggerTypeDTO trigger;
-  @Getter @Setter @JsonProperty("schedule")
-  private CronScheduleDTO schedule;
-  @Getter @Setter @JsonProperty("creator_user_name")
-  private String creatorUserName;
+
+  // custom parameters
   @Getter @Setter @JsonProperty("run_name")
   private String runName;
   @Getter @Setter @JsonProperty("run_page_url")
