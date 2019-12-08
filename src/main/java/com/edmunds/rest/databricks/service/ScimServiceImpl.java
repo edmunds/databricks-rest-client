@@ -63,7 +63,11 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
   }
 
   @Override
-  public ListResponseDTO<UserDTO> listUsers(String filters, int startIndex)
+  public ListResponseDTO<UserDTO> listUsers(String filters) throws IOException, DatabricksRestException {
+    return listUsers(filters, 1);
+  }
+
+  private ListResponseDTO<UserDTO> listUsers(String filters, int startIndex)
       throws IOException, DatabricksRestException {
     Map<String, Object> params = new HashMap<>();
     if (filters != null) {
@@ -113,7 +117,11 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
   }
 
   @Override
-  public ListResponseDTO<GroupDTO> listGroups(String filters, int startIndex)
+  public ListResponseDTO<GroupDTO> listGroups(String filters) throws IOException, DatabricksRestException {
+    return listGroups(filters, 1);
+  }
+
+  private ListResponseDTO<GroupDTO> listGroups(String filters, int startIndex)
       throws IOException, DatabricksRestException {
     Map<String, Object> params = new HashMap<>();
     if (filters != null) {

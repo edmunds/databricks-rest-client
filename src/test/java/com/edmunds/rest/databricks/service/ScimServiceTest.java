@@ -99,7 +99,7 @@ public class ScimServiceTest {
   public void testGroupList() throws IOException, DatabricksRestException {
     GroupDTO groupDTO1 = createGroupDTO();
     idGroup1 = service.createGroup(groupDTO1);
-    GroupDTO[] groupDTOS = service.listGroups("displayName eq " + testGroup1, 1).getResources();
+    GroupDTO[] groupDTOS = service.listGroups("displayName eq " + testGroup1).getResources();
     assertEquals(groupDTOS.length, 1);
     assertEquals(groupDTOS[0].getDisplay(), testGroup1);
   }
@@ -181,7 +181,7 @@ public class ScimServiceTest {
     UserDTO userDTO = createUserDTO(groupDTO1);
     idUSer1 = service.createUser(userDTO);
 
-    UserDTO[] userDTOS = service.listUsers("userName eq " + USERNAME, 1).getResources();
+    UserDTO[] userDTOS = service.listUsers("userName eq " + USERNAME).getResources();
     assertEquals(userDTOS.length, 1);
     assertEquals(userDTOS[0], userDTO);
   }
@@ -228,7 +228,7 @@ public class ScimServiceTest {
   }
 
   private GroupDTO getAdminGroupId() throws IOException, DatabricksRestException {
-    return service.listGroups("displayName eq " + ADMIN_GROUP, 1).getResources()[0];
+    return service.listGroups("displayName eq " + ADMIN_GROUP).getResources()[0];
   }
 
   private GroupDTO createGroupDTO() {

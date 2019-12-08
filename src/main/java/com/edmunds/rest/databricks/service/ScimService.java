@@ -55,13 +55,12 @@ public interface ScimService {
    * Retrieve a list of users associated with a Databricks workspace.
    *
    * @param filters    query filters, can be null @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#scim-filters">https://docs.databricks.com/dev-tools/api/latest/scim.html#scim-filters</a>
-   * @param startIndex The 1-based index of the first result in the current set of list results
    * @return query response
    * @throws IOException             any other errors
    * @throws DatabricksRestException any errors with request
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#get-users">https://docs.databricks.com/dev-tools/api/latest/scim.html#get-users</a>
    */
-  ListResponseDTO<UserDTO> listUsers(String filters, int startIndex) throws IOException, DatabricksRestException;
+  ListResponseDTO<UserDTO> listUsers(String filters) throws IOException, DatabricksRestException;
 
   /**
    * Retrieve a list of users associated with a Databricks workspace. No search criteria are provided.
@@ -119,13 +118,12 @@ public interface ScimService {
    * Retrieve a list of groups associated with a Databricks workspace.
    *
    * @param filters    query filters, can be null @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#scim-filters">https://docs.databricks.com/dev-tools/api/latest/scim.html#scim-filters</a>
-   * @param startIndex The 1-based index of the first result in the current set of list results
    * @return query response
    * @throws IOException             any other errors
    * @throws DatabricksRestException any errors with request
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#get-groups">https://docs.databricks.com/dev-tools/api/latest/scim.html#get-groups</a>
    */
-  ListResponseDTO<GroupDTO> listGroups(String filters, int startIndex) throws IOException, DatabricksRestException;
+  ListResponseDTO<GroupDTO> listGroups(String filters) throws IOException, DatabricksRestException;
 
 
   /**
