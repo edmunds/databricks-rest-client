@@ -23,6 +23,7 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl425;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.Set;
 
 /**
@@ -146,7 +147,12 @@ public class DatabricksFixtures {
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {
     if (factory == null) {
-      factory = DatabricksServiceFactory.Builder.createTokenAuthentication(TOKEN, HOSTNAME).build();
+      factory = DatabricksServiceFactory.Builder.createTokenAuthentication(TOKEN, HOSTNAME)
+              .withMaxRetries(3)
+              .withSoTimeout((int)Duration.ofMinutes(1L).toMillis())
+              .withConnectionRequestTimeout((int)Duration.ofMinutes(1L).toMillis())
+              .withRetryInterval((int)Duration.ofSeconds(5L).toMillis())
+              .build();
     }
 
     return factory;

@@ -37,6 +37,16 @@ public interface DatabricksRestClient {
       throws DatabricksRestException;
 
   /**
+   * Performs the given query with no parameters
+   *
+   * @param requestMethod Type of request method. Only supports GET and POST methods.
+   * @param path Path of the request URL
+   * @return Returns a byte array of the response from the server
+   */
+  byte[] performQuery(RequestMethod requestMethod, String path)
+          throws DatabricksRestException;
+
+  /**
    * Returns the host string.
    *
    * @return Host string.
