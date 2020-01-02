@@ -46,7 +46,7 @@ public class DatabricksServiceFactory {
 
   /**
    * Databricks rest http client socket parameters default values.
-   * Unit is milliseconds
+   * Unit is milliseconds.
    */
   public static final int SOCKET_TIMEOUT = 10000;
   public static final int CONNECTION_TIMEOUT = 10000;
