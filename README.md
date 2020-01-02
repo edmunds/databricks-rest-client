@@ -32,6 +32,12 @@ Here are the current Endpoints that are supported:
 
 - Workspace Service
 
+- Groups Service
+
+- Instance Profiles Service
+
+- SCIM (preview mode, subject to changes)
+
 Please look at the javadocs for the specific service to get more detailed information on what
 functionality is currently available.
 
@@ -104,6 +110,7 @@ export DB_TOKEN=my-token
 In order for the integration tests to run, you must
 have a valid token for the user in question.
 Here is how to set it up: [Set up Tokens](https://docs.databricks.com/api/latest/authentication.html)
+Note: In order to run the SCIM integration tests your user should have admin rights
 
 ### Executing Integration Tests
 mvn clean install org.apache.maven.plugins:maven-failsafe-plugin:integration-test

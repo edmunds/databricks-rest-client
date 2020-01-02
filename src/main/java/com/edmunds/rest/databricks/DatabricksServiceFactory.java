@@ -31,6 +31,8 @@ import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.JobServiceImpl;
 import com.edmunds.rest.databricks.service.LibraryService;
 import com.edmunds.rest.databricks.service.LibraryServiceImpl;
+import com.edmunds.rest.databricks.service.ScimService;
+import com.edmunds.rest.databricks.service.ScimServiceImpl;
 import com.edmunds.rest.databricks.service.WorkspaceService;
 import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
@@ -44,7 +46,7 @@ public class DatabricksServiceFactory {
 
   /**
    * Databricks rest http client socket parameters default values.
-   * Unit is milliseconds
+   * Unit is milliseconds.
    */
   public static final int SOCKET_TIMEOUT = 10000;
   public static final int CONNECTION_TIMEOUT = 10000;
@@ -64,6 +66,7 @@ public class DatabricksServiceFactory {
   private JobService jobService;
   private DbfsService dbfsService;
   private GroupsService groupsService;
+  private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
@@ -190,6 +193,17 @@ public class DatabricksServiceFactory {
     }
     return groupsService;
   }
+
+  /**
+   * Will return a ScimService singleton.
+   */
+  public ScimService getScimService() {
+    if (scimService == null) {
+      scimService = new ScimServiceImpl(client2dot0);
+    }
+    return scimService;
+  }
+
 
   /**
    * Will return an Instance Profiles singleton.

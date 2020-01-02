@@ -14,11 +14,24 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.DTO.scim.user;
 
-/**
- * The type of the REST request.
- */
-public enum RequestMethod {
-  GET, POST, PATCH, DELETE, PUT
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class EntitlementsDTO {
+
+  private EntitlementDTO value;
+
+  /**
+   * Copy constructor.
+   * @param from object to copy from
+   */
+  public EntitlementsDTO(EntitlementsDTO from) {
+    this.value = from.value;
+  }
 }

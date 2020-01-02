@@ -25,14 +25,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
@@ -59,7 +62,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * Creates a rest client.
-   *
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
@@ -71,7 +73,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   /**
    * Creates a rest client.
-   *
    * @param host databricks host
    * @param apiVersion databricks api version
    * @param maxRetry how many retries
@@ -100,13 +101,13 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
       throws IOException, DatabricksRestException {
 
     int status = httpResponse.getStatusLine().getStatusCode();
-    if (status != HttpStatus.SC_OK) {
+    if ((status != HttpStatus.SC_OK) && (status != HttpStatus.SC_CREATED) && (status != HttpStatus.SC_NO_CONTENT)) {
       logger.error("HTTP Response error : " + httpResponse.getStatusLine());
       String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
       throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
     }
-
-    return IOUtils.toByteArray(httpResponse.getEntity().getContent());
+    HttpEntity entity = httpResponse.getEntity();
+    return entity == null ? null : IOUtils.toByteArray(entity.getContent());
   }
 
   public String getHost() {
@@ -116,19 +117,21 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   protected HttpRequestBase makeHttpMethod(RequestMethod requestMethod, String path,
       Map<String, Object> data)
       throws UnsupportedEncodingException, JsonProcessingException {
-    if (requestMethod == RequestMethod.GET) {
-      return makeGetMethod(path, data);
-    }
 
-    if (requestMethod == RequestMethod.POST) {
-      return makePostMethod(path, data);
+    switch (requestMethod) {
+      case POST:
+        return makePostMethod(path, data);
+      case GET:
+        return makeGetMethod(path, data);
+      case PATCH:
+        return makePatchMethod(path, data);
+      case DELETE:
+        return makeDeleteMethod(path);
+      case PUT:
+        return makePutMethod(path, data);
+      default:
+        throw new IllegalArgumentException(requestMethod + " is not a valid request method");
     }
-
-    if (requestMethod == RequestMethod.PATCH) {
-      return makePatchMethod(path, data);
-    }
-
-    throw new IllegalArgumentException(requestMethod + " is not a valid request method");
   }
 
   protected HttpGet makeGetMethod(String path, Map<String, Object> data) {
@@ -136,6 +139,15 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     HttpGet method = new HttpGet(url + path + commands);
     logger.info(method.toString());
 
+    return method;
+  }
+
+  protected HttpDelete makeDeleteMethod(String path) {
+    HttpDelete method = new HttpDelete(url + path);
+    logger.info(method.toString());
+
+    method.setHeader("Accept", "application/json");
+    method.setHeader("Content-type", "application/json");
     return method;
   }
 
@@ -183,6 +195,19 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     method.setHeader("Content-type", "application/json");
     return method;
   }
+
+  protected HttpPut makePutMethod(String path, Map<String, Object> data)
+      throws UnsupportedEncodingException, JsonProcessingException {
+    HttpPut method = new HttpPut(url + path);
+    logger.info(method.toString());
+
+    StringEntity requestEntity = makeStringRequestEntity(data);
+    method.setEntity(requestEntity);
+    method.setHeader("Accept", "application/json");
+    method.setHeader("Content-type", "application/json");
+    return method;
+  }
+
 
   protected StringEntity makeStringRequestEntity(Map<String, Object> data)
       throws UnsupportedEncodingException, JsonProcessingException {
