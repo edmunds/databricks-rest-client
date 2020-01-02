@@ -53,7 +53,7 @@ public class NewClusterDTO implements Serializable {
   @Getter @Setter @JsonProperty("cluster_log_conf")
   private ClusterLogConfDTO clusterLogConf;
   @Getter @Setter @JsonProperty("init_scripts")
-  private InitScriptInfoDTO initScripts;
+  private InitScriptInfoDTO[] initScripts;
   @Getter @Setter @JsonProperty("spark_env_vars")
   private Map<String, String> sparkEnvVars;
   @Getter @Setter @JsonProperty("enable_elastic_disk")
