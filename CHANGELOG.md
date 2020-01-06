@@ -19,7 +19,7 @@ Libraries
 Per:
 https://docs.databricks.com/dev-tools/api/latest/index.html
 
-## [Version 2.5.1]
+## [Version 2.6.1]
 
 ### Changed
 DTO classes grouped by packages:
