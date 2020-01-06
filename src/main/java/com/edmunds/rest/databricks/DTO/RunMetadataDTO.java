@@ -16,27 +16,21 @@
 
 package com.edmunds.rest.databricks.DTO;
 
+import com.edmunds.rest.databricks.DTO.jobs.NotebookOutputDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 
 /**
- * DTO to hold RunDTO and NotebookOutputDTO values together to get complete run metadata
+ * DTO to hold RunDTO and NotebookOutputDTO values together to get complete run metadata.
  */
 @Data
 public class RunMetadataDTO implements Serializable {
 
-  @Getter
-  @Setter
   @JsonProperty("metadata")
   private RunDTO run;
-
-  @Getter
-  @Setter
   @JsonProperty("notebook_output")
   private NotebookOutputDTO notebookOutput;
 

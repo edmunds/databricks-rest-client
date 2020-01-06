@@ -1,8 +1,7 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.PrincipalNameDTO;
+import com.edmunds.rest.databricks.DTO.groups.PrincipalNameDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
-
 import java.io.IOException;
 
 /**

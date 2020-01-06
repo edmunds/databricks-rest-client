@@ -16,9 +16,9 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.ClusterLibraryStatusesDTO;
-import com.edmunds.rest.databricks.DTO.LibraryDTO;
-import com.edmunds.rest.databricks.DTO.LibraryFullStatusDTO;
+import com.edmunds.rest.databricks.DTO.libraries.ClusterLibraryStatusesDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryDTO;
+import com.edmunds.rest.databricks.DTO.libraries.LibraryFullStatusDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;

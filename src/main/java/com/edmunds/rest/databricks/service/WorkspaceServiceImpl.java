@@ -16,7 +16,7 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.ObjectInfoDTO;
+import com.edmunds.rest.databricks.DTO.workspace.ObjectInfoDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.request.ExportWorkspaceRequest;

@@ -18,3 +18,21 @@ Libraries
 
 Per:
 https://docs.databricks.com/dev-tools/api/latest/index.html
+
+## [Version 2.6.1]
+
+### Changed
+DTO classes grouped by packages:
+
+clusters
+dbfs
+groups
+instance_pools
+instance_profiles
+jobs
+libraries
+workspace
+
+(packages named in accordance with API sections here https://docs.databricks.com/dev-tools/api/latest/index.html)
+
+ObjectInfo DTO extended with object_id field.

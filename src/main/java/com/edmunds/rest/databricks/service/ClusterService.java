@@ -16,12 +16,12 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventDTO;
-import com.edmunds.rest.databricks.DTO.ClusterEventTypeDTO;
-import com.edmunds.rest.databricks.DTO.ClusterInfoDTO;
-import com.edmunds.rest.databricks.DTO.NewClusterDTO;
 import com.edmunds.rest.databricks.DTO.UpsertClusterDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.jobs.NewClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
@@ -31,6 +31,7 @@ import java.util.Optional;
 
 /**
  * A Wrapper around the cluster part of the databricks rest api.
+ *
  * @see <a href="https://docs.databricks.com/api/latest/clusters.html">https://docs.databricks.com/api/latest/clusters.html</a>
  */
 public interface ClusterService {

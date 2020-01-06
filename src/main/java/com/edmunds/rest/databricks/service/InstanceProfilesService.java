@@ -1,8 +1,7 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.InstanceProfileDTO;
+import com.edmunds.rest.databricks.DTO.instance_profiles.InstanceProfileDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
-
 import java.io.IOException;
 
 /**

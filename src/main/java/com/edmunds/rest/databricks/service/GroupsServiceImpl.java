@@ -1,6 +1,6 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.PrincipalNameDTO;
+import com.edmunds.rest.databricks.DTO.groups.PrincipalNameDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -53,7 +53,7 @@ public class GroupsServiceImpl extends DatabricksService implements GroupsServic
         return (String) returnedGroupName;
       } else {
         throw new DatabricksRestException(String.format("There was an issue creating group [%s]. "
-            + "No group_name was returned. You may need to reach out to Databricks Support for further diagnosis.",
+                + "No group_name was returned. You may need to reach out to Databricks Support for further diagnosis.",
             groupName));
       }
     } else {

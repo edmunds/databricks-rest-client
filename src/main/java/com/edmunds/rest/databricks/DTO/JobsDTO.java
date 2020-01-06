@@ -16,11 +16,10 @@
 
 package com.edmunds.rest.databricks.DTO;
 
+import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
@@ -29,7 +28,7 @@ import lombok.Setter;
 @SuppressWarnings("PMD")
 public class JobsDTO implements Serializable {
 
-  @Getter @Setter @JsonProperty("jobs")
+  @JsonProperty("jobs")
   private JobDTO[] jobs;
 
 }

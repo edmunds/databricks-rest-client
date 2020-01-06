@@ -16,15 +16,13 @@
 
 package com.edmunds.rest.databricks.DTO;
 
+import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
 import java.util.List;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class ClusterEventsDTO {
 
-    @Getter @Setter
-    private List<ClusterEventDTO> events;
+  private List<ClusterEventDTO> events;
 
 }

@@ -63,7 +63,7 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
     super(builder.getHost(), builder.getApiVersion(), builder.getMaxRetries(), builder.getRetryInterval());
 
     if (isNotEmpty(builder.getToken())
-            || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
+        || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
       initClient(builder);
 
     } else {
@@ -98,8 +98,8 @@ public final class DatabricksRestClientImpl425 extends AbstractDatabricksRestCli
 
       } else if (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword())) {
         defaultHttpClient.getCredentialsProvider().setCredentials(
-                new AuthScope(host, HTTPS_PORT),
-                new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
+            new AuthScope(host, HTTPS_PORT),
+            new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
       }
 
       client = new AutoRetryHttpClient(defaultHttpClient, retryStrategy);

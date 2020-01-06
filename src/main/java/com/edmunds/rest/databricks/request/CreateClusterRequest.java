@@ -16,10 +16,10 @@
 
 package com.edmunds.rest.databricks.request;
 
-import com.edmunds.rest.databricks.DTO.AutoScaleDTO;
-import com.edmunds.rest.databricks.DTO.AwsAttributesDTO;
-import com.edmunds.rest.databricks.DTO.ClusterLogConfDTO;
-import com.edmunds.rest.databricks.DTO.ClusterTagDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AwsAttributesDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterLogConfDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ClusterTagDTO;
 import java.util.HashMap;
 import java.util.Map;
 

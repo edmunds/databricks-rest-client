@@ -19,7 +19,7 @@ package com.edmunds.rest.databricks.DTO;
 import java.io.Serializable;
 
 /**
- *
+ * A part of clusters and instance_pools API.
  */
 public enum EbsVolumeTypeDTO implements Serializable {
   GENERAL_PURPOSE_SSD("GENERAL_PURPOSE_SSD"), THROUGHPUT_OPTIMIZED_HDD("THROUGHPUT_OPTIMIZED_HDD");

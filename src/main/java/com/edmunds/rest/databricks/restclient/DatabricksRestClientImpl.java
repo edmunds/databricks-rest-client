@@ -55,15 +55,15 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
    */
   public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder) {
     super(
-            builder.getHost(),
-            builder.getApiVersion(),
-            builder.getMaxRetries(),
-            builder.getRetryInterval(),
-            builder.isRequestSentRetryEnabled()
+        builder.getHost(),
+        builder.getApiVersion(),
+        builder.getMaxRetries(),
+        builder.getRetryInterval(),
+        builder.isRequestSentRetryEnabled()
     );
 
     if (isNotEmpty(builder.getToken())
-            || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
+        || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
       initClient(builder);
 
     } else {
@@ -73,13 +73,12 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
   }
 
 
-
   protected void initClient(DatabricksServiceFactory.Builder builder) {
 
     HttpClientBuilder clientBuilder = HttpClients.custom().useSystemProperties()
-            .setRetryHandler(retryHandler)
-            .setServiceUnavailableRetryStrategy(retryStrategy)
-            .setDefaultRequestConfig(createRequestConfig(builder));
+        .setRetryHandler(retryHandler)
+        .setServiceUnavailableRetryStrategy(retryStrategy)
+        .setDefaultRequestConfig(createRequestConfig(builder));
 
     List<Header> headers = new ArrayList<>();
     if (isNotEmpty(builder.getToken())) {
@@ -88,8 +87,8 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
     } else { // password authorization
       CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(
-              new AuthScope(host, HTTPS_PORT),
-              new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
+          new AuthScope(host, HTTPS_PORT),
+          new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
 
       clientBuilder.setDefaultCredentialsProvider(credsProvider);
 

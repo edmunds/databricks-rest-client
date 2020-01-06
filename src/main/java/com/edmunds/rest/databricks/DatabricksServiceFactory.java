@@ -93,7 +93,7 @@ public class DatabricksServiceFactory {
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
-                                  long retryInterval) {
+      long retryInterval) {
     this(username, password, host, maxRetry, retryInterval, false);
   }
 
@@ -106,7 +106,7 @@ public class DatabricksServiceFactory {
    */
   @Deprecated
   public DatabricksServiceFactory(String username, String password, String host, int maxRetry,
-                                  long retryInterval, boolean useLegacyAPI425) {
+      long retryInterval, boolean useLegacyAPI425) {
 
     client2dot0 = Builder.createUserPasswordAuthentication(username, password, host)
         .withMaxRetries(maxRetry)
@@ -126,7 +126,7 @@ public class DatabricksServiceFactory {
    */
   @Deprecated
   public DatabricksServiceFactory(String personalToken, String host,
-                                  int maxRetry, long retryInterval) {
+      int maxRetry, long retryInterval) {
 
     client2dot0 = Builder.createTokenAuthentication(personalToken, host)
         .withMaxRetries(maxRetry)
@@ -221,48 +221,74 @@ public class DatabricksServiceFactory {
    */
   public static class Builder {
 
+    /**
+     * set true if you want to use http-client v4.2.5 compatible API. This could be needed in some runtime environment
+     * which provide legacy http-client library as platform runtime.
+     */
+    public boolean useLegacyAPI425 = false;
     String host;
     String token;
     String username;
     String password;
-
     String userAgent;
-
     /**
      * Databricks rest-api version.
      */
     String apiVersion = "2.0";
-
     /**
      * Databricks rest http client {@link com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy} default.
      */
     long retryInterval = DEFAULT_HTTP_CLIENT_RETRY_INTERVAL;
     int maxRetries = DEFAULT_HTTP_CLIENT_MAX_RETRY;
-
     /**
      * Databricks rest http client socket parameters.
      */
     int soTimeout = SOCKET_TIMEOUT;
     int connectionTimeout = CONNECTION_TIMEOUT;
     int connectionRequestTimeout = CONNECTION_REQUEST_TIMEOUT;
-
     /**
-     * From the docs in DefaultHttpRequestRetryHandler:
-     * Whether or not methods that have successfully sent their request will be retried.
+     * From the docs in DefaultHttpRequestRetryHandler: Whether or not methods that have successfully sent their request
+     * will be retried.
      */
     boolean requestSentRetryEnabled = false;
-
-    /**
-     * set true if you want to use http-client v4.2.5 compatible API.
-     * This could be needed in some runtime environment which provide legacy http-client library as platform runtime.
-     */
-    public boolean useLegacyAPI425 = false;
 
 
     private Builder() {
       //NO-OP
     }
 
+    /**
+     * Creates a DatabricksServiceFactory using token authentication.
+     *
+     * @param token your databricks token
+     * @param host the databricks host where that token is valid
+     * @return the builder object
+     */
+    public static Builder createTokenAuthentication(String token, String host) {
+      Builder builder = new Builder();
+      builder.token = token;
+      builder.host = host;
+      return builder;
+    }
+
+    /**
+     * Creates a DatabrickServiceFactory using username password authentication.
+     *
+     * @param username databricks username
+     * @param password databricks password
+     * @param host the host object
+     * @return the builder object
+     * @deprecated in version 2.3.4, please use {@link Builder#createTokenAuthentication(String, String)}
+     */
+    @Deprecated
+    public static Builder createUserPasswordAuthentication(String username,
+        String password, String host) {
+      Builder builder = new Builder();
+      builder.username = username;
+      builder.password = password;
+      builder.host = host;
+      return builder;
+    }
 
     public String getHost() {
       return host;
@@ -316,41 +342,6 @@ public class DatabricksServiceFactory {
       return useLegacyAPI425;
     }
 
-    /**
-     * Creates a DatabricksServiceFactory using token authentication.
-     *
-     * @param token your databricks token
-     * @param host  the databricks host where that token is valid
-     * @return the builder object
-     */
-    public static Builder createTokenAuthentication(String token, String host) {
-      Builder builder = new Builder();
-      builder.token = token;
-      builder.host = host;
-      return builder;
-    }
-
-    /**
-     * Creates a DatabrickServiceFactory using username password authentication.
-     *
-     * @param username databricks username
-     * @param password databricks password
-     * @param host     the host object
-     * @return the builder object
-     *
-     * @deprecated in version 2.3.4, please use {@link Builder#createTokenAuthentication(String, String)}
-     */
-    @Deprecated
-    public static Builder createUserPasswordAuthentication(String username,
-                                                           String password, String host) {
-      Builder builder = new Builder();
-      builder.username = username;
-      builder.password = password;
-      builder.host = host;
-      return builder;
-    }
-
-
     public Builder withApiVersion(String apiVersion) {
       this.apiVersion = apiVersion;
       return this;
@@ -365,7 +356,6 @@ public class DatabricksServiceFactory {
      * set Http Retry Interval.
      *
      * @param retryInterval unit is milliseconds
-     * @return
      */
     public Builder withRetryInterval(long retryInterval) {
       this.retryInterval = retryInterval;
@@ -376,7 +366,6 @@ public class DatabricksServiceFactory {
      * set Http-Client SoTimeout.
      *
      * @param soTimeout unit is milliseconds
-     * @return
      */
     public Builder withSoTimeout(int soTimeout) {
       this.soTimeout = soTimeout;
@@ -387,7 +376,6 @@ public class DatabricksServiceFactory {
      * set Http-Client connection timeout.
      *
      * @param connectionTimeout unit is milliseconds
-     * @return
      */
     public Builder withConnectionTimeout(int connectionTimeout) {
       this.connectionTimeout = connectionTimeout;
@@ -398,7 +386,6 @@ public class DatabricksServiceFactory {
      * set Http-Client connection request timeout.
      *
      * @param connectionRequestTimeout unit is milliseconds
-     * @return
      */
     public Builder withConnectionRequestTimeout(int connectionRequestTimeout) {
       this.connectionRequestTimeout = connectionRequestTimeout;

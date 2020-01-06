@@ -20,7 +20,11 @@ Here are the current Endpoints that are supported:
 
 - Cluster Service
 
-- Dbfs Service
+- DBFS Service
+
+- Groups Service
+
+- Instance Profiles Service
 
 - Job Service
 

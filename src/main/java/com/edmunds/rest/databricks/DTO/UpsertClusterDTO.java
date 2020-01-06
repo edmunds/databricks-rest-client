@@ -1,16 +1,17 @@
 package com.edmunds.rest.databricks.DTO;
 
+import com.edmunds.rest.databricks.DTO.jobs.NewClusterDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  *
  */
 @Data
 public class UpsertClusterDTO extends NewClusterDTO implements Serializable {
-  @Getter @Setter @JsonProperty("cluster_id") private String clusterId;
+
+  @JsonProperty("cluster_id")
+  private String clusterId;
+
 }
