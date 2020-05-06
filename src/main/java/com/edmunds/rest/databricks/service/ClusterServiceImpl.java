@@ -17,12 +17,16 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.ClusterEventsDTO;
+import com.edmunds.rest.databricks.DTO.NodeTypesDTO;
+import com.edmunds.rest.databricks.DTO.SparkVersionsDTO;
 import com.edmunds.rest.databricks.DTO.UpsertClusterDTO;
 import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterStateDTO;
+import com.edmunds.rest.databricks.DTO.clusters.NodeTypeDTO;
+import com.edmunds.rest.databricks.DTO.clusters.SparkVersionDTO;
 import com.edmunds.rest.databricks.DTO.jobs.NewClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
@@ -32,6 +36,7 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +137,13 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
+  public void permanentDelete(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/permanent-delete", data);
+  }
+
+  @Override
   public ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("cluster_id", clusterId);
@@ -210,4 +222,38 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
       return Optional.empty();
     }
   }
+
+  @Override
+  public void pin(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/pin", data);
+  }
+
+  @Override
+  public void unpin(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    client.performQuery(RequestMethod.POST, "/clusters/unpin", data);
+  }
+
+  @Override
+  public List<NodeTypeDTO> listNodeTypes() throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list-node-types");
+    return mapper.readValue(responseBody, NodeTypesDTO.class).getNodeTypes();
+  }
+
+  @Override
+  public List<String> listZones() throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list-zones");
+    return mapper.readValue(responseBody, new TypeReference<List<String>>() {
+    });
+  }
+
+  @Override
+  public List<SparkVersionDTO> listSparkVersions() throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/spark-versions");
+    return Arrays.asList(mapper.readValue(responseBody, SparkVersionsDTO.class).getSparkVersions());
+  }
+
 }
