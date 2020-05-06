@@ -13,25 +13,15 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.edmunds.rest.databricks.DTO;
 
-package com.edmunds.rest.databricks.DTO.clusters;
-
+import com.edmunds.rest.databricks.DTO.clusters.SparkVersionDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
-import java.util.List;
 import lombok.Data;
 
-/**
- *
- */
 @Data
-public class ClusterCloudProviderNodeInfoDTO implements Serializable {
-  //note - the current documentation (MAY-05-2020) shows a string here, however the API returns an JSON array
-  @JsonProperty("status")
-  private List<ClusterCloudProviderNodeStatusDTO> statuses;
-  @JsonProperty("available_core_quota")
-  private int availableCoreQuota;
-  @JsonProperty("total_core_quota")
-  private int totalCoreQuota;
+public class SparkVersionsDTO {
 
+  @JsonProperty("versions")
+  private SparkVersionDTO[] sparkVersions;
 }

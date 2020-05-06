@@ -21,6 +21,8 @@ import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.clusters.NodeTypeDTO;
+import com.edmunds.rest.databricks.DTO.clusters.SparkVersionDTO;
 import com.edmunds.rest.databricks.DTO.jobs.NewClusterDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
@@ -135,6 +137,15 @@ public interface ClusterService {
   void delete(String clusterId) throws IOException, DatabricksRestException;
 
   /**
+   * Permanently terminates a cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#permanent-delete">https://docs.databricks.com/api/latest/clusters.html#permanent-delete</a>
+   * @param clusterId the cluster you want to permanently terminate
+   * @throws IOException any other errors
+   * @throws DatabricksRestException errors with request
+   */
+  void permanentDelete(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
    * Gets information about a given cluster.
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#get">https://docs.databricks.com/api/latest/clusters.html#get</a>
    * @param clusterId the cluster you want to get info about
@@ -200,4 +211,51 @@ public interface ClusterService {
    */
   Optional<ClusterInfoDTO> findUniqueByName(String clusterName)
       throws IOException, DatabricksRestException;
+
+  /**
+   * Pin a cluster with a given id. Needs administrator rights.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#pin">https://docs.databricks.com/api/latest/clusters.html#pin</a>
+   * @param clusterId the clusterId you want to pin
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  void pin(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
+   * Unpin a cluster with a given id. Needs administrator rights.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#unpin">https://docs.databricks.com/api/latest/clusters.html#unpin</a>
+   * @param clusterId the clusterId you want to unpin
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  void unpin(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
+   * Return a list of supported Spark node types.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#list-node-types">https://docs.databricks.com/api/latest/clusters.html#list-node-types</a>
+   * @return an array of node types
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<NodeTypeDTO> listNodeTypes() throws IOException, DatabricksRestException;
+
+  /**
+   * Return a list of availability zones where clusters can be created in. This method only works on AWS.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#list-zones">https://docs.databricks.com/api/latest/clusters.html#list-zones</a>
+   * @return the a list of availability zones
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<String> listZones() throws IOException, DatabricksRestException;
+
+  /**
+   * Return the list of available runtime versions.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#spark-versions">https://docs.databricks.com/api/latest/clusters.html#spark-versions</a>
+   * @return the a list of runtime versions
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  List<SparkVersionDTO> listSparkVersions() throws IOException, DatabricksRestException;
+
+
 }
