@@ -19,7 +19,7 @@ package com.edmunds.rest.databricks.DTO.clusters;
 import java.io.Serializable;
 
 /**
- *
+ * @see <a href="https://docs.databricks.com/dev-tools/api/latest/clusters.html#clusterterminationreasonterminationcode">https://docs.databricks.com/dev-tools/api/latest/clusters.html#clusterterminationreasonterminationcode</a>
  */
 public enum TerminationCodeDTO implements Serializable {
   USER_REQUEST("USER_REQUEST"),
@@ -36,7 +36,12 @@ public enum TerminationCodeDTO implements Serializable {
   INSTANCE_POOL_CLUSTER_FAILURE("INSTANCE_POOL_CLUSTER_FAILURE"),
   REQUEST_REJECTED("REQUEST_REJECTED"),
   INIT_SCRIPT_FAILURE("INIT_SCRIPT_FAILURE"),
-  TRIAL_EXPIRED("TRIAL_EXPIRED");
+  TRIAL_EXPIRED("TRIAL_EXPIRED"),
+  SPARK_ERROR("SPARK_ERROR"),
+  METASTORE_COMPONENT_UNHEALTHY("METASTORE_COMPONENT_UNHEALTHY"),
+  DBFS_COMPONENT_UNHEALTHY("DBFS_COMPONENT_UNHEALTHY"),
+  DRIVER_UNREACHABLE("DRIVER_UNREACHABLE"),
+  DRIVER_UNRESPONSIVE("DRIVER_UNRESPONSIVE");
 
   private String value;
 
