@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.fixtures;
 
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
+import com.edmunds.rest.databricks.DatabricksServiceFactory.Builder;
 import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.Set;
+import org.apache.http.client.ServiceUnavailableRetryStrategy;
 
 /**
  * Created by shong on 7/21/16.
@@ -73,51 +75,19 @@ public class DatabricksFixtures {
   }
 
   /**
-   * This is for retry test.
+   * This will create a builder
    *
-   * @param httpStatusCode
    * @return
    * @throws Exception
    */
-  public static DatabricksRestClient createDatabricksRestClientWithRetryCode(int httpStatusCode)
-      throws Exception {
+  public static DatabricksServiceFactory.Builder createDatabricksServiceBuilder() {
 
     DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
             .createTokenAuthentication(TOKEN, HOSTNAME)
             .withMaxRetries(1)
             .withRetryInterval(10)
             .withApiVersion(API_VERSION);
-    HttpClientBuilderFactory factory = new DefaultHttpClientBuilderFactory(builder);
-    DatabricksRestClient databricksClient = new DatabricksRestClientImpl(builder, factory);
-
-    addHttpStatus(databricksClient, httpStatusCode);
-
-    return databricksClient;
-  }
-
-  private static void addHttpStatus(DatabricksRestClient databricksClient, int httpStatusCode)
-      throws Exception {
-    HttpServiceUnavailableRetryStrategy retryStrategy = getHttpServiceUnavailableRetryStrategy(databricksClient);
-
-    Field maxRetries = retryStrategy.getClass().getDeclaredField("maxRetries");
-    maxRetries.setAccessible(true);
-    maxRetries.set(retryStrategy, 1);
-
-    Field retryInterval = retryStrategy.getClass().getDeclaredField("retryInterval");
-    retryInterval.setAccessible(true);
-    retryInterval.set(retryStrategy, 0l);
-
-    Field fieldSet = retryStrategy.getClass().getDeclaredField("retryStatusSet");
-    fieldSet.setAccessible(true);
-    Set<Integer> set = (Set<Integer>) fieldSet.get(retryStrategy);
-    set.add(httpStatusCode);
-  }
-
-  public static HttpServiceUnavailableRetryStrategy getHttpServiceUnavailableRetryStrategy(DatabricksRestClient clientImpl)
-      throws Exception {
-    Field field = clientImpl.getClass().getSuperclass().getDeclaredField("retryStrategy");
-    field.setAccessible(true);
-    return (HttpServiceUnavailableRetryStrategy) field.get(clientImpl);
+    return builder;
   }
 
   public static DatabricksServiceFactory getDatabricksServiceFactory() {

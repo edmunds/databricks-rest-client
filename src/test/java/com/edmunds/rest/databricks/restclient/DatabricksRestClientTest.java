@@ -14,17 +14,25 @@
  *    limitations under the License.
  */
 
-package com.edmunds.rest.databricks;
+package com.edmunds.rest.databricks.restclient;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import com.edmunds.rest.databricks.DatabricksRestException;
+import com.edmunds.rest.databricks.DatabricksServiceFactory;
+import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
+import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
+import com.edmunds.rest.databricks.fixtures.TestHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.http.client.HttpClient;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -85,12 +93,13 @@ public class DatabricksRestClientTest {
 
   @Test
   public void performQuery_retry_when_404() throws Exception {
-    DatabricksRestClient notFoundClient = DatabricksFixtures.createDatabricksRestClientWithRetryCode(404);
+    DatabricksServiceFactory.Builder builder = DatabricksFixtures.createDatabricksServiceBuilder();
+    TestHttpClientBuilderFactory factory = new TestHttpClientBuilderFactory(404, builder);
+    HttpServiceUnavailableRetryStrategy retryStrategy = (HttpServiceUnavailableRetryStrategy)factory.getServiceUnavailableRetryStrategy();
+    DatabricksRestClientImpl notFoundClient = new DatabricksRestClientImpl(builder, factory);
     try {
       notFoundClient.performQuery(RequestMethod.GET, "/fake_path", null);
     } catch (DatabricksRestException e) {
-
-      HttpServiceUnavailableRetryStrategy retryStrategy = DatabricksFixtures.getHttpServiceUnavailableRetryStrategy(notFoundClient);
       assertEquals(retryStrategy.getExecuteCount(), 2);
     }
   }
