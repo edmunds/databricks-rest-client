@@ -41,8 +41,7 @@ public class DatabricksRestClientTest {
   public Object[][] getClients() throws IOException {
     return new Object[][]{
         {DatabricksFixtures.getDatabricksRestClient()},
-        {DatabricksFixtures.createTokenAuthRestClient()},
-        {DatabricksFixtures.createDatabricks425Client()}
+        {DatabricksFixtures.createTokenAuthRestClient()}
     };
   }
 
@@ -87,18 +86,6 @@ public class DatabricksRestClientTest {
   @Test
   public void performQuery_retry_when_404() throws Exception {
     DatabricksRestClient notFoundClient = DatabricksFixtures.createDatabricksRestClientWithRetryCode(404);
-    try {
-      notFoundClient.performQuery(RequestMethod.GET, "/fake_path", null);
-    } catch (DatabricksRestException e) {
-
-      HttpServiceUnavailableRetryStrategy retryStrategy = DatabricksFixtures.getHttpServiceUnavailableRetryStrategy(notFoundClient);
-      assertEquals(retryStrategy.getExecuteCount(), 2);
-    }
-  }
-
-  @Test
-  public void performQuery_client425_retry_when_404() throws Exception {
-    DatabricksRestClient notFoundClient = DatabricksFixtures.createDatabricksRestClient425WithRetryCode(404);
     try {
       notFoundClient.performQuery(RequestMethod.GET, "/fake_path", null);
     } catch (DatabricksRestException e) {

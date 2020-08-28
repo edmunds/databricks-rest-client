@@ -17,7 +17,6 @@
 package com.edmunds.rest.databricks.restclient;
 
 import com.edmunds.rest.databricks.DatabricksRestException;
-import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,8 +28,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.ServiceUnavailableRetryStrategy;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -38,7 +35,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.log4j.Logger;
 
 /**
@@ -48,8 +44,6 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
 
   private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
 
-  protected static final int HTTPS_PORT = 443;
-
   protected final String apiVersion;
   protected final String host;
 
@@ -57,40 +51,18 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
   protected ObjectMapper mapper;
   protected HttpClient client;
 
-  protected HttpRequestRetryHandler retryHandler;
-  protected ServiceUnavailableRetryStrategy retryStrategy;
-
   /**
    * Creates a rest client.
-   * @param host databricks host
+   *
+   * @param host       databricks host
    * @param apiVersion databricks api version
-   * @param maxRetry how many retries
-   * @param retryInterval interval between retries
-   */
-  public AbstractDatabricksRestClientImpl(String host, String apiVersion, int maxRetry, long retryInterval) {
-    this(host, apiVersion, maxRetry, retryInterval, false);
-  }
-
-  /**
-   * Creates a rest client.
-   * @param host databricks host
-   * @param apiVersion databricks api version
-   * @param maxRetry how many retries
-   * @param retryInterval interval between retries
-   * @param requestSentRetryEnabled from the docs in DefaultHttpRequestRetryHandler:
-   *                                Whether or not methods that have successfully sent their request will be retried
    */
   public AbstractDatabricksRestClientImpl(
       String host,
-      String apiVersion,
-      int maxRetry,
-      long retryInterval,
-      boolean requestSentRetryEnabled
+      String apiVersion
   ) {
     this.host = host;
     this.apiVersion = apiVersion;
-    this.retryHandler = new StandardHttpRequestRetryHandler(maxRetry, requestSentRetryEnabled);
-    this.retryStrategy = new HttpServiceUnavailableRetryStrategy(maxRetry, retryInterval);
   }
 
   static boolean isNotEmpty(String str) {

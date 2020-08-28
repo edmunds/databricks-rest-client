@@ -22,24 +22,11 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import javax.net.ssl.SSLContext;
-import org.apache.http.Header;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -53,18 +40,15 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
   /**
    * Constructs a rest client.
    */
-  public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder) {
+  public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder, HttpClientBuilderFactory clientFactory) {
     super(
         builder.getHost(),
-        builder.getApiVersion(),
-        builder.getMaxRetries(),
-        builder.getRetryInterval(),
-        builder.isRequestSentRetryEnabled()
+        builder.getApiVersion()
     );
 
     if (isNotEmpty(builder.getToken())
         || (isNotEmpty(builder.getUsername()) && isNotEmpty(builder.getPassword()))) {
-      initClient(builder);
+      initClient(clientFactory);
 
     } else {
       throw new IllegalArgumentException("Token or username/password must be set!");
@@ -73,70 +57,16 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
   }
 
 
-  protected void initClient(DatabricksServiceFactory.Builder builder) {
-
-    HttpClientBuilder clientBuilder = HttpClients.custom().useSystemProperties()
-        .setRetryHandler(retryHandler)
-        .setServiceUnavailableRetryStrategy(retryStrategy)
-        .setDefaultRequestConfig(createRequestConfig(builder));
-
-    List<Header> headers = new ArrayList<>();
-    if (isNotEmpty(builder.getToken())) {
-      Header authHeader = new BasicHeader("Authorization", String.format("Bearer %s", builder.getToken()));
-      headers.add(authHeader);
-    } else { // password authorization
-      CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(
-          new AuthScope(host, HTTPS_PORT),
-          new UsernamePasswordCredentials(builder.getUsername(), builder.getPassword()));
-
-      clientBuilder.setDefaultCredentialsProvider(credsProvider);
-
-    }
-
-    String userAgent = builder.getUserAgent();
-    if (userAgent != null && userAgent.length() > 0) {
-      Header userAgentHeader = new BasicHeader("User-Agent", userAgent);
-      headers.add(userAgentHeader);
-    }
-
-    if (!headers.isEmpty()) {
-      clientBuilder.setDefaultHeaders(headers);
-    }
-
-    try {
-      SSLContext ctx = SSLContext.getDefault();
-      // Allow TLSv1.2 protocol only
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-          ctx,
-          new String[]{"TLSv1.2"},
-          null,
-          SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-      clientBuilder = clientBuilder.setSSLSocketFactory(sslsf);
-    } catch (Exception e) {
-      logger.error("", e);
-    }
-
-    client = clientBuilder.build(); //CloseableHttpClient
+  protected void initClient(HttpClientBuilderFactory httpClientBuilderFactory) {
+    client = httpClientBuilderFactory.createClientBuilder().build();
 
     url = String.format("https://%s/api/%s", host, apiVersion);
     mapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 
-
-  private RequestConfig createRequestConfig(DatabricksServiceFactory.Builder builder) {
-    return RequestConfig.custom()
-        .setExpectContinueEnabled(true)
-        .setSocketTimeout(builder.getSoTimeout())
-        .setConnectTimeout(builder.getConnectionTimeout())
-        .setConnectionRequestTimeout(builder.getConnectionRequestTimeout())
-        .build();
-  }
-
   public byte[] performQuery(RequestMethod requestMethod, String path) throws DatabricksRestException {
     return performQuery(requestMethod, path, Collections.emptyMap());
   }
-
 
 
   @Override
