@@ -55,7 +55,7 @@ public class TestHttpClientBuilderFactory extends DefaultHttpClientBuilderFactor
       Set<Integer> set = (Set<Integer>) fieldSet.get(retryStrategy);
       set.add(statusCode);
     } catch (NoSuchFieldException | IllegalAccessException e) {
-
+      e.printStackTrace();
     }
     return retryStrategy;
   }
