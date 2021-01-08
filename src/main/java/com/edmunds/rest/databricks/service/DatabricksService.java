@@ -37,6 +37,7 @@ public abstract class DatabricksService {
     // Not failing on unknown properties because Databricks adds properties to DTOs regularly
     this.mapper = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
         .setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
   }
 }
