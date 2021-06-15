@@ -32,6 +32,8 @@ import lombok.Data;
 @Data
 public class NewClusterDTO implements Serializable {
 
+  @JsonProperty("policy_id")
+  private String policyId;
   @JsonProperty("num_workers")
   private int numWorkers;
   @JsonProperty("autoscale")
