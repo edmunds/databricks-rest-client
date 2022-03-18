@@ -20,7 +20,7 @@
 
     <groupId>com.edmunds</groupId>
     <artifactId>databricks-rest-client</artifactId>
-    <version>3.0.6</version>
+    <version>3.0.7-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A simple java rest client to interact with the Databricks Rest Service
@@ -69,7 +69,7 @@
         <connection>scm:git:git@github.com:edmunds/databricks-rest-client.git</connection>
         <developerConnection>scm:git:git@github.com:edmunds/databricks-rest-client.git</developerConnection>
         <url>https://github.com/edmunds/databricks-rest-client</url>
-        <tag>databricks-rest-client-3.0.6</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
