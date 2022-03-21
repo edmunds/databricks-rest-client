@@ -39,12 +39,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class TestUtil {
   private TestUtil() {
   }
-  private final static Logger logger = Logger.getLogger(TestUtil.class.getName());
+  private final static Logger logger = LogManager.getLogger(TestUtil.class.getName());
   private static final String SMALL_NODE_TYPE = "m4.large";
   private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
   private static final String SPARK_VERSION = "4.0.x-scala2.11";

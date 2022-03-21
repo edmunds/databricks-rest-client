@@ -25,7 +25,8 @@ import com.edmunds.rest.databricks.DTO.jobs.RunStateDTO;
 import com.edmunds.rest.databricks.service.JobService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Run Job Class.
@@ -35,7 +36,7 @@ public class RunJob {
   // Use databricks job timeout setting. So, set 1 day for safety.
   public static final long DEFAULT_JOB_TIMEOUT = TimeUnit.DAYS.toMillis(1);
   public static final long DEFAULT_JOB_CHECK_INTERVAL = TimeUnit.MINUTES.toMillis(2);
-  private static Logger log = Logger.getLogger(RunJob.class);
+  private static Logger log = LogManager.getLogger(RunJob.class);
   private JobService service;
   private long jobId;
   private RunParametersDTO runParametersDTO;

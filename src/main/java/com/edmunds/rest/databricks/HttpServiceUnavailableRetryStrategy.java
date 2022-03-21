@@ -21,7 +21,8 @@ import java.util.Set;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ServiceUnavailableRetryStrategy;
 import org.apache.http.protocol.HttpContext;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Retry Strategy when get HTTP response status code. ref> https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -29,7 +30,7 @@ import org.apache.log4j.Logger;
 public class HttpServiceUnavailableRetryStrategy implements ServiceUnavailableRetryStrategy {
 
   private static final Set<Integer> retryStatusSet = new HashSet<>();
-  private static Logger logger = Logger
+  private static Logger logger = LogManager
       .getLogger(HttpServiceUnavailableRetryStrategy.class.getName());
 
   static {

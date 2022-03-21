@@ -28,14 +28,15 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The main implementation of databricks rest client, which uses up to date httpclient.
  */
 public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
 
-  private static Logger logger = Logger.getLogger(DatabricksRestClientImpl.class.getName());
+  private static Logger logger = LogManager.getLogger(DatabricksRestClientImpl.class.getName());
 
   /**
    * Constructs a rest client.

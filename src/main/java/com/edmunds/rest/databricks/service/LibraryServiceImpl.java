@@ -28,14 +28,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Implementation of LibraryService.
  */
 public final class LibraryServiceImpl extends DatabricksService implements LibraryService {
 
-  private static Logger log = Logger.getLogger(LibraryServiceImpl.class);
+  private static Logger log = LogManager.getLogger(LibraryServiceImpl.class);
 
   public LibraryServiceImpl(final DatabricksRestClient client) {
     super(client);

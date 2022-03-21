@@ -34,14 +34,15 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
 import org.apache.http.message.BasicHeader;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A default http client builder implementation.
  */
 public class DefaultHttpClientBuilderFactory implements HttpClientBuilderFactory {
 
-  private static Logger logger = Logger.getLogger(DefaultHttpClientBuilderFactory.class.getName());
+  private static Logger logger = LogManager.getLogger(DefaultHttpClientBuilderFactory.class.getName());
   protected static final int HTTPS_PORT = 443;
   protected DatabricksServiceFactory.Builder builder;
 
