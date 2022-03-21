@@ -1,20 +1,21 @@
 package com.edmunds.rest.databricks.fixtures;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.TestUtil;
 import com.edmunds.rest.databricks.service.ClusterService;
-import java.io.IOException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.awaitility.Awaitility;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 
+import java.io.IOException;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public abstract class ClusterDependentTest {
-  private final Logger logger = Logger.getLogger(this.getClass().getName());
+  private final Logger logger = LogManager.getLogger(this.getClass().getName());
   protected DatabricksServiceFactory factory;
   protected ClusterService service;
   protected String clusterId;

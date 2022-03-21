@@ -35,14 +35,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This is the abstract databricks rest client that contains base functionality.
  */
 public abstract class AbstractDatabricksRestClientImpl implements DatabricksRestClient {
 
-  private static Logger logger = Logger.getLogger(AbstractDatabricksRestClientImpl.class.getName());
+  private static Logger logger = LogManager.getLogger(AbstractDatabricksRestClientImpl.class.getName());
 
   protected final String apiVersion;
   protected final String host;

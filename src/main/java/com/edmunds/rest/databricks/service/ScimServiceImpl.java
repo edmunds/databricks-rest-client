@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 public class ScimServiceImpl extends DatabricksService implements ScimService {
 
