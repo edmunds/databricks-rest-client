@@ -177,24 +177,24 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
-  public void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
-    String clusterName = clusterDTO.getClusterName();
-    List<ClusterInfoDTO> clusters = findByName(clusterName);
-
-    if (clusters.size() > 1) {
-      log.error(String.format("[%s] clusters found for name: [%s]. "
-          + "Please consider deleting or renaming duplicate clusters. "
-          + "UPDATING FIRST CLUSTER ONLY", clusters.size(), clusterName));
+  public void upsertCluster(String clusterId, NewClusterDTO clusterDTO) throws IOException, DatabricksRestException {
+    ClusterInfoDTO clusterInfo = null;
+    try {
+      clusterInfo = getInfo(clusterId);
+    } catch(DatabricksRestException ex ){
+      if (!ex.getMessage().toLowerCase().contains("not found")) {
+        throw ex;
+      }
     }
 
-    if (clusters.size() == 0) {
-      log.info(String.format("Created cluster: id=[%s]", create(clusterDTO)));
+    if (clusterInfo == null) {
+      String newClusterId = create(clusterDTO);
+      log.info(String.format("Created cluster: id=[%s]", newClusterId));
     } else {
-      String clusterId = clusters.get(0).getClusterId();
       UpsertClusterDTO upsertClusterDTO = mapper.convertValue(clusterDTO, UpsertClusterDTO.class);
       upsertClusterDTO.setClusterId(clusterId);
       edit(upsertClusterDTO);
-      log.info(String.format("Updated cluster: name=[%s], id=[%s]", clusterName, clusterId));
+      log.info(String.format("Updated cluster: id=[%s]", clusterId));
     }
   }
 

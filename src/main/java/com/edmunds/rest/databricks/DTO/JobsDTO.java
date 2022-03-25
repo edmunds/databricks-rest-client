@@ -30,5 +30,7 @@ public class JobsDTO implements Serializable {
 
   @JsonProperty("jobs")
   private JobDTO[] jobs;
+  @JsonProperty("has_more")
+  private Boolean hasMore;
 
 }

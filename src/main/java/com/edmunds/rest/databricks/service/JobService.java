@@ -95,14 +95,14 @@ public interface JobService {
    * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @param regex - the regex to earch for
    */
-  List<JobDTO> getJobsByRegex(Pattern regex) throws IOException, DatabricksRestException;
+  List<JobDTO> getJobsByRegex(Pattern regex, boolean expandTasks) throws IOException, DatabricksRestException;
 
   /**
    * Returns a list of all jobs that are active.
    * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @return A POJO of the Jobs
    */
-  JobsDTO listAllJobs() throws IOException, DatabricksRestException;
+  JobsDTO listAllJobs(boolean expandTasks) throws IOException, DatabricksRestException;
 
   /**
    * Produces the URL of a job given job id.

@@ -90,7 +90,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
 
   @Override
   public List<JobDTO> getJobsByName(String jobName) throws IOException, DatabricksRestException {
-    return getJobsByRegex(Pattern.compile(jobName));
+    return getJobsByRegex(Pattern.compile(jobName), true);
   }
 
   @Override
@@ -129,13 +129,13 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public List<JobDTO> getJobsByRegex(Pattern regex) throws IOException, DatabricksRestException {
+  public List<JobDTO> getJobsByRegex(Pattern regex, boolean expandTasks) throws IOException, DatabricksRestException {
     if (regex == null) {
       throw new IllegalArgumentException("Job name must not be blank.");
     }
 
     List<JobDTO> foundJobDTOs = new ArrayList<>();
-    for (JobDTO jobDTO : listAllJobs().getJobs()) {
+    for (JobDTO jobDTO : listAllJobs(expandTasks).getJobs()) {
       JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
       Matcher matcher = regex.matcher(jobSettingsDTO.getName());
       if (matcher.matches()) {
@@ -146,8 +146,10 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobsDTO listAllJobs() throws DatabricksRestException, IOException {
-    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", null);
+  public JobsDTO listAllJobs(boolean expandTasks) throws DatabricksRestException, IOException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("expand_tasks", expandTasks);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
     return this.mapper.readValue(responseBody, JobsDTO.class);
   }
 

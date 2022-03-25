@@ -16,48 +16,37 @@ package com.edmunds.rest.databricks.DTO.jobs;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * SparkSubmitTaskDTO
+ * PipelineTask
  */
 @JsonPropertyOrder({
-        SparkSubmitTaskDTO.JSON_PROPERTY_PARAMETERS
+        PipelineTask.JSON_PROPERTY_PIPELINE_ID
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2022-03-09T23:53:34.566-08:00[America/Los_Angeles]")
-public class SparkSubmitTaskDTO {
-    public static final String JSON_PROPERTY_PARAMETERS = "parameters";
-    @JsonProperty(JSON_PROPERTY_PARAMETERS)
-    private List<String> parameters = null;
+public class PipelineTask {
+    public static final String JSON_PROPERTY_PIPELINE_ID = "pipeline_id";
+    @JsonProperty(JSON_PROPERTY_PIPELINE_ID)
+    private String pipelineId;
 
-    public SparkSubmitTaskDTO parameters(List<String> parameters) {
-        this.parameters = parameters;
-        return this;
-    }
-
-    public SparkSubmitTaskDTO addParametersItem(String parametersItem) {
-        if (this.parameters == null) {
-            this.parameters = new ArrayList<String>();
-        }
-        this.parameters.add(parametersItem);
+    public PipelineTask pipelineId(String pipelineId) {
+        this.pipelineId = pipelineId;
         return this;
     }
 
     /**
-     * Command-line parameters passed to spark submit.  Use [Task parameter variables](https://docs.microsoft.com/azure/databricks/jobs#parameter-variables) to set parameters containing information about job runs.
+     * The full name of the pipeline task to execute.
      *
-     * @return parameters
+     * @return pipelineId
      **/
-    @JsonProperty(value = "parameters")
-
-    public List<String> getParameters() {
-        return parameters;
+    @JsonProperty(value = "pipeline_id")
+    public String getPipelineId() {
+        return pipelineId;
     }
 
-    public void setParameters(List<String> parameters) {
-        this.parameters = parameters;
+    public void setPipelineId(String pipelineId) {
+        this.pipelineId = pipelineId;
     }
 
 
@@ -69,22 +58,22 @@ public class SparkSubmitTaskDTO {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        SparkSubmitTaskDTO sparkSubmitTask = (SparkSubmitTaskDTO) o;
-        return Objects.equals(this.parameters, sparkSubmitTask.parameters);
+        PipelineTask pipelineTask = (PipelineTask) o;
+        return Objects.equals(this.pipelineId, pipelineTask.pipelineId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(parameters);
+        return Objects.hash(pipelineId);
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class SparkSubmitTaskDTO {\n");
+        sb.append("class PipelineTask {\n");
 
-        sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
+        sb.append("    pipelineId: ").append(toIndentedString(pipelineId)).append("\n");
         sb.append("}");
         return sb.toString();
     }

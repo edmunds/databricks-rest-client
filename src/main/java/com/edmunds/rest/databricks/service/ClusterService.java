@@ -187,7 +187,7 @@ public interface ClusterService {
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
    * @param clusterDTO cluster DTO
    */
-  void upsertCluster(NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
+  void upsertCluster(String clusterId, NewClusterDTO clusterDTO) throws IOException, DatabricksRestException;
 
   /**
    * Look for clusters with a given name.

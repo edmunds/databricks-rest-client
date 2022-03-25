@@ -61,6 +61,7 @@ public class DatabricksServiceFactory {
 
 
   private DatabricksRestClient client2dot0;
+  private DatabricksRestClient client2dot1;
   private ClusterService clusterService;
   private LibraryService libraryService;
   private WorkspaceService workspaceService;
@@ -70,6 +71,10 @@ public class DatabricksServiceFactory {
   private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
 
+  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient, DatabricksRestClient databricksRestClient2dot1) {
+    this.client2dot0 = databricksRestClient;
+    this.client2dot1 = databricksRestClient2dot1;
+  }
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
     this.client2dot0 = databricksRestClient;
   }
@@ -85,7 +90,7 @@ public class DatabricksServiceFactory {
   }
 
   /**
-   * Will return a Databricks Library Service singleton.
+   * Will return a Databricks LibraryDTO Service singleton.
    */
   public LibraryService getLibraryService() {
     if (libraryService == null) {
@@ -99,7 +104,11 @@ public class DatabricksServiceFactory {
    */
   public JobService getJobService() {
     if (jobService == null) {
-      jobService = new JobServiceImpl(client2dot0);
+      if (client2dot1 != null) {
+        jobService = new JobServiceImpl(client2dot1);
+      } else {
+        jobService = new JobServiceImpl(client2dot0);
+      }
     }
     return jobService;
   }
@@ -200,6 +209,21 @@ public class DatabricksServiceFactory {
 
     private Builder() {
       //NO-OP
+    }
+    private Builder(Builder copy) {
+      this.host = copy.host;
+      this.token = copy.token;
+      this.username = copy.username;
+      this.password = copy.password;
+      this.userAgent = copy.userAgent;
+      this.apiVersion = copy.apiVersion;
+      this.retryInterval = copy.retryInterval;
+      this.maxRetries = copy.maxRetries;
+      this.soTimeout = copy.soTimeout;
+      this.connectionTimeout = copy.connectionTimeout;
+      this.connectionRequestTimeout = copy.connectionRequestTimeout;
+      this.requestSentRetryEnabled = copy.requestSentRetryEnabled;
+      this.properties = copy.properties;
     }
 
     /**
@@ -358,8 +382,15 @@ public class DatabricksServiceFactory {
      * @return the databricks service factory object
      */
     public DatabricksServiceFactory build(HttpClientBuilderFactory factory) {
-      DatabricksRestClient restClient = new DatabricksRestClientImpl(this, factory);
-      return new DatabricksServiceFactory(restClient);
+      if ("2.1".equals(apiVersion)) {
+        DatabricksRestClient restClient2dot1 = new DatabricksRestClientImpl(this, factory);
+        Builder builder2dot0 = new Builder(this).withApiVersion("2.0");
+        DatabricksRestClient restClient2dot0 = new DatabricksRestClientImpl(builder2dot0, factory);
+        return new DatabricksServiceFactory(restClient2dot0, restClient2dot1);
+      } else {
+        DatabricksRestClient restClient = new DatabricksRestClientImpl(this, factory);
+        return new DatabricksServiceFactory(restClient);
+      }
     }
   }
 }

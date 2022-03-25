@@ -18,6 +18,7 @@ package com.edmunds.rest.databricks.service;
 
 import static org.testng.Assert.assertEquals;
 
+import com.edmunds.rest.databricks.DTO.jobs.JobTaskSettings;
 import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
@@ -74,8 +75,11 @@ public class JobSubmitRunTest extends ClusterDependentTest {
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(JOB_NAME);
-    jobSettingsDTO.setExistingClusterId(clusterId);
-    jobSettingsDTO.setNotebookTask(notebook_task);
+
+    JobTaskSettings taskSettings = new JobTaskSettings();
+    taskSettings.setExistingClusterId(clusterId);
+    taskSettings.setNotebookTask(notebook_task);
+    jobSettingsDTO.addTasksItem(taskSettings);
 
     // there's possibility test TearDownFailure. it cause test job not-deleted.
     List<JobDTO> jobList = service.getJobsByName(JOB_NAME);

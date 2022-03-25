@@ -16,6 +16,7 @@
 
 package com.edmunds.rest.databricks;
 
+import com.edmunds.rest.databricks.DTO.jobs.JobTaskSettings;
 import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
@@ -78,8 +79,11 @@ public class JobRunnerTest {
     String defaultClusterId = TestUtil.getTestClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(JOB_NAME);
-    jobSettingsDTO.setExistingClusterId(defaultClusterId);
-    jobSettingsDTO.setNotebookTask(notebook_task);
+
+    JobTaskSettings taskSettings = new JobTaskSettings();
+    taskSettings.setExistingClusterId(defaultClusterId);
+    taskSettings.setNotebookTask(notebook_task);
+    jobSettingsDTO.addTasksItem(taskSettings);
 
     // there's possibility test TearDownFailure. it cause test job not-deleted.
     List<JobDTO> jobList = service.getJobsByName(JOB_NAME);
