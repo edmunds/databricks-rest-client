@@ -135,7 +135,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
 
     List<JobDTO> foundJobDTOs = new ArrayList<>();
-    for (JobDTO jobDTO : listAllJobs(expandTasks).getJobs()) {
+    for (JobDTO jobDTO : listAllJobs(20, 0, expandTasks).getJobs()) {
       JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
       Matcher matcher = regex.matcher(jobSettingsDTO.getName());
       if (matcher.matches()) {
@@ -146,9 +146,11 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobsDTO listAllJobs(boolean expandTasks) throws DatabricksRestException, IOException {
+  public JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("expand_tasks", expandTasks);
+    data.put("limit", limit);
+    data.put("offset", offset);
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
     return this.mapper.readValue(responseBody, JobsDTO.class);
   }

@@ -181,7 +181,7 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
     ClusterInfoDTO clusterInfo = null;
     try {
       clusterInfo = getInfo(clusterId);
-    } catch(DatabricksRestException ex ){
+    } catch (DatabricksRestException ex) {
       if (!ex.getMessage().toLowerCase().contains("not found")) {
         throw ex;
       }

@@ -71,10 +71,12 @@ public class DatabricksServiceFactory {
   private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
 
-  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient, DatabricksRestClient databricksRestClient2dot1) {
+  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
+                                  DatabricksRestClient databricksRestClient2dot1) {
     this.client2dot0 = databricksRestClient;
     this.client2dot1 = databricksRestClient2dot1;
   }
+
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
     this.client2dot0 = databricksRestClient;
   }
@@ -210,6 +212,7 @@ public class DatabricksServiceFactory {
     private Builder() {
       //NO-OP
     }
+
     private Builder(Builder copy) {
       this.host = copy.host;
       this.token = copy.token;
