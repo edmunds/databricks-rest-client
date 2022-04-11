@@ -76,8 +76,12 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
     int status = httpResponse.getStatusLine().getStatusCode();
     if ((status != HttpStatus.SC_OK) && (status != HttpStatus.SC_CREATED) && (status != HttpStatus.SC_NO_CONTENT)) {
       logger.error("HTTP Response error : " + httpResponse.getStatusLine());
-      String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
-      throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
+      if (status == HttpStatus.SC_FORBIDDEN) {
+        throw new DatabricksRestException("Databricks Rest API returned the error: User not authorized");
+      } else {
+        String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
+        throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
+      }
     }
     HttpEntity entity = httpResponse.getEntity();
     return entity == null ? null : IOUtils.toByteArray(entity.getContent());
