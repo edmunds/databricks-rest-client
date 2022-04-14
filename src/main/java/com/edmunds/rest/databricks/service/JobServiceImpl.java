@@ -30,6 +30,7 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +136,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
 
     List<JobDTO> foundJobDTOs = new ArrayList<>();
-    for (JobDTO jobDTO : listAllJobs(20, 0, expandTasks).getJobs()) {
+    for (JobDTO jobDTO : getAllJobs(expandTasks)) {
       JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
       Matcher matcher = regex.matcher(jobSettingsDTO.getName());
       if (matcher.matches()) {
@@ -143,6 +144,21 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       }
     }
     return foundJobDTOs;
+  }
+
+  private List<JobDTO> getAllJobs(Boolean expandTasks) throws DatabricksRestException, IOException {
+    int page = 0;
+    List<JobDTO> jobs = new ArrayList<>();
+    while (page != -1) {
+      JobsDTO jobsDTO = listAllJobs(20, page * 20, expandTasks);
+      if (jobsDTO.getJobs() != null) {
+        jobs.addAll(Arrays.asList(jobsDTO.getJobs()));
+        page++;
+      } else {
+        page = -1;
+      }
+    }
+    return jobs;
   }
 
   @Override
