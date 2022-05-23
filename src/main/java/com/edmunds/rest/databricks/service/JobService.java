@@ -152,10 +152,12 @@ public interface JobService {
    *     default value is 20
    * @param limit The number of runs to return. This value should be greater than 0 and less than
    *     1000
+   * @param from Show runs that started at or after this value. The value must be a UTC timestamp in milliseconds
+   * @param until Show runs that started at or before this value. The value must be a UTC timestamp in milliseconds
    * @return Returns RunsDTO containing an array of runs and a boolean indicating if there are more
    *     jobs that haven't been included
    */
-  RunsDTO listRuns(Long jobId, Boolean activeOnly, Integer offset, Integer limit)
+  RunsDTO listRuns(Long jobId, Boolean activeOnly, Integer offset, Integer limit, Long from, Long until)
       throws DatabricksRestException,
       IOException;
 
