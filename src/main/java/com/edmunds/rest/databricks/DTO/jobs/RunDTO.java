@@ -42,8 +42,8 @@ public class RunDTO implements Serializable {
   private RunStateDTO state;
   @JsonProperty("schedule")
   private CronScheduleDTO schedule;
-  @JsonProperty("task")
-  private JobTaskDTO task;
+  @JsonProperty("tasks")
+  private JobTaskDTO[] tasks;
   @JsonProperty("cluster_spec")
   private ClusterSpecDTO clusterSpec;
   @JsonProperty("cluster_instance")

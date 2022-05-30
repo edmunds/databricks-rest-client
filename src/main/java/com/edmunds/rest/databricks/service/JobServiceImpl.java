@@ -245,6 +245,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     if (until != null) {
       data.put("start_time_to", until);
     }
+    data.put("expand_tasks", true);
 
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/runs/list", data);
     return this.mapper.readValue(responseBody, RunsDTO.class);

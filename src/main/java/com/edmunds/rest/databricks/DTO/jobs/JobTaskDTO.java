@@ -37,6 +37,8 @@ public class JobTaskDTO {
     public static final String JSON_PROPERTY_SPARK_SUBMIT_TASK = "spark_submit_task";
     public static final String JSON_PROPERTY_PIPELINE_TASK = "pipeline_task";
     public static final String JSON_PROPERTY_PYTHON_WHEEL_TASK = "python_wheel_task";
+    @JsonProperty("task_key")
+    private String taskKey;
     @JsonProperty(JSON_PROPERTY_NOTEBOOK_TASK)
     private NotebookTaskDTO notebookTask;
     @JsonProperty(JSON_PROPERTY_SPARK_JAR_TASK)
@@ -49,10 +51,63 @@ public class JobTaskDTO {
     private PipelineTask pipelineTask;
     @JsonProperty(JSON_PROPERTY_PYTHON_WHEEL_TASK)
     private PythonWheelTask pythonWheelTask;
+    @JsonProperty("cluster_instance")
+    private ClusterInstanceDTO clusterInstance;
+    @JsonProperty("new_cluster")
+    private ClusterSpecDTO newCluster;
+    @JsonProperty("existing_cluster_id")
+    private String existingClusterId;
+    @JsonProperty("job_cluster_key")
+    private String jobClusterKey;
+
+    @JsonProperty("job_cluster_key")
+    public String getJobClusterKey() {
+        return jobClusterKey;
+    }
+
+    public void setJobClusterKey(String jobClusterKey) {
+        this.jobClusterKey = jobClusterKey;
+    }
+
+    @JsonProperty("existing_cluster_id")
+    public String getExistingClusterId() {
+        return existingClusterId;
+    }
+
+    public void setExistingClusterId(String existingClusterId) {
+        this.existingClusterId = existingClusterId;
+    }
+
+    @JsonProperty("task_key")
+    public String getTaskKey() {
+        return taskKey;
+    }
+
+    public void setTaskKey(String taskKey) {
+        this.taskKey = taskKey;
+    }
 
     public JobTaskDTO notebookTask(NotebookTaskDTO notebookTask) {
         this.notebookTask = notebookTask;
         return this;
+    }
+
+    @JsonProperty("cluster_instance")
+    public ClusterInstanceDTO getClusterInstance() {
+        return clusterInstance;
+    }
+
+    public void setClusterInstance(ClusterInstanceDTO clusterInstance) {
+        this.clusterInstance = clusterInstance;
+    }
+
+    @JsonProperty("new_cluster")
+    public ClusterSpecDTO getNewCluster() {
+        return newCluster;
+    }
+
+    public void setNewCluster(ClusterSpecDTO newCluster) {
+        this.newCluster = newCluster;
     }
 
     /**
@@ -179,12 +234,14 @@ public class JobTaskDTO {
                 Objects.equals(this.sparkPythonTask, jobTask.sparkPythonTask) &&
                 Objects.equals(this.sparkSubmitTask, jobTask.sparkSubmitTask) &&
                 Objects.equals(this.pipelineTask, jobTask.pipelineTask) &&
-                Objects.equals(this.pythonWheelTask, jobTask.pythonWheelTask);
+                Objects.equals(this.pythonWheelTask, jobTask.pythonWheelTask) &&
+                Objects.equals(this.clusterInstance, jobTask.clusterInstance) &&
+                Objects.equals(this.newCluster, jobTask.newCluster);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notebookTask, sparkJarTask, sparkPythonTask, sparkSubmitTask, pipelineTask, pythonWheelTask);
+        return Objects.hash(notebookTask, sparkJarTask, sparkPythonTask, sparkSubmitTask, pipelineTask, pythonWheelTask, clusterInstance, newCluster);
     }
 
 
@@ -199,6 +256,8 @@ public class JobTaskDTO {
         sb.append("    sparkSubmitTask: ").append(toIndentedString(sparkSubmitTask)).append("\n");
         sb.append("    pipelineTask: ").append(toIndentedString(pipelineTask)).append("\n");
         sb.append("    pythonWheelTask: ").append(toIndentedString(pythonWheelTask)).append("\n");
+        sb.append("    clusterInstance: ").append(toIndentedString(clusterInstance)).append("\n");
+        sb.append("    newCluster: ").append(toIndentedString(newCluster)).append("\n");
         sb.append("}");
         return sb.toString();
     }
