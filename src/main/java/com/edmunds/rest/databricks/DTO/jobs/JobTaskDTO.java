@@ -16,6 +16,7 @@ package com.edmunds.rest.databricks.DTO.jobs;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -59,6 +60,61 @@ public class JobTaskDTO {
     private String existingClusterId;
     @JsonProperty("job_cluster_key")
     private String jobClusterKey;
+    @JsonProperty("start_time")
+    private Date startTime;
+    @JsonProperty("setup_duration")
+    private long setupDuration;
+    @JsonProperty("execution_duration")
+    private long executionDuration;
+    @JsonProperty("cleanup_duration")
+    private long cleanupDuration;
+    @JsonProperty("state")
+    private RunStateDTO state;
+
+    @JsonProperty("state")
+    public RunStateDTO getState() {
+        return state;
+    }
+
+    public void setState(RunStateDTO state) {
+        this.state = state;
+    }
+
+    @JsonProperty("start_time")
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    @JsonProperty("setup_duration")
+    public long getSetupDuration() {
+        return setupDuration;
+    }
+
+    public void setSetupDuration(long setupDuration) {
+        this.setupDuration = setupDuration;
+    }
+
+    @JsonProperty("execution_duration")
+    public long getExecutionDuration() {
+        return executionDuration;
+    }
+
+    public void setExecutionDuration(long executionDuration) {
+        this.executionDuration = executionDuration;
+    }
+
+    @JsonProperty("cleanup_duration")
+    public long getCleanupDuration() {
+        return cleanupDuration;
+    }
+
+    public void setCleanupDuration(long cleanupDuration) {
+        this.cleanupDuration = cleanupDuration;
+    }
 
     @JsonProperty("job_cluster_key")
     public String getJobClusterKey() {
