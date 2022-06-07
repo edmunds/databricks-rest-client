@@ -40,6 +40,8 @@ public class JobTaskDTO {
     public static final String JSON_PROPERTY_PYTHON_WHEEL_TASK = "python_wheel_task";
     @JsonProperty("task_key")
     private String taskKey;
+    @JsonProperty("run_id")
+    private String taskId;
     @JsonProperty(JSON_PROPERTY_NOTEBOOK_TASK)
     private NotebookTaskDTO notebookTask;
     @JsonProperty(JSON_PROPERTY_SPARK_JAR_TASK)
@@ -70,6 +72,15 @@ public class JobTaskDTO {
     private long cleanupDuration;
     @JsonProperty("state")
     private RunStateDTO state;
+
+    @JsonProperty("run_id")
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
 
     @JsonProperty("state")
     public RunStateDTO getState() {
