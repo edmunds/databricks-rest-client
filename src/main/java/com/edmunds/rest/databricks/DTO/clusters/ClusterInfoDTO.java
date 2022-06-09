@@ -95,5 +95,7 @@ public class ClusterInfoDTO implements Serializable {
   private LogSyncStatusDTO clusterLogStatus;
   @JsonProperty("termination_reason")
   private TerminationReasonDTO terminationReason;
+  @JsonProperty("docker_image")
+  private DockerImageDTO dockerImage;
 
 }
