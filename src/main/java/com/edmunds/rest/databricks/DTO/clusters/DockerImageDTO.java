@@ -11,4 +11,7 @@ public class DockerImageDTO {
     private String url;
     @JsonProperty("basic_auth")
     private Map<String, String> basicAuth;
+    public String toString() {
+        return "DockerImageDTO(url=" + this.getUrl() + ")";
+    }
 }
