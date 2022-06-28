@@ -34,8 +34,11 @@ import com.edmunds.rest.databricks.service.LibraryService;
 import com.edmunds.rest.databricks.service.LibraryServiceImpl;
 import com.edmunds.rest.databricks.service.ScimService;
 import com.edmunds.rest.databricks.service.ScimServiceImpl;
+import com.edmunds.rest.databricks.service.SecretsService;
+import com.edmunds.rest.databricks.service.SecretsServiceImpl;
 import com.edmunds.rest.databricks.service.WorkspaceService;
 import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
+
 import java.util.Properties;
 
 
@@ -70,6 +73,7 @@ public class DatabricksServiceFactory {
   private GroupsService groupsService;
   private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
+  private SecretsService secretsService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
                                   DatabricksRestClient databricksRestClient2dot1) {
@@ -164,6 +168,16 @@ public class DatabricksServiceFactory {
       instanceProfilesService = new InstanceProfilesServiceImpl(client2dot0);
     }
     return instanceProfilesService;
+  }
+
+  /**
+   * Will return an SecretService singleton.
+   */
+  public SecretsService getSecretsService() {
+    if (secretsService == null) {
+      secretsService = new SecretsServiceImpl(client2dot0);
+    }
+    return secretsService;
   }
 
   /**
