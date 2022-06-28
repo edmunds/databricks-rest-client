@@ -20,7 +20,24 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.edmunds.rest.databricks.restclient.DefaultHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.HttpClientBuilderFactory;
-import com.edmunds.rest.databricks.service.*;
+import com.edmunds.rest.databricks.service.ClusterService;
+import com.edmunds.rest.databricks.service.ClusterServiceImpl;
+import com.edmunds.rest.databricks.service.DbfsService;
+import com.edmunds.rest.databricks.service.DbfsServiceImpl;
+import com.edmunds.rest.databricks.service.GroupsService;
+import com.edmunds.rest.databricks.service.GroupsServiceImpl;
+import com.edmunds.rest.databricks.service.InstanceProfilesService;
+import com.edmunds.rest.databricks.service.InstanceProfilesServiceImpl;
+import com.edmunds.rest.databricks.service.JobService;
+import com.edmunds.rest.databricks.service.JobServiceImpl;
+import com.edmunds.rest.databricks.service.LibraryService;
+import com.edmunds.rest.databricks.service.LibraryServiceImpl;
+import com.edmunds.rest.databricks.service.ScimService;
+import com.edmunds.rest.databricks.service.ScimServiceImpl;
+import com.edmunds.rest.databricks.service.SecretsService;
+import com.edmunds.rest.databricks.service.SecretsServiceImpl;
+import com.edmunds.rest.databricks.service.WorkspaceService;
+import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
 import java.util.Properties;
 
@@ -153,6 +170,9 @@ public class DatabricksServiceFactory {
     return instanceProfilesService;
   }
 
+  /**
+   * Will return an SecretService singleton.
+   */
   public SecretsService getSecretsService() {
     if (secretsService == null) {
       secretsService = new SecretsServiceImpl(client2dot0);
