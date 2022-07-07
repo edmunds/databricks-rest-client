@@ -97,5 +97,7 @@ public class ClusterInfoDTO implements Serializable {
   private TerminationReasonDTO terminationReason;
   @JsonProperty("docker_image")
   private DockerImageDTO dockerImage;
+  @JsonProperty("runtime_engine")
+  private String runtimeEngine;
 
 }
