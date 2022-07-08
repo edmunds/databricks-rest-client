@@ -18,16 +18,17 @@ package com.edmunds.rest.databricks.fixtures;
 
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.DatabricksServiceFactory.Builder;
-import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.edmunds.rest.databricks.restclient.DefaultHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.HttpClientBuilderFactory;
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Set;
-import org.apache.http.client.ServiceUnavailableRetryStrategy;
+import java.util.Arrays;
+import java.util.Base64;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
 
 /**
  * Created by shong on 7/21/16.
@@ -36,6 +37,8 @@ public class DatabricksFixtures {
   private final static String API_VERSION = "2.0";
   public static String HOSTNAME;
   public static String TOKEN;
+  public static String USERNAME;
+  public static String PASSWORD;
   private static DatabricksRestClient client;
   private static DatabricksRestClient tokenAuthClient;
   private static DatabricksRestClient db425Client;
@@ -44,6 +47,9 @@ public class DatabricksFixtures {
   static {
     HOSTNAME = System.getenv("DB_URL");
     TOKEN = System.getenv("DB_TOKEN");
+    USERNAME = System.getenv("DB_USERNAME");
+    PASSWORD = System.getenv("DB_PASSWORD");
+//    ACCOUNT_ID = System.getenv("DB_ACCOUNT_ID");
   }
 
   public static DatabricksRestClient getDatabricksRestClient() throws IOException {
@@ -102,4 +108,29 @@ public class DatabricksFixtures {
 
     return factory;
   }
+
+  public static DatabricksServiceFactory getDatabricksUserPasswordClientFactory() {
+    if (factory == null) {
+      Builder builder = DatabricksServiceFactory.Builder
+          .createUserPasswordAuthentication(USERNAME, PASSWORD, HOSTNAME)
+          .withMaxRetries(3)
+          .withSoTimeout((int)Duration.ofMinutes(1L).toMillis())
+          .withConnectionRequestTimeout((int)Duration.ofMinutes(1L).toMillis())
+          .withRetryInterval((int)Duration.ofSeconds(5L).toMillis());
+      factory = builder.build(new DefaultHttpClientBuilderFactory(builder) {
+            @Override
+            public HttpClientBuilder createClientBuilder() {
+              HttpClientBuilder defaultBuilder = createDefaultClientBuilder();
+
+              String userPassword = USERNAME + ":" + PASSWORD;
+              String auth =  Base64.getEncoder().encodeToString(userPassword.getBytes(StandardCharsets.UTF_8));
+              String basicAuth = "Basic " + auth;
+              defaultBuilder.setDefaultHeaders(Arrays.asList(new BasicHeader("Authorization", basicAuth)));
+              return defaultBuilder;
+            }
+          });
+    }
+    return factory;
+  }
+
 }
