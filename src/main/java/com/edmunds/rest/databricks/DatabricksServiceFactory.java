@@ -20,6 +20,8 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.edmunds.rest.databricks.restclient.DefaultHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.HttpClientBuilderFactory;
+import com.edmunds.rest.databricks.service.AccountService;
+import com.edmunds.rest.databricks.service.AccountServiceImpl;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
@@ -74,6 +76,7 @@ public class DatabricksServiceFactory {
   private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
   private SecretsService secretsService;
+  private AccountService accountService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
                                   DatabricksRestClient databricksRestClient2dot1) {
@@ -178,6 +181,16 @@ public class DatabricksServiceFactory {
       secretsService = new SecretsServiceImpl(client2dot0);
     }
     return secretsService;
+  }
+
+  /**
+   * Will return an AccountService singleton.
+   */
+  public AccountService getAccountService() {
+    if (accountService == null && client2dot0.getHost().equals("accounts.cloud.databricks.com")) {
+      accountService = new AccountServiceImpl(client2dot0);
+    }
+    return accountService;
   }
 
   /**
