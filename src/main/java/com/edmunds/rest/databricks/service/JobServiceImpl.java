@@ -221,7 +221,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   @Override
   public RunsDTO listRuns(Long jobId, Boolean activeOnly,
                           Integer offset, Integer limit,
-                          Long from, Long until) throws
+                          Long from, Long until, String runType) throws
       DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
 
@@ -237,6 +237,10 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
     if (limit != null) {
       data.put("limit", limit);
+    }
+
+    if (runType != null) {
+      data.put("run_type", runType);
     }
 
     if (from != null) {

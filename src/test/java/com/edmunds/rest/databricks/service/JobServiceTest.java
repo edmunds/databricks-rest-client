@@ -249,7 +249,7 @@ public class JobServiceTest  extends ClusterDependentTest{
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void listRuns_whenCalled_returnsMostRecentRuns()
       throws DatabricksRestException, IOException {
-    RunsDTO result = service.listRuns(jobId, null, null, null, null, null);
+    RunsDTO result = service.listRuns(jobId, null, null, null, null, null, null);
 
     assertNotNull(result);
   }
@@ -323,7 +323,7 @@ public class JobServiceTest  extends ClusterDependentTest{
   }
 
   private boolean isRunIdValid(long runId) throws IOException, DatabricksRestException {
-    RunDTO[] runs = service.listRuns(jobId, null, null, null, null, null).getRuns();
+    RunDTO[] runs = service.listRuns(jobId, null, null, null, null, null, null).getRuns();
 
     for (RunDTO run : runs) {
       if (run.getRunId() == runId) {

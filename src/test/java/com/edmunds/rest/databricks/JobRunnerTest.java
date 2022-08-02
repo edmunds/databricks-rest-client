@@ -165,11 +165,11 @@ public class JobRunnerTest {
   }
 
   private RunDTO getMostRecentRun(Long jobId) throws IOException, DatabricksRestException {
-    return service.listRuns(jobId, null, null, null, null, null).getRuns()[0];
+    return service.listRuns(jobId, null, null, null, null, null, null).getRuns()[0];
   }
 
   private int getNumberOfRuns(long jobId) throws IOException, DatabricksRestException {
-    RunsDTO runsDTO = service.listRuns(jobId, null, null, null, null, null);
+    RunsDTO runsDTO = service.listRuns(jobId, null, null, null, null, null, null);
     return runsDTO.getRuns() != null ? runsDTO.getRuns().length : 0;
   }
 }

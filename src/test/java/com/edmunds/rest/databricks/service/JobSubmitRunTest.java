@@ -102,7 +102,7 @@ public class JobSubmitRunTest extends ClusterDependentTest {
   @Test
   public void main_runExists()
       throws InterruptedException, DatabricksRestException, IOException, ParseException {
-    RunsDTO runsDTO = service.listRuns(runDTO.getJobId(), null, null, null, null, null);
+    RunsDTO runsDTO = service.listRuns(runDTO.getJobId(), null, null, null, null, null, null);
     assertEquals(runsDTO.getRuns().length, 1);
   }
 }
