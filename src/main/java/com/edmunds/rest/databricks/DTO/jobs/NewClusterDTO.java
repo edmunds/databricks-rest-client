@@ -43,7 +43,8 @@ import java.util.Objects;
         NewClusterDTO.JSON_PROPERTY_INIT_SCRIPTS,
         NewClusterDTO.JSON_PROPERTY_SPARK_ENV_VARS,
         NewClusterDTO.JSON_PROPERTY_ENABLE_ELASTIC_DISK,
-        NewClusterDTO.JSON_PROPERTY_INSTANCE_POOL_ID
+        NewClusterDTO.JSON_PROPERTY_INSTANCE_POOL_ID,
+        NewClusterDTO.JSON_PROPERTY_DRIVER_INSTANCE_POOL_ID,
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2022-03-09T23:53:34.566-08:00[America/Los_Angeles]")
 public class NewClusterDTO {
@@ -60,6 +61,7 @@ public class NewClusterDTO {
     public static final String JSON_PROPERTY_SPARK_ENV_VARS = "spark_env_vars";
     public static final String JSON_PROPERTY_ENABLE_ELASTIC_DISK = "enable_elastic_disk";
     public static final String JSON_PROPERTY_INSTANCE_POOL_ID = "instance_pool_id";
+    public static final String JSON_PROPERTY_DRIVER_INSTANCE_POOL_ID = "driver_instance_pool_id";
     private static final String JSON_PROPERTY_AWS_ATTRIBUTES = "aws_attributes";
     @JsonProperty(JSON_PROPERTY_NUM_WORKERS)
     private Integer numWorkers;
@@ -89,6 +91,8 @@ public class NewClusterDTO {
     private Boolean enableElasticDisk;
     @JsonProperty(JSON_PROPERTY_INSTANCE_POOL_ID)
     private String instancePoolId;
+    @JsonProperty(JSON_PROPERTY_DRIVER_INSTANCE_POOL_ID)
+    private String driverInstancePoolId;
 
     public NewClusterDTO numWorkers(Integer numWorkers) {
         this.numWorkers = numWorkers;
@@ -376,6 +380,24 @@ public class NewClusterDTO {
         this.instancePoolId = instancePoolId;
     }
 
+    public NewClusterDTO driverInstancePoolId(String driverInstancePoolId) {
+        this.driverInstancePoolId = driverInstancePoolId;
+        return this;
+    }
+
+    /**
+     * The optional ID of the instance pool to use for the driver node. You must also specify instance_pool_id. Refer to [Instance Pools API 2.0](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/instance-pools) for details.
+     *
+     * @return instancePoolId
+     **/
+    @JsonProperty(value = "driver_instance_pool_id")
+    public String getDriverInstancePoolId() {
+        return driverInstancePoolId;
+    }
+
+    public void setDriverInstancePoolId(String driverInstancePoolId) {
+        this.driverInstancePoolId = driverInstancePoolId;
+    }
 
     @Override
     public boolean equals(Object o) {
