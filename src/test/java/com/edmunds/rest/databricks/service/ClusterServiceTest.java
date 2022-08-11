@@ -30,6 +30,7 @@ import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterStateDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ListOrderDTO;
 import com.edmunds.rest.databricks.DTO.EbsVolumeTypeDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
@@ -152,7 +153,7 @@ public class ClusterServiceTest extends ClusterDependentTest {
   public void listEvents_whenCalled_showsEvents() throws IOException, DatabricksRestException {
     ClusterInfoDTO[] clusterInfoDTO = service.list();
     String clusterId = clusterInfoDTO[0].getClusterId();
-    List<ClusterEventDTO> events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 0, 50);
+    List<ClusterEventDTO> events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 0, 50, ListOrderDTO.DESC);
     assertTrue(events.size() > 0);
   }
 }

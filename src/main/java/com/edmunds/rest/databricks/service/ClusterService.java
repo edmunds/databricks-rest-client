@@ -21,6 +21,7 @@ import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterEventTypeDTO;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterInfoDTO;
+import com.edmunds.rest.databricks.DTO.clusters.ListOrderDTO;
 import com.edmunds.rest.databricks.DTO.clusters.NodeTypeDTO;
 import com.edmunds.rest.databricks.DTO.clusters.SparkVersionDTO;
 import com.edmunds.rest.databricks.DTO.jobs.NewClusterDTO;
@@ -173,7 +174,7 @@ public interface ClusterService {
    * @throws DatabricksRestException any errors with the request
    */
   List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
-      int offset, int limit) throws IOException,
+                                   int offset, int limit, ListOrderDTO order) throws IOException,
       DatabricksRestException;
 
   /**
