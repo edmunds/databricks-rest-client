@@ -60,6 +60,8 @@ public class RunDTO implements Serializable {
   private long cleanupDuration;
   @JsonProperty("trigger")
   private TriggerTypeDTO trigger;
+  @JsonProperty("job_clusters")
+  private JobCluster[] jobClusters;
 
   // custom parameters
   @JsonProperty("run_name")
