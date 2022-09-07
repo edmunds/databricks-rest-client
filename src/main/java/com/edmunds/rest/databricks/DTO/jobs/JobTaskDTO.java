@@ -57,7 +57,7 @@ public class JobTaskDTO {
     @JsonProperty("cluster_instance")
     private ClusterInstanceDTO clusterInstance;
     @JsonProperty("new_cluster")
-    private ClusterSpecDTO newCluster;
+    private NewClusterDTO newCluster;
     @JsonProperty("existing_cluster_id")
     private String existingClusterId;
     @JsonProperty("job_cluster_key")
@@ -169,11 +169,11 @@ public class JobTaskDTO {
     }
 
     @JsonProperty("new_cluster")
-    public ClusterSpecDTO getNewCluster() {
+    public NewClusterDTO getNewCluster() {
         return newCluster;
     }
 
-    public void setNewCluster(ClusterSpecDTO newCluster) {
+    public void setNewCluster(NewClusterDTO newCluster) {
         this.newCluster = newCluster;
     }
 

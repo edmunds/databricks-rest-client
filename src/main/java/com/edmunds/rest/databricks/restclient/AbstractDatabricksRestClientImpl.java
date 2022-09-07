@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -80,6 +81,9 @@ public abstract class AbstractDatabricksRestClientImpl implements DatabricksRest
         throw new DatabricksRestException("Databricks Rest API returned the error: User not authorized");
       } else {
         String response = IOUtils.toString(httpResponse.getEntity().getContent(), "utf-8");
+        if (response.isEmpty()) {
+          response = String.valueOf(httpResponse.getStatusLine().getStatusCode());
+        }
         throw new DatabricksRestException("Databricks Rest API returned error: \"" + response + "\"");
       }
     }
