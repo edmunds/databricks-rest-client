@@ -55,6 +55,8 @@ public class ClusterAttributesDTO implements Serializable {
   private boolean enableElasticDisk;
   @JsonProperty("instance_pool_id")
   private String instancePoolId;
+  @JsonProperty("driver_instance_pool_id")
+  private String driverInstancePoolId;
   @JsonProperty("cluster_source")
   private ClusterSourceDTO clusterSource;
 
