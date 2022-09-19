@@ -16,9 +16,10 @@
 
 package com.edmunds.rest.databricks.DTO.jobs;
 
-import com.edmunds.rest.databricks.DTO.libraries.LibraryDTO;
+import com.edmunds.rest.databricks.DTO.perimissions.AccessControlRequestDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -28,35 +29,22 @@ import lombok.Data;
 @Data
 public class JobSettingsDTO implements Serializable {
 
-  @JsonProperty("existing_cluster_id")
-  private String existingClusterId;
-  @JsonProperty("new_cluster")
-  private NewClusterDTO newCluster;
-  @JsonProperty("notebook_task")
-  private NotebookTaskDTO notebookTask;
-  @JsonProperty("spark_jar_task")
-  private SparkJarTaskDTO sparkJarTask;
-  @JsonProperty("spark_python_task")
-  private SparkPythonTaskDTO sparkPythonTask;
-  @JsonProperty("spark_submit_task")
-  private SparkSubmitTaskDTO sparkSubmitTask;
   @JsonProperty("name")
   private String name;
-  @JsonProperty("libraries")
-  private LibraryDTO[] libraries;
+  @JsonProperty("tags")
+  private Map<String, String> tags;
+  @JsonProperty("tasks")
+  private JobTaskDTO[] tasks;
+  @JsonProperty("job_clusters")
+  private JobClusterDTO[] jobClusters;
   @JsonProperty("email_notifications")
   private JobEmailNotificationsDTO emailNotifications;
   @JsonProperty("timeout_seconds")
-  private Long timeoutSeconds;
-  @JsonProperty("max_retries")
-  private Integer maxRetries;
-  @JsonProperty("min_retry_interval_millis")
-  private Long minRetryIntervalMillis;
-  @JsonProperty("retry_on_timeout")
-  private boolean retryOnTimeout;
+  int timeoutSeconds;
   @JsonProperty("schedule")
   private CronScheduleDTO schedule;
   @JsonProperty("max_concurrent_runs")
-  private Integer maxConcurrentRuns;
-
+  private int maxConcurrentRuns;
+  @JsonProperty("access_control_list")
+  private AccessControlRequestDTO[] accessControlList;
 }

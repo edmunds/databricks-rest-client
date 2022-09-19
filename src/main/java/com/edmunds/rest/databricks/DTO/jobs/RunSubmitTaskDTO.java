@@ -18,27 +18,23 @@ package com.edmunds.rest.databricks.DTO.jobs;
 
 import com.edmunds.rest.databricks.DTO.libraries.LibraryDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
 import lombok.Data;
+import java.io.Serializable;
 
 /**
  *
  */
 @Data
-public class JobTaskDTO implements Serializable {
+public class RunSubmitTaskDTO implements Serializable {
 
   @JsonProperty("task_key")
   private String taskKey;
-  @JsonProperty("description")
-  private String description;
   @JsonProperty("depends_on")
   private TaskDependencyDTO[] dependsOn;
   @JsonProperty("existing_cluster_id")
   private String existingClusterId;
   @JsonProperty("new_cluster")
   private NewClusterDTO newCluster;
-  @JsonProperty("job_cluster_key")
-  private String jobClusterKey;
   @JsonProperty("notebook_task")
   private NotebookTaskDTO notebookTask;
   @JsonProperty("spark_jar_task")
@@ -49,15 +45,6 @@ public class JobTaskDTO implements Serializable {
   private SparkSubmitTaskDTO sparkSubmitTask;
   @JsonProperty("libraries")
   private LibraryDTO[] libabries;
-  @JsonProperty("email_notifications")
-  private JobEmailNotificationsDTO jobEmailNotifications;
   @JsonProperty("timeout_seconds")
   private Long timeoutSeconds;
-  @JsonProperty("max_retries")
-  private Integer maxRetries;
-  @JsonProperty("min_retry_interval_millis")
-  private Long minRetryIntervalMillis;
-  @JsonProperty("retry_on_timeout")
-  private boolean retryOnTimeout;
-
 }

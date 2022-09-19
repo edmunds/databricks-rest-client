@@ -146,7 +146,7 @@ public final class TestUtil {
     };
   }
 
-  private static RunLifeCycleStateDTO getRunState(long run_id, final JobService service)
+  public static RunLifeCycleStateDTO getRunState(long run_id, final JobService service)
       throws IOException,
              DatabricksRestException {
     RunDTO run = service.getRun(run_id);

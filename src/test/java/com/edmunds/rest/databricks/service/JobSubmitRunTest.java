@@ -18,6 +18,9 @@ package com.edmunds.rest.databricks.service;
 
 import static org.testng.Assert.assertEquals;
 
+import com.edmunds.rest.databricks.DTO.jobs.JobTaskDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitTaskDTO;
 import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
@@ -72,10 +75,16 @@ public class JobSubmitRunTest extends ClusterDependentTest {
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
-    JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
-    jobSettingsDTO.setName(JOB_NAME);
-    jobSettingsDTO.setExistingClusterId(clusterId);
-    jobSettingsDTO.setNotebookTask(notebook_task);
+
+    RunSubmitDTO runSubmitDTO = new RunSubmitDTO();
+    runSubmitDTO.setRunName(JOB_NAME);
+
+    RunSubmitTaskDTO jobTaskDTO = new RunSubmitTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    runSubmitDTO.setTasks(new RunSubmitTaskDTO[]{jobTaskDTO});
 
     // there's possibility test TearDownFailure. it cause test job not-deleted.
     List<JobDTO> jobList = service.getJobsByName(JOB_NAME);
@@ -83,7 +92,7 @@ public class JobSubmitRunTest extends ClusterDependentTest {
       service.deleteJob(jobDTO.getJobId());
     }
 
-    runNowDTO = service.runSubmit(jobSettingsDTO);
+    runNowDTO = service.runSubmit(runSubmitDTO);
     runDTO = service.getRun(runNowDTO.getRunId());
 
   }

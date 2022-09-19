@@ -31,6 +31,8 @@ public class JobDTO implements Serializable {
   private long jobId;
   @JsonProperty("creator_user_name")
   private String creatorUserName;
+  @JsonProperty("run_as_user_name")
+  private String runAsUserName;
   @JsonProperty("settings")
   private JobSettingsDTO settings;
   @JsonProperty("created_time")

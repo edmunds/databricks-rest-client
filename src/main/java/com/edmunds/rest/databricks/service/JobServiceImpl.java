@@ -24,6 +24,7 @@ import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
 import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
 import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -135,7 +136,11 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
 
     List<JobDTO> foundJobDTOs = new ArrayList<>();
-    for (JobDTO jobDTO : listAllJobs().getJobs()) {
+    JobsDTO jobsDTO = listAllJobs(20, 0, true);
+    if (jobsDTO.getJobs() == null) {
+      return foundJobDTOs;
+    }
+    for (JobDTO jobDTO : jobsDTO.getJobs()) {
       JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
       Matcher matcher = regex.matcher(jobSettingsDTO.getName());
       if (matcher.matches()) {
@@ -146,8 +151,14 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobsDTO listAllJobs() throws DatabricksRestException, IOException {
-    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", null);
+  public JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
+    Map<String, Object> data = new HashMap<>();
+
+    data.put("limit", String.valueOf(limit));
+    data.put("offset", String.valueOf(offset));
+    data.put("expand_tasks", String.valueOf(expandTasks));
+
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
     return this.mapper.readValue(responseBody, JobsDTO.class);
   }
 
@@ -283,8 +294,8 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException {
-    String marshalled = this.mapper.writeValueAsString(jobSettings);
+  public RunNowDTO runSubmit(RunSubmitDTO runSettings) throws IOException, DatabricksRestException {
+    String marshalled = this.mapper.writeValueAsString(runSettings);
     Map<String, Object> data = this.mapper.readValue(marshalled, new
         TypeReference<Map<String, Object>>() {
         });

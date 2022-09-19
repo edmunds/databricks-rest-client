@@ -24,6 +24,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import com.edmunds.rest.databricks.DTO.jobs.JobTaskDTO;
 import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
@@ -50,7 +51,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class JobServiceTest  extends ClusterDependentTest{
+public class  JobServiceTest  extends ClusterDependentTest{
   String jobName = "JobServiceTest_setUpOnce_test_job";
   String multiJobName = "JobServiceTest_multipleJobs";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
@@ -89,8 +90,13 @@ public class JobServiceTest  extends ClusterDependentTest{
     clusterId = TestUtil.getTestClusterId(factory.getClusterService());
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(jobName);
-    jobSettingsDTO.setExistingClusterId(clusterId);
-    jobSettingsDTO.setNotebookTask(notebook_task);
+
+    JobTaskDTO jobTaskDTO = new JobTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    jobSettingsDTO.setTasks(new JobTaskDTO[]{jobTaskDTO});
 
     jobId = service.createJob(jobSettingsDTO);
 
@@ -98,7 +104,7 @@ public class JobServiceTest  extends ClusterDependentTest{
 
     await()
         .pollInterval(10, SECONDS)
-        .atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
+        .atMost(10, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
         runId, service));
   }
 
@@ -127,13 +133,20 @@ public class JobServiceTest  extends ClusterDependentTest{
   public void createMultiJobs() throws IOException, DatabricksRestException {
     JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
     jobSettingsDTO.setName(multiJobName);
-    jobSettingsDTO.setExistingClusterId(clusterId);
+
+    JobTaskDTO jobTaskDTO = new JobTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
-    jobSettingsDTO.setNotebookTask(notebook_task);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    jobSettingsDTO.setTasks(new JobTaskDTO[]{jobTaskDTO});
+
     long jobIdOne = service.createJob(jobSettingsDTO);
     long jobIdTwo = service.createJob(jobSettingsDTO);
-    multiJobId = new long[] {jobIdOne, jobIdTwo};
+    multiJobId = jobIdOne < jobIdTwo ? new long[] {jobIdOne, jobIdTwo} : new long[] {jobIdTwo, jobIdOne};
 
     assertEquals(service.getJobsByName(multiJobName).size(), 2);
   }
@@ -170,7 +183,7 @@ public class JobServiceTest  extends ClusterDependentTest{
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void listAllJobs_whenCalled_returnsListOfAllJobs()
       throws IOException, DatabricksRestException {
-    JobsDTO result = service.listAllJobs();
+    JobsDTO result = service.listAllJobs(20, 0, false);
 
     assertTrue(result.getJobs().length >= 1);
   }
@@ -224,15 +237,14 @@ public class JobServiceTest  extends ClusterDependentTest{
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce"})
-  public void runJobNow_whenCalled_startsNewRun() throws IOException, DatabricksRestException {
+  public void runJobNow_whenCalled_startsNewRun() throws IOException, DatabricksRestException, InterruptedException {
     Map<String, String> notebook_params = new HashMap<>();
     notebook_params.put("test_arg", "hello world!!");
     long calledRunId = service.runJobNow(jobId, notebook_params).getRunId();
 
-
     await()
         .pollInterval(10, SECONDS)
-        .atMost(1, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
+        .atMost(10, MINUTES).until(TestUtil.runLifeCycleStateHasChangedTo(RunLifeCycleStateDTO.TERMINATED,
         calledRunId, service));
 
     assertTrue(isRunIdValid(calledRunId));
@@ -261,26 +273,45 @@ public class JobServiceTest  extends ClusterDependentTest{
   public void reset_whenCalled_overridesSettings() throws IOException, DatabricksRestException {
     JobDTO originalJob = service.getJob(jobId);
     JobSettingsDTO newJobSettings = originalJob.getSettings();
-    newJobSettings.setMaxRetries(10);
+    JobTaskDTO jobTaskDTO = new JobTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setMaxRetries(10);
+
+    NotebookTaskDTO notebook_task = new NotebookTaskDTO();
+    notebook_task.setNotebookPath(NOTEBOOK_PATH);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    newJobSettings.setTasks(new JobTaskDTO[]{jobTaskDTO});
 
     service.reset(jobId, newJobSettings);
 
     JobDTO newJob = service.getJob(jobId);
 
-    assertEquals(newJob.getSettings().getMaxRetries().intValue(), 10);
+    assertEquals(newJob.getSettings().getTasks()[0].getMaxRetries().intValue(), 10);
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void upsertJob_whenJobExists_resetsJob() throws IOException, DatabricksRestException {
     JobDTO originalJob = service.getJob(jobId);
     JobSettingsDTO newJobSettings = originalJob.getSettings();
-    newJobSettings.setMaxRetries(20);
+    JobTaskDTO jobTaskDTO = new JobTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setMaxRetries(20);
+
+    NotebookTaskDTO notebook_task = new NotebookTaskDTO();
+    notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+
+    newJobSettings.setTasks(new JobTaskDTO[]{jobTaskDTO});
 
     service.upsertJob(newJobSettings, false);
 
     JobDTO newJob = service.getJob(jobId);
 
-    assertEquals(newJob.getSettings().getMaxRetries().intValue(), 20);
+    assertEquals(newJob.getSettings().getTasks()[0].getMaxRetries().intValue(), 20);
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce"})
@@ -289,19 +320,29 @@ public class JobServiceTest  extends ClusterDependentTest{
     JobDTO originalJob = service.getJob(jobId);
     JobSettingsDTO newJobSettings = originalJob.getSettings();
     newJobSettings.setName("new-job");
-    newJobSettings.setMaxRetries(5);
+
+    NotebookTaskDTO notebook_task = new NotebookTaskDTO();
+    notebook_task.setNotebookPath("/Users/dwhrestapi@edmunds.com/test_notebook");
+
+    JobTaskDTO jobTaskDTO = new JobTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setMaxRetries(5);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    newJobSettings.setTasks(new JobTaskDTO[]{jobTaskDTO});
 
     service.upsertJob(newJobSettings, false);
 
     JobDTO newJob = service.getJobByName("new-job");
     service.deleteJob(newJob.getJobId());
 
-    assertEquals(newJob.getSettings().getMaxRetries().intValue(), 5);
+    assertEquals(newJob.getSettings().getTasks()[0].getMaxRetries().intValue(), 5);
   }
 
   private boolean isJobIdValid(long jobId) throws IOException, DatabricksRestException {
 
-    JobDTO[] jobs = service.listAllJobs().getJobs();
+    JobDTO[] jobs = service.listAllJobs(20, 0, false).getJobs();
     for (JobDTO job : jobs) {
       if (job.getJobId() == jobId) {
         return true;

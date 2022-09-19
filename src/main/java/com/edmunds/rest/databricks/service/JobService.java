@@ -23,6 +23,7 @@ import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
 import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
 import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
 import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import java.io.IOException;
 import java.util.List;
@@ -99,10 +100,14 @@ public interface JobService {
 
   /**
    * Returns a list of all jobs that are active.
-   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
+   * @param offset The offset of the first run to return, relative to the most recent run. The
+   *     default value is 20
+   * @param limit The number of runs to return. This value should be greater than 0 and less than 25.
+   * @param expandTasks Whether to include task and cluster details in the response.
+   *     1000   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @return A POJO of the Jobs
    */
-  JobsDTO listAllJobs() throws IOException, DatabricksRestException;
+  JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws IOException, DatabricksRestException;
 
   /**
    * Produces the URL of a job given job id.
@@ -207,11 +212,11 @@ public interface JobService {
   /**
    * Submit a one-time run. This endpoint doesn’t require a Databricks job to be created
    *
-   * @param jobSettings the settings to change the job to
+   * @param runSettings the settings to change the job to
    * @return Returns the run_id of the triggered run
    * @see <a href="https://docs.databricks.com/api/latest/jobs.html#runs-submit">https://docs.databricks.com/api/latest/jobs.html#runs-submit</a>
    */
-  RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException;
+  RunNowDTO runSubmit(RunSubmitDTO runSettings) throws IOException, DatabricksRestException;
 
   /**
    * Retrieve the output of a run.
