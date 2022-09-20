@@ -48,15 +48,15 @@ public class JobTaskDTO implements Serializable {
   @JsonProperty("spark_submit_task")
   private SparkSubmitTaskDTO sparkSubmitTask;
   @JsonProperty("libraries")
-  private LibraryDTO[] libabries;
+  private LibraryDTO[] libraries;
   @JsonProperty("email_notifications")
   private JobEmailNotificationsDTO jobEmailNotifications;
   @JsonProperty("timeout_seconds")
-  private Long timeoutSeconds;
+  private Integer timeoutSeconds;
   @JsonProperty("max_retries")
   private Integer maxRetries;
   @JsonProperty("min_retry_interval_millis")
-  private Long minRetryIntervalMillis;
+  private Integer minRetryIntervalMillis;
   @JsonProperty("retry_on_timeout")
   private boolean retryOnTimeout;
 
