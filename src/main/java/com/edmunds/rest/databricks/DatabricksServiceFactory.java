@@ -24,6 +24,8 @@ import com.edmunds.rest.databricks.service.AccountService;
 import com.edmunds.rest.databricks.service.AccountServiceImpl;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
+import com.edmunds.rest.databricks.service.DLTService;
+import com.edmunds.rest.databricks.service.DLTServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
 import com.edmunds.rest.databricks.service.DbfsServiceImpl;
 import com.edmunds.rest.databricks.service.GroupsService;
@@ -71,6 +73,7 @@ public class DatabricksServiceFactory {
   private LibraryService libraryService;
   private WorkspaceService workspaceService;
   private JobService jobService;
+  private DLTService dltService;
   private DbfsService dbfsService;
   private GroupsService groupsService;
   private ScimService scimService;
@@ -120,6 +123,16 @@ public class DatabricksServiceFactory {
       }
     }
     return jobService;
+  }
+
+  /**
+   * Will return a DLTService singleton.
+   */
+  public DLTService getDLTService() {
+    if (dltService == null) {
+      dltService = new DLTServiceImpl(client2dot0);
+    }
+    return dltService;
   }
 
   /**
