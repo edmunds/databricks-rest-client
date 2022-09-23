@@ -13,7 +13,7 @@ public class PipelineSpecDTO {
     public static final String JSON_PROPERTY_STORAGE = "storage";
     public static final String JSON_PROPERTY_CONFIGURATION = "configuration";
     public static final String JSON_PROPERTY_CLUSTERS = "clusters";
-
+    public static final String JSON_PROPERTY_LIBRARIES = "libraries";
     public static final String JSON_PROPERTY_TARGET = "target";
     public static final String JSON_PROPERTY_CONTINUOUS = "continuous";
     public static final String JSON_PROPERTY_DEVELOPMENT = "development";
@@ -35,6 +35,9 @@ public class PipelineSpecDTO {
 
     @JsonProperty(JSON_PROPERTY_CLUSTERS)
     private PipelineClusterDTO[] clusters;
+
+    @JsonProperty(JSON_PROPERTY_LIBRARIES)
+    private PipelineLibraryDTO[] libraries;
 
     @JsonProperty(JSON_PROPERTY_TARGET)
     private String target;

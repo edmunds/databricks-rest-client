@@ -3,6 +3,8 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineDetailsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineEventsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelinesDTO;
+import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsDTO;
+import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsResponseDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -33,11 +35,10 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
   }
 
   @Override
-  public PipelineDetailsDTO updatePipeline(PipelineDetailsDTO pipelineDetailsDTO)
+  public PipelineDetailsDTO updatePipeline(String pipelineId, Map<String, Object> data)
           throws IOException, DatabricksRestException {
-    //TODO: implement updateEndpoint
-    String path = String.format("/pipelines/%s", pipelineDetailsDTO.getPipelineId());
-    byte[] responseBody = client.performQuery(RequestMethod.PUT, path, new HashMap<>());
+    String path = String.format("/pipelines/%s", pipelineId);
+    byte[] responseBody = client.performQuery(RequestMethod.PUT, path, data);
     return this.mapper.readValue(responseBody, PipelineDetailsDTO.class);
   }
 
@@ -59,5 +60,13 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     String path = String.format("/pipelines/%s/events", pipelineId);
     byte[] responseBody = client.performQuery(RequestMethod.GET, path, data);
     return this.mapper.readValue(responseBody, PipelineEventsDTO.class);
+  }
+
+  @Override
+  public UpdateDetailsResponseDTO getUpdateDetails(String pipelineId, String updateId)
+          throws IOException, DatabricksRestException {
+    String path = String.format("/pipelines/%s/updates/%s", pipelineId, updateId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, path, new HashMap<>());
+    return this.mapper.readValue(responseBody, UpdateDetailsResponseDTO.class);
   }
 }
