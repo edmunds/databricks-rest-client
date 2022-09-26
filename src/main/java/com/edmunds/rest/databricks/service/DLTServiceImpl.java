@@ -3,8 +3,8 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineDetailsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineEventsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelinesDTO;
-import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsResponseDTO;
+import com.edmunds.rest.databricks.DTO.dlt.UpdateInfoWrapperDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -68,5 +68,17 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     String path = String.format("/pipelines/%s/updates/%s", pipelineId, updateId);
     byte[] responseBody = client.performQuery(RequestMethod.GET, path, new HashMap<>());
     return this.mapper.readValue(responseBody, UpdateDetailsResponseDTO.class);
+  }
+
+  @Override
+  public UpdateInfoWrapperDTO listPipelineUpdates(String pipelineId, String pageToken)
+          throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("max_results", 100);
+    data.put("page_token", pageToken);
+
+    String path = String.format("/pipelines/%s/updates", pipelineId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, path, data);
+    return this.mapper.readValue(responseBody, UpdateInfoWrapperDTO.class);
   }
 }

@@ -3,8 +3,8 @@ package com.edmunds.rest.databricks.service;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineDetailsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelineEventsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.PipelinesDTO;
-import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsDTO;
 import com.edmunds.rest.databricks.DTO.dlt.UpdateDetailsResponseDTO;
+import com.edmunds.rest.databricks.DTO.dlt.UpdateInfoWrapperDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 
 import java.io.IOException;
@@ -23,6 +23,9 @@ public interface DLTService {
           throws IOException, DatabricksRestException;
 
   UpdateDetailsResponseDTO getUpdateDetails(String pipelineId, String updateId)
+          throws IOException, DatabricksRestException;
+
+  UpdateInfoWrapperDTO listPipelineUpdates(String pipelineId, String pageToken)
           throws IOException, DatabricksRestException;
 
 }

@@ -20,7 +20,7 @@ public class PipelineDTO {
     @JsonProperty(JSON_PROPERTY_NAME)
     private String name;
     @JsonProperty(JSON_PROPERTY_LATEST_UPDATES)
-    private UpdateInfoDTO[] latestUpdates;
+    private LatestUpdateDTO[] latestUpdates;
     @JsonProperty(JSON_PROPERTY_CREATOR_USER_NAME)
     private String creatorUsername;
     @JsonProperty(JSON_PROPERTY_RUN_AS_USER_NAME)

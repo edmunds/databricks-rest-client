@@ -1,7 +1,9 @@
 package com.edmunds.rest.databricks.DTO.dlt;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class UpdateDetailsDTO {
     public static final String JSON_PROPERTY_PIPELINE_ID = "pipeline_id";
     public static final String JSON_PROPERTY_UPDATE_ID = "update_id";
