@@ -25,7 +25,7 @@ public class UpdateInfoDTO {
     private String state;
 
     @JsonProperty(JSON_PROPERTY_CREATION_TIME)
-    private String creationTime;
+    private Long creationTime;
 
     @JsonProperty(JSON_PROPERTY_FULL_REFRESH)
     private Boolean fullRefresh;
