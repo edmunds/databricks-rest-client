@@ -136,7 +136,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     }
 
     List<JobDTO> foundJobDTOs = new ArrayList<>();
-    JobsDTO jobsDTO = listAllJobs(20, 0, true);
+    JobsDTO jobsDTO = listJobs(20, 0, true);
     if (jobsDTO.getJobs() == null) {
       return foundJobDTOs;
     }
@@ -151,7 +151,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
+  public JobsDTO listJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
 
     data.put("limit", String.valueOf(limit));

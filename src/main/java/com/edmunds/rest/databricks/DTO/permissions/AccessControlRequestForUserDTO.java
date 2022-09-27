@@ -1,4 +1,4 @@
-package com.edmunds.rest.databricks.DTO.perimissions;
+package com.edmunds.rest.databricks.DTO.permissions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

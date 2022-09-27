@@ -107,7 +107,7 @@ public interface JobService {
    *     1000   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @return A POJO of the Jobs
    */
-  JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws IOException, DatabricksRestException;
+  JobsDTO listJobs(int limit, int offset, boolean expandTasks) throws IOException, DatabricksRestException;
 
   /**
    * Produces the URL of a job given job id.

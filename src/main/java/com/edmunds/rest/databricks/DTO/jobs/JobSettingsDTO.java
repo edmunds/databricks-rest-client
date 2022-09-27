@@ -16,7 +16,7 @@
 
 package com.edmunds.rest.databricks.DTO.jobs;
 
-import com.edmunds.rest.databricks.DTO.perimissions.AccessControlRequestDTO;
+import com.edmunds.rest.databricks.DTO.permissions.AccessControlRequestDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Map;
