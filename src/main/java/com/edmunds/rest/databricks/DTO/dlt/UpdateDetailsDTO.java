@@ -27,7 +27,7 @@ public class UpdateDetailsDTO {
     private String cause;
 
     @JsonProperty(JSON_PROPERTY_STATE)
-    private String state;
+    private PipelineUpdateResultStateDTO state;
 
     @JsonProperty(JSON_PROPERTY_CLUSTER_ID)
     private String clusterId;

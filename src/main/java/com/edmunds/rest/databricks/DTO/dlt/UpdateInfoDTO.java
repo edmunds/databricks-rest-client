@@ -22,7 +22,7 @@ public class UpdateInfoDTO {
     private String cause;
 
     @JsonProperty(JSON_PROPERTY_STATE)
-    private String state;
+    private PipelineUpdateResultStateDTO state;
 
     @JsonProperty(JSON_PROPERTY_CREATION_TIME)
     private Long creationTime;

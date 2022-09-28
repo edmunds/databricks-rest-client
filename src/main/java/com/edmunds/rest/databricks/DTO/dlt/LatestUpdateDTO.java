@@ -16,6 +16,6 @@ public class LatestUpdateDTO {
     private String state;
 
     @JsonProperty(JSON_PROPERTY_CREATION_TIME)
-    private String creationTime;
+    private PipelineUpdateResultStateDTO creationTime;
 
 }

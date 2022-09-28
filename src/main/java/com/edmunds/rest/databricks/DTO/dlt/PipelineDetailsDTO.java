@@ -22,7 +22,7 @@ public class PipelineDetailsDTO {
     private PipelineSpecDTO spec;
 
     @JsonProperty(JSON_PROPERTY_STATE)
-    private String state;
+    private PipelineUpdateResultStateDTO state;
 
     @JsonProperty(JSON_PROPERTY_NAME)
     private String name;

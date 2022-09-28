@@ -16,7 +16,7 @@ public class PipelineDTO {
     @JsonProperty(JSON_PROPERTY_PIPELINE_ID)
     private String pipelineId;
     @JsonProperty(JSON_PROPERTY_STATE)
-    private String state;
+    private PipelineUpdateResultStateDTO state;
     @JsonProperty(JSON_PROPERTY_NAME)
     private String name;
     @JsonProperty(JSON_PROPERTY_LATEST_UPDATES)
