@@ -96,7 +96,7 @@ public class DatabricksRestClientTest {
     DatabricksServiceFactory.Builder builder = DatabricksFixtures.createDatabricksServiceBuilder();
     TestHttpClientBuilderFactory factory = new TestHttpClientBuilderFactory(404, builder);
     HttpServiceUnavailableRetryStrategy retryStrategy = (HttpServiceUnavailableRetryStrategy)factory.getServiceUnavailableRetryStrategy();
-    DatabricksRestClientImpl notFoundClient = new DatabricksRestClientImpl(builder, factory);
+    DatabricksRestClientImpl notFoundClient = new DatabricksRestClientImpl(builder, factory, "2.0");
     try {
       notFoundClient.performQuery(RequestMethod.GET, "/fake_path", null);
     } catch (DatabricksRestException e) {

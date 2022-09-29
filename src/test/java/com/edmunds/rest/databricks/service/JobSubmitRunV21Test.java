@@ -18,14 +18,15 @@ package com.edmunds.rest.databricks.service;
 
 import static org.testng.Assert.assertEquals;
 
-import com.edmunds.rest.databricks.DTO.RunNowDTO;
-import com.edmunds.rest.databricks.DTO.RunsDTO;
-import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
-import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitTaskDTO;
+import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
+import com.edmunds.rest.databricks.DTO.jobs.JobDTOv21;
+import com.edmunds.rest.databricks.DTO.workspace.LanguageDTO;
 import com.edmunds.rest.databricks.DTO.jobs.NotebookTaskDTO;
 import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
-import com.edmunds.rest.databricks.DTO.workspace.ExportFormatDTO;
-import com.edmunds.rest.databricks.DTO.workspace.LanguageDTO;
+import com.edmunds.rest.databricks.DTO.RunNowDTO;
+import com.edmunds.rest.databricks.DTO.RunsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
@@ -41,10 +42,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class JobSubmitRunTest extends ClusterDependentTest {
+public class JobSubmitRunV21Test extends ClusterDependentTest {
   private static final String JOB_NAME = "JobRunnerTest_test_job";
   private static final String NOTEBOOK_PATH = "/tmp/testing/test_notebook.scala";
-  private JobService service;
+  private JobServiceV21 service;
   private WorkspaceService workspaceService;
   private RunDTO runDTO;
   private RunNowDTO runNowDTO;
@@ -56,7 +57,7 @@ public class JobSubmitRunTest extends ClusterDependentTest {
   public void setUpOnce() throws IOException, DatabricksRestException, InterruptedException {
     super.setUpOnce();
     DatabricksServiceFactory factory = DatabricksFixtures.getDatabricksServiceFactory();
-    service = factory.getJobService();
+    service = factory.getJobServiceV21();
     workspaceService = factory.getWorkspaceService();
 
     workspaceService.mkdirs("/tmp/testing/");
@@ -72,18 +73,24 @@ public class JobSubmitRunTest extends ClusterDependentTest {
 
     NotebookTaskDTO notebook_task = new NotebookTaskDTO();
     notebook_task.setNotebookPath(NOTEBOOK_PATH);
-    JobSettingsDTO jobSettingsDTO = new JobSettingsDTO();
-    jobSettingsDTO.setName(JOB_NAME);
-    jobSettingsDTO.setExistingClusterId(clusterId);
-    jobSettingsDTO.setNotebookTask(notebook_task);
+
+    RunSubmitDTO runSubmitDTO = new RunSubmitDTO();
+    runSubmitDTO.setRunName(JOB_NAME);
+
+    RunSubmitTaskDTO jobTaskDTO = new RunSubmitTaskDTO();
+    jobTaskDTO.setTaskKey("test_task_1");
+    jobTaskDTO.setExistingClusterId(clusterId);
+    jobTaskDTO.setNotebookTask(notebook_task);
+
+    runSubmitDTO.setTasks(new RunSubmitTaskDTO[]{jobTaskDTO});
 
     // there's possibility test TearDownFailure. it cause test job not-deleted.
-    List<JobDTO> jobList = service.getJobsByName(JOB_NAME);
-    for (JobDTO jobDTO : jobList) {
+    List<JobDTOv21> jobList = service.getJobsByName(JOB_NAME);
+    for (JobDTOv21 jobDTO : jobList) {
       service.deleteJob(jobDTO.getJobId());
     }
 
-    runNowDTO = service.runSubmit(jobSettingsDTO);
+    runNowDTO = service.runSubmit(runSubmitDTO);
     runDTO = service.getRun(runNowDTO.getRunId());
 
   }

@@ -16,14 +16,15 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.JobsDTO;
+import com.edmunds.rest.databricks.DTO.JobsDTOv21;
 import com.edmunds.rest.databricks.DTO.RunMetadataDTO;
 import com.edmunds.rest.databricks.DTO.RunNowDTO;
 import com.edmunds.rest.databricks.DTO.RunsDTO;
-import com.edmunds.rest.databricks.DTO.jobs.JobDTO;
-import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTO;
+import com.edmunds.rest.databricks.DTO.jobs.JobDTOv21;
+import com.edmunds.rest.databricks.DTO.jobs.JobSettingsDTOv21;
 import com.edmunds.rest.databricks.DTO.jobs.RunDTO;
-import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTO;
+import com.edmunds.rest.databricks.DTO.jobs.RunParametersDTOv21;
+import com.edmunds.rest.databricks.DTO.jobs.RunSubmitDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -44,16 +45,16 @@ import org.apache.logging.log4j.Logger;
 /**
  * The implementation of JobService.
  */
-public class JobServiceImpl extends DatabricksService implements JobService {
+public class JobServiceImplV21 extends DatabricksService implements JobServiceV21 {
 
-  private static Logger log = LogManager.getLogger(JobServiceImpl.class);
+  private static Logger log = LogManager.getLogger(JobServiceImplV21.class);
 
-  public JobServiceImpl(final DatabricksRestClient client) {
+  public JobServiceImplV21(final DatabricksRestClient client) {
     super(client);
   }
 
   @Override
-  public long createJob(JobSettingsDTO jobSettingsDTO) throws IOException, DatabricksRestException {
+  public long createJob(JobSettingsDTOv21 jobSettingsDTO) throws IOException, DatabricksRestException {
     String marshalled = this.mapper.writeValueAsString(jobSettingsDTO);
     Map<String, Object> data = this.mapper.readValue(marshalled, new
         TypeReference<Map<String, Object>>() {
@@ -74,7 +75,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
 
   @Override
   public void deleteJob(String jobName) throws IOException, DatabricksRestException {
-    JobDTO jobDTO = getJobByName(jobName);
+    JobDTOv21 jobDTO = getJobByName(jobName);
     if (jobDTO != null) {
       log.info("Deleting: " + getJobLink(jobDTO.getJobId()));
       deleteJob(jobDTO.getJobId());
@@ -84,27 +85,27 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobDTO getJob(long jobId) throws IOException, DatabricksRestException {
+  public JobDTOv21 getJob(long jobId) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/get", data);
-    return this.mapper.readValue(responseBody, JobDTO.class);
+    return this.mapper.readValue(responseBody, JobDTOv21.class);
   }
 
   @Override
-  public List<JobDTO> getJobsByName(String jobName) throws IOException, DatabricksRestException {
+  public List<JobDTOv21> getJobsByName(String jobName) throws IOException, DatabricksRestException {
     return getJobsByRegex(Pattern.compile(jobName));
   }
 
   @Override
-  public JobDTO getJobByName(String jobName) throws IOException, DatabricksRestException {
+  public JobDTOv21 getJobByName(String jobName) throws IOException, DatabricksRestException {
     return getJobByName(jobName, true);
   }
 
   @Override
-  public JobDTO getJobByName(String jobName, boolean failOnMultipleJobs)
+  public JobDTOv21 getJobByName(String jobName, boolean failOnMultipleJobs)
       throws IOException, DatabricksRestException {
-    List<JobDTO> jobs = getJobsByName(jobName);
+    List<JobDTOv21> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
       String errorMessage = String
           .format("[%s] job ids found for name: [%s]. Please delete duplicate jobs, or "
@@ -114,7 +115,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       } else {
         log.error(errorMessage);
         log.error("returning the job with the lowest jobId");
-        return jobs.stream().min(Comparator.comparing(JobDTO::getJobId)).get();
+        return jobs.stream().min(Comparator.comparing(JobDTOv21::getJobId)).get();
       }
     }
     if (jobs.isEmpty()) {
@@ -124,20 +125,43 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public List<JobDTO> getJobsByRegex(Pattern regex) throws IOException, DatabricksRestException {
+  public List<JobDTOv21> getJobsByRegex(Pattern regex) throws IOException, DatabricksRestException {
     if (regex == null) {
       throw new IllegalArgumentException("Job name must not be blank.");
     }
 
-    return Arrays.stream(listAllJobs().getJobs())
+    return listAllJobs().stream()
             .filter(x -> regex.matcher(x.getSettings().getName()).matches())
             .collect(Collectors.toList());
   }
 
   @Override
-  public JobsDTO listAllJobs() throws DatabricksRestException, IOException {
-    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", null);
-    return this.mapper.readValue(responseBody, JobsDTO.class);
+  public List<JobDTOv21> listAllJobs() throws DatabricksRestException, IOException {
+    int limit = 25;
+    int offset = 0;
+
+    List<JobDTOv21> result = new ArrayList<>();
+    JobsDTOv21 jobsDTO;
+
+    do {
+      jobsDTO = listJobs(limit, offset, true);
+      offset += limit;
+      result.addAll(Arrays.asList(jobsDTO.getJobs()));
+    } while (jobsDTO.isHasMore());
+
+    return result;
+  }
+
+  @Override
+  public JobsDTOv21 listJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
+    Map<String, Object> data = new HashMap<>();
+
+    data.put("limit", String.valueOf(limit));
+    data.put("offset", String.valueOf(offset));
+    data.put("expand_tasks", String.valueOf(expandTasks));
+
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
+    return this.mapper.readValue(responseBody, JobsDTOv21.class);
   }
 
   @Override
@@ -147,21 +171,21 @@ public class JobServiceImpl extends DatabricksService implements JobService {
 
   @Override
   public RunNowDTO runJobNow(long jobId) throws DatabricksRestException, IOException {
-    return runJobNow(jobId, (RunParametersDTO) null);
+    return runJobNow(jobId, (RunParametersDTOv21) null);
   }
 
   @Override
   public RunNowDTO runJobNow(long jobId, Map<String, String> notebookParams)
       throws DatabricksRestException,
       IOException {
-    RunParametersDTO parametersDTO = new RunParametersDTO();
+    RunParametersDTOv21 parametersDTO = new RunParametersDTOv21();
     parametersDTO.setNotebookParams(notebookParams);
     return runJobNow(jobId, parametersDTO);
   }
 
   //CHECKSTYLE:OFF
   @Override
-  public RunNowDTO runJobNow(long jobId, RunParametersDTO params) throws DatabricksRestException,
+  public RunNowDTO runJobNow(long jobId, RunParametersDTOv21 params) throws DatabricksRestException,
       IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
@@ -228,7 +252,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public void reset(long jobId, JobSettingsDTO jobSettings)
+  public void reset(long jobId, JobSettingsDTOv21 jobSettings)
       throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
@@ -243,10 +267,10 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public void upsertJob(JobSettingsDTO jobSettingsDTO, boolean failOnDuplicateJobNames)
+  public void upsertJob(JobSettingsDTOv21 jobSettingsDTO, boolean failOnDuplicateJobNames)
       throws IOException, DatabricksRestException {
     String jobName = jobSettingsDTO.getName();
-    List<JobDTO> jobs = getJobsByName(jobName);
+    List<JobDTOv21> jobs = getJobsByName(jobName);
     if (jobs.size() > 1) {
       String errorMessage = String.format(
           "[%s] job ids found for name: [%s]. Please consider deleting duplicate jobs, "
@@ -264,7 +288,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       long newJobId = createJob(jobSettingsDTO);
       log.info(String.format("Created job, url: %s", getJobLink(newJobId)));
     } else {
-      for (JobDTO job : jobs) {
+      for (JobDTOv21 job : jobs) {
         reset(job.getJobId(), jobSettingsDTO);
         log.info(String.format("Updated job, url: %s", getJobLink(job.getJobId())));
       }
@@ -272,8 +296,8 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public RunNowDTO runSubmit(JobSettingsDTO jobSettings) throws IOException, DatabricksRestException {
-    String marshalled = this.mapper.writeValueAsString(jobSettings);
+  public RunNowDTO runSubmit(RunSubmitDTO runSettings) throws IOException, DatabricksRestException {
+    String marshalled = this.mapper.writeValueAsString(runSettings);
     Map<String, Object> data = this.mapper.readValue(marshalled, new
         TypeReference<Map<String, Object>>() {
         });
