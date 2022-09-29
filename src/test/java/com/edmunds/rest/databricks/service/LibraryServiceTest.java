@@ -25,6 +25,7 @@ import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.TestUtil;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -76,13 +77,7 @@ public class LibraryServiceTest {
     service.install(clusterId, new LibraryDTO[]{libraryDTO});
     ClusterLibraryStatusesDTO status = service.clusterStatus(clusterId);
     // There could be other libraries that are auto installed, so all we can do is to check if it exists.
-    for (LibraryFullStatusDTO libraryFullStatusDTO : status.getLibraryFullStatuses()) {
-      if (libraryFullStatusDTO.getLibrary().equals(libraryDTO)) {
-        assertTrue(true);
-        return;
-      }
-    }
-    assertTrue(false);
+    assertTrue(Arrays.stream(status.getLibraryFullStatuses()).anyMatch(x -> x.getLibrary().equals(libraryDTO)));
   }
 
   @Test(dependsOnMethods = {"testSetUpOnce"})

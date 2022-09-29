@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -201,13 +202,10 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   @Override
   public List<ClusterInfoDTO> findByName(String clusterName)
       throws IOException, DatabricksRestException {
-    List<ClusterInfoDTO> result = new ArrayList<>();
-    for (ClusterInfoDTO cluster : list()) {
-      if (clusterName.equals(cluster.getClusterName())) {
-        result.add(cluster);
-      }
-    }
-    return result;
+
+    return Arrays.stream(list())
+            .filter(x -> clusterName.equals(x.getClusterName()))
+            .collect(Collectors.toList());
   }
 
   @Override
