@@ -36,7 +36,7 @@ public class JobSettingsDTOv21 implements Serializable {
   @JsonProperty("tasks")
   private JobTaskDTOv21[] tasks;
   @JsonProperty("job_clusters")
-  private JobClusterDTOv21[] jobClusters;
+  private JobClusterDTO[] jobClusters;
   @JsonProperty("email_notifications")
   private JobEmailNotificationsDTO emailNotifications;
   @JsonProperty("timeout_seconds")
