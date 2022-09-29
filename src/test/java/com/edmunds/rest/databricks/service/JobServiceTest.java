@@ -42,6 +42,7 @@ import com.edmunds.rest.databricks.request.ImportWorkspaceRequest;
 import com.edmunds.rest.databricks.request.ImportWorkspaceRequest.ImportWorkspaceRequestBuilder;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -302,24 +303,13 @@ public class JobServiceTest  extends ClusterDependentTest{
   private boolean isJobIdValid(long jobId) throws IOException, DatabricksRestException {
 
     JobDTO[] jobs = service.listAllJobs().getJobs();
-    for (JobDTO job : jobs) {
-      if (job.getJobId() == jobId) {
-        return true;
-      }
-    }
 
-    return false;
+    return Arrays.stream(jobs).anyMatch(x -> x.getJobId() == jobId);
   }
 
   private boolean isRunIdValid(long runId) throws IOException, DatabricksRestException {
     RunDTO[] runs = service.listRuns(jobId, null, null, null).getRuns();
 
-    for (RunDTO run : runs) {
-      if (run.getRunId() == runId) {
-        return true;
-      }
-    }
-
-    return false;
+    return Arrays.stream(runs).anyMatch(x -> x.getRunId() == runId);
   }
 }

@@ -30,11 +30,14 @@ import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -111,15 +114,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       } else {
         log.error(errorMessage);
         log.error("returning the job with the lowest jobId");
-        long lowestJobId = Long.MAX_VALUE;
-        JobDTO lowestJob = null;
-        for (JobDTO job : jobs) {
-          if (job.getJobId() < lowestJobId) {
-            lowestJobId = job.getJobId();
-            lowestJob = job;
-          }
-        }
-        return lowestJob;
+        return jobs.stream().min(Comparator.comparing(JobDTO::getJobId)).get();
       }
     }
     if (jobs.isEmpty()) {
@@ -134,15 +129,9 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       throw new IllegalArgumentException("Job name must not be blank.");
     }
 
-    List<JobDTO> foundJobDTOs = new ArrayList<>();
-    for (JobDTO jobDTO : listAllJobs().getJobs()) {
-      JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
-      Matcher matcher = regex.matcher(jobSettingsDTO.getName());
-      if (matcher.matches()) {
-        foundJobDTOs.add(jobDTO);
-      }
-    }
-    return foundJobDTOs;
+    return Arrays.stream(listAllJobs().getJobs())
+            .filter(x -> regex.matcher(x.getSettings().getName()).matches())
+            .collect(Collectors.toList());
   }
 
   @Override
