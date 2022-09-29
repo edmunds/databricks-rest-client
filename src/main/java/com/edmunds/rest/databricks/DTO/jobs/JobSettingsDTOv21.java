@@ -40,7 +40,7 @@ public class JobSettingsDTOv21 implements Serializable {
   @JsonProperty("email_notifications")
   private JobEmailNotificationsDTO emailNotifications;
   @JsonProperty("timeout_seconds")
-  int timeoutSeconds;
+  private int timeoutSeconds;
   @JsonProperty("schedule")
   private CronScheduleDTO schedule;
   @JsonProperty("max_concurrent_runs")
