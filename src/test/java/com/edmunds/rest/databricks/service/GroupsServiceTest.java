@@ -4,6 +4,7 @@ import com.edmunds.rest.databricks.DTO.groups.PrincipalNameDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
 import com.edmunds.rest.databricks.fixtures.DatabricksFixtures;
+import java.util.Arrays;
 import org.testng.annotations.*;
 
 import java.io.IOException;
@@ -153,14 +154,6 @@ public class GroupsServiceTest {
     if (members == null) {
       return false;
     }
-    if (members.length == 0) {
-      return false;
-    }
-    for (PrincipalNameDTO member : members) {
-      if (member.getGroupName() != null && member.getGroupName().equals(userName)) {
-        return true;
-      }
-    }
-    return false;
+    return Arrays.stream(members).anyMatch(x -> x.getGroupName() != null && x.getGroupName().equals(userName));
   }
 }

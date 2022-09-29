@@ -6,6 +6,7 @@ import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -56,12 +57,7 @@ public class InstanceProfilesServiceImpl extends DatabricksService implements In
 
   @Override
   public boolean exists(String instanceProfileArn) throws IOException, DatabricksRestException {
-    InstanceProfileDTO[] profiles = list();
-    for (InstanceProfileDTO profile : profiles) {
-      if (profile.getInstanceProfileArn() != null && profile.getInstanceProfileArn().equals(instanceProfileArn)) {
-        return true;
-      }
-    }
-    return false;
+    return Arrays.stream(list())
+            .anyMatch(x -> x.getInstanceProfileArn() != null && x.getInstanceProfileArn().equals(instanceProfileArn));
   }
 }

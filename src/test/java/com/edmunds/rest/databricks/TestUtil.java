@@ -35,10 +35,12 @@ import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.LibraryService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,16 +55,13 @@ public final class TestUtil {
 
   public static List<String> getTestClusters(ClusterService clusterService)
       throws IOException, DatabricksRestException {
-    ClusterInfoDTO[] clusters = clusterService.list();
-    List<String> foundClusters = new ArrayList<>();
+
     logger.info("looking for cluster that starts with prefix: " + CLUSTER_NAME_PREFIX);
-    for (ClusterInfoDTO cluster : clusters) {
-      if (cluster.getClusterName().contains(CLUSTER_NAME_PREFIX)) {
-        logger.info("found existing cluster! " + cluster.getClusterName());
-        foundClusters.add(cluster.getClusterId());
-      }
-    }
-    return foundClusters;
+    return Arrays.stream(clusterService.list())
+            .filter(x -> x.getClusterName().contains(CLUSTER_NAME_PREFIX))
+            .peek(x -> logger.info("found existing cluster! " + x.getClusterName()))
+            .map(ClusterInfoDTO::getClusterId)
+            .collect(Collectors.toList());
   }
 
   public static void cleanupTestClusters(ClusterService clusterService,
