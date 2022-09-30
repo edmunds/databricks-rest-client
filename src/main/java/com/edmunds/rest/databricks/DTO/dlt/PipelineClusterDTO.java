@@ -12,6 +12,8 @@ public class PipelineClusterDTO {
     public static final String JSON_PROPERTY_DRIVER_NODE_TYPE_ID = "driver_node_type_id";
     public static final String JSON_PROPERTY_AUTOSCADE = "autoscale";
 
+    public static final String JSON_PROPERTY_NUM_WORKERS = "num_workers";
+
     @JsonProperty(JSON_PROPERTY_LABEL)
     private String label;
 
@@ -23,5 +25,10 @@ public class PipelineClusterDTO {
 
     @JsonProperty(JSON_PROPERTY_AUTOSCADE)
     private Map<String, String> autoscale;
+
+    @JsonProperty(JSON_PROPERTY_NUM_WORKERS)
+    private int numWorkers;
+
+
 
 }
