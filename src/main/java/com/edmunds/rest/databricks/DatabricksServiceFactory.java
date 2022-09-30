@@ -115,6 +115,7 @@ public class DatabricksServiceFactory {
   /**
    * Will return a JobService singleton.
    */
+  @Deprecated
   public JobService getJobService() {
     if (jobService == null) {
       jobService = new JobServiceImpl(client2dot0);

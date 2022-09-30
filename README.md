@@ -26,7 +26,7 @@ Here are the current Endpoints that are supported:
 
 - Instance Profiles Service
 
-- Job Service
+- Job Servicev21
 
 - Library Service
 
@@ -56,10 +56,10 @@ public class MyClient {
             .build();
     
     // Lets get our databricks job "myJob" and edit maxRetries to 5
-    JobDTO jobDTO = serviceFactory.getJobService().getJobByName("myJob");
-    JobSettingsDTO jobSettingsDTO = jobDTO.getSettings();
+    JobDTOv21 jobDTO = serviceFactory.getJobServiceV21().getJobByName("myJob");
+    JobSettingsDTOv21 jobSettingsDTO = jobDTO.getSettings();
     jobSettingsDTO.setMaxRetries(5);
-    serviceFactory.getJobService().upsertJob(jobSettingsDTO, true);
+    serviceFactory.getJobServiceV21().upsertJob(jobSettingsDTO, true);
 
     // Lets install a jar to a specific cluster
     LibraryDTO libraryDTO = new LibraryDTO();

@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
  * A wrapper around the Databricks Job API.
  * @see <a href="https://docs.databricks.com/api/latest/jobs.html">https://docs.databricks.com/api/latest/jobs.html</a>
  */
+@Deprecated
 public interface JobService {
 
   /**
