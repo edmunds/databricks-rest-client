@@ -42,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * The implementation of JobService.
  */
+@Deprecated
 public class JobServiceImpl extends DatabricksService implements JobService {
 
   private static Logger log = LogManager.getLogger(JobServiceImpl.class);
@@ -112,6 +113,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       } else {
         log.error(errorMessage);
         log.error("returning the job with the lowest jobId");
+        //NOTE this is no longer deterministic as job ids are no longer sequential
         return jobs.stream().min(Comparator.comparing(JobDTO::getJobId)).get();
       }
     }

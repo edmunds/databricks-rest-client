@@ -215,12 +215,6 @@ public class JobServiceTest  extends ClusterDependentTest{
     service.getJobByName(multiJobName, true);
   }
 
-  @Test(dependsOnMethods = {"createMultiJobs"})
-  public void getJobByName_whenMultipleExistsAndNotFail_returnsFirst() throws IOException,
-                                                                              DatabricksRestException {
-    assertEquals(service.getJobByName(multiJobName, false).getJobId(), multiJobId[0]);
-  }
-
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void runJobNow_whenCalled_startsNewRun() throws IOException, DatabricksRestException {
     Map<String, String> notebook_params = new HashMap<>();

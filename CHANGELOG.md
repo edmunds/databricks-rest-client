@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Version 3.2.1]
+### Changed
+- Now supports api v2.1
+- New Job Service.  Deprecate Old Job Service
+- Various Permission DTOs 
+
 ## [Version 2.4.2]
 
 ### Changed
