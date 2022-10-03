@@ -10,7 +10,6 @@ public class PipelineDetailsDTO {
     public static final String JSON_PROPERTY_SPEC = "spec";
     public static final String JSON_PROPERTY_STATE = "state";
     public static final String JSON_PROPERTY_NAME = "name";
-    public static final String JSON_PROPERTY_LATEST_UPDATES = "latest_updates";
     public static final String JSON_PROPERTY_LAST_MODIFIED = "last_modified";
     public static final String JSON_PROPERTY_CREATOR_USER_NAME = "creator_user_name";
     public static final String JSON_PROPERTY_RUN_AS_USER_NAME = "run_as_user_name";

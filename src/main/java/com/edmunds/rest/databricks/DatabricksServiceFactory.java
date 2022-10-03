@@ -28,6 +28,8 @@ import com.edmunds.rest.databricks.service.DLTService;
 import com.edmunds.rest.databricks.service.DLTServiceImpl;
 import com.edmunds.rest.databricks.service.DbfsService;
 import com.edmunds.rest.databricks.service.DbfsServiceImpl;
+import com.edmunds.rest.databricks.service.GlobalInitScriptService;
+import com.edmunds.rest.databricks.service.GlobalInitScriptServiceImpl;
 import com.edmunds.rest.databricks.service.GroupsService;
 import com.edmunds.rest.databricks.service.GroupsServiceImpl;
 import com.edmunds.rest.databricks.service.InstanceProfilesService;
@@ -74,6 +76,7 @@ public class DatabricksServiceFactory {
   private WorkspaceService workspaceService;
   private JobService jobService;
   private DLTService dltService;
+  private GlobalInitScriptService globalInitScriptService;
   private DbfsService dbfsService;
   private GroupsService groupsService;
   private ScimService scimService;
@@ -133,6 +136,16 @@ public class DatabricksServiceFactory {
       dltService = new DLTServiceImpl(client2dot0);
     }
     return dltService;
+  }
+
+  /**
+   * Will return a GlobalInitScriptService singleton.
+   */
+  public GlobalInitScriptService getGlobalInitScriptService() {
+    if (globalInitScriptService == null) {
+      globalInitScriptService = new GlobalInitScriptServiceImpl(client2dot0);
+    }
+    return globalInitScriptService;
   }
 
   /**
