@@ -37,4 +37,10 @@ public class GlobalInitScriptServiceImpl extends DatabricksService implements Gl
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/global-init-scripts", data);
     return this.mapper.readValue(responseBody, GlobalInitScriptIdDTO.class);
   }
+
+  @Override
+  public void deleteGlobalInitScript(String scriptId) throws DatabricksRestException {
+    String path = String.format("/global-init-scripts/%s", scriptId);
+    client.performQuery(RequestMethod.DELETE, path, new HashMap<>());
+  }
 }

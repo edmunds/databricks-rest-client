@@ -16,6 +16,8 @@ public class GlobalInitScriptDetailsDTO {
     private String name;
     @JsonProperty("position")
     private int position;
+    @JsonProperty("script_id")
+    private String scriptId;
     @JsonProperty("updated_at")
     private Long updatedAt;
     @JsonProperty("updated_by")
