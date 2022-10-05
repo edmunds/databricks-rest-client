@@ -8,7 +8,10 @@ import com.edmunds.rest.databricks.DTO.dlt.UpdateInfoWrapperDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +55,9 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     if (pageToken != null) {
       data.put("page_token", pageToken);
     } else if (since != null && until != null) {
-      data.put("filter", String.format("timestamp%%3E%%27%s%%27%%20AND%%20timestamp%%3C%%27%s%%27", since, until));
-      //todo: Url encode maybe?
+      String timestampFilterString = String.format("timestamp > '%s' AND timestamp < '%s'", since, until);
+      String timestampFilterEncoded = URLEncoder.encode(timestampFilterString, StandardCharsets.UTF_8.toString());
+      data.put("filter", timestampFilterEncoded);
     }
     //TODO: implement filter by event type if DeltaLiveTableAPI will allow it in the future
 
