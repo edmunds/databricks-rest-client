@@ -54,8 +54,15 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     data.put("level", "INFO");
     if (pageToken != null) {
       data.put("page_token", pageToken);
-    } else if (since != null && until != null) {
-      String timestampFilterString = String.format("timestamp > '%s' AND timestamp < '%s'", since, until);
+    } else if (since != null || until != null) {
+      String timestampFilterString;
+      if (since != null && until != null) {
+        timestampFilterString = String.format("timestamp >= '%s' AND timestamp < '%s'", since, until);
+      } else if (since != null) {
+        timestampFilterString = String.format("timestamp >= '%s'", since);
+      } else {
+        timestampFilterString = String.format("timestamp < '%s'", until);
+      }
       String timestampFilterEncoded = URLEncoder.encode(timestampFilterString, StandardCharsets.UTF_8.toString());
       data.put("filter", timestampFilterEncoded);
     }
