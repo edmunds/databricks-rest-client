@@ -25,8 +25,11 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
   }
 
   @Override
-  public PipelinesDTO listPipelines() throws IOException, DatabricksRestException {
-    byte[] responseBody = client.performQuery(RequestMethod.GET, "/pipelines", new HashMap<>());
+  public PipelinesDTO listPipelines(String pageToken, int maxResults) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("max_results", maxResults);
+    data.put("page_token", pageToken);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/pipelines", data);
     return this.mapper.readValue(responseBody, PipelinesDTO.class);
   }
 
