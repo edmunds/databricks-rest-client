@@ -29,9 +29,12 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
           throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("max_results", maxResults);
-    data.put("page_token", pageToken);
-    String encodedOrderByFilter = URLEncoder.encode(orderBy, StandardCharsets.UTF_8.toString());
-    data.put("order_by", encodedOrderByFilter);
+    if (pageToken != null && !pageToken.isEmpty()) {
+      data.put("page_token", pageToken);
+    } else {
+      String encodedOrderByFilter = URLEncoder.encode(orderBy, StandardCharsets.UTF_8.toString());
+      data.put("order_by", encodedOrderByFilter);
+    }
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/pipelines", data);
     return this.mapper.readValue(responseBody, PipelinesDTO.class);
   }
