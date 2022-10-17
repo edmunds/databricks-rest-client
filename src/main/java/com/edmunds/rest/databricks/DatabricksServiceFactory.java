@@ -30,6 +30,8 @@ import com.edmunds.rest.databricks.service.InstanceProfilesService;
 import com.edmunds.rest.databricks.service.InstanceProfilesServiceImpl;
 import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.JobServiceImpl;
+import com.edmunds.rest.databricks.service.JobServiceImplV21;
+import com.edmunds.rest.databricks.service.JobServiceV21;
 import com.edmunds.rest.databricks.service.LibraryService;
 import com.edmunds.rest.databricks.service.LibraryServiceImpl;
 import com.edmunds.rest.databricks.service.ScimService;
@@ -53,25 +55,31 @@ public class DatabricksServiceFactory {
   public static final int CONNECTION_REQUEST_TIMEOUT = 10000;
 
   /**
-   * Databricks rest http client {@link com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy} default
+   * Databricks rest http client {@link HttpServiceUnavailableRetryStrategy} default
    * values.
    */
   public static final int DEFAULT_HTTP_CLIENT_MAX_RETRY = 3;
   public static final long DEFAULT_HTTP_CLIENT_RETRY_INTERVAL = 10000L;
 
+  public static final String API_VERSION_2_0 = "2.0";
+  public static final String API_VERSION_2_1 = "2.1";
 
-  private DatabricksRestClient client2dot0;
+  private final DatabricksRestClient client2dot0;
+  private final DatabricksRestClient client2dot1;
   private ClusterService clusterService;
   private LibraryService libraryService;
   private WorkspaceService workspaceService;
   private JobService jobService;
+  private JobServiceV21 jobServiceV21;
   private DbfsService dbfsService;
   private GroupsService groupsService;
   private ScimService scimService;
   private InstanceProfilesService instanceProfilesService;
 
-  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient) {
-    this.client2dot0 = databricksRestClient;
+  public DatabricksServiceFactory(DatabricksRestClient databricksRestClient2dot0,
+                                  DatabricksRestClient databricksRestClient2dot1) {
+    this.client2dot0 = databricksRestClient2dot0;
+    this.client2dot1 = databricksRestClient2dot1;
   }
 
   /**
@@ -95,8 +103,19 @@ public class DatabricksServiceFactory {
   }
 
   /**
+   * Will return a JobServiceV21 singleton.
+   */
+  public JobServiceV21 getJobServiceV21() {
+    if (jobServiceV21 == null) {
+      jobServiceV21 = new JobServiceImplV21(client2dot1);
+    }
+    return jobServiceV21;
+  }
+
+  /**
    * Will return a JobService singleton.
    */
+  @Deprecated
   public JobService getJobService() {
     if (jobService == null) {
       jobService = new JobServiceImpl(client2dot0);
@@ -166,12 +185,9 @@ public class DatabricksServiceFactory {
     String username;
     String password;
     String userAgent;
+
     /**
-     * Databricks rest-api version.
-     */
-    String apiVersion = "2.0";
-    /**
-     * Databricks rest http client {@link com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy} default.
+     * Databricks rest http client {@link HttpServiceUnavailableRetryStrategy} default.
      */
     long retryInterval = DEFAULT_HTTP_CLIENT_RETRY_INTERVAL;
     int maxRetries = DEFAULT_HTTP_CLIENT_MAX_RETRY;
@@ -255,10 +271,6 @@ public class DatabricksServiceFactory {
       return userAgent;
     }
 
-    public String getApiVersion() {
-      return apiVersion;
-    }
-
     public long getRetryInterval() {
       return retryInterval;
     }
@@ -281,11 +293,6 @@ public class DatabricksServiceFactory {
 
     public boolean isRequestSentRetryEnabled() {
       return requestSentRetryEnabled;
-    }
-
-    public Builder withApiVersion(String apiVersion) {
-      this.apiVersion = apiVersion;
-      return this;
     }
 
     public Builder withMaxRetries(int maxRetries) {
@@ -358,8 +365,9 @@ public class DatabricksServiceFactory {
      * @return the databricks service factory object
      */
     public DatabricksServiceFactory build(HttpClientBuilderFactory factory) {
-      DatabricksRestClient restClient = new DatabricksRestClientImpl(this, factory);
-      return new DatabricksServiceFactory(restClient);
+      DatabricksRestClient restClient2dot0 = new DatabricksRestClientImpl(this, factory, API_VERSION_2_0);
+      DatabricksRestClient restClient2dot1 = new DatabricksRestClientImpl(this, factory, API_VERSION_2_1);
+      return new DatabricksServiceFactory(restClient2dot0, restClient2dot1);
     }
   }
 }

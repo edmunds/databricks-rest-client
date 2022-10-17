@@ -17,23 +17,18 @@
 package com.edmunds.rest.databricks.fixtures;
 
 import com.edmunds.rest.databricks.DatabricksServiceFactory;
-import com.edmunds.rest.databricks.DatabricksServiceFactory.Builder;
-import com.edmunds.rest.databricks.HttpServiceUnavailableRetryStrategy;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClientImpl;
 import com.edmunds.rest.databricks.restclient.DefaultHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.HttpClientBuilderFactory;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.time.Duration;
-import java.util.Set;
-import org.apache.http.client.ServiceUnavailableRetryStrategy;
 
 /**
  * Created by shong on 7/21/16.
  */
 public class DatabricksFixtures {
-  private final static String API_VERSION = "2.0";
+  private final static String API_VERSION_2_0 = "2.0";
   public static String HOSTNAME;
   public static String TOKEN;
   private static DatabricksRestClient client;
@@ -51,10 +46,9 @@ public class DatabricksFixtures {
       DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
               .createTokenAuthentication(TOKEN, HOSTNAME)
               .withMaxRetries(1)
-              .withRetryInterval(10)
-              .withApiVersion(API_VERSION);
+              .withRetryInterval(10);
       HttpClientBuilderFactory factory = new DefaultHttpClientBuilderFactory(builder);
-      client = new DatabricksRestClientImpl(builder, factory);
+      client = new DatabricksRestClientImpl(builder, factory, API_VERSION_2_0);
     }
 
     return client;
@@ -65,10 +59,9 @@ public class DatabricksFixtures {
       DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
               .createTokenAuthentication(TOKEN, HOSTNAME)
               .withMaxRetries(1)
-              .withRetryInterval(10)
-              .withApiVersion(API_VERSION);
+              .withRetryInterval(10);
       HttpClientBuilderFactory factory = new DefaultHttpClientBuilderFactory(builder);
-      tokenAuthClient = new DatabricksRestClientImpl(builder, factory);
+      tokenAuthClient = new DatabricksRestClientImpl(builder, factory, API_VERSION_2_0);
     }
 
     return tokenAuthClient;
@@ -85,8 +78,7 @@ public class DatabricksFixtures {
     DatabricksServiceFactory.Builder builder = DatabricksServiceFactory.Builder
             .createTokenAuthentication(TOKEN, HOSTNAME)
             .withMaxRetries(1)
-            .withRetryInterval(10)
-            .withApiVersion(API_VERSION);
+            .withRetryInterval(10);
     return builder;
   }
 

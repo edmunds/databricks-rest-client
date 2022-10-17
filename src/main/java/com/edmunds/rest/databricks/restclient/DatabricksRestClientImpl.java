@@ -41,10 +41,11 @@ public class DatabricksRestClientImpl extends AbstractDatabricksRestClientImpl {
   /**
    * Constructs a rest client.
    */
-  public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder, HttpClientBuilderFactory clientFactory) {
+  public DatabricksRestClientImpl(DatabricksServiceFactory.Builder builder,
+                                  HttpClientBuilderFactory clientFactory,
+                                  String apiVersion) {
     super(
-        builder.getHost(),
-        builder.getApiVersion()
+        builder.getHost(), apiVersion
     );
 
     if (isNotEmpty(builder.getToken())

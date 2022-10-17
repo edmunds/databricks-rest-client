@@ -32,6 +32,7 @@ import com.edmunds.rest.databricks.DTO.jobs.RunLifeCycleStateDTO;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.JobService;
+import com.edmunds.rest.databricks.service.JobServiceV21;
 import com.edmunds.rest.databricks.service.LibraryService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public final class TestUtil {
   private final static Logger logger = LogManager.getLogger(TestUtil.class.getName());
   private static final String SMALL_NODE_TYPE = "m4.large";
   private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
-  private static final String SPARK_VERSION = "4.0.x-scala2.11";
+  private static final String SPARK_VERSION = "10.5.x-scala2.12";
   private static final String CLUSTER_NAME_PREFIX = "clusterServiceTest_";
 
   public static List<String> getTestClusters(ClusterService clusterService)
@@ -145,7 +146,24 @@ public final class TestUtil {
     };
   }
 
-  private static RunLifeCycleStateDTO getRunState(long run_id, final JobService service)
+  public static RunLifeCycleStateDTO getRunState(long run_id, final JobService service)
+          throws IOException,
+          DatabricksRestException {
+    RunDTO run = service.getRun(run_id);
+    return run.getState().getLifeCycleState();
+  }
+
+  public static Callable<Boolean> runLifeCycleStateHasChangedTo(final RunLifeCycleStateDTO state, final long run_id,
+                                                                final JobServiceV21 service) {
+    return new Callable<Boolean>() {
+      @Override
+      public Boolean call() throws Exception {
+        return Objects.equals(getRunState(run_id, service), state);
+      }
+    };
+  }
+
+  public static RunLifeCycleStateDTO getRunState(long run_id, final JobServiceV21 service)
       throws IOException,
              DatabricksRestException {
     RunDTO run = service.getRun(run_id);

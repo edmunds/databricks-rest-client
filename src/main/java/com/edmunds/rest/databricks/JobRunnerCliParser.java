@@ -129,8 +129,8 @@ public class JobRunnerCliParser {
     return commandLine.hasOption(JOB_ID);
   }
 
-  public int getJobId() {
-    return Integer.parseInt(getOptionValue(JOB_ID));
+  public long getJobId() {
+    return Long.parseLong(getOptionValue(JOB_ID));
   }
 
   public String getJobName() {
@@ -248,7 +248,7 @@ public class JobRunnerCliParser {
     opts.addOption("p", PASSWORD, true, "databricks login password");
     opts.addOption("t", TOKEN, true, "databricks login token");
     opts.addOption("h", HOSTNAME, true, "databricks hostname");
-    opts.addOption("j", JOB_ID, true, "integer job id to run");
+    opts.addOption("j", JOB_ID, true, "long job id to run");
     opts.addOption("n", JOB_NAME, true, "name of databricks job");
     opts.addOption("pj", JOB_JAR_PARAMS, true, "parameters for jar spark");
     opts.addOption("pn", JOB_NOTEBOOK_PARAMS, true, "parameters for notebook");

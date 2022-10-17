@@ -43,7 +43,7 @@ import org.testng.annotations.Test;
 public class ClusterServiceTest extends ClusterDependentTest {
   private static final String SMALL_NODE_TYPE = "m4.large";
   private static final String MEDIUM_NODE_TYPE = "m4.xlarge";
-  private static final String SPARK_VERSION = "4.0.x-scala2.11";
+  private static final String SPARK_VERSION = "10.5.x-scala2.12";
   private static final String CLUSTER_NAME_PREFIX = "clusterServiceTest_";
 
   private AwsAttributesDTO getAwsAttributesDTO() {

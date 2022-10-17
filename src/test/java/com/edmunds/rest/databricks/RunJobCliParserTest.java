@@ -32,7 +32,7 @@ public class RunJobCliParserTest {
   private final static String USERNAME = "test_user";
   private final static String PASSWORD = "test_password";
   private final static String HOSTNAME = "test_hostname";
-  private final static int JOBID = 1;
+  private final static long JOBID = 1;
   private final static String JOBNAME = "test_jobname";
   private JobRunnerCliParser parser;
   private String[] fullArgumentsWithJobName = new String[] {
@@ -101,7 +101,7 @@ public class RunJobCliParserTest {
   public void getJobId_whenCalled_returnsJobId() throws ParseException {
     parser.parse(fullArgumentsWithSpaces);
 
-    int result = parser.getJobId();
+    long result = parser.getJobId();
 
     assertEquals(result, JOBID);
   }
