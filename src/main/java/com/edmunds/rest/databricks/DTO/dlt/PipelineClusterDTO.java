@@ -39,7 +39,7 @@ public class PipelineClusterDTO {
     private AutoScaleDTO autoscale;
 
     @JsonProperty(JSON_PROPERTY_NUM_WORKERS)
-    private int numWorkers;
+    private Integer numWorkers;
 
     @JsonProperty(JSON_PROPERTY_SPARK_CONF)
     private Map<String, String> sparkConf ;

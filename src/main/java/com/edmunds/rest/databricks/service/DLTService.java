@@ -12,7 +12,8 @@ import java.util.Map;
 
 public interface DLTService {
 
-  PipelinesDTO listPipelines() throws IOException, DatabricksRestException;
+  PipelinesDTO listPipelines(String pageToken, int maxResults, String orderBy)
+          throws IOException, DatabricksRestException;
 
   PipelineDetailsDTO getPipelineDetails(String pipelineId) throws IOException, DatabricksRestException;
 
