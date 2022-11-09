@@ -37,6 +37,7 @@ import com.edmunds.rest.databricks.fixtures.ClusterDependentTest;
 import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import org.testng.annotations.Test;
@@ -153,7 +154,10 @@ public class ClusterServiceTest extends ClusterDependentTest {
   public void listEvents_whenCalled_showsEvents() throws IOException, DatabricksRestException {
     ClusterInfoDTO[] clusterInfoDTO = service.list();
     String clusterId = clusterInfoDTO[0].getClusterId();
-    List<ClusterEventDTO> events = service.listEvents(clusterId, new ClusterEventTypeDTO[0], 0, 50, ListOrderDTO.DESC);
+    Long now = Instant.now().toEpochMilli();
+    List<ClusterEventDTO> events = service.listEvents(
+        clusterId, new ClusterEventTypeDTO[0], 0, 50, ListOrderDTO.DESC, now - 1000000, now
+    );
     assertTrue(events.size() > 0);
   }
 }

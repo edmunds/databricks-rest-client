@@ -164,15 +164,19 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
 
   @Override
   public List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
-                                          int offset, int limit, ListOrderDTO order) throws
-      IOException,
-      DatabricksRestException {
+                                          Integer offset, Integer limit,
+                                          ListOrderDTO order,
+                                          Long startTime, Long endTime)
+      throws IOException, DatabricksRestException {
+
     Map<String, Object> data = new HashMap<>();
     data.put("cluster_id", clusterId);
     data.put("event_types", eventsToFilter);
     data.put("offset", offset);
     data.put("limit", limit);
     data.put("order", order);
+    data.put("start_time", startTime);
+    data.put("end_time", endTime);
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/clusters/events", data);
     ClusterEventsDTO clusterEvents = this.mapper.readValue(responseBody, ClusterEventsDTO.class);
     return clusterEvents.getEvents();
