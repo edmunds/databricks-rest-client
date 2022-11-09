@@ -174,8 +174,10 @@ public interface ClusterService {
    * @throws DatabricksRestException any errors with the request
    */
   List<ClusterEventDTO> listEvents(String clusterId, ClusterEventTypeDTO[] eventsToFilter,
-                                   int offset, int limit, ListOrderDTO order) throws IOException,
-      DatabricksRestException;
+                                   Integer offset, Integer limit,
+                                   ListOrderDTO order,
+                                   Long startTime, Long endTime)
+      throws IOException, DatabricksRestException;
 
   /**
    * Given a cluster settings DTO object it will:
