@@ -25,10 +25,17 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
   }
 
   @Override
-  public PipelinesDTO listPipelines(String pageToken, int maxResults, String orderBy)
+  public PipelinesDTO listPipelines(String pageToken, int maxResults, String orderBy, String nameFilter)
           throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("max_results", maxResults);
+
+    if (nameFilter != null && nameFilter.length() > 0) {
+      String nameLike = String.format("name LIKE '%%%s%%'", nameFilter);
+      String nameLikeEncoded = URLEncoder.encode(nameLike, StandardCharsets.UTF_8.toString());
+      data.put("filter", nameLikeEncoded);
+    }
+
     if (pageToken != null && !pageToken.isEmpty()) {
       data.put("page_token", pageToken);
     } else {
