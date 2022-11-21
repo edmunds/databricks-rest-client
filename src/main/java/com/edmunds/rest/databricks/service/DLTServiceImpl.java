@@ -30,17 +30,17 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     Map<String, Object> data = new HashMap<>();
     data.put("max_results", maxResults);
 
-    if (nameFilter != null && nameFilter.length() > 0) {
-      String nameLike = String.format("name LIKE '%%%s%%'", nameFilter);
-      String nameLikeEncoded = URLEncoder.encode(nameLike, StandardCharsets.UTF_8.toString());
-      data.put("filter", nameLikeEncoded);
-    }
-
     if (pageToken != null && !pageToken.isEmpty()) {
       data.put("page_token", pageToken);
     } else {
       String encodedOrderByFilter = URLEncoder.encode(orderBy, StandardCharsets.UTF_8.toString());
       data.put("order_by", encodedOrderByFilter);
+
+      if (nameFilter != null && nameFilter.length() > 0) {
+        String nameLike = String.format("name LIKE '%%%s%%'", nameFilter);
+        String nameLikeEncoded = URLEncoder.encode(nameLike, StandardCharsets.UTF_8.toString());
+        data.put("filter", nameLikeEncoded);
+      }
     }
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/pipelines", data);
     return this.mapper.readValue(responseBody, PipelinesDTO.class);
