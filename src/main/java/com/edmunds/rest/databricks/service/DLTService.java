@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface DLTService {
 
-  PipelinesDTO listPipelines(String pageToken, int maxResults, String orderBy)
+  PipelinesDTO listPipelines(String pageToken, int maxResults, String orderBy, String nameFilter)
           throws IOException, DatabricksRestException;
 
   PipelineDetailsDTO getPipelineDetails(String pipelineId) throws IOException, DatabricksRestException;
