@@ -147,7 +147,7 @@ public class ClusterServiceTest extends ClusterDependentTest {
 
     ClusterInfoDTO clusterInfo = service.getInfo(clusterId);
     assertEquals(clusterInfo.getNodeTypeId(), MEDIUM_NODE_TYPE);
-    assertEquals(clusterInfo.getNumWorkers(), 1);
+    assertEquals(clusterInfo.getNumWorkers().intValue(), 1);
   }
 
   @Test
