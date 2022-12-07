@@ -86,6 +86,11 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
+  public void edit(Map<String, Object> data) throws IOException, DatabricksRestException {
+    client.performQuery(RequestMethod.POST, "/clusters/edit", data);
+  }
+
+  @Override
   public void edit(UpsertClusterDTO clusterDTO) throws IOException, DatabricksRestException {
     String marshalled = this.mapper.writeValueAsString(clusterDTO);
     Map<String, Object> data = this.mapper

@@ -28,7 +28,7 @@ import lombok.Data;
 public class ClusterInfoDTO implements Serializable {
 
   @JsonProperty("num_workers")
-  private int numWorkers;
+  private Integer numWorkers;
   @JsonProperty("autoscale")
   private AutoScaleDTO autoscale;
   @JsonProperty("cluster_id")
@@ -66,7 +66,7 @@ public class ClusterInfoDTO implements Serializable {
   @JsonProperty("spark_env_vars")
   private Map<String, String> sparkEnvVars;
   @JsonProperty("autotermination_minutes")
-  private int autoTerminationMinutes;
+  private Integer autoTerminationMinutes;
   @JsonProperty("enable_elastic_disk")
   private boolean enableElasticDisk;
   @JsonProperty("instance_pool_id")
@@ -101,5 +101,10 @@ public class ClusterInfoDTO implements Serializable {
   private DockerImageDTO dockerImage;
   @JsonProperty("runtime_engine")
   private String runtimeEngine;
-
+  @JsonProperty("single_user_name")
+  private String singleUserName;
+  @JsonProperty("policy_id")
+  private String policyId;
+  @JsonProperty("data_security_mode")
+  private String dataSecurityMode;
 }
