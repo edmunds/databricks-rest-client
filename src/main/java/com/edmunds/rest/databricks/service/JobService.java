@@ -59,6 +59,14 @@ public interface JobService {
    * Retrieves information about a single job.
    * @see <a href="https://docs.databricks.com/api/latest/jobs.html#get">https://docs.databricks.com/api/latest/jobs.html#get</a>
    * @param jobId The canonical identifier of the job to retrieve information about
+   * @return Map of the Job information
+   */
+  Map<String, Object> getJobInfo(long jobId) throws IOException, DatabricksRestException;
+
+  /**
+   * Retrieves information about a single job.
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#get">https://docs.databricks.com/api/latest/jobs.html#get</a>
+   * @param jobId The canonical identifier of the job to retrieve information about
    * @return POJO of the Job information
    */
   JobDTO getJob(long jobId) throws IOException, DatabricksRestException;
@@ -187,6 +195,15 @@ public interface JobService {
    * @throws DatabricksRestException any specific db errors
    */
   void reset(long jobId, JobSettingsDTO jobSettings) throws IOException, DatabricksRestException;
+
+  /**
+   * "resets" or "edits" a job definition.
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#reset">https://docs.databricks.com/api/latest/jobs.html#reset</a>
+   * @param jobId the job to edit
+   * @param data the settings to change the job to
+   * @throws DatabricksRestException any specific db errors
+   */
+  void reset(long jobId, Map<String, Object> data) throws DatabricksRestException;
 
 
   /**

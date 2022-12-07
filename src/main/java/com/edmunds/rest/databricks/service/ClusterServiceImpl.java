@@ -154,6 +154,15 @@ public final class ClusterServiceImpl extends DatabricksService implements Clust
   }
 
   @Override
+  public Map<String, Object> getClusterInfo(String clusterId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("cluster_id", clusterId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/get", data);
+    TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
+    return this.mapper.readValue(responseBody, typeRef);
+  }
+
+  @Override
   public ClusterInfoDTO[] list() throws IOException, DatabricksRestException {
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/clusters/list", null);
     Map<String, ClusterInfoDTO[]> jsonObject = this.mapper

@@ -8,6 +8,7 @@ import com.edmunds.rest.databricks.DTO.dlt.UpdateInfoWrapperDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -44,6 +45,14 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     }
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/pipelines", data);
     return this.mapper.readValue(responseBody, PipelinesDTO.class);
+  }
+
+  @Override
+  public Map<String, Object> getPipelineInfo(String pipelineId) throws IOException, DatabricksRestException {
+    String path = String.format("/pipelines/%s", pipelineId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, path, new HashMap<>());
+    TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
+    return this.mapper.readValue(responseBody, typeRef);
   }
 
   @Override

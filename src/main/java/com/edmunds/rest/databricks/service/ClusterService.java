@@ -30,6 +30,7 @@ import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -155,6 +156,16 @@ public interface ClusterService {
    * @throws DatabricksRestException any errors with the request
    */
   ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
+   * Gets information about a given cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#get">https://docs.databricks.com/api/latest/clusters.html#get</a>
+   * @param clusterId the cluster you want to get info about
+   * @return Map of cluster configuration
+   * @throws IOException any other errors.
+   * @throws DatabricksRestException any errors with the request
+   */
+  Map<String, Object> getClusterInfo(String clusterId) throws IOException, DatabricksRestException;
 
   /**
    * Lists all of the clusters on a given databricks instance.

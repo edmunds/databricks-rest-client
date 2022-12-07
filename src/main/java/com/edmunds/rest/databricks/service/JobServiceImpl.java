@@ -82,6 +82,15 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
+  public Map<String, Object> getJobInfo(long jobId) throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("job_id", jobId);
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/get", data);
+    TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
+    return this.mapper.readValue(responseBody, typeRef);
+  }
+
+  @Override
   public JobDTO getJob(long jobId) throws IOException, DatabricksRestException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
@@ -278,6 +287,15 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
     data.put("new_settings", jobSettings);
+
+    client.performQuery(RequestMethod.POST, "/jobs/reset", data);
+  }
+
+  @Override
+  public void reset(long jobId, Map<String, Object> newSettings) throws DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+    data.put("job_id", jobId);
+    data.put("new_settings", newSettings);
 
     client.performQuery(RequestMethod.POST, "/jobs/reset", data);
   }
