@@ -30,6 +30,7 @@ import com.edmunds.rest.databricks.request.CreateClusterRequest;
 import com.edmunds.rest.databricks.request.EditClusterRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -71,6 +72,15 @@ public interface ClusterService {
    */
   @Deprecated
   void edit(EditClusterRequest editClusterRequest) throws IOException, DatabricksRestException;
+
+  /**
+   * Edits the configurations of a databricks cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#edit">https://docs.databricks.com/api/latest/clusters.html#edit</a>
+   * @param data cluster configuration
+   * @throws IOException any other errors
+   * @throws DatabricksRestException any errors with the request
+   */
+  void edit(Map<String, Object> data) throws IOException, DatabricksRestException;
 
   /**
    * Edits the configurations of a databricks cluster.
