@@ -167,6 +167,16 @@ public interface ClusterService {
   ClusterInfoDTO getInfo(String clusterId) throws IOException, DatabricksRestException;
 
   /**
+   * Gets information about a given cluster.
+   * @see <a href="https://docs.databricks.com/api/latest/clusters.html#get">https://docs.databricks.com/api/latest/clusters.html#get</a>
+   * @param clusterId the cluster you want to get info about
+   * @return Map of cluster configuration
+   * @throws IOException any other errors.
+   * @throws DatabricksRestException any errors with the request
+   */
+  Map<String, Object> getClusterInfo(String clusterId) throws IOException, DatabricksRestException;
+
+  /**
    * Lists all of the clusters on a given databricks instance.
    * @see <a href="https://docs.databricks.com/api/latest/clusters.html#list">https://docs.databricks.com/api/latest/clusters.html#list</a>
    * @return an array of cluster information objects
