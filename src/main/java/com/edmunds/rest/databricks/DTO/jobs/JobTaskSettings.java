@@ -36,6 +36,7 @@ import java.util.Objects;
         JobTaskSettings.JSON_PROPERTY_SPARK_PYTHON_TASK,
         JobTaskSettings.JSON_PROPERTY_SPARK_SUBMIT_TASK,
         JobTaskSettings.JSON_PROPERTY_PIPELINE_TASK,
+        JobTaskSettings.JSON_PROPERTY_SQL_TASK,
         JobTaskSettings.JSON_PROPERTY_PYTHON_WHEEL_TASK,
         JobTaskSettings.JSON_PROPERTY_LIBRARIES,
         JobTaskSettings.JSON_PROPERTY_EMAIL_NOTIFICATIONS,
@@ -57,6 +58,7 @@ public class JobTaskSettings {
     public static final String JSON_PROPERTY_SPARK_PYTHON_TASK = "spark_python_task";
     public static final String JSON_PROPERTY_SPARK_SUBMIT_TASK = "spark_submit_task";
     public static final String JSON_PROPERTY_PIPELINE_TASK = "pipeline_task";
+    public static final String JSON_PROPERTY_SQL_TASK = "sql_task";
     public static final String JSON_PROPERTY_PYTHON_WHEEL_TASK = "python_wheel_task";
     public static final String JSON_PROPERTY_LIBRARIES = "libraries";
     public static final String JSON_PROPERTY_EMAIL_NOTIFICATIONS = "email_notifications";
@@ -86,6 +88,8 @@ public class JobTaskSettings {
     private SparkSubmitTaskDTO sparkSubmitTask;
     @JsonProperty(JSON_PROPERTY_PIPELINE_TASK)
     private PipelineTask pipelineTask;
+    @JsonProperty(JSON_PROPERTY_SQL_TASK)
+    private SqlTask sqlTask;
     @JsonProperty(JSON_PROPERTY_PYTHON_WHEEL_TASK)
     private PythonWheelTask pythonWheelTask;
     @JsonProperty(JSON_PROPERTY_LIBRARIES)
@@ -317,6 +321,15 @@ public class JobTaskSettings {
 
     public void setPipelineTask(PipelineTask pipelineTask) {
         this.pipelineTask = pipelineTask;
+    }
+
+    @JsonProperty(value = "sql_task")
+    public SqlTask getSqlTask() {
+        return sqlTask;
+    }
+
+    public void setSqlTask(SqlTask sqlTask) {
+        this.sqlTask = sqlTask;
     }
 
     public JobTaskSettings pythonWheelTask(PythonWheelTask pythonWheelTask) {
