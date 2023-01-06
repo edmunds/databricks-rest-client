@@ -37,7 +37,7 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
 
   private static final String SCIM_USERS = "/preview/scim/v2/Users";
   private static final String SCIM_GROUPS = "/preview/scim/v2/Groups";
-  private static final String SCIM_SERVICE_PRINCIPALS = "preview/scim/v2/ServicePrincipals";
+  private static final String SCIM_SERVICE_PRINCIPALS = "/preview/scim/v2/ServicePrincipals";
 
   public ScimServiceImpl(final DatabricksRestClient client) {
     super(client);
