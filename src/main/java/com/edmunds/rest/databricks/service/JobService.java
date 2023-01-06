@@ -207,7 +207,7 @@ public interface JobService {
 
 
   /**
-   * Formatting databricks job rest url. ex> https://something.cloud.databricks.com/#job/123/run/123
+   * Formatting databricks job rest url. ex <a href="https://something.cloud.databricks.com/#job/123/run/123">https://something.cloud.databricks.com/#job/123/run/123</a>
    */
   String buildRunJobRestUrl(long jobId, long numberInJob);
 

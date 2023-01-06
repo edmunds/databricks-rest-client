@@ -18,6 +18,7 @@ package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
 import com.edmunds.rest.databricks.DTO.scim.group.GroupDTO;
+import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.ServicePrincipalDTO;
 import com.edmunds.rest.databricks.DTO.scim.user.UserDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import java.io.IOException;
@@ -168,5 +169,16 @@ public interface ScimService {
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
    */
   void removeUsersFromGroup(long groupId, long[] userIds) throws IOException, DatabricksRestException;
+
+  /**
+   * Create a Service Principal in Databricks.
+   *
+   * @param servicePrincipalDTO service principal
+   * @throws IOException             any other errors
+   * @throws DatabricksRestException any errors with request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
+   */
+  void createServicePrincipal(ServicePrincipalDTO servicePrincipalDTO) throws IOException, DatabricksRestException;
+
 
 }

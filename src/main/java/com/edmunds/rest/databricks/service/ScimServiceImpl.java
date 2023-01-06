@@ -20,6 +20,7 @@ import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
 import com.edmunds.rest.databricks.DTO.scim.Operation;
 import com.edmunds.rest.databricks.DTO.scim.OperationsDTO;
 import com.edmunds.rest.databricks.DTO.scim.group.GroupDTO;
+import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.ServicePrincipalDTO;
 import com.edmunds.rest.databricks.DTO.scim.user.AddUsersToGroupOperation;
 import com.edmunds.rest.databricks.DTO.scim.user.RemoveUserFromGroupOperation;
 import com.edmunds.rest.databricks.DTO.scim.user.UserDTO;
@@ -36,6 +37,7 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
 
   private static final String SCIM_USERS = "/preview/scim/v2/Users";
   private static final String SCIM_GROUPS = "/preview/scim/v2/Groups";
+  private static final String SCIM_SERVICE_PRINCIPALS = "preview/scim/v2/ServicePrincipals";
 
   public ScimServiceImpl(final DatabricksRestClient client) {
     super(client);
@@ -167,5 +169,15 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
     });
     client.performQuery(RequestMethod.PATCH, path(SCIM_GROUPS, groupId), data);
   }
+
+  @Override
+  public void createServicePrincipal(ServicePrincipalDTO servicePrincipalDTO) throws IOException,
+          DatabricksRestException {
+    String marshalled = mapper.writeValueAsString(servicePrincipalDTO);
+    Map<String, Object> data = mapper.readValue(marshalled, new TypeReference<Map<String, Object>>() {
+    });
+    client.performQuery(RequestMethod.POST, SCIM_SERVICE_PRINCIPALS, data);
+  }
+
 
 }

@@ -1,8 +1,9 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScripsDetailsDTO;
 import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptDTO;
+import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptDetailsDTO;
 import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptIdDTO;
+import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptsDetailsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -19,9 +20,15 @@ public class GlobalInitScriptServiceImpl extends DatabricksService implements Gl
   }
 
   @Override
-  public GlobalInitScripsDetailsDTO listGlobalInitScripts() throws IOException, DatabricksRestException {
+  public GlobalInitScriptsDetailsDTO listGlobalInitScripts() throws IOException, DatabricksRestException {
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/global-init-scripts", new HashMap<>());
-    return this.mapper.readValue(responseBody, GlobalInitScripsDetailsDTO.class);
+    return this.mapper.readValue(responseBody, GlobalInitScriptsDetailsDTO.class);
+  }
+
+  @Override
+  public GlobalInitScriptDetailsDTO getGlobalInitScript(String scriptId) throws IOException, DatabricksRestException {
+    byte[] responseBody = client.performQuery(RequestMethod.GET, "/global-init-scripts/" + scriptId, new HashMap<>());
+    return this.mapper.readValue(responseBody, GlobalInitScriptDetailsDTO.class);
   }
 
   @Override
