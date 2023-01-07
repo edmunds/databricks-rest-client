@@ -1,15 +1,18 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScripsDetailsDTO;
 import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptDTO;
+import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptDetailsDTO;
 import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptIdDTO;
+import com.edmunds.rest.databricks.DTO.globalInitScript.GlobalInitScriptsDetailsDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 
 import java.io.IOException;
 
 public interface GlobalInitScriptService {
 
-  GlobalInitScripsDetailsDTO listGlobalInitScripts() throws IOException, DatabricksRestException;
+  GlobalInitScriptsDetailsDTO listGlobalInitScripts() throws IOException, DatabricksRestException;
+
+  GlobalInitScriptDetailsDTO getGlobalInitScript(String scriptId) throws IOException, DatabricksRestException;
 
   GlobalInitScriptIdDTO createGlobalInitScript(GlobalInitScriptDTO globalInitScript) 
           throws IOException, DatabricksRestException;
