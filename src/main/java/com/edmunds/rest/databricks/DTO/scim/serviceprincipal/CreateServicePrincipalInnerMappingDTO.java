@@ -1,9 +1,9 @@
 package com.edmunds.rest.databricks.DTO.scim.serviceprincipal;
 
-public class ServicePrincipalInnerMappingDTO {
+public class CreateServicePrincipalInnerMappingDTO {
     private String value;
 
-    public ServicePrincipalInnerMappingDTO(String value) {
+    public CreateServicePrincipalInnerMappingDTO(String value) {
         this.value = value;
     }
 
