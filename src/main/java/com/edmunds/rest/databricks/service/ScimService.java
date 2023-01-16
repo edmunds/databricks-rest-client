@@ -18,10 +18,12 @@ package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
 import com.edmunds.rest.databricks.DTO.scim.group.GroupDTO;
+import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.CreateServicePrincipalDTO;
 import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.ServicePrincipalDTO;
 import com.edmunds.rest.databricks.DTO.scim.user.UserDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * The wrapper around the databricks SCIM API. Note that currently the API is in public preview mode - modifications are
@@ -173,12 +175,44 @@ public interface ScimService {
   /**
    * Create a Service Principal in Databricks.
    *
-   * @param servicePrincipalDTO service principal
+   * @param createServicePrincipalDTO service principal
    * @throws IOException             any other errors
    * @throws DatabricksRestException any errors with request
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
    */
-  void createServicePrincipal(ServicePrincipalDTO servicePrincipalDTO) throws IOException, DatabricksRestException;
+  void createServicePrincipal(CreateServicePrincipalDTO createServicePrincipalDTO) throws IOException,
+          DatabricksRestException;
 
+  /**
+   * Update a Service Principal in Databricks.
+   *
+   * @param servicePrincipalId service principal id
+   * @param createServicePrincipalDTO service principal dto
+   * @throws IOException             any other errors
+   * @throws DatabricksRestException any errors with request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
+   */
+  void updateServicePrincipal(long servicePrincipalId, CreateServicePrincipalDTO createServicePrincipalDTO)
+          throws IOException, DatabricksRestException;
+
+  /**
+   * Delete a Service Principal in Databricks.
+   *
+   * @param servicePrincipalId service principal id
+   * @throws DatabricksRestException any errors with request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
+   */
+  void deleteServicePrincipal(long servicePrincipalId) throws DatabricksRestException;
+
+  /**
+   * Create a Service Principal in Databricks.
+   *
+   * @param applicationId service principal
+   * @return Optional of ServicePrincipalDTO
+   * @throws IOException             any other errors
+   * @throws DatabricksRestException any errors with request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group">https://docs.databricks.com/dev-tools/api/latest/scim.html#update-group</a>
+   */
+  Optional<ServicePrincipalDTO> getServicePrincipal(String applicationId) throws IOException, DatabricksRestException;
 
 }

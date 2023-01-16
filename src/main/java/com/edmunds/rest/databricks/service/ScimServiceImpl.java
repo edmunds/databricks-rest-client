@@ -20,7 +20,9 @@ import com.edmunds.rest.databricks.DTO.scim.ListResponseDTO;
 import com.edmunds.rest.databricks.DTO.scim.Operation;
 import com.edmunds.rest.databricks.DTO.scim.OperationsDTO;
 import com.edmunds.rest.databricks.DTO.scim.group.GroupDTO;
+import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.CreateServicePrincipalDTO;
 import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.ServicePrincipalDTO;
+import com.edmunds.rest.databricks.DTO.scim.serviceprincipal.ServicePrincipalListDTO;
 import com.edmunds.rest.databricks.DTO.scim.user.AddUsersToGroupOperation;
 import com.edmunds.rest.databricks.DTO.scim.user.RemoveUserFromGroupOperation;
 import com.edmunds.rest.databricks.DTO.scim.user.UserDTO;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ScimServiceImpl extends DatabricksService implements ScimService {
 
@@ -171,7 +174,7 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
   }
 
   @Override
-  public void createServicePrincipal(ServicePrincipalDTO servicePrincipalDTO) throws IOException,
+  public void createServicePrincipal(CreateServicePrincipalDTO servicePrincipalDTO) throws IOException,
           DatabricksRestException {
     String marshalled = mapper.writeValueAsString(servicePrincipalDTO);
     Map<String, Object> data = mapper.readValue(marshalled, new TypeReference<Map<String, Object>>() {
@@ -179,5 +182,29 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
     client.performQuery(RequestMethod.POST, SCIM_SERVICE_PRINCIPALS, data);
   }
 
+  @Override
+  public void updateServicePrincipal(long servicePrincipalId, CreateServicePrincipalDTO servicePrincipalDTO)
+          throws IOException, DatabricksRestException {
+    String marshalled = mapper.writeValueAsString(servicePrincipalDTO);
+    Map<String, Object> data = mapper.readValue(marshalled, new TypeReference<Map<String, Object>>() {
+    });
+    client.performQuery(RequestMethod.PUT, SCIM_SERVICE_PRINCIPALS + "/" + servicePrincipalId, data);
+  }
+
+  @Override
+  public void deleteServicePrincipal(long servicePrincipalId) throws DatabricksRestException {
+    client.performQuery(RequestMethod.DELETE, SCIM_SERVICE_PRINCIPALS + "/" + servicePrincipalId);
+  }
+
+  @Override
+  public Optional<ServicePrincipalDTO> getServicePrincipal(String applicationId) throws IOException,
+          DatabricksRestException {
+    byte[] response = client.performQuery(RequestMethod.GET, SCIM_SERVICE_PRINCIPALS);
+    ServicePrincipalListDTO spList = this.mapper.readValue(response, ServicePrincipalListDTO.class);
+    return spList.getResources()
+            .stream()
+            .filter(principal -> applicationId.equalsIgnoreCase(principal.getApplicationId()))
+            .findAny();
+  }
 
 }
