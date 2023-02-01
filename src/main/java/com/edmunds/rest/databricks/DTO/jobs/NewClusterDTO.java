@@ -64,6 +64,9 @@ public class NewClusterDTO implements Serializable {
   private boolean enableElasticDisk;
   @JsonProperty("instance_pool_id")
   private String instancePoolId;
+  @JsonProperty("data_security_mode")
+  private DataSecurityModeDTO dataSecurityMode;
+
 
   // custom parameters
   @JsonProperty("autotermination_minutes")
