@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  */
 public enum ClusterSourceDTO implements Serializable {
-  UI("UI"), JOB("JOB"), API("API");
+  UI("UI"), JOB("JOB"), API("API"), DLT("DLT"), SQL("SQL");
 
   private String value;
 
