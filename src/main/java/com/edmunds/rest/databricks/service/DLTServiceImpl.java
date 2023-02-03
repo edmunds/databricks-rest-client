@@ -117,4 +117,11 @@ public class DLTServiceImpl extends DatabricksService implements DLTService {
     byte[] responseBody = client.performQuery(RequestMethod.GET, path, data);
     return this.mapper.readValue(responseBody, UpdateInfoWrapperDTO.class);
   }
+
+  @Override
+  public void stopPipeline(String pipelineId) throws DatabricksRestException {
+    String path = String.format("/pipelines/%s/stop", pipelineId);
+    client.performQuery(RequestMethod.POST, path, new HashMap<>());
+  }
+
 }
