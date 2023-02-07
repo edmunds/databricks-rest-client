@@ -39,6 +39,7 @@ import java.util.Optional;
 public class ScimServiceImpl extends DatabricksService implements ScimService {
 
   private static final String SCIM_USERS = "/preview/scim/v2/Users";
+  private static final String ME = "/preview/scim/v2/Me";
   private static final String SCIM_GROUPS = "/preview/scim/v2/Groups";
   private static final String SCIM_SERVICE_PRINCIPALS = "/preview/scim/v2/ServicePrincipals";
 
@@ -50,11 +51,22 @@ public class ScimServiceImpl extends DatabricksService implements ScimService {
     return path + "/" + id;
   }
 
+  private String path(String path, String suffix) {
+    return path + "/" + suffix;
+  }
+
   @Override
   public UserDTO getUser(long id) throws IOException, DatabricksRestException {
     byte[] response = client.performQuery(RequestMethod.GET, path(SCIM_USERS, id));
     return this.mapper.readValue(response, UserDTO.class);
   }
+
+  @Override
+  public UserDTO me() throws IOException, DatabricksRestException {
+    byte[] response = client.performQuery(RequestMethod.GET, ME);
+    return this.mapper.readValue(response, UserDTO.class);
+  }
+
 
   @Override
   public void deleteUser(long id) throws DatabricksRestException {
