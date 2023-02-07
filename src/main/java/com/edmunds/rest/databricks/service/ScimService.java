@@ -45,6 +45,16 @@ public interface ScimService {
   UserDTO getUser(long id) throws IOException, DatabricksRestException;
 
   /**
+   * Get current user.
+   *
+   * @return POJO representing an user
+   * @throws IOException             any other errors
+   * @throws DatabricksRestException any errors with request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/scim.html#get-user-by-id">https://docs.databricks.com/dev-tools/api/latest/scim/scim-me.html</a>
+   */
+  UserDTO me() throws IOException, DatabricksRestException;
+
+  /**
    * Inactivates an user.
    *
    * @param id user id
