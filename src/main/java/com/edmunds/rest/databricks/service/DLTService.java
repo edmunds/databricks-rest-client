@@ -31,4 +31,6 @@ public interface DLTService {
   UpdateInfoWrapperDTO listPipelineUpdates(String pipelineId, String pageToken)
           throws IOException, DatabricksRestException;
 
+  void stopPipeline(String pipelineId) throws DatabricksRestException;
+
 }
