@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenResponseDTO {
+public class CreateTokenResponseDTO<T extends TokenInfoDTO> {
 
   private static final String JSON_PROPERTY_TOKEN_VALUE = "token_value";
   private static final String JSON_PROPERTY_TOKEN_INFO = "token_info";
@@ -19,5 +19,5 @@ public class TokenResponseDTO {
   private String tokenValue;
 
   @JsonProperty(JSON_PROPERTY_TOKEN_INFO)
-  private TokenInfoDTO tokenInfo;
+  private T tokenInfo;
 }

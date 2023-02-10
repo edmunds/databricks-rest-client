@@ -17,13 +17,13 @@ public class TokenInfoDTO {
   private static final String JSON_PROPERTY_EXPIRY_TIME = "expiry_time";
 
   @JsonProperty(JSON_PROPERTY_TOKEN_ID)
-  private String tokenId;
+  protected String tokenId;
 
   @JsonProperty(JSON_PROPERTY_CREATION_TIME)
-  private long creationTime;
+  protected long creationTime;
 
   @JsonProperty(JSON_PROPERTY_EXPIRY_TIME)
-  private long expiryTime;
+  protected long expiryTime;
 
-  private String comment;
+  protected String comment;
 }

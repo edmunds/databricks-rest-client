@@ -12,10 +12,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenListResponseDTO {
+public class TokenListResponseDTO<T extends TokenInfoDTO> {
 
   private static final String JSON_PROPERTY_TOKEN_INFOS = "token_infos";
 
   @JsonProperty(JSON_PROPERTY_TOKEN_INFOS)
-  private List<TokenInfoDTO> tokenInfos;
+  private List<T> tokenInfos;
 }

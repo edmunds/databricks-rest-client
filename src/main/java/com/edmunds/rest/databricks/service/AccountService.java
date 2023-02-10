@@ -59,5 +59,4 @@ public interface AccountService {
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-workspaces">https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-workspaces</a>
    */
   List<WorkspaceDTO> workspaces(String accountId) throws IOException, DatabricksRestException;
-
 }

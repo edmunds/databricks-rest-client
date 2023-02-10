@@ -6,16 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTokenDTO {
+public class TokenGetResponseDTO<T extends TokenInfoDTO> {
 
-  private static final String JSON_PROPERTY_LIFETIME_IN_SECONDS = "lifetime_seconds";
+  private static final String JSON_PROPERTY_TOKEN_INFOS = "token_info";
 
-  protected String comment;
-
-  @JsonProperty(JSON_PROPERTY_LIFETIME_IN_SECONDS)
-  protected long lifetimeInSeconds;
+  @JsonProperty(JSON_PROPERTY_TOKEN_INFOS)
+  private T tokenInfo;
 }

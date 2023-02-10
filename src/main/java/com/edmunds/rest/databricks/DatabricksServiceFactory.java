@@ -42,6 +42,8 @@ import com.edmunds.rest.databricks.service.ScimService;
 import com.edmunds.rest.databricks.service.ScimServiceImpl;
 import com.edmunds.rest.databricks.service.SecretsService;
 import com.edmunds.rest.databricks.service.SecretsServiceImpl;
+import com.edmunds.rest.databricks.service.TokenManagementService;
+import com.edmunds.rest.databricks.service.TokenManagementServiceImpl;
 import com.edmunds.rest.databricks.service.TokenService;
 import com.edmunds.rest.databricks.service.TokenServiceImpl;
 import com.edmunds.rest.databricks.service.WorkspaceService;
@@ -85,7 +87,7 @@ public class DatabricksServiceFactory {
   private InstanceProfilesService instanceProfilesService;
   private SecretsService secretsService;
   private AccountService accountService;
-
+  private TokenManagementService tokenManagementService;
   private TokenService tokenService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
@@ -211,6 +213,16 @@ public class DatabricksServiceFactory {
       secretsService = new SecretsServiceImpl(client2dot0);
     }
     return secretsService;
+  }
+
+  /**
+   * Will return an TokenManagementService singleton.
+   */
+  public TokenManagementService getTokenManagementService() {
+    if (tokenManagementService == null) {
+      tokenManagementService = new TokenManagementServiceImpl(client2dot0);
+    }
+    return tokenManagementService;
   }
 
   /**
