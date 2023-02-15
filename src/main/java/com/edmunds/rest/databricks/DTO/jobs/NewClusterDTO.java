@@ -34,6 +34,8 @@ public class NewClusterDTO implements Serializable {
 
   @JsonProperty("policy_id")
   private String policyId;
+  @JsonProperty("runtime_engine")
+  private String runtimeEngine;
   @JsonProperty("num_workers")
   private int numWorkers;
   @JsonProperty("autoscale")
