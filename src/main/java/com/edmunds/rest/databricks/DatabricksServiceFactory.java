@@ -42,6 +42,8 @@ import com.edmunds.rest.databricks.service.ScimService;
 import com.edmunds.rest.databricks.service.ScimServiceImpl;
 import com.edmunds.rest.databricks.service.SecretsService;
 import com.edmunds.rest.databricks.service.SecretsServiceImpl;
+import com.edmunds.rest.databricks.service.SqlWarehouseService;
+import com.edmunds.rest.databricks.service.SqlWarehouseServiceImpl;
 import com.edmunds.rest.databricks.service.TokenManagementService;
 import com.edmunds.rest.databricks.service.TokenManagementServiceImpl;
 import com.edmunds.rest.databricks.service.TokenService;
@@ -80,6 +82,8 @@ public class DatabricksServiceFactory {
   private WorkspaceService workspaceService;
   private JobService jobService;
   private DLTService dltService;
+
+  private SqlWarehouseService sqlWarehouseService;
   private GlobalInitScriptService globalInitScriptService;
   private DbfsService dbfsService;
   private GroupsService groupsService;
@@ -142,6 +146,16 @@ public class DatabricksServiceFactory {
       dltService = new DLTServiceImpl(client2dot0);
     }
     return dltService;
+  }
+
+  /**
+   * Will return a SqlWarehouseService singleton.
+   */
+  public SqlWarehouseService getSqlWarehouseService() {
+    if (sqlWarehouseService == null) {
+      sqlWarehouseService = new SqlWarehouseServiceImpl(client2dot0);
+    }
+    return sqlWarehouseService;
   }
 
   /**
