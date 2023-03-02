@@ -1,6 +1,7 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.account.BillableUsageDTO;
+import com.edmunds.rest.databricks.DTO.account.StorageConfigurationDTO;
 import com.edmunds.rest.databricks.DTO.account.WorkspaceDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
@@ -86,5 +87,33 @@ public class AccountServiceImpl extends DatabricksService implements AccountServ
       return new ArrayList<>();
     }
     return workspacesDTO;
+  }
+
+  @Override
+  public WorkspaceDTO workspace(String accountId, String workspaceId) throws IOException, DatabricksRestException {
+    String commandName = String.format("workspaces/%s", workspaceId);
+    byte[] response = client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
+    return mapper.readValue(response, new TypeReference<WorkspaceDTO>() {});
+  }
+
+  @Override
+  public List<StorageConfigurationDTO> storageConfigurations(String accountId)
+      throws IOException, DatabricksRestException {
+    byte[] response =
+        client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, "storage-configurations"));
+    List<StorageConfigurationDTO> storageConfigurationsDTO =
+        mapper.readValue(response, new TypeReference<List<StorageConfigurationDTO>>() {});
+    if (storageConfigurationsDTO == null) {
+      return new ArrayList<>();
+    }
+    return storageConfigurationsDTO;
+  }
+
+  @Override
+  public StorageConfigurationDTO storageConfiguration(String accountId, String storageConfigurationId)
+      throws IOException, DatabricksRestException {
+    String commandName = String.format("storage-configurations/%s", storageConfigurationId);
+    byte[] response = client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
+    return mapper.readValue(response, new TypeReference<StorageConfigurationDTO>() {});
   }
 }
