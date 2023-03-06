@@ -48,6 +48,8 @@ import com.edmunds.rest.databricks.service.TokenManagementService;
 import com.edmunds.rest.databricks.service.TokenManagementServiceImpl;
 import com.edmunds.rest.databricks.service.TokenService;
 import com.edmunds.rest.databricks.service.TokenServiceImpl;
+import com.edmunds.rest.databricks.service.UnityCatalogService;
+import com.edmunds.rest.databricks.service.UnityCatalogServiceImpl;
 import com.edmunds.rest.databricks.service.WorkspaceService;
 import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
@@ -93,6 +95,7 @@ public class DatabricksServiceFactory {
   private AccountService accountService;
   private TokenManagementService tokenManagementService;
   private TokenService tokenService;
+  private UnityCatalogService unityCatalogService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
                                   DatabricksRestClient databricksRestClient2dot1) {
@@ -257,6 +260,16 @@ public class DatabricksServiceFactory {
       accountService = new AccountServiceImpl(client2dot0);
     }
     return accountService;
+  }
+
+  /**
+   * Will return a UnityCatalogService singleton.
+   */
+  public UnityCatalogService getUnityCatalogService() {
+    if (unityCatalogService == null && client2dot0.getHost().equals("accounts.cloud.databricks.com")) {
+      unityCatalogService = new UnityCatalogServiceImpl(client2dot0);
+    }
+    return unityCatalogService;
   }
 
   /**
