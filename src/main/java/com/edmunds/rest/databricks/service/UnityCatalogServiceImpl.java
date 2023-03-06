@@ -1,6 +1,8 @@
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.account.MetastoreDTO;
+import com.edmunds.rest.databricks.DTO.unity.MetastoreDTO;
+import com.edmunds.rest.databricks.DTO.unity.MetastoreUuidDTO;
+import com.edmunds.rest.databricks.DTO.unity.WorkspaceIdDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
@@ -9,8 +11,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class UnityCatalogServiceImpl extends DatabricksService implements UnityCatalogService {
   private static String ACCOUNT_API_ENDPOINT = "/accounts/";
@@ -50,30 +50,29 @@ public class UnityCatalogServiceImpl extends DatabricksService implements UnityC
   }
 
   @Override
-  public List<String> workspaceMetastoreId(String accountId, String workspaceId)
+  public List<MetastoreUuidDTO> workspaceMetastoreId(String accountId, String workspaceId)
       throws IOException, DatabricksRestException {
     String commandName = String.format("workspaces/%s/metastore", workspaceId);
     byte[] response =
         client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
-    List<Map<String, String>> metastoreIdWrappers =
-        mapper.readValue(response, new TypeReference<List<Map<String, String>>>() {});
-    if (metastoreIdWrappers == null) {
+    List<MetastoreUuidDTO> metastoreIds =
+        mapper.readValue(response, new TypeReference<List<MetastoreUuidDTO>>() {});
+    if (metastoreIds == null) {
       return new ArrayList<>();
     }
-    return metastoreIdWrappers.stream().map(map -> map.get("uuid")).collect(Collectors.toList());
+    return metastoreIds;
   }
 
   @Override
-  public List<String> metastoreWorkspaceIds(String accountId, String metastoreId)
+  public List<WorkspaceIdDTO> metastoreWorkspaceIds(String accountId, String metastoreId)
       throws IOException, DatabricksRestException {
     String commandName = String.format("metastores/%s/workspaces", metastoreId);
     byte[] response =
         client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
-    List<Map<String, String>> metastoreIdWrappers =
-        mapper.readValue(response, new TypeReference<List<Map<String, String>>>() {});
-    if (metastoreIdWrappers == null) {
+    List<WorkspaceIdDTO> metastoreIds = mapper.readValue(response, new TypeReference<List<WorkspaceIdDTO>>() {});
+    if (metastoreIds == null) {
       return new ArrayList<>();
     }
-    return metastoreIdWrappers.stream().map(map -> map.get("id")).collect(Collectors.toList());
+    return metastoreIds;
   }
 }

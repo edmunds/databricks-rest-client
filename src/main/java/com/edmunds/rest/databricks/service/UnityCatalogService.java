@@ -16,7 +16,9 @@
 
 package com.edmunds.rest.databricks.service;
 
-import com.edmunds.rest.databricks.DTO.account.MetastoreDTO;
+import com.edmunds.rest.databricks.DTO.unity.MetastoreDTO;
+import com.edmunds.rest.databricks.DTO.unity.MetastoreUuidDTO;
+import com.edmunds.rest.databricks.DTO.unity.WorkspaceIdDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
 
 import java.io.IOException;
@@ -62,7 +64,8 @@ public interface UnityCatalogService {
    * @throws IOException             other connection errors
    * @throws DatabricksRestException any errors with the request
    */
-  List<String> workspaceMetastoreId(String accountId, String workspaceId) throws IOException, DatabricksRestException;
+  List<MetastoreUuidDTO> workspaceMetastoreId(String accountId, String workspaceId)
+      throws IOException, DatabricksRestException;
 
   /**
    * Get list of IDs of workspaces that are assigned with metastore.
@@ -74,5 +77,6 @@ public interface UnityCatalogService {
    * @throws IOException             other connection errors
    * @throws DatabricksRestException any errors with the request
    */
-  List<String> metastoreWorkspaceIds(String accountId, String metastoreId) throws IOException, DatabricksRestException;
+  List<WorkspaceIdDTO> metastoreWorkspaceIds(String accountId, String metastoreId)
+      throws IOException, DatabricksRestException;
 }

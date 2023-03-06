@@ -1,4 +1,4 @@
-package com.edmunds.rest.databricks.DTO.account;
+package com.edmunds.rest.databricks.DTO.unity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
