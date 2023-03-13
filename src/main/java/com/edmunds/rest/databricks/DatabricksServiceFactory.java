@@ -38,6 +38,8 @@ import com.edmunds.rest.databricks.service.JobService;
 import com.edmunds.rest.databricks.service.JobServiceImpl;
 import com.edmunds.rest.databricks.service.LibraryService;
 import com.edmunds.rest.databricks.service.LibraryServiceImpl;
+import com.edmunds.rest.databricks.service.PoolService;
+import com.edmunds.rest.databricks.service.PoolServiceImpl;
 import com.edmunds.rest.databricks.service.ScimService;
 import com.edmunds.rest.databricks.service.ScimServiceImpl;
 import com.edmunds.rest.databricks.service.SecretsService;
@@ -84,7 +86,7 @@ public class DatabricksServiceFactory {
   private WorkspaceService workspaceService;
   private JobService jobService;
   private DLTService dltService;
-
+  private PoolService poolService;
   private SqlWarehouseService sqlWarehouseService;
   private GlobalInitScriptService globalInitScriptService;
   private DbfsService dbfsService;
@@ -149,6 +151,16 @@ public class DatabricksServiceFactory {
       dltService = new DLTServiceImpl(client2dot0);
     }
     return dltService;
+  }
+
+  /**
+   * Will return a PoolService singleton.
+   */
+  public PoolService getPoolService() {
+    if (poolService == null) {
+      poolService = new PoolServiceImpl(client2dot0);
+    }
+    return poolService;
   }
 
   /**
