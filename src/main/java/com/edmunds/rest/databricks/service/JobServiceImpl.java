@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
@@ -86,7 +87,8 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/get", data);
-    TypeReference<HashMap<String,Object>> typeRef = new TypeReference<HashMap<String,Object>>() {};
+    TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
+    };
     return this.mapper.readValue(responseBody, typeRef);
   }
 
@@ -159,7 +161,7 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     int page = 0;
     List<JobDTO> jobs = new ArrayList<>();
     while (page != -1) {
-      JobsDTO jobsDTO = listAllJobs(20, page * 20, expandTasks);
+      JobsDTO jobsDTO = listAllJobs(20, page * 20, "", expandTasks);
       if (jobsDTO.getJobs() != null) {
         jobs.addAll(Arrays.asList(jobsDTO.getJobs()));
         page++;
@@ -171,11 +173,13 @@ public class JobServiceImpl extends DatabricksService implements JobService {
   }
 
   @Override
-  public JobsDTO listAllJobs(int limit, int offset, boolean expandTasks) throws DatabricksRestException, IOException {
+  public JobsDTO listAllJobs(int limit, int offset, String name, boolean expandTasks)
+      throws DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("expand_tasks", expandTasks);
     data.put("limit", limit);
     data.put("offset", offset);
+    Optional.ofNullable(name).filter(f -> !f.isEmpty()).ifPresent(nameFilter -> data.put("name", nameFilter));
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
     return this.mapper.readValue(responseBody, JobsDTO.class);
   }
