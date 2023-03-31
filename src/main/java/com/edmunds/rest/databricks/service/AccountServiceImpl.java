@@ -1,6 +1,7 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.account.BillableUsageDTO;
+import com.edmunds.rest.databricks.DTO.account.CredentialConfigurationDTO;
 import com.edmunds.rest.databricks.DTO.account.StorageConfigurationDTO;
 import com.edmunds.rest.databricks.DTO.account.WorkspaceDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
@@ -115,5 +116,26 @@ public class AccountServiceImpl extends DatabricksService implements AccountServ
     String commandName = String.format("storage-configurations/%s", storageConfigurationId);
     byte[] response = client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
     return mapper.readValue(response, new TypeReference<StorageConfigurationDTO>() {});
+  }
+
+  @Override
+  public List<CredentialConfigurationDTO> credentialConfigurations(String accountId)
+      throws IOException, DatabricksRestException {
+    byte[] response =
+        client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, "credentials"));
+    List<CredentialConfigurationDTO> credentialsDTO =
+        mapper.readValue(response, new TypeReference<List<CredentialConfigurationDTO>>() {});
+    if (credentialsDTO == null) {
+      return new ArrayList<>();
+    }
+    return credentialsDTO;
+  }
+
+  @Override
+  public CredentialConfigurationDTO credentialConfiguration(String accountId, String credentialConfigurationId)
+      throws IOException, DatabricksRestException {
+    String commandName = String.format("credentials/%s", credentialConfigurationId);
+    byte[] response = client.performQuery(RequestMethod.GET, getAccountApiEndpoint(accountId, commandName));
+    return mapper.readValue(response, new TypeReference<CredentialConfigurationDTO>() {});
   }
 }
