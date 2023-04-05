@@ -14,7 +14,10 @@ public interface GlobalInitScriptService {
 
   GlobalInitScriptDetailsDTO getGlobalInitScript(String scriptId) throws IOException, DatabricksRestException;
 
-  GlobalInitScriptIdDTO createGlobalInitScript(GlobalInitScriptDTO globalInitScript) 
+  GlobalInitScriptIdDTO createGlobalInitScript(GlobalInitScriptDTO globalInitScript)
+          throws IOException, DatabricksRestException;
+
+  GlobalInitScriptIdDTO updateGlobalInitScript(String scriptId, GlobalInitScriptDTO globalInitScript)
           throws IOException, DatabricksRestException;
 
   void deleteGlobalInitScript(String scriptId) throws DatabricksRestException;
