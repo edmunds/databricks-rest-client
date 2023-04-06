@@ -17,6 +17,7 @@
 package com.edmunds.rest.databricks.service;
 
 import com.edmunds.rest.databricks.DTO.account.BillableUsageDTO;
+import com.edmunds.rest.databricks.DTO.account.CredentialConfigurationDTO;
 import com.edmunds.rest.databricks.DTO.account.StorageConfigurationDTO;
 import com.edmunds.rest.databricks.DTO.account.WorkspaceDTO;
 import com.edmunds.rest.databricks.DatabricksRestException;
@@ -90,7 +91,7 @@ public interface AccountService {
       throws IOException, DatabricksRestException;
 
   /**
-   * Get a Databricks storage configuration for an account, both specified by ID..
+   * Get a Databricks storage configuration for an account, both specified by ID.
    *
    * @param accountId Databricks account ID of any type. For non-E2 account types, get your account ID from the <a href="https://docs.databricks.com/administration-guide/account-settings/usage.html">Accounts Console</a>
    * @param storageConfigurationId Databricks Account API storage configuration ID
@@ -100,6 +101,31 @@ public interface AccountService {
    * @see <a href="https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-storage-config">https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-storage-configs</a>
    */
   StorageConfigurationDTO storageConfiguration(String accountId, String storageConfigurationId)
+      throws IOException, DatabricksRestException;
+
+  /**
+   * Get all Databricks credential configurations associated with an account specified by ID.
+   *
+   * @param accountId Databricks account ID of any type. For non-E2 account types, get your account ID from the <a href="https://docs.databricks.com/administration-guide/account-settings/usage.html">Accounts Console</a>
+   * @return Databricks credential configurations
+   * @throws IOException             other connection errors
+   * @throws DatabricksRestException any errors with the request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-credential-configs">https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-credential-configs</a>
+   */
+  List<CredentialConfigurationDTO> credentialConfigurations(String accountId)
+      throws IOException, DatabricksRestException;
+
+  /**
+   * Get a Databricks credential configuration object for an account, both specified by ID.
+   *
+   * @param accountId Databricks account ID of any type. For non-E2 account types, get your account ID from the <a href="https://docs.databricks.com/administration-guide/account-settings/usage.html">Accounts Console</a>
+   * @param credentialConfigurationId Databricks Account API credential configuration ID
+   * @return Credential Configuration
+   * @throws IOException             other connection errors
+   * @throws DatabricksRestException any errors with the request
+   * @see <a href="https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-credential-config">https://docs.databricks.com/dev-tools/api/latest/account.html#operation/get-credential-config</a>
+   */
+  CredentialConfigurationDTO credentialConfiguration(String accountId, String credentialConfigurationId)
       throws IOException, DatabricksRestException;
 
 }

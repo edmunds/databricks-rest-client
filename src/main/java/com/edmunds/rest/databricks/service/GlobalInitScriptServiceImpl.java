@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class GlobalInitScriptServiceImpl extends DatabricksService implements GlobalInitScriptService {
 
@@ -42,6 +43,24 @@ public class GlobalInitScriptServiceImpl extends DatabricksService implements Gl
     data.put("script", encodedScript);
 
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/global-init-scripts", data);
+    return this.mapper.readValue(responseBody, GlobalInitScriptIdDTO.class);
+  }
+
+  @Override
+  public GlobalInitScriptIdDTO updateGlobalInitScript(String scriptId, GlobalInitScriptDTO globalInitScript)
+          throws IOException, DatabricksRestException {
+    Map<String, Object> data = new HashMap<>();
+
+    Optional.ofNullable(globalInitScript.getName()).ifPresent(name -> data.put("name", name));
+    data.put("enabled", globalInitScript.isEnabled());
+    data.put("position", globalInitScript.getPosition());
+
+    Optional.ofNullable(globalInitScript.getScript()).ifPresent(script -> {
+      String encodedScript = Base64.getEncoder().encodeToString(script.getBytes());
+      data.put("script", encodedScript);
+    });
+
+    byte[] responseBody = client.performQuery(RequestMethod.PATCH, "/global-init-scripts/" + scriptId, data);
     return this.mapper.readValue(responseBody, GlobalInitScriptIdDTO.class);
   }
 

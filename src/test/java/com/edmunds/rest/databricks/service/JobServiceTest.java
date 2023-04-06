@@ -178,7 +178,7 @@ public class JobServiceTest  extends ClusterDependentTest{
   @Test(dependsOnMethods = {"testSetUpOnce"})
   public void listAllJobs_whenCalled_returnsListOfAllJobs()
       throws IOException, DatabricksRestException {
-    JobsDTO result = service.listAllJobs(20, 0,false);
+    JobsDTO result = service.listAllJobs(20, 0,null, false);
 
     assertTrue(result.getJobs().length >= 1);
   }
@@ -312,7 +312,7 @@ public class JobServiceTest  extends ClusterDependentTest{
 
   private boolean isJobIdValid(long jobId) throws IOException, DatabricksRestException {
 
-    JobDTO[] jobs = service.listAllJobs(20, 0,false).getJobs();
+    JobDTO[] jobs = service.listAllJobs(20, 0,null, false).getJobs();
     for (JobDTO job : jobs) {
       if (job.getJobId() == jobId) {
         return true;

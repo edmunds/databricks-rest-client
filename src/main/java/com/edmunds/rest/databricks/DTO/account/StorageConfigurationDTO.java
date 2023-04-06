@@ -13,6 +13,7 @@ public class StorageConfigurationDTO {
   public static final String JSON_PROPERTY_STORAGE_CONFIGURATION_NAME = "storage_configuration_name";
   public static final String JSON_PROPERTY_ROOT_BUCKET_INFO = "root_bucket_info";
   public static final String JSON_PROPERTY_ACCOUNT_ID = "account_id";
+  public static final String JSON_PROPERTY_CREATION_TIME = "creation_time";
 
   @JsonProperty(JSON_PROPERTY_STORAGE_CONFIGURATION_ID)
   private String storageConfigurationId;
@@ -25,4 +26,7 @@ public class StorageConfigurationDTO {
 
   @JsonProperty(JSON_PROPERTY_ACCOUNT_ID)
   private String accountId;
+
+  @JsonProperty(JSON_PROPERTY_CREATION_TIME)
+  private Long creationTime;
 }
