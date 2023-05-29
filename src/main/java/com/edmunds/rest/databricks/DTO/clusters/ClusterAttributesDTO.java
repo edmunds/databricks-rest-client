@@ -59,5 +59,7 @@ public class ClusterAttributesDTO implements Serializable {
   private String driverInstancePoolId;
   @JsonProperty("cluster_source")
   private ClusterSourceDTO clusterSource;
+  @JsonProperty("runtime_engine")
+  private String runtimeEngine;
 
 }
