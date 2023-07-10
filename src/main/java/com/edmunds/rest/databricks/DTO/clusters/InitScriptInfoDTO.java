@@ -23,7 +23,10 @@ import java.util.Objects;
  */
 @JsonPropertyOrder({
   InitScriptInfoDTO.JSON_PROPERTY_DBFS,
-  InitScriptInfoDTO.JSON_PROPERTY_FILE
+  InitScriptInfoDTO.JSON_PROPERTY_FILE,
+  InitScriptInfoDTO.JSON_PROPERTY_WORKSPACE,
+  InitScriptInfoDTO.JSON_PROPERTY_S3
+
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2022-03-10T00:39:06.873-08:00[America/Los_Angeles]")
 public class InitScriptInfoDTO {
@@ -34,6 +37,10 @@ public class InitScriptInfoDTO {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)
   private FileStorageInfoDTO _file;
+
+  public static final String JSON_PROPERTY_WORKSPACE = "workspace";
+  @JsonProperty(JSON_PROPERTY_WORKSPACE)
+  private FileStorageInfoDTO workspace;
 
   public static final String JSON_PROPERTY_S3 = "s3";
 
@@ -85,6 +92,14 @@ public class InitScriptInfoDTO {
     this.s3 = s3;
   }
 
+  public FileStorageInfoDTO getWorkspace() {
+    return workspace;
+  }
+
+  public void setWorkspace(FileStorageInfoDTO workspace) {
+    this.workspace = workspace;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -95,12 +110,12 @@ public class InitScriptInfoDTO {
     }
     InitScriptInfoDTO initScriptInfo = (InitScriptInfoDTO) o;
     return Objects.equals(this.dbfs, initScriptInfo.dbfs) &&
-        Objects.equals(this._file, initScriptInfo._file);
+        Objects.equals(this._file, initScriptInfo._file) && Objects.equals(this.workspace, initScriptInfo.workspace);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dbfs, _file);
+    return Objects.hash(dbfs, _file, workspace);
   }
 
 
@@ -108,9 +123,10 @@ public class InitScriptInfoDTO {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InitScriptInfoDTO {\n");
-    
+
     sb.append("    dbfs: ").append(toIndentedString(dbfs)).append("\n");
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
+    sb.append("    workspace: ").append(toIndentedString(workspace)).append("\n");
     sb.append("}");
     return sb.toString();
   }

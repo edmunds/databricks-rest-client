@@ -25,7 +25,8 @@ public enum ExportFormatDTO implements Serializable {
   SOURCE("SOURCE"),
   HTML("HTML"),
   JUPYTER("JUPYTER"),
-  DBC("DBC");
+  DBC("DBC"),
+  AUTO("AUTO");
 
   private String value;
 
