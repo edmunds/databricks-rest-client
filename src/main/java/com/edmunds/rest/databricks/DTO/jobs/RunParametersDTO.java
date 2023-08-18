@@ -28,6 +28,8 @@ import lombok.Data;
 @Data
 public class RunParametersDTO implements Serializable {
 
+  @JsonProperty("idempotency_token")
+  private String idempotencyToken;
   @JsonProperty("jar_params")
   private String[] jarParams;
   @JsonProperty("notebook_params")
