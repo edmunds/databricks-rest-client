@@ -209,21 +209,23 @@ public class JobServiceImpl extends DatabricksService implements JobService {
       IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("job_id", jobId);
-    if (params == null) {
-      // skip param setting
+    if (params != null) {
+      if (params.getIdempotencyToken() != null) {
+        data.put("idempotency_token", params.getIdempotencyToken());
+      }
+      if (params.getJarParams() != null) {
+        data.put("jar_params", params.getJarParams());
 
-    } else if (params.getJarParams() != null) {
-      data.put("jar_params", params.getJarParams());
+      } else if (params.getNotebookParams() != null) {
+        data.put("notebook_params", params.getNotebookParams());
 
-    } else if (params.getNotebookParams() != null) {
-      data.put("notebook_params", params.getNotebookParams());
+      } else if (params.getPythonParams() != null) {
+        data.put("python_params", params.getPythonParams());
 
-    } else if (params.getPythonParams() != null) {
-      data.put("python_params", params.getPythonParams());
+      } else if (params.getSparkSubmitParams() != null) {
+        data.put("spark_submit_params", params.getSparkSubmitParams());
 
-    } else if (params.getSparkSubmitParams() != null) {
-      data.put("spark_submit_params", params.getSparkSubmitParams());
-
+      }
     }
 
     byte[] responseBody = client.performQuery(RequestMethod.POST, "/jobs/run-now", data);
