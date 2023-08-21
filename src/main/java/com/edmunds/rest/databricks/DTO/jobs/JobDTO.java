@@ -13,10 +13,12 @@
 
 package com.edmunds.rest.databricks.DTO.jobs;
 
+import com.edmunds.rest.databricks.DTO.DatabricksAssetDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * JobDTO
@@ -29,7 +31,7 @@ import java.util.Objects;
         JobDTO.JSON_PROPERTY_CREATED_TIME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2022-03-09T23:53:34.566-08:00[America/Los_Angeles]")
-public class JobDTO {
+public class JobDTO implements DatabricksAssetDTO {
     public static final String JSON_PROPERTY_JOB_ID = "job_id";
     public static final String JSON_PROPERTY_CREATOR_USER_NAME = "creator_user_name";
     public static final String JSON_PROPERTY_RUN_AS_USER_NAME = "run_as_user_name";
@@ -187,6 +189,20 @@ public class JobDTO {
             return "null";
         }
         return o.toString().replace("\n", "\n    ");
+    }
+
+    @Override
+    public String getId() {
+        return jobId.toString();
+    }
+
+    @Override
+    public String getName() {
+        if (settings == null) {
+            return jobId.toString();
+        } else {
+            return Optional.of(settings.getName()).orElse(jobId.toString());
+        }
     }
 }
 

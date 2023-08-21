@@ -16,8 +16,9 @@
 
 package com.edmunds.rest.databricks.DTO.clusters;
 
+import com.edmunds.rest.databricks.DTO.DatabricksAssetDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.io.Serializable;
+
 import java.util.Map;
 import lombok.Data;
 
@@ -25,7 +26,7 @@ import lombok.Data;
  *
  */
 @Data
-public class ClusterInfoDTO implements Serializable {
+public class ClusterInfoDTO implements DatabricksAssetDTO {
 
   @JsonProperty("num_workers")
   private Integer numWorkers;
@@ -107,4 +108,14 @@ public class ClusterInfoDTO implements Serializable {
   private String policyId;
   @JsonProperty("data_security_mode")
   private String dataSecurityMode;
+
+  @Override
+  public String getId() {
+    return clusterId;
+  }
+
+  @Override
+  public String getName() {
+    return clusterName;
+  }
 }

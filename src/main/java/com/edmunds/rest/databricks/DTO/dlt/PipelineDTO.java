@@ -1,10 +1,11 @@
 package com.edmunds.rest.databricks.DTO.dlt;
 
+import com.edmunds.rest.databricks.DTO.DatabricksAssetDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class PipelineDTO {
+public class PipelineDTO implements DatabricksAssetDTO {
 
     public static final String JSON_PROPERTY_PIPELINE_ID = "pipeline_id";
     public static final String JSON_PROPERTY_STATE = "state";
@@ -26,4 +27,8 @@ public class PipelineDTO {
     @JsonProperty(JSON_PROPERTY_RUN_AS_USER_NAME)
     private String runAsUsername;
 
+    @Override
+    public String getId() {
+        return pipelineId;
+    }
 }
