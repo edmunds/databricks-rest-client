@@ -25,7 +25,8 @@ import java.util.Objects;
   InitScriptInfoDTO.JSON_PROPERTY_DBFS,
   InitScriptInfoDTO.JSON_PROPERTY_FILE,
   InitScriptInfoDTO.JSON_PROPERTY_WORKSPACE,
-  InitScriptInfoDTO.JSON_PROPERTY_S3
+  InitScriptInfoDTO.JSON_PROPERTY_S3,
+  InitScriptInfoDTO.JSON_PROPERTY_ABFSS
 
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2022-03-10T00:39:06.873-08:00[America/Los_Angeles]")
@@ -43,9 +44,23 @@ public class InitScriptInfoDTO {
   private FileStorageInfoDTO workspace;
 
   public static final String JSON_PROPERTY_S3 = "s3";
+  public static final String JSON_PROPERTY_ABFSS = "abfss";
 
   @JsonProperty(JSON_PROPERTY_S3)
   private S3StorageInfoDTO s3;
+
+  @JsonProperty(JSON_PROPERTY_ABFSS)
+  private FileStorageInfoDTO abfss;
+
+  @JsonProperty(JSON_PROPERTY_ABFSS)
+
+  public FileStorageInfoDTO getAbfss() {
+    return abfss;
+  }
+
+  public void setAbfss(FileStorageInfoDTO abfss) {
+    this.abfss = abfss;
+  }
 
   public InitScriptInfoDTO dbfs(DbfsStorageInfoDTO dbfs) {
     this.dbfs = dbfs;
@@ -56,7 +71,7 @@ public class InitScriptInfoDTO {
    * Get dbfs
    * @return dbfs
    **/
-  @JsonProperty(value = "dbfs")
+  @JsonProperty(value = JSON_PROPERTY_DBFS)
   public DbfsStorageInfoDTO getDbfs() {
     return dbfs;
   }

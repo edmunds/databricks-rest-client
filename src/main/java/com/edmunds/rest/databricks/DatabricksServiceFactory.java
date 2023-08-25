@@ -22,6 +22,8 @@ import com.edmunds.rest.databricks.restclient.DefaultHttpClientBuilderFactory;
 import com.edmunds.rest.databricks.restclient.HttpClientBuilderFactory;
 import com.edmunds.rest.databricks.service.AccountService;
 import com.edmunds.rest.databricks.service.AccountServiceImpl;
+import com.edmunds.rest.databricks.service.ClusterPoliciesService;
+import com.edmunds.rest.databricks.service.ClusterPoliciesServiceImpl;
 import com.edmunds.rest.databricks.service.ClusterService;
 import com.edmunds.rest.databricks.service.ClusterServiceImpl;
 import com.edmunds.rest.databricks.service.DLTService;
@@ -82,6 +84,8 @@ public class DatabricksServiceFactory {
   private DatabricksRestClient client2dot0;
   private DatabricksRestClient client2dot1;
   private ClusterService clusterService;
+
+  private ClusterPoliciesService clusterPoliciesService;
   private LibraryService libraryService;
   private WorkspaceService workspaceService;
   private JobService jobService;
@@ -117,6 +121,16 @@ public class DatabricksServiceFactory {
       clusterService = new ClusterServiceImpl(client2dot0);
     }
     return clusterService;
+  }
+
+  /**
+   * Will return a Databricks Cluster Policies Service singleton.
+   */
+  public ClusterPoliciesService getClusterPoliciesService() {
+    if (clusterPoliciesService == null) {
+      clusterPoliciesService = new ClusterPoliciesServiceImpl(client2dot0);
+    }
+    return clusterPoliciesService;
   }
 
   /**
