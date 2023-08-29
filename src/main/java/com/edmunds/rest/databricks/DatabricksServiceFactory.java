@@ -54,6 +54,8 @@ import com.edmunds.rest.databricks.service.TokenService;
 import com.edmunds.rest.databricks.service.TokenServiceImpl;
 import com.edmunds.rest.databricks.service.UnityCatalogService;
 import com.edmunds.rest.databricks.service.UnityCatalogServiceImpl;
+import com.edmunds.rest.databricks.service.UnityCatalogWorkspaceService;
+import com.edmunds.rest.databricks.service.UnityCatalogWorkspaceServiceImpl;
 import com.edmunds.rest.databricks.service.WorkspaceService;
 import com.edmunds.rest.databricks.service.WorkspaceServiceImpl;
 
@@ -102,6 +104,8 @@ public class DatabricksServiceFactory {
   private TokenManagementService tokenManagementService;
   private TokenService tokenService;
   private UnityCatalogService unityCatalogService;
+
+  private UnityCatalogWorkspaceService unityCatalogWorkspaceService;
 
   public DatabricksServiceFactory(DatabricksRestClient databricksRestClient,
                                   DatabricksRestClient databricksRestClient2dot1) {
@@ -175,6 +179,16 @@ public class DatabricksServiceFactory {
       poolService = new PoolServiceImpl(client2dot0);
     }
     return poolService;
+  }
+
+  /**
+   * Will return a UnityCatalogWorkspaceServiceImpl singleton.
+   */
+  public UnityCatalogWorkspaceService getUnityCatalogWorkspaceService() {
+    if (unityCatalogWorkspaceService == null) {
+      unityCatalogWorkspaceService = new UnityCatalogWorkspaceServiceImpl(client2dot1);
+    }
+    return unityCatalogWorkspaceService;
   }
 
   /**
