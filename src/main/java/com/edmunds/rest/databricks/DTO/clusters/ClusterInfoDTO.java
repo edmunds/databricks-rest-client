@@ -109,6 +109,11 @@ public class ClusterInfoDTO implements DatabricksAssetDTO {
   @JsonProperty("data_security_mode")
   private String dataSecurityMode;
 
+
+  public boolean isSharedCluster() {
+      return DataSecurityMode.USER_ISOLATION.name().equalsIgnoreCase(dataSecurityMode);
+  }
+
   @Override
   public String getId() {
     return clusterId;
