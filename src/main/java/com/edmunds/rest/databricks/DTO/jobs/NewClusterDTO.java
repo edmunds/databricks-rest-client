@@ -63,6 +63,9 @@ public class NewClusterDTO {
     public static final String JSON_PROPERTY_INSTANCE_POOL_ID = "instance_pool_id";
     public static final String JSON_PROPERTY_DRIVER_INSTANCE_POOL_ID = "driver_instance_pool_id";
     private static final String JSON_PROPERTY_AWS_ATTRIBUTES = "aws_attributes";
+
+    private static final String JSON_PROPERTY_DATA_SECURITY_MODE = "data_security_mode";
+
     @JsonProperty(JSON_PROPERTY_NUM_WORKERS)
     private Integer numWorkers;
     @JsonProperty(JSON_PROPERTY_AUTOSCALE)
@@ -93,6 +96,9 @@ public class NewClusterDTO {
     private String instancePoolId;
     @JsonProperty(JSON_PROPERTY_DRIVER_INSTANCE_POOL_ID)
     private String driverInstancePoolId;
+
+    @JsonProperty(JSON_PROPERTY_DATA_SECURITY_MODE)
+    private String dataSecurityMode;
 
     public NewClusterDTO numWorkers(Integer numWorkers) {
         this.numWorkers = numWorkers;
@@ -399,6 +405,14 @@ public class NewClusterDTO {
         this.driverInstancePoolId = driverInstancePoolId;
     }
 
+    public String getDataSecurityMode() {
+        return dataSecurityMode;
+    }
+
+    public void setDataSecurityMode(String dataSecurityMode) {
+        this.dataSecurityMode = dataSecurityMode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -420,12 +434,13 @@ public class NewClusterDTO {
                 Objects.equals(this.initScripts, newCluster.initScripts) &&
                 Objects.equals(this.sparkEnvVars, newCluster.sparkEnvVars) &&
                 Objects.equals(this.enableElasticDisk, newCluster.enableElasticDisk) &&
-                Objects.equals(this.instancePoolId, newCluster.instancePoolId);
+                Objects.equals(this.instancePoolId, newCluster.instancePoolId) &&
+                Objects.equals(this.dataSecurityMode, newCluster.dataSecurityMode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numWorkers, autoscale, sparkVersion, sparkConf, azureAttributes, nodeTypeId, driverNodeTypeId, customTags, clusterLogConf, initScripts, sparkEnvVars, enableElasticDisk, instancePoolId);
+        return Objects.hash(numWorkers, autoscale, sparkVersion, sparkConf, azureAttributes, nodeTypeId, driverNodeTypeId, customTags, clusterLogConf, initScripts, sparkEnvVars, enableElasticDisk, instancePoolId, dataSecurityMode);
     }
 
 
@@ -447,6 +462,7 @@ public class NewClusterDTO {
         sb.append("    sparkEnvVars: ").append(toIndentedString(sparkEnvVars)).append("\n");
         sb.append("    enableElasticDisk: ").append(toIndentedString(enableElasticDisk)).append("\n");
         sb.append("    instancePoolId: ").append(toIndentedString(instancePoolId)).append("\n");
+        sb.append("    dataSecurityAttribute: ").append(toIndentedString(dataSecurityMode)).append("\n");
         sb.append("}");
         return sb.toString();
     }
