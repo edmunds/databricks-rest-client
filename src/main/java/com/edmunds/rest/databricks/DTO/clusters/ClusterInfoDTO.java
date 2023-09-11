@@ -17,8 +17,10 @@
 package com.edmunds.rest.databricks.DTO.clusters;
 
 import com.edmunds.rest.databricks.DTO.DatabricksAssetDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.Transient;
 import java.util.Map;
 import lombok.Data;
 
@@ -110,6 +112,7 @@ public class ClusterInfoDTO implements DatabricksAssetDTO {
   private String dataSecurityMode;
 
 
+  @JsonIgnore
   public boolean isSharedCluster() {
       return DataSecurityMode.USER_ISOLATION.name().equalsIgnoreCase(dataSecurityMode);
   }
