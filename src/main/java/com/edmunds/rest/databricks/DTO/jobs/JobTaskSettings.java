@@ -37,6 +37,7 @@ import java.util.Objects;
         JobTaskSettings.JSON_PROPERTY_SPARK_SUBMIT_TASK,
         JobTaskSettings.JSON_PROPERTY_PIPELINE_TASK,
         JobTaskSettings.JSON_PROPERTY_SQL_TASK,
+        JobTaskSettings.JSON_PROPERTY_RUN_JOB_TASK,
         JobTaskSettings.JSON_PROPERTY_PYTHON_WHEEL_TASK,
         JobTaskSettings.JSON_PROPERTY_LIBRARIES,
         JobTaskSettings.JSON_PROPERTY_EMAIL_NOTIFICATIONS,
@@ -59,6 +60,7 @@ public class JobTaskSettings {
     public static final String JSON_PROPERTY_SPARK_SUBMIT_TASK = "spark_submit_task";
     public static final String JSON_PROPERTY_PIPELINE_TASK = "pipeline_task";
     public static final String JSON_PROPERTY_SQL_TASK = "sql_task";
+    public static final String JSON_PROPERTY_RUN_JOB_TASK = "run_job_task";
     public static final String JSON_PROPERTY_PYTHON_WHEEL_TASK = "python_wheel_task";
     public static final String JSON_PROPERTY_LIBRARIES = "libraries";
     public static final String JSON_PROPERTY_EMAIL_NOTIFICATIONS = "email_notifications";
@@ -90,6 +92,10 @@ public class JobTaskSettings {
     private PipelineTask pipelineTask;
     @JsonProperty(JSON_PROPERTY_SQL_TASK)
     private SqlTask sqlTask;
+
+    @JsonProperty(JSON_PROPERTY_RUN_JOB_TASK)
+    private RunJobTask runJobTask;
+
     @JsonProperty(JSON_PROPERTY_PYTHON_WHEEL_TASK)
     private PythonWheelTask pythonWheelTask;
     @JsonProperty(JSON_PROPERTY_LIBRARIES)
@@ -332,6 +338,15 @@ public class JobTaskSettings {
         this.sqlTask = sqlTask;
     }
 
+    @JsonProperty(value = "run_job_task")
+    public RunJobTask getRunJobTask() {
+        return runJobTask;
+    }
+
+    public void setRunJobTask(RunJobTask runJobTak) {
+        this.runJobTask = runJobTak;
+    }
+
     public JobTaskSettings pythonWheelTask(PythonWheelTask pythonWheelTask) {
         this.pythonWheelTask = pythonWheelTask;
         return this;
@@ -519,6 +534,7 @@ public class JobTaskSettings {
         sb.append("    dependsOn: ").append(toIndentedString(dependsOn)).append("\n");
         sb.append("    existingClusterId: ").append(toIndentedString(existingClusterId)).append("\n");
         sb.append("    newCluster: ").append(toIndentedString(newCluster)).append("\n");
+        sb.append("    runJobTask: ").append(toIndentedString(runJobTask)).append("\n");
         sb.append("    jobClusterKey: ").append(toIndentedString(jobClusterKey)).append("\n");
         sb.append("    notebookTask: ").append(toIndentedString(notebookTask)).append("\n");
         sb.append("    sparkJarTask: ").append(toIndentedString(sparkJarTask)).append("\n");
