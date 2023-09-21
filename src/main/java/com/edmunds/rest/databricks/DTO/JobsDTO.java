@@ -33,4 +33,10 @@ public class JobsDTO implements Serializable {
   @JsonProperty("has_more")
   private Boolean hasMore;
 
+  @JsonProperty("next_page_token")
+  private String nextPageToken;
+
+  @JsonProperty("previous_page_token")
+  private String previousPageToken;
+
 }

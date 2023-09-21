@@ -106,11 +106,19 @@ public interface JobService {
   List<JobDTO> getJobsByRegex(Pattern regex, boolean expandTasks) throws IOException, DatabricksRestException;
 
   /**
+   * Returns a list of all jobs.
+   *
+   * @return A POJO of the Jobs
+   * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
+   */
+  List<JobDTO> getAllJobs(Boolean expandTasks) throws DatabricksRestException, IOException;
+
+  /**
    * Returns a list of all jobs that are active.
    * @see <a href="https://docs.databricks.com/api/latest/jobs.html#list">https://docs.databricks.com/api/latest/jobs.html#list</a>
    * @return A POJO of the Jobs
    */
-  JobsDTO listAllJobs(int limit, int offset, String name, boolean expandTasks)
+  JobsDTO listAllJobs(int limit, String nextPageToken, String name, boolean expandTasks)
       throws IOException, DatabricksRestException;
 
   /**
@@ -157,8 +165,8 @@ public interface JobService {
    *     the Jobs service will list runs from all jobs
    * @param activeOnly If true, lists active runs only; otherwise, lists both active and inactive
    *     runs
-   * @param offset The offset of the first run to return, relative to the most recent run. The
-   *     default value is 20
+   * @param pageToken Use next_page_token or prev_page_token returned from the previous request to
+   *     list the next or previous page of runs respectively.
    * @param limit The number of runs to return. This value should be greater than 0 and less than
    *     1000
    * @param runType JOB_RUN, SUBMIT_RUN, WORKFLOW_RUN
@@ -167,9 +175,8 @@ public interface JobService {
    * @return Returns RunsDTO containing an array of runs and a boolean indicating if there are more
    *     jobs that haven't been included
    */
-  RunsDTO listRuns(Long jobId, Boolean activeOnly, Integer offset, Integer limit, Long from, Long until, String runType)
-      throws DatabricksRestException,
-      IOException;
+  RunsDTO listRuns(Long jobId, Boolean activeOnly, String pageToken, Integer limit, Long from, Long until,
+                   String runType) throws DatabricksRestException, IOException;
 
   /**
    * Retrieves the metadata of a run.

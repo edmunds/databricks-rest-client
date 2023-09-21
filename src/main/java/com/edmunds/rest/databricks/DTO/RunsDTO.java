@@ -33,4 +33,10 @@ public class RunsDTO implements Serializable {
   @JsonProperty("has_more")
   private boolean hasMore;
 
+  @JsonProperty("next_page_token")
+  private String nextPageToken;
+
+  @JsonProperty("previous_page_token")
+  private String previousPageToken;
+
 }

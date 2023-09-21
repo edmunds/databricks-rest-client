@@ -28,6 +28,7 @@ import com.edmunds.rest.databricks.DatabricksRestException;
 import com.edmunds.rest.databricks.RequestMethod;
 import com.edmunds.rest.databricks.restclient.DatabricksRestClient;
 import com.fasterxml.jackson.core.type.TypeReference;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -157,28 +159,29 @@ public class JobServiceImpl extends DatabricksService implements JobService {
     return foundJobDTOs;
   }
 
-  private List<JobDTO> getAllJobs(Boolean expandTasks) throws DatabricksRestException, IOException {
-    int page = 0;
+  @Override
+  public List<JobDTO> getAllJobs(Boolean expandTasks) throws DatabricksRestException, IOException {
     List<JobDTO> jobs = new ArrayList<>();
-    while (page != -1) {
-      JobsDTO jobsDTO = listAllJobs(20, page * 20, "", expandTasks);
+    String nextPageToken = null;
+
+    do {
+      JobsDTO jobsDTO = listAllJobs(100, nextPageToken, "", expandTasks);
+      nextPageToken = jobsDTO.getNextPageToken();
       if (jobsDTO.getJobs() != null) {
         jobs.addAll(Arrays.asList(jobsDTO.getJobs()));
-        page++;
-      } else {
-        page = -1;
       }
-    }
+    } while (nextPageToken != null);
+
     return jobs;
   }
 
   @Override
-  public JobsDTO listAllJobs(int limit, int offset, String name, boolean expandTasks)
+  public JobsDTO listAllJobs(int limit, String pageToken, String name, boolean expandTasks)
       throws DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
     data.put("expand_tasks", expandTasks);
     data.put("limit", limit);
-    data.put("offset", offset);
+    Optional.ofNullable(pageToken).filter(f -> !f.isEmpty()).ifPresent(npf -> data.put("page_token", npf));
     Optional.ofNullable(name).filter(f -> !f.isEmpty()).ifPresent(nameFilter -> data.put("name", nameFilter));
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/list", data);
     return this.mapper.readValue(responseBody, JobsDTO.class);
