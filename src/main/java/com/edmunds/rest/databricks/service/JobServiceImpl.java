@@ -238,35 +238,20 @@ public class JobServiceImpl extends DatabricksService implements JobService {
 
   @Override
   public RunsDTO listRuns(Long jobId, Boolean activeOnly,
-                          Integer offset, Integer limit,
+                          String pageToken, Integer limit,
                           Long from, Long until, String runType) throws
       DatabricksRestException, IOException {
     Map<String, Object> data = new HashMap<>();
 
-    if (jobId != null) {
-      data.put("job_id", jobId);
-    }
-    if (activeOnly != null) {
-      data.put("active_only", activeOnly);
-    }
-    //TODO we need a way to do completed_only
-    if (offset != null) {
-      data.put("offset", offset);
-    }
-    if (limit != null) {
-      data.put("limit", limit);
-    }
+    Optional.ofNullable(jobId).ifPresent(value -> data.put("job_id", value));
+    Optional.ofNullable(activeOnly).ifPresent(value -> data.put("active_only", value));
+    Optional.ofNullable(pageToken).ifPresent(value -> data.put("page_token", value));
+    Optional.ofNullable(limit).ifPresent(value -> data.put("limit", value));
+    Optional.ofNullable(runType).ifPresent(value -> data.put("run_type", value));
 
-    if (runType != null) {
-      data.put("run_type", runType);
-    }
+    Optional.ofNullable(from).ifPresent(value -> data.put("start_time_from", value));
+    Optional.ofNullable(until).ifPresent(value -> data.put("start_time_to", value));
 
-    if (from != null) {
-      data.put("start_time_from", from);
-    }
-    if (until != null) {
-      data.put("start_time_to", until);
-    }
     data.put("expand_tasks", true);
 
     byte[] responseBody = client.performQuery(RequestMethod.GET, "/jobs/runs/list", data);
