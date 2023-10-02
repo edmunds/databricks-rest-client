@@ -34,13 +34,13 @@ public class AzureAttributes {
     public static final String JSON_PROPERTY_AVAILABILITY = "availability";
     public static final String JSON_PROPERTY_SPOT_BID_MAX_PRICE = "spot_bid_max_price";
     @JsonProperty(JSON_PROPERTY_FIRST_ON_DEMAND)
-    private Integer firstOnDemand;
+    private int firstOnDemand;
     @JsonProperty(JSON_PROPERTY_AVAILABILITY)
     private AvailabilityEnum availability;
     @JsonProperty(JSON_PROPERTY_SPOT_BID_MAX_PRICE)
     private Double spotBidMaxPrice;
 
-    public AzureAttributes firstOnDemand(Integer firstOnDemand) {
+    public AzureAttributes firstOnDemand(int firstOnDemand) {
         this.firstOnDemand = firstOnDemand;
         return this;
     }
@@ -52,11 +52,11 @@ public class AzureAttributes {
      **/
     @JsonProperty(value = "first_on_demand")
 
-    public Integer getFirstOnDemand() {
+    public int getFirstOnDemand() {
         return firstOnDemand;
     }
 
-    public void setFirstOnDemand(Integer firstOnDemand) {
+    public void setFirstOnDemand(int firstOnDemand) {
         this.firstOnDemand = firstOnDemand;
     }
 
