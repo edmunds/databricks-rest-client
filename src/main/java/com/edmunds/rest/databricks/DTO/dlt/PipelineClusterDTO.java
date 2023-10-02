@@ -2,6 +2,7 @@ package com.edmunds.rest.databricks.DTO.dlt;
 
 import com.edmunds.rest.databricks.DTO.clusters.AutoScaleDTO;
 import com.edmunds.rest.databricks.DTO.clusters.AwsAttributesDTO;
+import com.edmunds.rest.databricks.DTO.clusters.AzureAttributes;
 import com.edmunds.rest.databricks.DTO.clusters.ClusterLogConfDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class PipelineClusterDTO {
     public static final String JSON_PROPERTY_NUM_WORKERS = "num_workers";
     public static final String JSON_PROPERTY_SPARK_CONF = "spark_conf";
     public static final String JSON_PROPERTY_AWS_ATTRIBUTES = "aws_attributes";
+    public static final String JSON_PROPERTY_AZURE_ATTRIBUTES = "azure_attributes";
     public static final String JSON_PROPERTY_SSH_PUBLIC_KEYS = "ssh_public_keys";
     public static final String JSON_PROPERTY_CUSTOM_TAGS = "custom_tags";
     public static final String JSON_PROPERTY_CLUSTER_LOG_CONF = "cluster_log_conf";
@@ -46,6 +48,9 @@ public class PipelineClusterDTO {
 
     @JsonProperty(JSON_PROPERTY_AWS_ATTRIBUTES)
     private AwsAttributesDTO awsAttributes;
+
+    @JsonProperty(JSON_PROPERTY_AZURE_ATTRIBUTES)
+    private AzureAttributes azureAttributes;
 
     @JsonProperty(JSON_PROPERTY_SSH_PUBLIC_KEYS)
     private String[] sshPublicKeys ;
