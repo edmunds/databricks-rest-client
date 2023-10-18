@@ -38,6 +38,10 @@ public class NodeTypeDTO implements Serializable {
   private String instanceTypeId;
   @JsonProperty("is_deprecated")
   private boolean isDeprecated;
+  @JsonProperty("photon_driver_capable")
+  private boolean photonDriverCapable;
+  @JsonProperty("photon_worker_capable")
+  private boolean photonWorkerCapable;
   @JsonProperty("node_info")
   private ClusterCloudProviderNodeInfoDTO nodeInfo;
 
