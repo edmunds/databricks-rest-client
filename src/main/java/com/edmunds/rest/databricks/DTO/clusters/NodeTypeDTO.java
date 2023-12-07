@@ -32,17 +32,36 @@ public class NodeTypeDTO implements Serializable {
   private int memoryMb;
   @JsonProperty("num_cores")
   private float numCores;
+  @JsonProperty("num_gpus")
+  private float numGpus;
   @JsonProperty("description")
   private String description;
+  @JsonProperty("category")
+  private String category;
+  @JsonProperty("support_ebs_volumes")
+  private String supportEbsVolumes;
+  @JsonProperty("support_cluster_tags")
+  private String supportClusterTags;
   @JsonProperty("instance_type_id")
   private String instanceTypeId;
   @JsonProperty("is_deprecated")
   private boolean isDeprecated;
+  @JsonProperty("is_hidden")
+  private boolean isHidden;
+  @JsonProperty("is_graviton")
+  private boolean isGraviton;
   @JsonProperty("photon_driver_capable")
   private boolean photonDriverCapable;
   @JsonProperty("photon_worker_capable")
   private boolean photonWorkerCapable;
+  @JsonProperty("is_encrypted_in_transit")
+  private boolean isEncryptedInTransit;
+  @JsonProperty("require_fabric_manager")
+  private boolean requireFabricManager;
   @JsonProperty("node_info")
   private ClusterCloudProviderNodeInfoDTO nodeInfo;
+  @JsonProperty("node_instance_type")
+  private ClusterCloudProviderNodeInstanceTypeDTO nodeInstanceType;
+
 
 }
