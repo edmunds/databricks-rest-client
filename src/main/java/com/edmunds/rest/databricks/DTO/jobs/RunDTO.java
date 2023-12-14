@@ -71,4 +71,7 @@ public class RunDTO implements Serializable {
   @JsonProperty("run_type")
   private String runType;
 
+  @JsonProperty("attempt_number")
+  private int attemptNumber;
+
 }

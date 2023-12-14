@@ -73,6 +73,18 @@ public class JobTaskDTO {
     @JsonProperty("state")
     private RunStateDTO state;
 
+    @JsonProperty("attempt_number")
+    private int attemptNumber;
+
+    @JsonProperty("attempt_number")
+    public Integer getAttemptNumber() {
+        return attemptNumber;
+    }
+
+    public void setAttemptNumber(Integer attemptNumber) {
+        this.attemptNumber = attemptNumber;
+    }
+
     @JsonProperty("run_id")
     public String getTaskId() {
         return taskId;
