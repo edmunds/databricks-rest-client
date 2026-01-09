@@ -1,5 +1,10 @@
 # Databricks Java Rest Client
 
+> [!WARNING]
+> **This project is deprecated and will be archived on March 2, 2026.**
+>
+> This repository is no longer actively maintained. We recommend users migrate to alternative solutions for accessing the Databricks REST API. No new features will be added.
+
 _This is a simple java library that provides programmatic access to the [Databricks Rest Service](https://docs.databricks.com/api/latest/index.html)._
 
 NOTE: that the project used to be under the groupId _com.edmunds.databricks_
