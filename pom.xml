@@ -99,7 +99,7 @@
         <!--Test versions-->
         <awaitility-version>4.0.1</awaitility-version>
         <mockito-core-version>2.28.2</mockito-core-version>
-        <testng-version>7.1.0</testng-version>
+        <testng-version>7.7.0</testng-version>
     </properties>
 
     <profiles>
